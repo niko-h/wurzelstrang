@@ -1,0 +1,111 @@
+html{ height:100%; }
+body{
+	height:100%;
+	padding:0px;
+	height:0px;
+	font-family: arial, sans-serif;
+	font-size:11px;
+	background:#fff;
+	color:#222;
+}
+a{ color:blue; }
+.title{
+	margin:30px auto 50px auto;
+	width:280px;
+	font-size:11px;
+	color:#333;
+	text-align:center;
+}
+.loginform{
+	width:280px;
+	margin:0 auto 50px auto;
+}
+.loginbtn{
+	height:30px;
+	width:203px;
+	color:#444;
+	font-size:15px;
+	cursor:pointer;
+	margin-top:10px;
+	border:none;
+	text-align:right;
+	padding:0px;
+	background:none;
+}
+.loginbtn:hover{
+	color:blue;
+	background:none;
+}
+input.textbox{
+	width:200px;
+	line-height:30px;
+	height:30px;
+	border:none;
+	border-bottom:1px solid #444;
+	outline:none;
+	color:blue;
+	background:none;
+}
+span.error{ color:blue; }
+
+#menu {
+	display: inline-block;
+	padding: 0px;
+	border: 1px solid #aaa;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 100%;
+	max-width: 200px;
+}
+#menu ol {
+	/*list-style-type: none;*/
+	list-style-image: none;
+	margin-left: 20px;
+	border:0px;
+	padding: 0px;
+}
+#menu ol > li:last-child {
+	list-style-type: disc;
+}
+#menu li {
+	margin: 10px;
+	white-space:nowrap;
+}
+#menu a span { display: none; }
+#menu a:hover span { 
+	z-index: 1000;
+	display: inline-block; 
+	position: absolute;
+	color: #000;
+	margin-left: 1px;
+	margin-top: -3px;
+	background-color: #ddd;
+	border: 1px solid #aaa;
+	padding: 3px;
+}
+
+#fade, #fade2 {
+	position: absolute;
+	margin: auto;
+	display: none;
+	top: 45%;
+	left: 45%;
+	padding: 20px;
+	font-size: 2em;
+}
+#c_ishidden a { color: #777; }
+#fade { background: #0f0;	border: 1px solid #0a0; }
+#fade2 { background: #faa;	border: 1px solid #f00; }
+
+textarea {
+	height:600px; 
+	width: 520px;
+	margin-bottom: 10px;
+}
+
+form {
+	display: inline-block;
+}
+
+#submitbutton { border: 2px solid green; background-color: #ddd; font-weight: bold; }
+#deletebutton { border: 2px solid red; font-weight: bold; background-color: #ddd; }
