@@ -1,0 +1,202 @@
+/* =Typography
+-----------------------------------------------------------------------------*/
+body {
+	font-family: sans-serif;
+
+}
+	
+/* =Buttons
+-----------------------------------------------------------------------------*/
+.greenbtn, .greenbtn:hover {
+	border-color: #88DA88;
+	background-color: #ccffcc;
+}
+.greybtn, .greybtn:hover {
+	border-color: #aaa;
+	background-color: #eee;
+}
+.redbtn, .redbtn:hover { 
+	border-color: #DA0000;
+	background-color: #ffcccc;
+}
+
+
+/* =Layout
+-----------------------------------------------------------------------------*/
+#page {
+	width: 960px;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+/* =Header
+-----------------------------------------------------------------------------*/
+div.head {
+	position: relative;
+	height: 30px;
+	margin: 0px 0px 20px 0px;
+	padding: 1px 3px 1px 10px;
+	border-bottom: 1px solid #999;
+	background: #ccc;
+	font-size: 1.1em;
+	line-height: 30px;
+}
+span#headbuttons a {
+	margin: 0px 0px 0px 4px;
+}
+
+
+/* =Nav
+-----------------------------------------------------------------------------*/
+div#menu {
+	border: 1px solid #ccc;
+	margin: 0px 0px 10px 10px;
+	padding: 4px 4px 0px 4px;
+	max-width: 250px;
+}
+div#menu a#linknew {
+	display: block;
+}
+#menu hr {
+	height: 1px;
+	margin: 4px -4px 4px -4px;
+	background: #ccc;
+	border: none;
+}
+ul#menu_list {
+	margin: 0px;
+	padding: 0px;
+}
+div#menu li{
+	list-style-type: none;
+	list-style-image: none;
+	white-space:nowrap;
+	background: #fff;
+	border:1px solid #bbb;
+	margin-bottom: 4px;
+	border-radius: 2px;
+}
+div#menu li:hover {
+	border-color: #444;
+}
+
+ #menu_list li a
+,#menu_list li .dragger {
+	padding: 4px;
+	display: block;
+	color: #111;
+	text-decoration: none;
+	background: #eee;
+	box-shadow: inset 0px 1px 1px #fff;
+}
+#menu_list li a:hover span {
+	display: block;
+}
+#menu_list li.ishidden a { color: #888; }
+#menu_list li a:hover,
+#menu_list li .dragger:hover {
+	background: #ccc;
+	color: #000;
+}
+
+#menu_list li .dragger {
+	cursor: move;
+	color: #888;
+	margin: 0px;
+	width: 20px;
+	text-align: center;
+	font-size: 2em;
+	float: right;
+	border-left: 1px solid #bbb;
+	margin-top: -29px;
+}
+@-moz-document url-prefix() {
+	#menu_list li .dragger {
+		font-size: 1.5em;
+	}
+}
+
+.dragger_placeholder { 
+	border: 1px solid #6c6 !important;
+	height: 2.2em; 
+	line-height: 1.2em;
+	margin-bottom: 4px;
+}
+
+
+/* =content
+-----------------------------------------------------------------------------*/
+.editframe textarea {
+	width: 510px;
+	height: 550px;
+}
+
+
+/* =Misc
+-----------------------------------------------------------------------------*/
+
+div.fade {
+	position: absolute;
+	margin: auto;
+	display: none;
+	top: 45%;
+	left: 45%;
+	padding: 20px;
+	font-size: 2em;
+}
+div.greenfde { background: #0f0;	border: 1px solid #0a0; }
+div.redfde { background: #faa;	border: 1px solid #f00; }
+
+span.tooltip { 
+	display: none; 
+	z-index: 1000;
+	position: absolute;
+	padding: 4px;
+	text-decoration: none;
+	color: #fff;
+	background: #555;
+	height: 16px;
+	line-height: 16px;
+	margin: -22px 0px 0px 200px;
+	box-shadow: 0px 0px 5px #fff;
+}
+span.tooltip::before {
+	content: "";
+	position: absolute;
+	top: 0px;
+	left: -12px;
+	float: left;
+	width: 0px;
+	height: 0px;
+	border-width: 12px 12px 12px 0px;
+	border-style: solid solid solid solid;
+	border-color: transparent #555 transparent transparent;
+}
+
+
+/* =Preferences
+-----------------------------------------------------------------------------*/
+
+div#pref_curtain {
+	position: absolute;
+	display: none;
+	background: rgba(255,255,255, 0.7);
+	width: 100%;
+	z-index: 99998;
+}
+div#preferences {
+	background: #fff;
+	border: 1px solid #666;
+	box-shadow: 0px 0px 10px #444;
+	width: 768px;
+}
+div#preferences iframe {
+	width: 100%;
+	min-height: 630px;
+	position: relative;
+}
+div#prefforms {
+	padding-left: 5px;
+	padding-right: 5px;
+}
