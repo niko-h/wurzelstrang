@@ -20,19 +20,14 @@ function debug($msg){
   * Database action
   */
 
-$db_file = "../.content.db";    //SQLite Datenbank Dateiname
+$db_file = "../db/content.db";    //SQLite Datenbank Dateiname
 $db = new SQLite3($db_file) or die ('Datenbankfehler');
 
 /**
   * Site-info
   */
 
-$query = 'SELECT 
-            site_title as title
-          FROM 
-            siteinfo
-          LIMIT 1;
-         ';
+$query = 'SELECT site_title as title FROM siteinfo LIMIT 1;';
 $siteinfo = $db->query($query)->fetchArray();
 
 $site_title = $siteinfo['title'];

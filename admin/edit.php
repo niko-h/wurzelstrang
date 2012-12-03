@@ -7,6 +7,7 @@
 
 require('login/check.php');   // prüfen, ob angemeldet
 include('func.php');          // logik
+require 'lib/PasswordHash.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -19,12 +20,12 @@ include('func.php');          // logik
 
   <!-- Load jQuery -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="../js/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="../lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-  <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="../js/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="../lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
   <!-- Load TinyMCE --> 
-  <script type="text/javascript" src="tinymce/jscripts/jquery.tinymce.js"></script> 
-  <script type="text/javascript" src="tinymce/init.js"></script>
+  <script type="text/javascript" src="lib/tinymce/jscripts/jquery.tinymce.js"></script> 
+  <script type="text/javascript" src="lib/tinymce/init.js"></script>
   <script type="text/javascript" src="func.js"></script>
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

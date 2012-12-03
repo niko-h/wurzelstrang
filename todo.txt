@@ -5,18 +5,9 @@ TODO:
 		- frontend - http://yensdesign.com/2009/01/how-validate-forms-both-sides-using-php-jquery/
 			- validierung altes passwort (onblur)
 			- vergleich neues passwort == wiederholung vor dem absenden
-		- backend
-			- validierung altes passwort
-			- vergleich neues passwort == wiederholung && wiederholung != altes passwort
-			- iframe feedback
-			- das alles mit phpass
-	- install.php
-		- erstellen der datenbank
-		- anmelden als standart-user
-		- weiterleitung auf pref.php
-		- sich selbst löschen
-	- index.php
+
+	- login
 		- ssl/https
 		- passwort vergessen
 
-- datenbank schuetzen, phpliteadmin
+- datenbank schuetzen

@@ -10,8 +10,13 @@
   * Database action
   */
 
-	$db_file = ".content.db"; //SQLite Datenbank Dateiname
-	$db = new SQLite3($db_file) or die ('Datenbankfehler');
+  $db_file = "db/content.db";    //SQLite Datenbank Dateiname
+  if (file_exists($db_file)) {
+    $db = new sqlite3($db_file) or die('Datenbankfehler');
+  } else {
+      header("Location: db/install.php");
+  }
+   
 
 /**
   * call functions

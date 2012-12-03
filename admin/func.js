@@ -24,11 +24,3 @@ Main.dragMenu = function() {
 Main.fade = function() {
   $("div").filter(".fade").delay(10).fadeToggle("slow", "linear").delay(1500).fadeToggle("slow", "linear");
 }
-
-Main.passcompare = function() {
-  if( $("#pass").attr('value') == $("#passwdh").attr('value') ) {
-    $("#passchecker").addClass("success").text('ist gleich');
-  } else { 
-    $("#passchecker").addClass("error").text('nööt'); 
-  }
-}

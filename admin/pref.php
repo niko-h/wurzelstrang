@@ -16,6 +16,13 @@ include('pref-func.php');
   <title>Seiteneinstellungen bearbeiten</title>
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+  <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
+  
+  <script type="text/javascript" src="func.js"></script>
+
 </head>
 <body>
 
@@ -73,7 +80,7 @@ include('pref-func.php');
         </li>
         <li>
           <label for="passwdh" class="bold">Passwort erneut eingeben</label>
-          <input name="passwdh" id="passwdh" class="input-error" type="password" onblur="Main.passcompare();">
+          <input name="passwdh" id="passwdh" class="input-error" type="password" onblur="passcompare();">
           <span id="passchecker"></span>
         </li>
         <li class="push">
@@ -83,6 +90,16 @@ include('pref-func.php');
     </fieldset>
   </form>
 </div>
+
+<script type="text/javascript">
+  passcompare = function() {
+    if( $("#pass").attr('value') == $("#passwdh").attr('value') ) {
+      $("#passchecker").addClass("success").text('ist gleich');
+    } else { 
+      $("#passchecker").addClass("error").text('nööt'); 
+    }
+  }
+</script>
 
 </body>
 </html>
