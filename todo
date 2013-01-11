@@ -1,0 +1,21 @@
+TODO:
+
+- login
+	- ssl/https
+	- passwort vergessen
+	- cookie
+
+- datenbank schuetzen
+
+- gleiche namen der eintraege
+- username weg
+- themes verbessern
+- noscript fallback fuer draggable menu?
+
+- refactoring/ code strukturierung
+- sqlite abfragen preparen
+- sprachen hinzufuegen
+- config-file fuer pfade
+
+- admin interface 
+	- single-page-design? (mit api und fallback fuer noscript)

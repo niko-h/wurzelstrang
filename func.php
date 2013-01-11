@@ -47,7 +47,7 @@
   */ 
 
   function genmenu($db) { // sqlite-handle
-    $query = 'SELECT cat_title, cat_visible FROM categories ORDER BY cat_pos;';
+    $query = 'SELECT cat_title, cat_visible, cat_id FROM categories ORDER BY cat_pos;';
     $result = $db->query($query);
     global $menuitems;
     $menuitems = array();
@@ -61,7 +61,7 @@
   */
 
   function gencontent($db) { // sqlite-handle
-    $query = 'SELECT cat_title, cat_visible, cat_content FROM categories ORDER BY cat_pos;';
+    $query = 'SELECT cat_title, cat_visible, cat_content, cat_id FROM categories ORDER BY cat_pos;';
     $result = $db->query($query);
     global $contentitems;
     $contentitems = array();

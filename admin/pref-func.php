@@ -114,7 +114,7 @@ if(isset($_POST['submitsiteinfobtn'])){ // siteinfo update
       $password = $_POST['pass'];
       $passwordwdh = $_POST['passwdh'];
       // Passwords should never be longer than 72 characters to prevent DoS attacks
-      if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
+      if (strlen($password) > 72 || strlen($password) < 6) { die("Passwort muss zwischen 6 und 72 Zeichen lang sein."); }
 
       // The $hash variable will contain the hash of the password
       $hash = $hasher->HashPassword($password);

@@ -1,13 +1,17 @@
 TODO:
 
-- /admin/
-	- pref.php/pref-conf.php/func.js:
-		- frontend - http://yensdesign.com/2009/01/how-validate-forms-both-sides-using-php-jquery/
-			- validierung altes passwort (onblur)
-			- vergleich neues passwort == wiederholung vor dem absenden
-
-	- login
-		- ssl/https
-		- passwort vergessen
+- login
+	- persona
 
 - datenbank schuetzen
+
+- gleiche namen der eintraege-> geloest im standart theme
+- themes verbessern
+
+- refactoring/ code strukturierung
+- sqlite abfragen preparen
+- sprachen hinzufuegen
+- config-file fuer pfade
+
+- backend 
+	- single-page-design? (mit api und fallback fuer noscript)
