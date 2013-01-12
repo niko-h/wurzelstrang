@@ -5,7 +5,7 @@
 *
 **************************/
 
-require '../admin/lib/PasswordHash.php';
+//require '../admin/lib/PasswordHash.php';
 
 /**
   * Get Database
@@ -45,10 +45,7 @@ require '../admin/lib/PasswordHash.php';
       if( !empty($_POST['sitetitle']) 
        && !empty($_POST['sitetheme']) 
        && !empty($_POST['siteheadline']) 
-       && !empty($_POST['uname']) 
-       && !empty($_POST['email'])
-       && !empty($_POST['pass']) 
-       && !empty($_POST['passwdh']) ) {
+       && !empty($_POST['email']) {
 
         //create or open the database
         $db = new sqlite3('content.db') or die ($error);
@@ -59,9 +56,8 @@ require '../admin/lib/PasswordHash.php';
                   );
 
                   CREATE TABLE IF NOT EXISTS user(
-                    user_name     TEXT,
                     user_email    TEXT,
-                    user_pass     TEXT
+                    user_session  TEXT
                   );
 
                   CREATE TABLE IF NOT EXISTS categories(
@@ -89,34 +85,33 @@ require '../admin/lib/PasswordHash.php';
 
         // Userinfo
         $query = 'INSERT INTO 
-                    user(user_name, user_email) 
+                    user(user_email) 
                   VALUES 
-                    ("'.$_POST['uname'].'"
-                    ,"'.$_POST['email'].'")
+                    ("'.$_POST['email'].'")
                   ;';
         $db->exec($query) or die('Fehler beim Speichern.');
 
         // Passwort
-        $hasher = new PasswordHash(8, false);      
-        $password = $_POST['pass'];
-        $passwordwdh = $_POST['passwdh'];
-        // Passwords should never be longer than 72 characters to prevent DoS attacks
-        if (strlen($password) > 72 || strlen($password) < 6) { die("Passwort muss zwischen 6 und 72 Zeichen lang sein."); }
+        // $hasher = new PasswordHash(8, false);      
+        // $password = $_POST['pass'];
+        // $passwordwdh = $_POST['passwdh'];
+        // // Passwords should never be longer than 72 characters to prevent DoS attacks
+        // if (strlen($password) > 72 || strlen($password) < 6) { die("Passwort muss zwischen 6 und 72 Zeichen lang sein."); }
 
-        // The $hash variable will contain the hash of the password
-        $hash = $hasher->HashPassword($password);
+        // // The $hash variable will contain the hash of the password
+        // $hash = $hasher->HashPassword($password);
 
-        if (strlen($hash) >= 20) {
-          if( $hasher->CheckPassword($passwordwdh, $hash) ) {
-            $query = 'UPDATE user SET user_pass = "'.$hash.'" WHERE user_name = "'.$_POST['uname'].'";';
-            $db->exec($query) or die('Fehler beim Speichern.');
-          } else {
-            die('Neues Passwort und Wiederholung sind nicht gleich.');
-          }
-        } else {
-          die('Das Password konnte nicht erstellt werden.');
-        }
-        unset($hasher);
+        // if (strlen($hash) >= 20) {
+        //   if( $hasher->CheckPassword($passwordwdh, $hash) ) {
+        //     $query = 'UPDATE user SET user_pass = "'.$hash.'" WHERE user_name = "'.$_POST['uname'].'";';
+        //     $db->exec($query) or die('Fehler beim Speichern.');
+        //   } else {
+        //     die('Neues Passwort und Wiederholung sind nicht gleich.');
+        //   }
+        // } else {
+        //   die('Das Password konnte nicht erstellt werden.');
+        // }
+        // unset($hasher);
 
         $query = 'INSERT INTO categories(cat_title, cat_content, cat_pos, cat_visible) VALUES ("Hiho", "Skate ipsum dolor sit amet, Chris Buchinsky noseblunt slide 900 betty frigid air gap wall ride flail. 50-50 crooked grind hardware steps tail shinner Vatoland birdie. Sketchy Saran Wrap shinner hand rail bank backside rad. Hang-up helipop sketchy wax hip ho-ho face plant. Carve mongo dude John Lucero ollie hole skate or die grab cess slide. Flypaper bearings casper slide Rob Roskopp hang up hospital flip hurricane no comply. Hang ten rocket air fastplant boneless bigspin rail slide feeble. Frontside drop in wall ride concave 270 launch ramp face plant. Heel flip pump tailslide skate key deck crail grab Daggers coping. Pop shove-it hang-up street sketchy coping ledge rock and roll.", 1, 1);';
         $db->exec($query) or die('Fehler beim Speichern.');
@@ -179,64 +174,14 @@ require '../admin/lib/PasswordHash.php';
       <legend>Benutzer Informationen</legend>
       <ul>
         <li>
-          <label for="uname" class="bold">Benutzername</label>
-          <input name="uname" id="uname" required type="text" >        
-        </li>
-        <li>
-          <label for="email" class="bold">Email</label>
+          <label for="email" class="bold">Persona Email</label>
           <input name="email" id="email" type="email" >        
-        </li>
-        <li>
-          <label for="pass" class="bold">Passwort</label>
-          <input name="pass" id="pass" required onblur="passvalidate();" type="password">  
-          <span id="passvalidator"></span>      
-        </li>
-        <li>
-          <label for="passwdh" class="bold">Passwort erneut eingeben</label>
-          <input name="passwdh" id="passwdh" type="password" onblur="passcompare();">
-          <span id="passchecker"></span>
         </li>
       </ul>
     </fieldset><br>
     <input name="submitbtn" id="submitbtn" class="btn btn-big greenbtn disabled" onclick="return allowsend();" value="Seite erstellen" type="submit"> 
   </form>
 </div>
-
-<script type="text/javascript">
-  passcompare = function() {
-    if( $("#pass").attr('value').length > 5 && $("#passwdh").attr('value').length > 5 && ( $("#pass").attr('value') == $("#passwdh").attr('value') ) ) {
-      $("#passchecker").addClass("success").text('Passwoerter sind gleich.');
-      $("#passwdh").removeClass("input-error"); 
-      $("#passwdh").addClass("input-success");
-      $("#submitbtn").removeClass('disabled');
-      return true;
-    } else { 
-      $("#passchecker").addClass("error").text('Passwoerter sind nicht gleich.'); 
-      $("#passwdh").removeClass("input-success"); 
-      $("#passwdh").addClass("input-error");
-      return false;
-    }
-  }
-  passvalidate = function() {
-    if( $("#pass").attr('value').length < 6 || $("#pass").attr('value').length > 72 ) {
-      $("#passvalidator").addClass("error").text('Muss zwischen 6 und 72 Zeichen haben.'); 
-      $("#pass").removeClass("input-success"); 
-      $("#pass").addClass("input-error");
-      return false;
-    } else { 
-      $("#passvalidator").addClass("error").text('');
-      $("#pass").removeClass("input-error"); 
-      $("#pass").addClass("input-success");
-      return true;
-    }
-  }
-  allowsend = function() {
-    if( passvalidate() && passcompare ) {
-      $("#submitbtn").removeClass('disabled');
-      return true;
-    } else { return false; }
-  }
-</script>
 
 </body>
 </html>

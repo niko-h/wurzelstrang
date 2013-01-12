@@ -1,7 +1,7 @@
 TODO:
 
 - login
-	- persona
+	- persona mit admininterface verknuepfen
 
 - datenbank schuetzen
 

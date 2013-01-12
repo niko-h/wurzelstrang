@@ -1,5 +1,5 @@
 $(function() {
-    $('#loginbtn').click(function(e){ navigator.id.request(); });
+    $('#loginbtn').click(function(e){ navigator.id.request();  });
     $('#logoutbtn').click(function(e){ navigator.id.logout(); });
     navigator.id.watch({
         loggedInUser: null,
@@ -7,14 +7,14 @@ $(function() {
             $.post(
                 'auth.php',
                 {assertion:assertion},
-                function(msg) { console.log('login success!') }
+                window.location = "check.php"
             );
         },
         onlogout: function() {
             $.post(
                 'auth.php',
                 {logout:1},
-                function(msg) { console.log('logout success!') }
+                window.location = "index.php"
             );
         }
     });

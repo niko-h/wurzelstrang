@@ -17,11 +17,12 @@ session_start();
     <br>
     <div class="row">
       <div class="half centered" style="text-align: center;">
-        <?php
-          if (isset($_SESSION['user'])){ echo 'logged in as: '.$_SESSION['user']->email; }
-        ?><br>
         <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
-        <button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>
+        <?php
+          if (isset($_SESSION['user'])){ 
+            echo 'logged in as: '.$_SESSION['user']->email.'<br>'; 
+          } else { echo 'logged out<br>'; }
+        ?>
       </div>
     </div>
   </body>
