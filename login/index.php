@@ -9,6 +9,7 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
   </head>
   <body>
     <br>
@@ -19,7 +20,7 @@ session_start();
         <?php
           if (isset($_SESSION['user'])){ echo 'logged in as: '.$_SESSION['user']->email; }
         ?><br>
-        <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden</button>
+        <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
         <button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>
       </div>
     </div>
