@@ -6,16 +6,15 @@ $(function() {
         onlogin: function(assertion) {
             $.post(
                 'auth.php',
-                {assertion:assertion},
-                window.location = "check.php"
+                {assertion:assertion}
             );
         },
         onlogout: function() {
             $.post(
                 'auth.php',
-                {logout:1},
-                window.location = "index.php"
+                {logout:1}
             );
+            navigator.id.logout();
         }
     });
 });

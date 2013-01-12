@@ -18,9 +18,7 @@ if( $sessionmail ) {  // falls es eine mail in der session gibt, db danach durch
             WHERE user_email = "'.$sessionmail.'" 
             LIMIT 1;
            ';
-
   $mail = $db->query($query)->fetchArray();   // mail auslesen
-
 }
 
 ?>
