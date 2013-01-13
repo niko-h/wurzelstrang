@@ -1,6 +1,7 @@
 $(function() {
     $('#loginbtn').click(function(e){ navigator.id.request();  });
     $('#logoutbtn').click(function(e){ navigator.id.logout(); });
+    
     navigator.id.watch({
         loggedInUser: null,
         onlogin: function(assertion) {
@@ -14,7 +15,6 @@ $(function() {
                 'auth.php',
                 {logout:1}
             );
-            navigator.id.logout();
         }
     });
 });
