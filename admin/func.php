@@ -6,6 +6,8 @@
   *
   **************************/
 
+session_start();
+
 /**
   * Debugging
   */
@@ -22,6 +24,20 @@ function debug($msg){
 
 $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
 $db = new SQLite3($db_file) or die ('Datenbankfehler');
+
+/**
+  * check authorization
+  */
+
+if( isset($_SESSION['user']->email) ) {  // falls es eine mail in der session gibt, db danach durchsuchen
+  $query = 'SELECT user_email 
+            AS email 
+            FROM user 
+            WHERE user_email = "'.$_SESSION['user']->email.'" 
+            LIMIT 1;
+           ';
+  $mail = $db->query($query)->fetchArray();   // mail auslesen
+}
 
 /**
   * Site-info

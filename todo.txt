@@ -14,4 +14,4 @@ TODO:
 - config-file fuer pfade
 
 - backend 
-	- single-page-design? (mit api und fallback fuer noscript)
+	- single-page-design und mehr dynamisieren?

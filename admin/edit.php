@@ -5,9 +5,9 @@
 *
 **************************/
 
-require('login/check.php');   // prüfen, ob angemeldet
+//require('login/check.php');   // prüfen, ob angemeldet
 include('func.php');          // logik
-require 'lib/PasswordHash.php';
+//require 'lib/PasswordHash.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -19,10 +19,14 @@ require 'lib/PasswordHash.php';
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
 
   <!-- Load jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="../lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
   <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="../lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
+
+  <script type="text/javascript" src="https://login.persona.org/include.js"></script>
+  <script type="text/javascript" src="persona.js"></script>
   <!-- Load TinyMCE --> 
   <script type="text/javascript" src="lib/tinymce/jscripts/jquery.tinymce.js"></script> 
   <script type="text/javascript" src="lib/tinymce/init.js"></script>
@@ -38,7 +42,13 @@ require 'lib/PasswordHash.php';
     <b><?php echo $site_title; ?></b> bearbeiten
     <div class="push-right">
       <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
-      <a href="?logout" class="btn redbtn" id="logoutbtn">Abmelden</a>
+      <!--<a href="?logout" class="btn redbtn" id="logoutbtn">Abmelden</a>-->
+      <button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>
+      <?php
+        if (isset($_SESSION['user']) && ($_SESSION['user']->email == $mail[0]) ) { 
+          echo 'you are admin: '.$_SESSION['user']->email.'<br>'; 
+        } else { echo 'logged out'; }
+      ?>
     </div>
   </div>
   
