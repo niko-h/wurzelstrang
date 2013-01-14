@@ -42,13 +42,14 @@ include('func.php');          // logik
     <b><?php echo $site_title; ?></b> bearbeiten
     <div class="push-right">
       <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
-      <!--<a href="?logout" class="btn redbtn" id="logoutbtn">Abmelden</a>-->
-      <button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>
-      <?php
-        if (isset($_SESSION['user']) && ($_SESSION['user']->email == $mail[0]) ) { 
-          echo 'you are admin: '.$_SESSION['user']->email.'<br>'; 
-        } else { echo 'logged out'; }
-      ?>
+      <button name="logoutbtn" id="logoutbtn" class="btn redbtn">
+        <?php
+          if (isset($_SESSION['user']) && ($_SESSION['user']->email == $mail[0]) ) { 
+            echo $_SESSION['user']->email.' '; 
+          }
+        ?>
+        abmelden
+      </button>
     </div>
   </div>
   

@@ -6,8 +6,6 @@
   *
   **************************/
 
-session_start();
-
 /**
   * Debugging
   */
@@ -29,6 +27,8 @@ $db = new SQLite3($db_file) or die ('Datenbankfehler');
   * check authorization
   */
 
+session_start();
+
 if( isset($_SESSION['user']->email) ) {  // falls es eine mail in der session gibt, db danach durchsuchen
   $query = 'SELECT user_email 
             AS email 
@@ -36,7 +36,11 @@ if( isset($_SESSION['user']->email) ) {  // falls es eine mail in der session gi
             WHERE user_email = "'.$_SESSION['user']->email.'" 
             LIMIT 1;
            ';
-  $mail = $db->query($query)->fetchArray();   // mail auslesen
+  $mail = $db->query($query)->fetchArray();   // mailadresse auslesen
+}
+
+if (!isset($_SESSION['user']) || ($_SESSION['user']->email != $mail[0]) ) { 
+  header("Location:index.php"); 
 }
 
 /**
