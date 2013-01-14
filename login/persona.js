@@ -7,13 +7,21 @@ $(function() {
         onlogin: function(assertion) {
             $.post(
                 'auth.php',
-                {assertion:assertion}
+                {assertion:assertion},
+                function(msg) {
+                    if(window.location.pathname != "/1pagecms/login/check.php")
+                        window.location = "check.php"
+                }
             );
         },
         onlogout: function() {
             $.post(
                 'auth.php',
-                {logout:1}
+                {logout:1},
+                function(msg) {
+                    if(window.location.pathname != "/1pagecms/login/index.php")
+                        window.location = "index.php"
+                }
             );
         }
     });

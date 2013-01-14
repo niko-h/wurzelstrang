@@ -23,7 +23,7 @@ if( isset($_SESSION['user']->email) ) {  // falls es eine mail in der session gi
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <title>Login</title>
+    <title>check</title>
     <script src="https://login.persona.org/include.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="persona.js"></script>
@@ -38,13 +38,14 @@ if( isset($_SESSION['user']->email) ) {  // falls es eine mail in der session gi
       <div class="half centered" style="text-align: center;">
         <?php
           if (isset($_SESSION['user']) && ($_SESSION['user']->email == $mail[0]) ) { 
-            echo 'you are admin: '.$_SESSION['user']->email; 
+            echo 'you are admin: '.$_SESSION['user']->email.'<br>'; 
+            echo '<button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>';
           } else if (isset($_SESSION['user'])) {
-            echo 'your account has no permission: '.$_SESSION['user']->email;
-          } else { echo 'not logged in.'; }
+            echo 'your account has no permission: '.$_SESSION['user']->email.'<br>';
+          } else { 
+            echo 'not logged in.<br>'; 
+          }
         ?>
-        <br>
-        <button name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</button>
       </div>
     </div>
   </body>
