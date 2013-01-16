@@ -9,7 +9,7 @@ global $menu, $content;
 
 foreach ($menuitems as $link) {  						// Menu bauen
 	if($link[1]) {														// Link sichtbar
-	  $id = str_replace(' ', '_', $link[0]);	// Name für href und id leerzeichen->unterstrich
+	  $id = str_replace(' ', '_', $link[0]).'_'.$link[2];	// Name für href und id leerzeichen->unterstrich
 		$name = $link[0];												// Name aus link holen	
     $menu .= '<li><a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$name.'</a></li>';
 	}
@@ -17,7 +17,7 @@ foreach ($menuitems as $link) {  						// Menu bauen
 
 foreach ($contentitems as $item) {					// Content bauen
 	if($item[1]) {														// Content sichtbar?
-		$id = str_replace(' ', '_', $item[0]);	// Name für id leerzeichen->unterstrich
+		$id = str_replace(' ', '_', $item[0]).'_'.$item[3];	// Name für id leerzeichen->unterstrich
 		$text = reverseclean($item[2]);					// decoden von html-code
 		$name = $item[0];												// Name aus item holen
     $content .= '<p><h1 id="'.$id.'" class="contentitem">'.$name.'</h1>'.$text.'</p>';

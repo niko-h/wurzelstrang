@@ -4,10 +4,7 @@
 * Admin-Interface
 *
 **************************/
-
-//require('login/check.php');   // prüfen, ob angemeldet
 include('func.php');          // logik
-//require 'lib/PasswordHash.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -44,7 +41,7 @@ include('func.php');          // logik
       <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
       <button name="logoutbtn" id="logoutbtn" class="btn redbtn">
         <?php
-          if (isset($_SESSION['user']) && ($_SESSION['user']->email == $mail[0]) ) { 
+          if (isset($_SESSION['user']->email)) { 
             echo $_SESSION['user']->email.' '; 
           }
         ?>

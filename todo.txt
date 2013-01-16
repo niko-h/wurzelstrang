@@ -1,11 +1,12 @@
 TODO:
 
-- login
-	- persona mit admininterface verknuepfen
+- sessionkram aufraeumen und in der edit.php richtigstellen
+
+- install.php und pref.php an persona anpassen
 
 - datenbank schuetzen
 
-- gleiche namen der eintraege-> geloest im standart theme
+- gleiche namen der eintraege -> geloest im standart theme
 - themes verbessern
 
 - refactoring/ code strukturierung
