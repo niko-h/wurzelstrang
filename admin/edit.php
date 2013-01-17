@@ -4,6 +4,9 @@
 * Admin-Interface
 *
 **************************/
+
+session_start();
+include('internalauth.php');  // database authorization - enthaelt database
 include('func.php');          // logik
 ?>
 

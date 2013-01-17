@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------*/
 body {
 	font-family: sans-serif;
-
+	background: #fefefe;
 }
 	
 /* =Buttons
@@ -37,8 +37,8 @@ div.head {
 	height: 30px;
 	margin: 0px 0px 20px 0px;
 	padding: 1px 3px 1px 10px;
-	border-bottom: 1px solid #999;
-	background: #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #ddd;
 	font-size: 1.1em;
 	line-height: 30px;
 }

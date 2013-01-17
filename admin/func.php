@@ -6,7 +6,13 @@
   *
   **************************/
 
-session_start();
+
+/**
+      * Database action
+      */
+    $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
+    $db = new SQLite3($db_file) or die ('Datenbankfehler');
+
 
 /**
   * Debugging
@@ -18,12 +24,15 @@ function debug($msg){
   fclose($fh);
 }
 
+
 /**
-  * Database action
+  * check auth and ifnot redirect
   */
 
-$db_file = "../db/content.db";    //SQLite Datenbank Dateiname
-$db = new SQLite3($db_file) or die ('Datenbankfehler');
+if (!isset($_SESSION['user']->email) || isadmin($_SESSION['user']->email)==false ) { 
+  session_destroy();
+  header("Location:index.php");
+}
 
 
 /**
