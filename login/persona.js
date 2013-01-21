@@ -10,10 +10,10 @@ $(function() {
                 {assertion:assertion},
                 function(msg) {
                     //alert(msg+'login');//debug
-                    if((msg == 'yes') && window.location.pathname != "/1pagecms/admin/edit.php") {
+                    if((msg == 'yes') && window.location.pathname != "/wurzelstrang/login/edit.php") {
                         window.location = "edit.php";
                     }
-                    if((msg == 'no') && window.location.pathname != "/1pagecms/admin/index.php") {
+                    if((msg == 'no') && window.location.pathname != "/wurzelstrang/login/index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }
@@ -26,7 +26,7 @@ $(function() {
                 {logout:1},
                 function(msg) {
                     //alert(msg+'logout');//debug
-                    if(window.location.pathname != "/1pagecms/admin/index.php") {
+                    if(window.location.pathname != "/wurzelstrang/login/index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }
