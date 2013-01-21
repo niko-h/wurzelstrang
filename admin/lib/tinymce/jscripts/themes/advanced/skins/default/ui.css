@@ -35,8 +35,8 @@
 
 /* Button */
 .defaultSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px; margin-right:1px}
-.defaultSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#B2BBD0}
-.defaultSkin a.mceButtonActive, .defaultSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
+.defaultSkin a.mceButtonEnabled:hover {border:1px solid #ddd; background-color:#eee; border-radius: 2px; box-shadow: inset 0px -1px 1px #888, inset 0px 1px 1px #fff}
+.defaultSkin a.mceButtonActive, .defaultSkin a.mceButtonSelected {border:1px solid #ddd; background-color:#ccc; border-radius: 2px; box-shadow: inset 0px 1px 1px #888}
 .defaultSkin .mceButtonDisabled .mceIcon {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 .defaultSkin .mceButtonLabeled {width:auto}
 .defaultSkin .mceButtonLabeled span.mceIcon {float:left}

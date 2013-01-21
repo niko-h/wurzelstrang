@@ -12,8 +12,8 @@ session_start();
     <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
     <style type="text/css">
       .box {
-        width: 260px;
-        height: 50px;
+        width: 200px;
+        height: 30px;
         border-radius: 5px;
         padding: 10px;
         padding-top: 15px;
@@ -27,7 +27,7 @@ session_start();
       <div class="half centered" style="text-align: center;">
         <br><br><br><br>
         <div class="centered box">
-          <img id="logo" src="css/logo.png" alt="Wurzelstrang">
+          <img id="logo" src="css/logo30.png" alt="Wurzelstrang"> Wurzelstrang CMS
         </div>
         <br><br><br>
         <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>

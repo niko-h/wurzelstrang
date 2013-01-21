@@ -42,6 +42,10 @@ div.head {
 	font-size: 1.1em;
 	line-height: 30px;
 }
+img#logo {
+	margin-top: -3px;
+	vertical-align: middle;
+}
 span#headbuttons a {
 	margin: 0px 0px 0px 4px;
 }

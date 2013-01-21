@@ -15,6 +15,7 @@ include('func.php');          // logik
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title><?php echo $site_title; ?> - bearbeiten</title>
+  <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
 
@@ -39,6 +40,7 @@ include('func.php');          // logik
 
 <body onload="Main.onLoad();">
   <div class="head row">
+    <img id="logo" src="css/logo30.png" alt="Wurzelstrang">
     <b><?php echo $site_title; ?></b> bearbeiten
     <div class="push-right">
       <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 

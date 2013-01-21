@@ -5,7 +5,6 @@
 *
 **************************/
 
-if(!file_exists('login/check.php')) { require('login/check.php'); }  // prüfen, ob angemeldet
 include('pref-func.php');
 
 ?>
@@ -61,70 +60,16 @@ include('pref-func.php');
       <legend>Benutzer Informationen &auml;ndern</legend>
       <ul>
         <li>
-          <label for="uname" class="bold">Benutzername</label>
-          <input name="uname" id="uname" type="text" value="<?php if(isset($user['name'])) echo $user['name']; ?>">        
-        </li>
-        <li>
           <label for="email" class="bold">Email</label>
           <input name="email" id="email" type="email" value="<?php if(isset($user['email'])) echo $user['email']; ?>">        
         </li>
-        <li>
-          <label for="passold" class="bold">Altes Passwort</label>
-          <input name="passold" id="passold" class="" required type="password">
-        </li>
-        <li>
-          <label for="pass" class="bold">Neues Passwort</label>
-          <input name="pass" id="pass" type="password" onblur="passvalidate();">
-          <span id="passvalidator"></span>
-        </li>
-        <li>
-          <label for="passwdh" class="bold">Passwort erneut eingeben</label>
-          <input name="passwdh" id="passwdh" type="password" onblur="passcompare();">
-          <span id="passchecker"></span>
-        </li>
         <li class="push">
-          <input name="submitusrbtn" id="updateuserbtn" class="btn greenbtn disabled" onclick="return allowsend();" value="Benutzer aktualisieren" type="submit"> 
+          <input name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" onclick="return allowsend();" value="Benutzer aktualisieren" type="submit"> 
         </li>
       </ul>
     </fieldset>
   </form>
 </div>
-
-<script type="text/javascript">
-  passcompare = function() {
-    if( $("#pass").attr('value').length > 5 && $("#passwdh").attr('value').length > 5 && ( $("#pass").attr('value') == $("#passwdh").attr('value') ) ) {
-      $("#passchecker").addClass("success").text('Passwoerter sind gleich.');
-      $("#passwdh").removeClass("input-error"); 
-      $("#passwdh").addClass("input-success");
-      $("#updateuserbtn").removeClass('disabled');
-      return true;
-    } else { 
-      $("#passchecker").addClass("error").text('Passwoerter sind nicht gleich.'); 
-      $("#passwdh").removeClass("input-success"); 
-      $("#passwdh").addClass("input-error");
-      return false;
-    }
-  }
-  passvalidate = function() {
-    if( $("#pass").attr('value').length < 6 || $("#pass").attr('value').length > 72 ) {
-      $("#passvalidator").addClass("error").text('Muss zwischen 6 und 72 Zeichen haben.'); 
-      $("#pass").removeClass("input-success"); 
-      $("#pass").addClass("input-error");
-      return false;
-    } else { 
-      $("#passvalidator").addClass("error").text('');
-      $("#pass").removeClass("input-error"); 
-      $("#pass").addClass("input-success");
-      return true;
-    }
-  }
-  allowsend = function() {
-    if( passvalidate() && passcompare ) {
-      $("#updateuserbtn").removeClass('disabled');
-      return true;
-    } else { return false; }
-  }
-</script>
 
 </body>
 </html>

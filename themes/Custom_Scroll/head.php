@@ -30,7 +30,6 @@ foreach ($contentitems as $item) {					// Content bauen
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?php echo $title ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="lib/kube.css" /> 	
 	<link rel="stylesheet" type="text/css" href="themes/<?php echo $theme ?>/master.css" /> 
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
