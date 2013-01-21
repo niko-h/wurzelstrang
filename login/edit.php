@@ -55,13 +55,66 @@ include('func.php');          // logik
     </div>
   </div>
   
+  <?php 
+  /***************************
+  *
+  * Site/User Preference Page
+  *
+  **************************/
+  ?>
   <div id="pref_curtain" class="row">
     <div id="preferences" class="centered">
       <div class="head bold">
         Einstellungen
         <a id="pref_x" class="btn redbtn push-right" onclick="$('#pref_curtain').hide();">X</a>
       </div>
-      <iframe class="centered" src="pref.php"></iframe>
+      <div id="prefforms">
+        <form id="prefsite" class="forms columnar fullwidth" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <fieldset>
+            <legend>Seiten Einstellungen</legend>
+            <ul>
+              <li>
+                <label for="sitetitle" class="bold">Seitentitel</label>
+                <input name="sitetitle" id="sitetitle" class="" value="<?php if(isset($siteinfo)) echo $siteinfo['title']; ?>" type="text">
+              </li>
+              <li>
+                <label for="headline" class="bold">&Uuml;berschrift</label>
+                <input name="siteheadline" id="siteheadline" class="" value="<?php if(isset($siteinfo)) echo $siteinfo['headline']; ?>" type="text">
+              </li>
+              <li>
+                <label for="theme" class="bold">Theme</label>
+                <select name="sitetheme" id="sitetheme" class="select">
+                  <?php foreach ($themes as $theme) {
+                    if ( isset($siteinfo['theme']) && ( $siteinfo['theme'] == $theme) ) {
+                      echo '              <option selected="selected">'.$theme.'</option>\n';
+                    } else {
+                      echo '              <option>'.$theme.'</option>\n';
+                    }
+                  } ?>
+                </select>
+              </li>
+              <li class="push">
+                <input name="submitsiteinfobtn" id="updatesitebtn" class="btn greenbtn" value="Seite aktualisieren" type="submit">    
+              </li>
+            </ul>
+          </fieldset>
+        </form>
+        <br>
+        <form id="prefuser" class="forms columnar fullwidth" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <fieldset>
+            <legend>Benutzer Informationen &auml;ndern</legend>
+            <ul>
+              <li>
+                <label for="email" class="bold">Email</label>
+                <input name="email" id="email" type="email" value="<?php if(isset($user['email'])) echo $user['email']; ?>">        
+              </li>
+              <li class="push">
+                <input name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" onclick="return allowsend();" value="Benutzer aktualisieren" type="submit"> 
+              </li>
+            </ul>
+          </fieldset>
+        </form>
+      </div>
     </div>
   </div>
 

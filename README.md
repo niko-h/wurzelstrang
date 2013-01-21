@@ -8,7 +8,7 @@ Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https:
 
 
 
-## Quick start
+## Getting started
 
 * [Download or clone the latest release](https://bitbucket.org/LordNiko/1pagecms/).
 
@@ -22,8 +22,6 @@ Have a bug or a feature request? [Please open a new issue](https://bitbucket.org
 
 ## Twitter
 
-Keep track of development.
-
 * Follow [@Wurzelstrang on Twitter](http://twitter.com/wWrzelstrang).
 
 
@@ -32,13 +30,14 @@ Keep track of development.
 
 **Nikolaus Höfer**
 
-+ http://twitter.com/Edvayne
-+ https://bitbucket.org/LordNiko
++ [http://nikolaushoefer.de](http://nikolaushoefer.de)
++ [http://twitter.com/Edvayne](http://twitter.com/Edvayne)
++ [https://bitbucket.org/LordNiko](https://bitbucket.org/LordNiko)
 
 **Felix Menge**
 
-+ http://twitter.com/pondus_hydrogen
-+ https://bitbucket.org/ph3l1x
++ [http://twitter.com/pondus_hydrogen](http://twitter.com/pondus_hydrogen)
++ [https://bitbucket.org/ph3l1x](https://bitbucket.org/ph3l1x)
 
 
 

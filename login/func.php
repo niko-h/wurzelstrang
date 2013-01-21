@@ -39,10 +39,29 @@ if (!isset($_SESSION['user']->email) || isadmin($_SESSION['user']->email)==false
   * Site-info
   */
 
-$query = 'SELECT site_title as title FROM siteinfo LIMIT 1;';
-$siteinfo = $db->query($query)->fetchArray();
+  $query = 'SELECT 
+              site_title as title
+             ,site_theme as theme
+             ,site_headline as headline
+            FROM 
+              siteinfo
+            LIMIT 1;
+           ';
+  $siteinfo = $db->query($query)->fetchArray();
+  $site_title = $siteinfo['title'];
 
-$site_title = $siteinfo['title'];
+
+/**
+  * User-info
+  */
+
+  $query = 'SELECT
+              user_email AS email
+            FROM 
+              user 
+            LIMIT 1;
+           ';
+  $user = $db->query($query)->fetchArray();
 
 
 /**
@@ -197,6 +216,62 @@ if( isset($_POST['neworder']) ) {                       // Wenn ein Post abgeset
              ';
     $db->exec($query) or die('Fehler beim L&ouml;schen.');
     return True;
+  }
+
+
+/**************
+  * Preferences
+  *************/
+
+
+/**
+  * Themedir
+  */
+
+  $themedir = "../themes/";
+  $themes = array();
+
+  // Open a known directory, and proceed to read its contents
+  if (is_dir($themedir)) {
+    if ($dh = opendir($themedir)) {
+      while (($file = readdir($dh)) !== false) {
+        if ($file != '.' && $file != '..') {
+          array_push($themes, $file);
+        }
+      }
+      closedir($dh);
+    }
+  }
+
+
+/**
+  * choose preferences submit action
+  */
+  if(isset($_POST['submitsiteinfobtn'])){ // siteinfo update
+    if( ( isset($_POST['sitetitle']) && isset($_POST['sitetheme']) && isset($_POST['siteheadline']) )
+     && ( $_POST['sitetitle'] != $siteinfo['title'] || $_POST['sitetheme'] != $siteinfo['theme'] || $_POST['siteheadline'] != $siteinfo['headline'] )
+     ) {
+      $query = 'UPDATE 
+                  siteinfo 
+                SET 
+                  site_title = "'.$_POST['sitetitle'].'"
+                 ,site_theme = "'.$_POST['sitetheme'].'"
+                 ,site_headline = "'.$_POST['siteheadline'].'"
+             ;';
+      $db->exec($query) or die('Fehler beim Speichern.');
+    }
+  }
+
+  if( isset($_POST['submitusrbtn']) && isset($_POST['email']) && $_POST['email'] != $user['email'] ) { // userupdate
+  
+    if( isset($_POST['email']) ) {  // change email
+      $query = 'UPDATE 
+                  user 
+                SET 
+                  user_email = "'.$_POST['email'].'";
+               ';
+      $db->exec($query) or die('Fehler beim Speichern.');
+    }
   }
 
 ?>

@@ -1,13 +1,6 @@
 <?php
 
 /**
-  * Database action
-  */
-
-$db_file = "../db/content.db";    //SQLite Datenbank Dateiname
-$db = new SQLite3($db_file) or die ('Datenbankfehler');
-
-/**
   * Themedir
   */
 
@@ -70,7 +63,7 @@ if(isset($_POST['submitsiteinfobtn'])){ // siteinfo update
            ;';
     $db->exec($query) or die('Fehler beim Speichern.');
     echo '<script>history.back();</script>
-        <noscript><a href="pref.php" target="_self">zurueck zum Formular</a></noscript>';  
+        <noscript><a href="edit.php" target="_self">zurueck zum Formular</a></noscript>';  
   }
 
 
