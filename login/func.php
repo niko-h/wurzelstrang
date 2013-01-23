@@ -82,7 +82,7 @@ if( isset($_POST['neworder']) ) {                       // Wenn ein Post abgeset
   if( isset($_POST['deletebutton']) && isset( $_POST['id'] ) ) {
     if( delete($db, $_POST['id']) ) {
       header("Status: 301 Moved Permanently");                  // für debugging mit errorbuf auskommentieren
-      header("Location:edit.php?deleted");
+      header("Location:wurzelstrang.php?deleted");
     }
   } else if ( isset( $_POST['title'] ) && isset( $_POST['content'] ) ) {   
     if ( $id = changecat(
@@ -94,7 +94,7 @@ if( isset($_POST['neworder']) ) {                       // Wenn ein Post abgeset
                          ,isset($_POST['new'])
                         ) ) {                                    // Wenn changecat erfolgreich, lade Seite neu
       header("Status: 301 Moved Permanently");                  // für debugging mit errorbuf auskommentieren
-      header("Location:edit.php?id=". $id ."&success");  // für debugging mit errorbuf auskommentieren
+      header("Location:wurzelstrang.php?id=". $id ."&success");  // für debugging mit errorbuf auskommentieren
     } else {                                     
       $menu = genmenu($db);                     // Sonst generiere Menü und ...  
       $formcontent = array(                     // ...

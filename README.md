@@ -43,4 +43,12 @@ Have a bug or a feature request? [Please open a new issue](https://bitbucket.org
 
 ## Copyright and license
 
-No licence yet
+"THE WURZEL LICENSE" (Revision 2):
+<wurzel@nikolaushoefer.de> und <phelix@l3q.de> haben diese Datei verfasst. 
+Sie können mit diesem Material unter folgenden Bedingungen machen was Sie wollen: 
+Die Beibehaltung dieser Lizenz und eine Namensnennung ist Vorraussetzung für die Verwendung dieses Materials.
+Wir übernehmen keinerlei Garantie für eventuelle Folgen der Verwendung dieses Materials.
+Eine Verwendung findet ausschliesslich zu zivilen Zwecken und unter Beachtung und Wertschätzung der Menschenrechte statt.
+Bei Verwendung dieses Materials müssen die verwendeten Teile quelloffen bleiben.
+Wenn wir uns einmal begegnen sollten und dieses Material Ihnen das wert ist, können Sie uns auf ein Bier einladen. 
+Niko und Felix

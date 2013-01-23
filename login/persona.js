@@ -10,8 +10,8 @@ $(function() {
                 {assertion:assertion},
                 function(msg) {
                     //alert(msg+'login');//debug
-                    if((msg == 'yes') && window.location.pathname != "/wurzelstrang/login/edit.php") {
-                        window.location = "edit.php";
+                    if((msg == 'yes') && window.location.pathname != "/wurzelstrang/login/wurzelstrang.php") {
+                        window.location = "wurzelstrang.php";
                     }
                     if((msg == 'no') && window.location.pathname != "/wurzelstrang/login/index.php") {
                         navigator.id.logout();
