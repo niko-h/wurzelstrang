@@ -39,22 +39,6 @@ include('func.php');          // logik
 </head>
 
 <body onload="Main.onLoad();">
-  <div class="head row">
-    <img id="logo" src="css/logo30.png" alt="Wurzelstrang">
-    <b><?php echo $site_title; ?></b> bearbeiten
-    <div class="push-right">
-      <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
-      <button name="logoutbtn" id="logoutbtn" class="btn redbtn">
-        <?php
-          if (isset($_SESSION['user']->email)) { 
-            echo $_SESSION['user']->email.' '; 
-          }
-        ?>
-        abmelden
-      </button>
-    </div>
-  </div>
-  
   <?php 
   /***************************
   *
@@ -62,9 +46,9 @@ include('func.php');          // logik
   *
   **************************/
   ?>
-  <div id="pref_curtain" class="row">
-    <div id="preferences" class="centered">
-      <div class="head bold">
+  <div id="pref_curtain">
+    <div id="preferences">
+      <div class="head row bold">
         Einstellungen
         <a id="pref_x" class="btn redbtn push-right" onclick="$('#pref_curtain').hide();">X</a>
       </div>
@@ -118,24 +102,55 @@ include('func.php');          // logik
     </div>
   </div>
 
-  <div id="page" class="row">
-    <div id="menu" class="third">
-      <a id="linknew" class="btn greenbtn" href="<?php echo $_SERVER['PHP_SELF']; ?>" ><b>Neue Kategorie hinzuf&uuml;gen</b></a></li>
-      <hr>
-      <ul id="menu_list">
-        <?php 
-          foreach ($menu as $item) { // Menu bauen, dabei nicht angezeigte kategorien kennzeichnen
-            echo '
-              <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
-                <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
-                  <b>'.$item[0].'</b> &auml;ndern'.( $item[2] ? '' : '<span class="tooltip">Wird auf der Webseite nicht angezeigt.</span>' ).'
-                </a>
-                <span class="dragger">&equiv;</span>
-              </li>
-            ';
-          }
-        ?>
-      </ul>
+
+  <div class="head row">
+    <div class="wrapper">
+      <a id="logo"><span class="tooltip"><span>&bull;</span>Wurzelstrang CMS</span></a>
+      <span class="head-separator"></span>
+      <a href="../index.php" target="_blank"><b><?php echo $site_title; ?></b></a>
+      <div class="push-right">
+        <span class="head-separator"></span>
+        <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
+        <button name="logoutbtn" id="logoutbtn" class="btn redbtn">
+          <?php
+            if (isset($_SESSION['user']->email)) { 
+              echo $_SESSION['user']->email.' '; 
+            }
+          ?>
+          abmelden
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <div id="page" class="row wrapper">
+
+    <div class="third">
+      <div class="menu">
+        <fieldset>
+          <legend>Seiten</legend>
+          <div class="menuhead row">
+            <a id="linknew" class="btn greenbtn bold" href="<?php echo $_SERVER['PHP_SELF']; ?>" >+ Neue Seite</a></li>
+          </div>
+          <ul id="menu_list">
+            <?php 
+              foreach ($menu as $item) { // Menu bauen, dabei nicht angezeigte kategorien kennzeichnen
+                echo '
+                  <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
+                    <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
+                      <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>&bull;</span>Wird auf der Webseite derzeit nicht angezeigt.</span>' ).'
+                    </a>
+                    <span class="dragger">&equiv;</span>
+                  </li>
+                ';
+              }
+            ?>
+            <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
+          </ul>
+        </fieldset>
+      </div>
     </div>
 
     <?php 
@@ -151,62 +166,74 @@ include('func.php');          // logik
     }
     ?>
 
-    <div class="editframe twothird">
-      <form method="post" class="forms" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <fieldset>
-          <legend><?php if(isset($formcontent)) { echo "Kategorie bearbeiten"; } else { echo "Neue Kategorie hinzufügen"; } ?></legend>
-          <ul>
-            <li>
-              <label for="title" class="bold">Titel</label>
-              <input id="title" type="text" name="title" required placeholder="Titel" value="<?php if (isset($formcontent)) echo $formcontent['cat_title']; ?>">
-              <?php if (isset($formcontent['cat_mtime'])) echo 'Zuletzt bearbeitet: '.strftime( '%c', $formcontent['cat_mtime']); ?>
-            </li>
-            <li>
-              <textarea name="content" class="tinymce"><?php if (isset($formcontent)) echo $formcontent['cat_content']; ?></textarea>
-            </li>
-            <li>
-              <ul class="multicolumn row">
-                <li>
-                  <input type="submit" id="submitbutton" class="btn greenbtn" value="Speichern">
-                </li>
-                <li>
-                  <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" <?php if(isset($formcontent)) { if($formcontent['cat_visible']) {echo 'checked';} } ?> > Auf der Webseite anzeigen</label>
-                </li>
-                <li class="push-right">
-                  <?php if(isset($formcontent['cat_id'])) echo '
-                    <input type="hidden" name="id", value="'.$formcontent['cat_id'].'">
-                    <input type="submit" value="'. $formcontent['cat_title'] .' löschen" id="deletebutton" class="btn redbtn" name="deletebutton" 
-                      onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')">
-                  '; ?>                
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </fieldset>
-      </form>
+    <div class="twothird">
+      <div class="editframe">
+        <form method="post" class="forms" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <fieldset>
+            <legend>
+              <?php 
+                if(isset($formcontent)) {
+                  echo "Seite bearbeiten";  
+                  if (isset($formcontent['cat_mtime'])) echo ' <span>(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
+                } else { echo "+ Neue Seite"; } ?></legend>
+            <ul>
+              <li>
+                <ul class="multicolumn">
+                  <li>
+                    <label for="title" class="bold">Titel</label>
+                    <input id="title" type="text" name="title" required placeholder="Titel" value="<?php if (isset($formcontent)) echo $formcontent['cat_title']; ?>">
+                  </li>
+                  <li>
+                    <label>&nbsp;</label>
+                    <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" <?php if(isset($formcontent)) { if($formcontent['cat_visible']) {echo 'checked';} } ?> > Auf der Webseite anzeigen</label>
+                  </li>
+                </ul>
+              </li>  
+              <li>
+                <textarea name="content" class="tinymce"><?php if (isset($formcontent)) echo $formcontent['cat_content']; ?></textarea>
+              </li>
+              <li>
+                <ul class="row">
+                  <li class="third">
+                    <input type="submit" id="submitbutton" class="btn greenbtn" value="Speichern">
+                  </li>
+                  
+                  <li class="push-right">
+                    <?php if(isset($formcontent['cat_id'])) echo '
+                      <input type="hidden" name="id", value="'.$formcontent['cat_id'].'">
+                      <input type="submit" value="'. $formcontent['cat_title'] .' löschen" id="deletebutton" class="btn redbtn" name="deletebutton" 
+                        onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')">
+                    '; ?>                
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </fieldset>
+        </form>
+      </div>
     </div>
   </div>
 </body>
 <noscript>
-    <div class="row">
-      <div class="twofifth centered error">
-        Sorry, this won't work without JavaScript. 
-        If you want to administrate the contents of your site, 
-        you'll have to activate JavaScript in your browser-preferences.
-        If you don't like JavaScript, be at least assured, that Wurzelstrang CMS
-        does not require your website to contain any. So this only affects you as
-        your site's admin, not your visitors.<br>
-        Thanks.
-        <hr>
-        Entschuldigung, die Verwaltungsebene von Wurzelstrang CMS setzt vorraus, 
-        dass Sie JavaScript in Ihren Browser-Einstellungen aktiviert haben, um
-        die Inhalte Ihrer Internetseite zu bearbeiten.
-        Wenn Sie JavaScript nicht m&ouml;gen, Sei Ihnen hiermit versichert, dass
-        Wurzelstrang CMS keines auf Ihrer Internetseite vorraussetzt.
-        Dies betrifft also keinen Ihrer Besucher, sondern lediglich Sie als
-        Administrator.<br>
-        Danke.
-      </div>
+  <div class="row">
+    <div class="twofifth centered error">
+      Sorry, this won't work without JavaScript. 
+      If you want to administrate the contents of your site, 
+      you'll have to activate JavaScript in your browser-preferences.
+      If you don't like JavaScript, be at least assured, that Wurzelstrang CMS
+      does not require your website to contain any. So this only affects you as
+      your site's admin, not your visitors.<br>
+      Thanks.
+      <hr>
+      Entschuldigung, die Verwaltungsebene von Wurzelstrang CMS setzt vorraus, 
+      dass Sie JavaScript in Ihren Browser-Einstellungen aktiviert haben, um
+      die Inhalte Ihrer Internetseite zu bearbeiten.
+      Wenn Sie JavaScript nicht m&ouml;gen, Sei Ihnen hiermit versichert, dass
+      Wurzelstrang CMS keines auf Ihrer Internetseite vorraussetzt.
+      Dies betrifft also keinen Ihrer Besucher, sondern lediglich Sie als
+      Administrator.<br>
+      Danke.
     </div>
-  </noscript>
+  </div>
+</noscript>
 </html> 
