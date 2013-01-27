@@ -12,32 +12,33 @@ session_start();
     <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
     <style type="text/css">
       .box {
+        margin: 30% auto;
         width: 200px;
-        height: 30px;
         border-radius: 5px;
         padding: 10px;
         padding-top: 15px;
-        box-shadow: 0px 0px 10px #999, inset 0px 1px 1px #fff, inset 0px 0px 50px #ddd;
+        background: #eee;
+        color: #111;
+        box-shadow: 0px 0px 8px #000;
+        text-shadow: 0px 1px 0px #fff;
+        text-align: center;
       }
-
+      .box span img {
+        margin-bottom: -3px;
+      }
     </style>
   </head>
   <body>
-    <div class="row">
-      <div class="half centered" style="text-align: center;">
-        <br><br><br><br>
-        <div class="centered box">
-          <img id="logo" src="css/logo30.png" alt="Wurzelstrang"> Wurzelstrang CMS
-        </div>
-        <br><br><br>
-        <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
-        <br><br>
-        <?php
-          if (isset($_SESSION['user'])){ 
-            echo '<div class="success">Sie sind angemeldet als: '.$_SESSION['user']->email.'</div>'; 
-          } else { echo '<div class="error">Sie sind abgemeldet</div>'; }
-        ?>
-      </div>
+    <div class="box">
+      <span><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
+      <br><br><br>
+      <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
+      <br><br>
+      <?php
+        if (isset($_SESSION['user'])){ 
+          echo '<div class="success">Sie sind angemeldet als: '.$_SESSION['user']->email.'</div>'; 
+        } else { echo '<div class="error">Sie sind abgemeldet</div>'; }
+      ?>
     </div>
   </body>
   <noscript>
