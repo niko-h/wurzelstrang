@@ -28,38 +28,36 @@ Main.fade = function() {
 
 
 
-
-
-passcompare = function() {
-  if( $("#pass").attr('value').length > 5 && $("#passwdh").attr('value').length > 5 && ( $("#pass").attr('value') == $("#passwdh").attr('value') ) ) {
-    $("#passchecker").addClass("success").text('Passwoerter sind gleich.');
-    $("#passwdh").removeClass("input-error"); 
-    $("#passwdh").addClass("input-success");
-    $("#updateuserbtn").removeClass('disabled');
-    return true;
-  } else { 
-    $("#passchecker").addClass("error").text('Passwoerter sind nicht gleich.'); 
-    $("#passwdh").removeClass("input-success"); 
-    $("#passwdh").addClass("input-error");
-    return false;
-  }
-}
-passvalidate = function() {
-  if( $("#pass").attr('value').length < 6 || $("#pass").attr('value').length > 72 ) {
-    $("#passvalidator").addClass("error").text('Muss zwischen 6 und 72 Zeichen haben.'); 
-    $("#pass").removeClass("input-success"); 
-    $("#pass").addClass("input-error");
-    return false;
-  } else { 
-    $("#passvalidator").addClass("error").text('');
-    $("#pass").removeClass("input-error"); 
-    $("#pass").addClass("input-success");
-    return true;
-  }
-}
-allowsend = function() {
-  if( passvalidate() && passcompare ) {
-    $("#updateuserbtn").removeClass('disabled');
-    return true;
-  } else { return false; }
-}
+// passcompare = function() {
+//   if( $("#pass").attr('value').length > 5 && $("#passwdh").attr('value').length > 5 && ( $("#pass").attr('value') == $("#passwdh").attr('value') ) ) {
+//     $("#passchecker").addClass("success").text('Passwoerter sind gleich.');
+//     $("#passwdh").removeClass("input-error"); 
+//     $("#passwdh").addClass("input-success");
+//     $("#updateuserbtn").removeClass('disabled');
+//     return true;
+//   } else { 
+//     $("#passchecker").addClass("error").text('Passwoerter sind nicht gleich.'); 
+//     $("#passwdh").removeClass("input-success"); 
+//     $("#passwdh").addClass("input-error");
+//     return false;
+//   }
+// }
+// passvalidate = function() {
+//   if( $("#pass").attr('value').length < 6 || $("#pass").attr('value').length > 72 ) {
+//     $("#passvalidator").addClass("error").text('Muss zwischen 6 und 72 Zeichen haben.'); 
+//     $("#pass").removeClass("input-success"); 
+//     $("#pass").addClass("input-error");
+//     return false;
+//   } else { 
+//     $("#passvalidator").addClass("error").text('');
+//     $("#pass").removeClass("input-error"); 
+//     $("#pass").addClass("input-success");
+//     return true;
+//   }
+// }
+// allowsend = function() {
+//   if( passvalidate() && passcompare ) {
+//     $("#updateuserbtn").removeClass('disabled');
+//     return true;
+//   } else { return false; }
+// }

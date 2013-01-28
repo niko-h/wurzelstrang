@@ -86,14 +86,20 @@ include('func.php');          // logik
         <br>
         <form id="prefuser" class="forms columnar fullwidth" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
           <fieldset>
-            <legend>Benutzer Informationen &auml;ndern</legend>
+            <legend>Persona Konto &auml;ndern</legend>
             <ul>
               <li>
                 <label for="email" class="bold">Email</label>
                 <input name="email" id="email" type="email" value="<?php if(isset($user['email'])) echo $user['email']; ?>">        
               </li>
+              <li>
+                <label class="bold">Hinweis</label>
+                <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden Persona-Account entsprechen 
+                und wird zum Anmelden verwendet. Nehmen Sie keine Emailadresse, zu der Sie keinen Persona-
+                Account nebst Passwort eingerichtet haben.</div>
+              </li>
               <li class="push">
-                <input name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" onclick="return allowsend();" value="Benutzer aktualisieren" type="submit"> 
+                <input type="submit" name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm('[OK] drücken um Emailadresse zu &auml;ndern.')"> 
               </li>
             </ul>
           </fieldset>
@@ -105,7 +111,7 @@ include('func.php');          // logik
 
   <div class="head row">
     <div class="wrapper">
-      <a id="logo"><span class="tooltip"><span>&bull;</span>Wurzelstrang CMS</span></a>
+      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>&bull;</span>Wurzelstrang CMS</span></a>
       <span class="head-separator"></span>
       <a href="../index.php" target="_blank"><b><?php echo $site_title; ?></b></a>
       <div class="push-right">

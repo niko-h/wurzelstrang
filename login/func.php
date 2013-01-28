@@ -25,6 +25,58 @@ function debug($msg){
 }
 
 
+/**************
+  * Preferences
+  *************/
+
+/**
+  * Themedir
+  */
+
+  $themedir = "../themes/";
+  $themes = array();
+
+  // Open a known directory, and proceed to read its contents
+  if (is_dir($themedir)) {
+    if ($dh = opendir($themedir)) {
+      while (($file = readdir($dh)) !== false) {
+        if ($file != '.' && $file != '..') {
+          array_push($themes, $file);
+        }
+      }
+      closedir($dh);
+    }
+  }
+
+/**
+  * choose preferences submit action
+  */
+  if(isset($_POST['submitsiteinfobtn'])){ // siteinfo update
+    if( isset($_POST['sitetitle']) && isset($_POST['sitetheme']) && isset($_POST['siteheadline']) ) {
+      $query = 'UPDATE 
+                  siteinfo 
+                SET 
+                  site_title    = "'.$_POST['sitetitle']    .'"
+                 ,site_theme    = "'.$_POST['sitetheme']    .'"
+                 ,site_headline = "'.$_POST['siteheadline'] .'";
+                ';
+      $db->exec($query) or die('Fehler beim Speichern der Seiteninformationen.');
+    }
+  }
+
+  if( isset($_POST['submitusrbtn']) && isset($_POST['email']) && $_POST['email'] != $user['email'] ) { // userupdate
+  
+    if( isset($_POST['email']) ) {  // change email
+      $query = 'UPDATE 
+                  user 
+                SET 
+                  user_email = "'.$_POST['email'].'";
+               ';
+      $db->exec($query) or die('Fehler beim Speichern der Emailadresse. Die alte bleibt weiterhin gueltig.');
+    }
+  }
+
+
 /**
   * check auth and ifnot redirect
   */
@@ -32,7 +84,7 @@ function debug($msg){
 if (!isset($_SESSION['user']->email) || isadmin($_SESSION['user']->email)==false ) { 
   session_destroy();
   header("Location:index.php");
-} else if (isset($_GET['logout'])){ //Check for $logout and if true logout and destroy session.
+} else if (isset($_GET['logout'])){ 
   unset($_GET['logout']);
   session_destroy();
   $_SESSION['error'] = 'Sie wurden abgemeldet.';
@@ -222,62 +274,6 @@ if( isset($_POST['neworder']) ) {                       // Wenn ein Post abgeset
              ';
     $db->exec($query) or die('Fehler beim L&ouml;schen.');
     return True;
-  }
-
-
-/**************
-  * Preferences
-  *************/
-
-
-/**
-  * Themedir
-  */
-
-  $themedir = "../themes/";
-  $themes = array();
-
-  // Open a known directory, and proceed to read its contents
-  if (is_dir($themedir)) {
-    if ($dh = opendir($themedir)) {
-      while (($file = readdir($dh)) !== false) {
-        if ($file != '.' && $file != '..') {
-          array_push($themes, $file);
-        }
-      }
-      closedir($dh);
-    }
-  }
-
-
-/**
-  * choose preferences submit action
-  */
-  if(isset($_POST['submitsiteinfobtn'])){ // siteinfo update
-    if( ( isset($_POST['sitetitle']) && isset($_POST['sitetheme']) && isset($_POST['siteheadline']) )
-     && ( $_POST['sitetitle'] != $siteinfo['title'] || $_POST['sitetheme'] != $siteinfo['theme'] || $_POST['siteheadline'] != $siteinfo['headline'] )
-     ) {
-      $query = 'UPDATE 
-                  siteinfo 
-                SET 
-                  site_title = "'.$_POST['sitetitle'].'"
-                 ,site_theme = "'.$_POST['sitetheme'].'"
-                 ,site_headline = "'.$_POST['siteheadline'].'"
-             ;';
-      $db->exec($query) or die('Fehler beim Speichern.');
-    }
-  }
-
-  if( isset($_POST['submitusrbtn']) && isset($_POST['email']) && $_POST['email'] != $user['email'] ) { // userupdate
-  
-    if( isset($_POST['email']) ) {  // change email
-      $query = 'UPDATE 
-                  user 
-                SET 
-                  user_email = "'.$_POST['email'].'";
-               ';
-      $db->exec($query) or die('Fehler beim Speichern.');
-    }
   }
 
 ?>

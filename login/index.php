@@ -31,7 +31,7 @@ session_start();
   <body>
     <div class="box">
       <span><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
-      <br><br><br>
+      <br><br>
       <?php
         if (isset($_SESSION['user'])){ 
           echo '<a href="wurzelstrang.php" class="btn greenbtn" target="_self">Weiter...</a>

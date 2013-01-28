@@ -13,11 +13,12 @@ html, body, #mother { height: 100%; min-height: 100%; }
 
 body {
   color: #333;
-  font-family: Arial, sans-serif;
+  font-family: Helvetica, sans-serif;
   padding: 0;
   margin: 0;
   min-width: 890px;
-  background: #fff;
+  background: #666;
+  font-size: 1.4em;
 }
 #mother {
   position:relative; /* needed for footer positioning*/
@@ -34,7 +35,7 @@ body {
   padding: 0px 20px;
   line-height: 100px;
   width: 100%;
-  background: #eee;
+  background: #fff;
   z-index: 3;
 }
 
@@ -44,7 +45,7 @@ body {
   width: 160px;
   float: left;
   padding: 20px;
-  background: #ccc;
+  background: #ddd;
 }
 ul#menu_list li {
   margin-bottom: 5px;
@@ -58,13 +59,14 @@ ul#menu_list li {
   height: -moz-calc(100% - 100px);
   height: -webkit-calc(100% - 100px);*/
   height: 100%;
-  background: #aaa;
+  background: #eee;
   width: 500px;
   margin: 0px 0px 0px 200px;
   overflow: hidden;
 }
 #content p {
   margin-bottom: 20px;
+  line-height: 1.5em;
 }
 #content img {
   max-width: 450px;

@@ -73,13 +73,8 @@ a#logo:hover span {
 	text-decoration: underline;
 	text-shadow: 0px 0px 0px transparent;
 }
-#logo + span + a:after {
-	font-weight: normal;
-	text-shadow: none;
-	content: " bearbeiten";
-}
 #logo + span + a:hover:after {
-	content: " - Homepage ansehen";
+	content: " - Seite besuchen";
 	text-decoration: none;
 }
 a[id='prefbtn'] {
@@ -230,8 +225,9 @@ div.menu li:hover {
 	min-height: 500px;
 }
 .editframe legend span{
-	font-size: 0.6em;
+	font-size: 0.7em;
 	vertical-align: top;
+	font-weight: normal;
 }
 .defaultSkin td.mceToolbar,
 .defaultSkin table.mceLayout {
