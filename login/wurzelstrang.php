@@ -111,14 +111,14 @@ include('func.php');          // logik
       <div class="push-right">
         <span class="head-separator"></span>
         <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
-        <button name="logoutbtn" id="logoutbtn" class="btn redbtn">
+        <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn">
           <?php
             if (isset($_SESSION['user']->email)) { 
               echo $_SESSION['user']->email.' '; 
             }
           ?>
           abmelden
-        </button>
+        </a>
       </div>
     </div>
   </div>

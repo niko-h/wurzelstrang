@@ -32,12 +32,13 @@ session_start();
     <div class="box">
       <span><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
       <br><br><br>
-      <button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
-      <br><br>
       <?php
         if (isset($_SESSION['user'])){ 
-          echo '<div class="success">Sie sind angemeldet als: '.$_SESSION['user']->email.'</div>'; 
-        } else { echo '<div class="error">Sie sind abgemeldet</div>'; }
+          echo '<a href="wurzelstrang.php" class="btn greenbtn" target="_self">Weiter...</a>
+                <br><br><div class="success">Sie sind angemeldet als: '.$_SESSION['user']->email.'</div>';
+                 
+        } else { echo '<button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
+                        <br><br><div class="error">Sie sind abgemeldet</div>'; }
       ?>
     </div>
   </body>

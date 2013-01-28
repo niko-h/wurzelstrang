@@ -32,7 +32,13 @@ function debug($msg){
 if (!isset($_SESSION['user']->email) || isadmin($_SESSION['user']->email)==false ) { 
   session_destroy();
   header("Location:index.php");
+} else if (isset($_GET['logout'])){ //Check for $logout and if true logout and destroy session.
+  unset($_GET['logout']);
+  session_destroy();
+  $_SESSION['error'] = 'Sie wurden abgemeldet.';
+  header("Location:index.php");
 }
+
 
 
 /**
