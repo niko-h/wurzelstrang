@@ -59,9 +59,9 @@ a#logo {
 	display: inline-block;
 	background: url(logo.png) no-repeat 0px 0px;
 }
-a#logo:hover span {
+a#logo:hover span.tooltip {
 	display: block;
-	margin: -5px 45px;
+	margin: -4px 45px;
 }
 #logo + span + a {
 	text-shadow: 0px 1px 0px #fff;
@@ -153,6 +153,9 @@ div.menu li{
 }
 div.menu li:hover {
 	border-color: #444;
+}
+div.menu li:hover span.tooltip {
+	margin: -21px 0px 0px 200px;
 }
 
  #menu_list li a
@@ -258,34 +261,47 @@ span.tooltip {
 	display: none; 
 	z-index: 1000;
 	position: absolute;
-	padding: 4px 10px;
 	text-decoration: none;
 	color: #fff;
-	background: #555;
-	height: 16px;
-	line-height: 16px;
-	margin: -22px 0px 0px 200px;
-	box-shadow: 0px 0px 2px #fff;
+	
+	height: 22px;
+	padding: 0 7px 0 9px;
+	background: #777;
+	border: none;
+	line-height: 22px;
+	text-shadow: 0 1px 1px rgba(0,0,0,.4);
 	white-space: nowrap;
-	vertical-align: top;
-}
-span.tooltip span {
-	margin: 0px 10px 0px -10px !important;
-	font-size: 2em;
-	text-shadow: 0px -1px 0px #000;
-	display: inline-block !important;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 span.tooltip:before {
 	content: "";
 	position: absolute;
 	top: 0px;
-	left: -12px;
+	left: -10px;
 	float: left;
 	width: 0px;
 	height: 0px;
-	border-width: 12px 12px 12px 0px;
+	border-width: 11px 10px 11px 0px;
 	border-style: solid solid solid solid;
-	border-color: transparent #555 transparent transparent;
+	border-color: transparent #777 transparent transparent;
+}
+span.tooltip::after {
+	content: "";
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	background: #fff;
+	top: 8px;
+	left: -1px;
+	border-radius: 50%;
+	box-shadow: inset 0 1px 1px #000;
+}
+span.tooltip span {
+	margin: 0px !important;
+	text-shadow: 0px 1px 0px #000;
 }
 
 

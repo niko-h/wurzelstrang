@@ -25,6 +25,7 @@ if(isset($_POST['assertion'])) {
         $_SESSION['user'] = $response;
     }
 }
+
 if (isset($_POST['logout'])) {
     session_destroy();
 }

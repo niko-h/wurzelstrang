@@ -111,7 +111,7 @@ include('func.php');          // logik
 
   <div class="head row">
     <div class="wrapper">
-      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>&bull;</span>Wurzelstrang CMS</span></a>
+      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>Wurzelstrang CMS</span></span></a>
       <span class="head-separator"></span>
       <a href="../index.php" target="_blank"><b><?php echo $site_title; ?></b></a>
       <div class="push-right">
@@ -146,7 +146,7 @@ include('func.php');          // logik
                 echo '
                   <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
                     <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
-                      <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>&bull;</span>Wird auf der Webseite derzeit nicht angezeigt.</span>' ).'
+                      <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>' ).'
                     </a>
                     <span class="dragger">&equiv;</span>
                   </li>
