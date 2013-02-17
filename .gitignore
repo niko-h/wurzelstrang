@@ -2,6 +2,4 @@
 .*~
 *.sublime-project
 *.sublime-workspace
-todo.txt
-img/*
-!img/katze.jpg
+db/database.db
