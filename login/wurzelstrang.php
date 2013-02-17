@@ -28,6 +28,9 @@ include('func.php');          // logik
 
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
   <script type="text/javascript" src="persona.js"></script>
+  <!-- Load CKEditor --> 
+  <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
+  
   <!-- Load TinyMCE --> 
   <script type="text/javascript" src="lib/tinymce/jscripts/jquery.tinymce.js"></script> 
   <script type="text/javascript" src="lib/tinymce/init.js"></script>
@@ -35,6 +38,7 @@ include('func.php');          // logik
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]--> 
+
 
 </head>
 
@@ -133,30 +137,28 @@ include('func.php');          // logik
 
   <div id="page" class="row wrapper">
 
-    <div class="third">
-      <div class="menu">
-        <fieldset>
-          <legend>Seiten</legend>
-          <div class="menuhead row">
-            <a id="linknew" class="btn greenbtn bold" href="<?php echo $_SERVER['PHP_SELF']; ?>" >+ Neue Seite</a></li>
-          </div>
-          <ul id="menu_list">
-            <?php 
-              foreach ($menu as $item) { // Menu bauen, dabei nicht angezeigte kategorien kennzeichnen
-                echo '
-                  <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
-                    <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
-                      <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>' ).'
-                    </a>
-                    <span class="dragger">&equiv;</span>
-                  </li>
-                ';
-              }
-            ?>
-            <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
-          </ul>
-        </fieldset>
-      </div>
+    <div class="menu">
+      <fieldset>
+        <legend>Seiten</legend>
+        <div class="menuhead row">
+          <a id="linknew" class="btn greenbtn bold" href="<?php echo $_SERVER['PHP_SELF']; ?>" >+ Neue Seite</a></li>
+        </div>
+        <ul id="menu_list">
+          <?php 
+            foreach ($menu as $item) { // Menu bauen, dabei nicht angezeigte kategorien kennzeichnen
+              echo '
+                <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
+                  <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
+                    <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>' ).'
+                  </a>
+                  <span class="dragger">&equiv;</span>
+                </li>
+              ';
+            }
+          ?>
+          <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
+        </ul>
+      </fieldset>
     </div>
 
     <?php 
@@ -172,52 +174,51 @@ include('func.php');          // logik
     }
     ?>
 
-    <div class="twothird">
-      <div class="editframe">
-        <form method="post" class="forms" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-          <fieldset>
-            <legend>
-              <?php 
-                if(isset($formcontent)) {
-                  echo "Seite bearbeiten";  
-                  if (isset($formcontent['cat_mtime'])) echo ' <span>(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
-                } else { echo "+ Neue Seite"; } ?></legend>
-            <ul>
-              <li>
-                <ul class="multicolumn">
-                  <li>
-                    <label for="title" class="bold">Titel</label>
-                    <input id="title" type="text" name="title" required placeholder="Titel" value="<?php if (isset($formcontent)) echo $formcontent['cat_title']; ?>">
-                  </li>
-                  <li>
-                    <label>&nbsp;</label>
-                    <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" <?php if(isset($formcontent)) { if($formcontent['cat_visible']) {echo 'checked';} } ?> > Auf der Webseite anzeigen</label>
-                  </li>
-                </ul>
-              </li>  
-              <li>
-                <textarea name="content" class="tinymce"><?php if (isset($formcontent)) echo $formcontent['cat_content']; ?></textarea>
-              </li>
-              <li>
-                <ul class="row">
-                  <li class="third">
-                    <input type="submit" id="submitbutton" class="btn greenbtn" value="Speichern">
-                  </li>
-                  
-                  <li class="push-right">
-                    <?php if(isset($formcontent['cat_id'])) echo '
-                      <input type="hidden" name="id", value="'.$formcontent['cat_id'].'">
-                      <input type="submit" value="'. $formcontent['cat_title'] .' löschen" id="deletebutton" class="btn redbtn" name="deletebutton" 
-                        onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')">
-                    '; ?>                
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </fieldset>
-        </form>
-      </div>
+    <div class="editframe">
+      <form method="post" class="forms" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <fieldset>
+          <legend>
+            <?php 
+              if(isset($formcontent)) {
+                echo "Seite bearbeiten";  
+                if (isset($formcontent['cat_mtime'])) echo ' <span>(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
+              } else { echo "+ Neue Seite"; } ?></legend>
+          <ul>
+            <li>
+              <ul class="multicolumn">
+                <li>
+                  <label for="title" class="bold">Titel</label>
+                  <input id="title" type="text" name="title" required placeholder="Titel" value="<?php if (isset($formcontent)) echo $formcontent['cat_title']; ?>">
+                </li>
+                <li>
+                  <label>&nbsp;</label>
+                  <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" <?php if(isset($formcontent)) { if($formcontent['cat_visible']) {echo 'checked';} } ?> > Auf der Webseite anzeigen</label>
+                </li>
+              </ul>
+            </li>  
+            <li>
+              <textarea name="content" id="ckeditor"><?php if (isset($formcontent)) echo $formcontent['cat_content']; ?></textarea>
+            </li>
+            <li>
+              <ul class="row">
+                <li class="third">
+                  <input type="submit" id="submitbutton" class="btn greenbtn" value="Speichern">
+                </li>
+                
+                <li class="push-right">
+                  <?php if(isset($formcontent['cat_id'])) echo '
+                    <input type="hidden" name="id", value="'.$formcontent['cat_id'].'">
+                    <input type="submit" value="'. $formcontent['cat_title'] .' löschen" id="deletebutton" class="btn redbtn" name="deletebutton" 
+                      onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')">
+                  '; ?>                
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
     </div>
+    <p style="clear: both;">&nbsp;</p>
   </div>
 </body>
 <noscript>

@@ -61,6 +61,9 @@ ul#menu_list li {
   overflow: hidden;
   padding: 10px 30px 10px 20px;
 }
+#content h1.contentitem {
+  text-decoration: underline;
+}
 #content p {
   margin-bottom: 20px;
   line-height: 1.5em;

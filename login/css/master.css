@@ -103,6 +103,13 @@ a[id='prefbtn'] {
 	background: #eee;
 	box-shadow: 0px 0px 8px #000;
 }
+@-moz-document url-prefix() {
+    .editframe fieldset, .menu fieldset {
+			box-shadow: 0px 0px 0px #000;
+		}
+}
+
+
 .editframe legend, .menu legend {
 	background: #eee;
 	border-radius: 5px;
@@ -113,6 +120,10 @@ a[id='prefbtn'] {
 
 /* =Nav
 -----------------------------------------------------------------------------*/
+.menu {
+	width: 290px;
+	float: left;
+}
 .menu fieldset {
 	padding: 5px;
 }
@@ -220,6 +231,10 @@ div.menu li:hover span.tooltip {
 
 /* =content
 -----------------------------------------------------------------------------*/
+.editframe {
+	width: 620px;
+	float: right;
+}
 .editframe fieldset {
 	padding: 1em 1em 0em 1em;
 }
@@ -253,6 +268,7 @@ div.fade {
 	left: 45%;
 	padding: 20px;
 	font-size: 2em;
+	z-index: 10000000000000;
 }
 div.greenfde { background: #0f0;	border: 1px solid #0a0; }
 div.redfde { background: #faa;	border: 1px solid #f00; }
@@ -302,6 +318,23 @@ span.tooltip::after {
 span.tooltip span {
 	margin: 0px !important;
 	text-shadow: 0px 1px 0px #000;
+}
+/*remove ckeditor shadow*/
+.cke_chrome {
+  box-shadow: 0 0 0px #000 !important;
+}
+
+
+/* =Codemirror
+-----------------------------------------------------------------------------*/
+.CodeMirror {
+	font-size: 1.2em !important;
+}
+.CodeMirror-linenumber {
+  padding: 0 5px 0 0px !important;
+}
+.cm-s-monokai .CodeMirror-gutters {
+	border-right: 1px dotted #444 !important;
 }
 
 

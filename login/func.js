@@ -3,6 +3,9 @@ var Main = { }
 Main.onLoad = function() {
 	Main.dragMenu();
 	$( ".menu_list" ).sortable( "refresh" );
+
+  // Load CKEditor
+  CKEDITOR.replace( 'ckeditor' );
 }
 
 Main.dragMenu = function() {
@@ -24,8 +27,6 @@ Main.dragMenu = function() {
 Main.fade = function() {
   $("div").filter(".fade").delay(10).fadeToggle("slow", "linear").delay(1500).fadeToggle("slow", "linear");
 }
-
-
 
 
 // passcompare = function() {
