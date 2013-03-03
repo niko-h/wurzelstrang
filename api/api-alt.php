@@ -66,7 +66,7 @@
     }
 
   /**
-    * gencontent - inhalte bereitstellen
+    * getcontent - inhalte bereitstellen
     */
 
     function getcontent($db) { // sqlite-handle

@@ -3,8 +3,8 @@
 Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://bitbucket.org/LordNiko) and [Felix Menge](https://bitbucket.org/ph3l1x).
 
 * Written in HTML, CSS, PHP and JavaScript
-* Using sqlite to store data, Mozilla's Persona for accounting and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
-* Requires as little as possible from the server (php5, sqlite)
+* Using [sqlite](https://sqlite.org/) to store data, [Mozilla's Persona](https://login.persona.org/) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
+* Server-requirements are as little as possible (php5, sqlite)
 
 
 
@@ -43,12 +43,4 @@ Have a bug or a feature request? [Please open a new issue](https://bitbucket.org
 
 ## Copyright and license
 
-"THE WURZEL LICENSE" (Revision 2):
-<wurzel@nikolaushoefer.de> und <phelix@l3q.de> haben diese Datei verfasst. 
-Sie können mit diesem Material unter folgenden Bedingungen machen was Sie wollen: 
-Die Beibehaltung dieser Lizenz und eine Namensnennung ist Vorraussetzung für die Verwendung dieses Materials.
-Wir übernehmen keinerlei Garantie für eventuelle Folgen der Verwendung dieses Materials.
-Eine Verwendung findet ausschliesslich zu zivilen Zwecken und unter Beachtung und Wertschätzung der Menschenrechte statt.
-Bei Verwendung dieses Materials müssen die verwendeten Teile quelloffen bleiben.
-Wenn wir uns einmal begegnen sollten und dieses Material Ihnen das wert ist, können Sie uns auf ein Bier einladen. 
-Niko und Felix
+"DIE WURZEL LIZENZ" (Revision 4): <wurzel@nikolaushoefer.de> und <phelix@l3q.de> haben diese Software geschrieben. Mit diesem Material können Sie unter folgenden Bedingungen machen was Sie wollen: Die Beibehaltung dieser Lizenz und eine Namensnennung. Eine Verwendung findet ausschliesslich zu zivilen Zwecken und unter Beachtung und Wertschätzung der Menschenrechte statt. Alle verwendeten Bestandteile der Software müssen quelloffen bleiben. Wenn wir uns einmal begegnen sollten und dieses Material Ihnen das wert ist, können Sie uns auf ein Bier einladen.  Niko und Felix

@@ -14,16 +14,15 @@ include('func.php');          // logik
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title><?php echo $site_title; ?> - bearbeiten</title>
+  <title></title>
   <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
 
   <!-- Load jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="../lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
   <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="../lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
 
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
@@ -31,9 +30,6 @@ include('func.php');          // logik
   <!-- Load CKEditor --> 
   <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
   
-  <!-- Load TinyMCE --> 
-  <script type="text/javascript" src="lib/tinymce/jscripts/jquery.tinymce.js"></script> 
-  <script type="text/javascript" src="lib/tinymce/init.js"></script>
   <script type="text/javascript" src="func.js"></script>
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -57,17 +53,17 @@ include('func.php');          // logik
         <a id="pref_x" class="btn redbtn push-right" onclick="$('#pref_curtain').hide();">X</a>
       </div>
       <div id="prefforms">
-        <form id="prefsite" class="forms columnar fullwidth" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form id="prefsite" class="forms columnar fullwidth">
           <fieldset>
             <legend>Seiten Einstellungen</legend>
             <ul>
               <li>
                 <label for="sitetitle" class="bold">Seitentitel</label>
-                <input name="sitetitle" id="sitetitle" class="" value="<?php if(isset($siteinfo)) echo $siteinfo['title']; ?>" type="text">
+                <input name="sitetitle" id="sitetitle" class="" value="" type="text">
               </li>
               <li>
                 <label for="headline" class="bold">&Uuml;berschrift</label>
-                <input name="siteheadline" id="siteheadline" class="" value="<?php if(isset($siteinfo)) echo $siteinfo['headline']; ?>" type="text">
+                <input name="siteheadline" id="siteheadline" class="" value="" type="text">
               </li>
               <li>
                 <label for="theme" class="bold">Theme</label>
@@ -88,19 +84,19 @@ include('func.php');          // logik
           </fieldset>
         </form>
         <br>
-        <form id="prefuser" class="forms columnar fullwidth" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form id="prefuser" class="forms columnar fullwidth">
           <fieldset>
             <legend>Persona Konto &auml;ndern</legend>
             <ul>
               <li>
                 <label for="email" class="bold">Email</label>
-                <input name="email" id="email" type="email" value="<?php if(isset($user['email'])) echo $user['email']; ?>">        
+                <input name="email" id="useremail" type="email" value="">        
               </li>
               <li>
                 <label class="bold">Hinweis</label>
-                <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden Persona-Account entsprechen 
-                und wird zum Anmelden verwendet. Nehmen Sie keine Emailadresse, zu der Sie keinen Persona-
-                Account nebst Passwort eingerichtet haben.</div>
+                <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
+                und wird zum Anmelden verwendet. Tragen Sie keine Emailadresse ein, zu der Sie keinen Persona-Account nebst Passwort eingerichtet haben!
+                </div>
               </li>
               <li class="push">
                 <input type="submit" name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm('[OK] drücken um Emailadresse zu &auml;ndern.')"> 
@@ -117,7 +113,7 @@ include('func.php');          // logik
     <div class="wrapper">
       <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>Wurzelstrang CMS</span></span></a>
       <span class="head-separator"></span>
-      <a href="../index.php" target="_blank"><b><?php echo $site_title; ?></b></a>
+      <a href="../index.php" target="_blank" id="head-sitelink"></a>
       <div class="push-right">
         <span class="head-separator"></span>
         <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
@@ -141,23 +137,14 @@ include('func.php');          // logik
       <fieldset>
         <legend>Seiten</legend>
         <div class="menuhead row">
-          <a id="linknew" class="btn greenbtn bold" href="<?php echo $_SERVER['PHP_SELF']; ?>" >+ Neue Seite</a></li>
+          <a href="#" id="linknew" class="btn greenbtn bold">+ Neue Seite</a>
         </div>
-        <ul id="menu_list">
-          <?php 
-            foreach ($menu as $item) { // Menu bauen, dabei nicht angezeigte kategorien kennzeichnen
-              echo '
-                <li id="cat_'.$item[1] .'" '.($item[2] ? '' : 'class="ishidden"').' >
-                  <a href="'.$_SERVER['PHP_SELF'].'?id='.$item[1].'">
-                    <b>'.$item[0].'</b>'.( $item[2] ? '' : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>' ).'
-                  </a>
-                  <span class="dragger">&equiv;</span>
-                </li>
-              ';
-            }
-          ?>
+        <div id="menu_list_div">
+          <ul id="menu_list">
+            <!-- Here comes the Menuitems -->
+          </ul>
           <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
-        </ul>
+        </div>
       </fieldset>
     </div>
 
@@ -174,15 +161,29 @@ include('func.php');          // logik
     }
     ?>
 
+    <div class="hello">
+      <fieldset>
+        <legend>
+          Hallo
+        </legend>
+        <ul>
+          <li>
+            Hiho
+          </li>
+        </ul>
+      </fieldset>
+    </div>
     <div class="editframe">
-      <form method="post" class="forms" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <form class="forms">
         <fieldset>
           <legend>
             <?php 
               if(isset($formcontent)) {
                 echo "Seite bearbeiten";  
-                if (isset($formcontent['cat_mtime'])) echo ' <span>(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
-              } else { echo "+ Neue Seite"; } ?></legend>
+                if (isset($formcontent['cat_mtime'])) echo ' <span id="time">(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
+              } else { echo "+ Neue Seite"; } 
+            ?>
+          </legend>
           <ul>
             <li>
               <ul class="multicolumn">
@@ -197,20 +198,18 @@ include('func.php');          // logik
               </ul>
             </li>  
             <li>
-              <textarea name="content" id="ckeditor"><?php if (isset($formcontent)) echo $formcontent['cat_content']; ?></textarea>
+              <textarea name="content" id="ckeditor"></textarea>
             </li>
             <li>
               <ul class="row">
                 <li class="third">
-                  <input type="submit" id="submitbutton" class="btn greenbtn" value="Speichern">
+                  <button type="submit" id="submitbutton" class="btn greenbtn">Speichern</button>
                 </li>
                 
                 <li class="push-right">
-                  <?php if(isset($formcontent['cat_id'])) echo '
-                    <input type="hidden" name="id", value="'.$formcontent['cat_id'].'">
-                    <input type="submit" value="'. $formcontent['cat_title'] .' löschen" id="deletebutton" class="btn redbtn" name="deletebutton" 
-                      onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')">
-                  '; ?>                
+                  <input type="hidden" name="entryId", value="'.$formcontent['cat_id'].'">
+                  <button id="deletebutton" class="btn redbtn" name="deletebutton" 
+                    onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')"></button>             
                 </li>
               </ul>
             </li>
