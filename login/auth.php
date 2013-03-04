@@ -6,19 +6,30 @@ session_start();
   */
 if(isset($_POST['assertion'])) {
     $url = 'https://verifier.login.persona.org/verify';
-    $c = curl_init($url);
     $data = 'assertion='.$_POST['assertion'].'&audience=https://localhost:4443';
+    if (function_exists("curl_init")) {
+        $c = curl_init($url);
+        curl_setopt_array($c, array(
+            CURLOPT_RETURNTRANSFER  => true,
+            CURLOPT_POST            => true,
+            CURLOPT_POSTFIELDS      => $data,
+            CURLOPT_SSL_VERIFYPEER  => true,
+            CURLOPT_SSL_VERIFYHOST  => 2
+        ));
 
-    curl_setopt_array($c, array(
-        CURLOPT_RETURNTRANSFER  => true,
-        CURLOPT_POST            => true,
-        CURLOPT_POSTFIELDS      => $data,
-        CURLOPT_SSL_VERIFYPEER  => true,
-        CURLOPT_SSL_VERIFYHOST  => 2
-    ));
-
-    $result = curl_exec($c);
-    curl_close($c);
+        $result = curl_exec($c);
+        curl_close($c);
+    } else {
+        $context=stream_context_create(array("http" => array(
+            "method"  => "POST",
+            "header"  => "Content-type: application/x-www-form-urlencoded",
+            "content" => $data,
+        )));
+        $response=@file_get_contents($url, false, $context);
+        if ($response !== false) {
+            $result=strval($response);
+        }
+    }
 
     $response = json_decode($result);
     if ($response->status == 'okay') {

@@ -3,8 +3,11 @@
 Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://bitbucket.org/LordNiko) and [Felix Menge](https://bitbucket.org/ph3l1x).
 
 * Written in HTML, CSS, PHP and JavaScript
-* Using [sqlite](https://sqlite.org/) to store data, [Mozilla's Persona](https://login.persona.org/) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
-* Server-requirements are as little as possible (php5, sqlite)
+* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST API, [jQuery](http://jquery.com/) for the admin interface, [Mozilla's Persona](https://login.persona.org/) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
+* Server-requirements are as little as possible 
++ php5
++ sqlite
++ curl(recommended)
 
 
 

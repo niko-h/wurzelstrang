@@ -59,7 +59,7 @@
   */ 
 
   function getMenu() {
-    $query = 'SELECT title, id FROM sites WHERE visible=="on" ORDER BY pos ASC;';
+    $query = 'SELECT title, id FROM sites WHERE visible!=""  ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -81,7 +81,7 @@
   */
 
   function getEntries() {
-    $query = 'SELECT title, content, id FROM sites WHERE visible=="on" ORDER BY pos ASC;';
+    $query = 'SELECT title, content, id FROM sites WHERE visible!="" ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -97,17 +97,5 @@
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
   }
-
-/**
-  * reverseclean - makes html from encoded sqlite-text
-  */
-
-  // function reverseclean($str) { // String
-  //   $search  = array('&amp;', '&quot;', '&#39;', '&lt;', '&gt;' ); 
-  //   $replace = array('&'    , '"'     , "'"    , '<'   , '>'    ); 
-
-  //   $str = str_replace($search, $replace, $str); 
-  //   return $str; 
-  // } 
 
 ?>

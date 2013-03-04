@@ -10,6 +10,7 @@ onLoad = function() {
   getUser();                             // get user info
   getSiteInfo();                         // get site info
 	dragMenu();                            // build menu
+  //$('#bg').show();             // hide deletebutton
   $('#deletebutton').hide();             // hide deletebutton
 	$("#menu_list").sortable( "refresh" ); // check menu reorder state
   $( 'textarea#ckeditor' ).ckeditor();          // Load CKEditor
@@ -166,7 +167,7 @@ function getUser() {
     dataType: "json", // data type of response
     success: function(data){
       $('#deletebutton').show();
-      console.log('getUser success: '+data.user.user_email);
+      console.log('getUser success');
       user = data.user;
       renderUser(user);
     }
@@ -365,7 +366,7 @@ function renderUser(user) {
 }
 
 function renderSiteInfo(siteinfo) {
-  $('title').append(siteinfo.site_title+" - bearbeiten");
+  $('title').text(siteinfo.site_title+" - bearbeiten");
   $('#head-sitelink').html('<b>'+siteinfo.site_title+'</b>');
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
@@ -394,7 +395,7 @@ function updateEntryToJSON() {
     "id": $('#entryId').val(), 
     "title": $('#title').val(), 
     "content": $('#ckeditor').val(),
-    "visible": $('#visiblecheckbox').val(),
+    "visible": $('#visiblecheckbox').is(':checked'),
   });
   return data;
 }

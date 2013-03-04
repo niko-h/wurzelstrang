@@ -6,15 +6,26 @@
 *****************/
 
 session_start();
-include('internalauth.php');  // database authorization - enthaelt database
-include('func.php');          // logik
+require('internalauth.php');  // database authorization - enthaelt database
+  
+  // Themedir
+  $themedir = "../themes/";
+  $themes = array();
+  if (is_dir($themedir)) {  // Open a directory and read its contents
+    if ($dh = opendir($themedir)) {
+      while (($file = readdir($dh)) !== false) {
+        if ($file != '.' && $file != '..') {array_push($themes, $file);}
+      }
+      closedir($dh);
+    }
+  }
 ?>
 
 <!DOCTYPE HTML>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title></title>
+  <title>Wurzelstrang</title>
   <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
@@ -33,7 +44,7 @@ include('func.php');          // logik
   
   <script type="text/javascript" src="func.js"></script>
   <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]--> 
 
 
@@ -88,112 +99,110 @@ include('func.php');          // logik
     <div id="savedfade" class="fade greenfde">Gespeichert</div>
     <div id="deletedfade" class="fade redfde">Gelöscht.</div>
     
-    <div id="hello">
-      <fieldset>
-        <legend>
-          Hallo
-        </legend>
-        <ul>
-          <li>
-            Hiho
-          </li>
-        </ul>
-      </fieldset>
-    </div>
+    <div id="right">
 
-    <div id="edit">
-      <form action="javascript:void(0);" class="forms">
+      <div id="hello">
         <fieldset>
-          <legend id="editlegend"></legend>
-          <ul>
-            <li>
-              <ul class="multicolumn">
-                <li>
-                  <label for="title" class="bold">Titel</label>
-                  <input id="title" type="text" name="title" required placeholder="Titel" value="">
-                </li>
-                <li>
-                  <label>&nbsp;</label>
-                  <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" /> Auf der Webseite anzeigen</label>
-                </li>
-              </ul>
-            </li>  
-            <li>
-              <textarea name="content" id="ckeditor"></textarea>
-            </li>
-            <li>
-              <ul class="row">
-                <li class="third">
-                  <button id="submitbutton" class="btn greenbtn">Speichern</button>
-                </li>
-                
-                <li class="push-right">
-                  <input type="hidden" id="entryId" value="">
-                  <button id="deletebutton" class="btn redbtn" name="deletebutton" 
-                    onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['wurzelstrang.phptitle'] .'&quot; zu löschen.\')"></button>             
-                </li>
-              </ul>
-            </li>
-          </ul>
+          <legend>
+            Hallo
+          </legend>
+          <?php require('hello.html'); ?>
         </fieldset>
-      </form>
-    </div>
+      </div>
 
-    <div id="preferences">
-      <fieldset>
-        <legend>Einstellungen</legend>
-        <form id="prefsite" action="javascript:void(0);" class="forms columnar fullwidth">
+      <div id="edit">
+        <form action="javascript:void(0);" class="forms">
           <fieldset>
-            <legend>Seiten Informationen</legend>
+            <legend id="editlegend"></legend>
             <ul>
               <li>
-                <label for="sitetitle" class="bold">Seitentitel</label>
-                <input name="sitetitle" id="sitetitle" class="" value="" type="text">
+                <ul class="multicolumn">
+                  <li>
+                    <label for="title" class="bold">Titel</label>
+                    <input id="title" type="text" name="title" required placeholder="Titel" value="">
+                  </li>
+                  <li>
+                    <label>&nbsp;</label>
+                    <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" /> Auf der Webseite anzeigen</label>
+                  </li>
+                </ul>
+              </li>  
+              <li>
+                <textarea name="content" id="ckeditor"></textarea>
               </li>
               <li>
-                <label for="headline" class="bold">&Uuml;berschrift</label>
-                <input name="siteheadline" id="siteheadline" class="" value="" type="text">
-              </li>
-              <li>
-                <label for="theme" class="bold">Theme</label>
-                <select name="sitetheme" id="sitetheme" class="select">
-                  <?php foreach ($themes as $theme) {
-                    if ( isset($siteinfo['theme']) && ( $siteinfo['theme'] == $theme) ) {
-                      echo '              <option selected="selected">'.$theme.'</option>\n';
-                    } else {
-                      echo '              <option>'.$theme.'</option>\n';
-                    }
-                  } ?>
-                </select>
-              </li>
-              <li class="push">
-                <input name="submitsiteinfobtn" id="updatesitebtn" class="btn greenbtn" value="Seite aktualisieren" type="submit">    
+                <ul class="row">
+                  <li class="third">
+                    <button type="submit" id="submitbutton" class="btn greenbtn">Speichern</button>
+                  </li>
+                  
+                  <li class="push-right">
+                    <input type="hidden" id="entryId" value="">
+                    <button type="submit" id="deletebutton" class="btn redbtn" name="deletebutton" onclick="return confirm('[OK] drücken um den Eintrag zu löschen.')"></button>             
+                  </li>
+                </ul>
               </li>
             </ul>
           </fieldset>
         </form>
-        <br>
-        <form id="prefuser" action="javascript:void(0);" class="forms columnar fullwidth">
-          <fieldset>
-            <legend>Persona Konto &auml;ndern</legend>
-            <ul>
-              <li>
-                <label for="email" class="bold">Email</label>
-                <input name="email" id="useremail" type="email" value="">        
-              </li>
-              <li>
-                <label class="bold">Hinweis</label>
-                <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
-                und wird zum Anmelden verwendet. Tragen Sie keine Emailadresse ein, zu der Sie keinen Persona-Account nebst Passwort eingerichtet haben!
-                </div>
-              </li>
-              <li class="push">
-                <input type="submit" name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm('[OK] drücken um Emailadresse zu &auml;ndern.')"> 
-              </li>
-            </ul>
-          </fieldset>
-        </form>
-      </fieldset>
+      </div>
+
+      <div id="preferences">
+        <fieldset>
+          <legend>Einstellungen</legend>
+          <form id="prefsite" action="javascript:void(0);" class="forms columnar fullwidth">
+            <fieldset>
+              <legend>Seiten Informationen</legend>
+              <ul>
+                <li>
+                  <label for="sitetitle" class="bold">Seitentitel</label>
+                  <input name="sitetitle" id="sitetitle" class="" value="" type="text">
+                </li>
+                <li>
+                  <label for="headline" class="bold">&Uuml;berschrift</label>
+                  <input name="siteheadline" id="siteheadline" class="" value="" type="text">
+                </li>
+                <li>
+                  <label for="theme" class="bold">Theme</label>
+                  <select name="sitetheme" id="sitetheme" class="select">
+                    <?php foreach ($themes as $theme) {
+                      if ( isset($siteinfo['theme']) && ( $siteinfo['theme'] == $theme) ) {
+                        echo '              <option selected="selected">'.$theme.'</option>\n';
+                      } else {
+                        echo '              <option>'.$theme.'</option>\n';
+                      }
+                    } ?>
+                  </select>
+                </li>
+                <li class="push">
+                  <input name="submitsiteinfobtn" id="updatesitebtn" class="btn greenbtn" value="Seite aktualisieren" type="submit">    
+                </li>
+              </ul>
+            </fieldset>
+          </form>
+          <br>
+          <form id="prefuser" action="javascript:void(0);" class="forms columnar fullwidth">
+            <fieldset>
+              <legend>Persona Konto &auml;ndern</legend>
+              <ul>
+                <li>
+                  <label for="email" class="bold">Email</label>
+                  <input name="email" id="useremail" type="email" value="">        
+                </li>
+                <li>
+                  <label class="bold">Hinweis</label>
+                  <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
+                  und wird zum Anmelden verwendet. Tragen Sie keine Emailadresse ein, zu der Sie keinen Persona-Account nebst Passwort eingerichtet haben!
+                  </div>
+                </li>
+                <li class="push">
+                  <input type="submit" name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm('[OK] drücken um Emailadresse zu &auml;ndern.')"> 
+                </li>
+              </ul>
+            </fieldset>
+          </form>
+        </fieldset>
+      </div>
     </div>
 
     <p style="clear: both;">&nbsp;</p>
