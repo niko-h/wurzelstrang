@@ -1,12 +1,21 @@
 <?php
 session_start();
+require('../config.php');  // config file
+
+// If SSL is not configured, deny usage
+if ( HTTPS != FALSE ) {
+    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+        header("Status: 301 Moved Permanently");
+        header("Location:../api/nossl.php");
+    }
+}
 
 /**
   * persona auth
   */
 if(isset($_POST['assertion'])) {
     $url = 'https://verifier.login.persona.org/verify';
-    $data = 'assertion='.$_POST['assertion'].'&audience=https://localhost:4443';
+    $data = 'assertion='.$_POST['assertion'].'&audience='.AUDIENCE;
     if (function_exists("curl_init")) {
         $c = curl_init($url);
         curl_setopt_array($c, array(

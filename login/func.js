@@ -1,6 +1,6 @@
 /**********************************
   *
-  * JS File für das Admin-Interface
+  * JS file for the admin interface
   *
   *********************************/
 
@@ -25,8 +25,8 @@ fade = function(id) {
   * Variables
   ***********/
 
-var rootURL = "https://localhost:4443/wurzelstrang/api";  // The root URL for the RESTful services
-var apikey = "horst";
+// var rootURL = "https://localhost:4443/wurzelstrang/api";  // The root URL for the RESTful services
+// var apikey = "horst";
 var currentEntry;
 var user;
 var siteinfo;

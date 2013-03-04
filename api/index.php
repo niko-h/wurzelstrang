@@ -7,13 +7,17 @@
 
 //TODO: GET Suche
 
+require('../config.php');
+
 // If SSL is not configured, deny API usage
-if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
-    header("Status: 301 Moved Permanently");
-    header("Location:nossl.php");
+if ( HTTPS != FALSE ) {
+    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+        header("Status: 301 Moved Permanently");
+        header("Location:nossl.php");
+    }
 } else {    // else get the APIKey for private API calls
-    $APIKEY;
-    getApiKey();
+    $APIKEY = APIKEY;
+    // getApiKey();
 }
 
 require 'Slim/Slim.php';
@@ -35,20 +39,6 @@ $app->delete('/entries/:id',   'deleteEntry');
  
 $app->run();
 
-function getApiKey() {
-    $query = 'SELECT apikey FROM siteinfo;';
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC); 
-        $result = $stmt->fetch();
-        $db = null;
-        $GLOBALS['APIKEY'] = $result['apikey'];
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-}
 
 function getSiteInfo() {
     $query = 'SELECT site_title, site_theme, site_headline FROM siteinfo;';
@@ -130,7 +120,7 @@ function getEntries() {
     if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
         $query = 'SELECT title, visible, content, id, pos FROM sites ORDER BY pos ASC;';
     } else {        
-        $query = 'SELECT title, content, id, pos FROM sites WHERE visible==1 ORDER BY pos ASC;';
+        $query = 'SELECT title, content, id, pos FROM sites WHERE visible!="" ORDER BY pos ASC;';
     }
     try {
         $db = getConnection();
@@ -152,7 +142,7 @@ function getEntry($id) {
     if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
         $query = 'SELECT title, visible, content, mtime, id FROM sites WHERE id = :id;';
     } else {        
-        $query = 'SELECT title, content, id FROM sites WHERE visible==1 AND id = :id;';
+        $query = 'SELECT title, content, id FROM sites WHERE visible!="" AND id = :id;';
     }
     try {
         $db = getConnection();

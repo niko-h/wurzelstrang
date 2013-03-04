@@ -6,7 +6,17 @@
 *****************/
 
 session_start();
-require('internalauth.php');  // database authorization - enthaelt database
+require('../config.php');  // config file
+
+// If SSL is not configured, deny usage
+if ( HTTPS != FALSE ) {
+    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+        header("Status: 301 Moved Permanently");
+        header("Location:../api/nossl.php");
+    }
+}
+
+require('internalauth.php');  // database authorization
   
   // Themedir
   $themedir = "../themes/";
@@ -37,12 +47,21 @@ require('internalauth.php');  // database authorization - enthaelt database
   <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="../lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
 
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
+  <script type="text/javascript">
+    path = <? echo '"'.PATH.'"' ?>;
+  </script>
   <script type="text/javascript" src="persona.js"></script>
   <!-- Load CKEditor --> 
   <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
   <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
   
+  <script type="text/javascript">
+    rootURL = <? echo '"'.API_URL.'"' ?>;
+    apikey = <? echo '"'.APIKEY.'"' ?>;
+  </script>
   <script type="text/javascript" src="func.js"></script>
+  
+
   <!--[if lt IE 9]>
   <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]--> 

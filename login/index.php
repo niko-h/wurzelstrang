@@ -1,5 +1,14 @@
 <?php
 session_start();
+require('../config.php');  // config file
+
+// If SSL is not configured, deny usage
+if ( HTTPS != FALSE ) {
+    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+        header("Status: 301 Moved Permanently");
+        header("Location:../api/nossl.php");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -7,6 +16,9 @@ session_start();
     <title>Login</title>
     <script src="https://login.persona.org/include.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      path = <? echo '"'.PATH.'"' ?>;
+    </script>
     <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />

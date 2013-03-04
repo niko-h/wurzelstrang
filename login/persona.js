@@ -9,11 +9,10 @@ $(function() {
                 'auth.php',
                 {assertion:assertion},
                 function(msg) {
-                    //alert(msg+'login');//debug
-                    if((msg == 'yes') && window.location.pathname != "/wurzelstrang/login/wurzelstrang.php") {
+                    if((msg == 'yes') && window.location.pathname != path+"wurzelstrang.php") {
                         window.location = "wurzelstrang.php";
                     }
-                    if((msg == 'no') && window.location.pathname != "/wurzelstrang/login/index.php") {
+                    if((msg == 'no') && window.location.pathname != path+"index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }
