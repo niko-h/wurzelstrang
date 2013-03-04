@@ -1,9 +1,9 @@
 <?php 
-/***************************
+/****************
 *
 * Admin-Interface
 *
-**************************/
+*****************/
 
 session_start();
 include('internalauth.php');  // database authorization - enthaelt database
@@ -29,6 +29,7 @@ include('func.php');          // logik
   <script type="text/javascript" src="persona.js"></script>
   <!-- Load CKEditor --> 
   <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
   
   <script type="text/javascript" src="func.js"></script>
   <!--[if lt IE 9]>
@@ -38,7 +39,7 @@ include('func.php');          // logik
 
 </head>
 
-<body onload="Main.onLoad();">
+<body onload="onLoad();">
   <?php 
   /***************************
   *
@@ -46,16 +47,104 @@ include('func.php');          // logik
   *
   **************************/
   ?>
-  <div id="pref_curtain">
-    <div id="preferences">
-      <div class="head row bold">
-        Einstellungen
-        <a id="pref_x" class="btn redbtn push-right" onclick="$('#pref_curtain').hide();">X</a>
+
+  <div class="head row">
+    <div class="wrapper">
+      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>Wurzelstrang CMS</span></span></a>
+      <span class="head-separator"></span>
+      <a href="../index.php" target="_blank" id="head-sitelink"></a>
+      <div class="push-right">
+        <span class="head-separator"></span>
+        <a id="prefbtn" class="btn greybtn" href="#">Einstellungen</a> 
+        <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn">
+          <?php
+            if (isset($_SESSION['user']->email)) { 
+              echo $_SESSION['user']->email.' '; 
+            }
+          ?>
+          abmelden
+        </a>
       </div>
-      <div id="prefforms">
-        <form id="prefsite" class="forms columnar fullwidth">
+    </div>
+  </div>
+
+  <div id="page" class="row wrapper">
+
+    <div id="menu">
+      <fieldset>
+        <legend>Seiten</legend>
+        <div class="menuhead row">
+          <a href="#" id="linknew" class="btn greenbtn bold">+ Neue Seite</a>
+        </div>
+        <div id="menu_list_div">
+          <ul id="menu_list">
+            <!-- Here comes the Menuitems -->
+          </ul>
+          <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
+        </div>
+      </fieldset>
+    </div>
+
+    <div id="savedfade" class="fade greenfde">Gespeichert</div>
+    <div id="deletedfade" class="fade redfde">Gelöscht.</div>
+    
+    <div id="hello">
+      <fieldset>
+        <legend>
+          Hallo
+        </legend>
+        <ul>
+          <li>
+            Hiho
+          </li>
+        </ul>
+      </fieldset>
+    </div>
+
+    <div id="edit">
+      <form action="javascript:void(0);" class="forms">
+        <fieldset>
+          <legend id="editlegend"></legend>
+          <ul>
+            <li>
+              <ul class="multicolumn">
+                <li>
+                  <label for="title" class="bold">Titel</label>
+                  <input id="title" type="text" name="title" required placeholder="Titel" value="">
+                </li>
+                <li>
+                  <label>&nbsp;</label>
+                  <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" /> Auf der Webseite anzeigen</label>
+                </li>
+              </ul>
+            </li>  
+            <li>
+              <textarea name="content" id="ckeditor"></textarea>
+            </li>
+            <li>
+              <ul class="row">
+                <li class="third">
+                  <button id="submitbutton" class="btn greenbtn">Speichern</button>
+                </li>
+                
+                <li class="push-right">
+                  <input type="hidden" id="entryId" value="">
+                  <button id="deletebutton" class="btn redbtn" name="deletebutton" 
+                    onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['wurzelstrang.phptitle'] .'&quot; zu löschen.\')"></button>             
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+    </div>
+
+    <div id="preferences">
+      <fieldset>
+        <legend>Einstellungen</legend>
+        <form id="prefsite" action="javascript:void(0);" class="forms columnar fullwidth">
           <fieldset>
-            <legend>Seiten Einstellungen</legend>
+            <legend>Seiten Informationen</legend>
             <ul>
               <li>
                 <label for="sitetitle" class="bold">Seitentitel</label>
@@ -84,7 +173,7 @@ include('func.php');          // logik
           </fieldset>
         </form>
         <br>
-        <form id="prefuser" class="forms columnar fullwidth">
+        <form id="prefuser" action="javascript:void(0);" class="forms columnar fullwidth">
           <fieldset>
             <legend>Persona Konto &auml;ndern</legend>
             <ul>
@@ -104,119 +193,9 @@ include('func.php');          // logik
             </ul>
           </fieldset>
         </form>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="head row">
-    <div class="wrapper">
-      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>Wurzelstrang CMS</span></span></a>
-      <span class="head-separator"></span>
-      <a href="../index.php" target="_blank" id="head-sitelink"></a>
-      <div class="push-right">
-        <span class="head-separator"></span>
-        <a id="prefbtn" class="btn greybtn" onclick="$('#pref_curtain').show();">Einstellungen</a> 
-        <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn">
-          <?php
-            if (isset($_SESSION['user']->email)) { 
-              echo $_SESSION['user']->email.' '; 
-            }
-          ?>
-          abmelden
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  
-
-  <div id="page" class="row wrapper">
-
-    <div class="menu">
-      <fieldset>
-        <legend>Seiten</legend>
-        <div class="menuhead row">
-          <a href="#" id="linknew" class="btn greenbtn bold">+ Neue Seite</a>
-        </div>
-        <div id="menu_list_div">
-          <ul id="menu_list">
-            <!-- Here comes the Menuitems -->
-          </ul>
-          <span id="menu_list_help">&uarr; Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen &uarr;</span>
-        </div>
       </fieldset>
     </div>
 
-    <?php 
-    if(isset($_GET['success'])){  // animation
-      echo '<div class="fade greenfde">Gespeichert</div>
-      <script type="text/javascript">$(document).ready(Main.fade());</script>';
-    } else if(isset($_GET['doubletitle'])) {
-      echo '<div class="fade redfde">Titel schon vorhanden</div>
-      <script type="text/javascript">$(document).ready(Main.fade());</script>';
-    } else if(isset($_GET['deleted'])) {
-      echo '<div class="fade redfde">Gelöscht.</div>
-      <script type="text/javascript">$(document).ready(Main.fade());</script>';
-    }
-    ?>
-
-    <div class="hello">
-      <fieldset>
-        <legend>
-          Hallo
-        </legend>
-        <ul>
-          <li>
-            Hiho
-          </li>
-        </ul>
-      </fieldset>
-    </div>
-    <div class="editframe">
-      <form class="forms">
-        <fieldset>
-          <legend>
-            <?php 
-              if(isset($formcontent)) {
-                echo "Seite bearbeiten";  
-                if (isset($formcontent['cat_mtime'])) echo ' <span id="time">(letzte &Auml;nderung: '.strftime( '%c', $formcontent['cat_mtime'] ).')</span>'; 
-              } else { echo "+ Neue Seite"; } 
-            ?>
-          </legend>
-          <ul>
-            <li>
-              <ul class="multicolumn">
-                <li>
-                  <label for="title" class="bold">Titel</label>
-                  <input id="title" type="text" name="title" required placeholder="Titel" value="<?php if (isset($formcontent)) echo $formcontent['cat_title']; ?>">
-                </li>
-                <li>
-                  <label>&nbsp;</label>
-                  <label for="visiblecheckbox"><input id="visiblecheckbox" type="checkbox" name="visible" <?php if(isset($formcontent)) { if($formcontent['cat_visible']) {echo 'checked';} } ?> > Auf der Webseite anzeigen</label>
-                </li>
-              </ul>
-            </li>  
-            <li>
-              <textarea name="content" id="ckeditor"></textarea>
-            </li>
-            <li>
-              <ul class="row">
-                <li class="third">
-                  <button type="submit" id="submitbutton" class="btn greenbtn">Speichern</button>
-                </li>
-                
-                <li class="push-right">
-                  <input type="hidden" name="entryId", value="'.$formcontent['cat_id'].'">
-                  <button id="deletebutton" class="btn redbtn" name="deletebutton" 
-                    onclick="return confirm(\'[OK] drücken um &quot;'. $formcontent['cat_title'] .'&quot; zu löschen.\')"></button>             
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </fieldset>
-      </form>
-    </div>
     <p style="clear: both;">&nbsp;</p>
   </div>
 </body>

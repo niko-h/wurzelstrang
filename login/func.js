@@ -1,6 +1,10 @@
-var Main = {}
+/**********************************
+  *
+  * JS File für das Admin-Interface
+  *
+  *********************************/
 
-Main.onLoad = function() {
+onLoad = function() {
   hello();                               // load hello screen
   getAll();                              // get itemes for menu
   getUser();                             // get user info
@@ -8,11 +12,11 @@ Main.onLoad = function() {
 	dragMenu();                            // build menu
   $('#deletebutton').hide();             // hide deletebutton
 	$("#menu_list").sortable( "refresh" ); // check menu reorder state
-  CKEDITOR.replace('ckeditor');          // Load CKEditor
+  $( 'textarea#ckeditor' ).ckeditor();          // Load CKEditor
 }
 
-Main.fade = function() {
-  $("div").filter(".fade").delay(10).fadeToggle("slow", "linear").delay(1500).fadeToggle("slow", "linear");
+fade = function(id) {
+  $(id).delay(10).fadeToggle("slow", "linear").delay(1500).fadeToggle("slow", "linear");
 }
 
 
@@ -31,8 +35,17 @@ var siteinfo;
   * Action Listeners
   ******************/
 
+$(document).ready(function () {
+  $('#linknew').click(linknew);
+  $('#prefbtn').click(prefbtn);
+  $('#submitbutton').click(submitbutton);
+  $('#deletebutton').click(deletebutton);
+  $('#updatesitebtn').click(updatesitebtn);
+  $('#updateuserbtn').click(updateuserbtn);
+});
+
 // Register listeners
-// $('#btnSearch').click(function() {
+// $('#btnSearch').click(function() { 
 //   search($('#searchKey').val());
 //   return false;
 // });
@@ -46,35 +59,58 @@ var siteinfo;
 //     }
 // });
 
-$('#linknew').live('click', function() {
-  console.log('neuer eintrag');
-  $('.hello').hide();
-  $('.editframe').show();
+function linknew() {
+  $('#hello').hide();
+  $('#edit').show();
+  $('#preferences').hide();
   $('#deletebutton').hide();
   newEntry();
   return false;
-});
+};
 
-$('#submitbutton').click(function() {
-  if ($('#entryId').val() == '')
-    addEntry();
-  else
-    updateEntry();
+function prefbtn() {
+  console.log('einstellungen');
+  $('#hello').hide();
+  $('#edit').hide();
+  $('#preferences').show();
   return false;
-});
+};
 
-$('#deletebutton').click(function() {
-  $('.editframe').hide();
-  $('.hello').show();
+function submitbutton() {
+  if ($('#title').val() != '') {
+    if ($('#entryId').val() == '') {
+      addEntry();
+    } else { 
+      updateEntry(); 
+    }
+    return false;
+  }
+};
+
+function deletebutton() {
+  $('#edit').hide();
   deleteEntry();
   return false;
-});
+};
 
-$('#menu_list li a').live('click', function() {
-  $('.editframe').show();
-  $('.hello').hide();
+function updatesitebtn() {
+  putSiteInfo();
+  return false;
+};
+
+function updateuserbtn() {
+  putUser();
+  return false;
+};
+
+function menulink() {
+  console.log('menulink');
+  $('#hello').hide();
+  $('#edit').show();
+  $('#preferences').hide();
   getEntry($(this).data('identity'));
-});
+};
+
 
 
 /*******************
@@ -82,8 +118,9 @@ $('#menu_list li a').live('click', function() {
   ******************/
 
 function hello() {
-  $('.editframe').hide();
-  $('.hello').show();
+  $('#hello').show();
+  $('#edit').hide();
+  $('#preferences').hide();
 }
 
 // Replace broken images with generic entry image
@@ -136,6 +173,24 @@ function getUser() {
   });
 }
 
+function putUser() {
+  console.log('putUser');
+  $.ajax({
+    type: 'PUT',
+    contentType: 'application/json',
+    url: rootURL +'/user',
+    dataType: "json",
+    data: updateUserToJSON(),
+    success: function(data, textStatus, jqXHR){
+      fade('#savedfade');
+      getUser();
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert('putUser error: ' + textStatus);
+    }
+  });
+}
+
 function getSiteInfo() {
   console.log('getSiteInfo');
   $.ajax({
@@ -146,6 +201,24 @@ function getSiteInfo() {
       console.log('getSiteInfo success: ' + data.siteinfo.site_title);
       siteinfo = data.siteinfo;
       renderSiteInfo(siteinfo);
+    }
+  });
+}
+
+function putSiteInfo() {
+  console.log('putSiteInfo');
+  $.ajax({
+    type: 'PUT',
+    contentType: 'application/json',
+    url: rootURL +'/siteinfo',
+    dataType: "json",
+    data: updateSiteInfoToJSON(),
+    success: function(data, textStatus, jqXHR){
+      fade('#savedfade');
+      getSiteInfo();
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert('putSiteInfo error: ' + textStatus);
     }
   });
 }
@@ -186,14 +259,12 @@ dragMenu = function() {
 // }
 
 function getEntry(id) {
-  console.log('findById: ' + id);
   $.ajax({
     type: 'GET',
-    url: rootURL + '/entries/' + id,
+    url: rootURL + '/entries/'+id+'?apikey='+apikey,
     dataType: "json",
     success: function(data){
       $('#deletebutton').show();
-      console.log('findById success: ' + data.name);
       currentEntry = data;
       renderEntry(currentEntry);
     }
@@ -207,11 +278,11 @@ function addEntry() {
     contentType: 'application/json',
     url: rootURL +'/entries',
     dataType: "json",
-    data: formToJSON(),
+    data: newEntryToJSON(),
     success: function(data, textStatus, jqXHR){
-      alert('Entry created successfully');
-      $('#deletebutton').show();
-      $('#entryId').val(data.cat_id);
+      fade('#savedfade');
+      getEntry(data.inserted.id);
+      getAll();
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert('addEntry error: ' + textStatus);
@@ -226,9 +297,11 @@ function updateEntry() {
     contentType: 'application/json',
     url: rootURL + '/entries/' + $('#entryId').val(),
     dataType: "json",
-    data: formToJSON(),
+    data: updateEntryToJSON(),
     success: function(data, textStatus, jqXHR){
-      alert('Entry updated successfully');
+      fade('#savedfade');
+      getEntry(data.updated.id);
+      getAll();
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert('updateEntry error: ' + textStatus);
@@ -241,8 +314,10 @@ function deleteEntry() {
   $.ajax({
     type: 'DELETE',
     url: rootURL + '/entries/' + $('#entryId').val(),
+    data: JSON.stringify({"apikey": apikey}),
     success: function(data, textStatus, jqXHR){
-      alert('Entry deleted successfully');
+      fade('#deletedfade');
+      getAll();
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert('deleteEntry error');
@@ -259,44 +334,85 @@ function renderList(data) {
   // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
   console.log("renderList");
   var list = data.entries == null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
-
   $('#menu_list li').remove();
   $.each(list, function(index, entry) {
-    var visible_class = entry.cat_visible ? [] : 'class="ishidden"';
-    var visible_popup = entry.cat_visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
-    $('#menu_list').append('<li id="'+entry.cat_id+'" '+visible_class+'><a href="#" data-identity="' + entry.cat_id + '"><b>'+entry.cat_title+'</b>'+visible_popup+'</a><span class="dragger">&equiv;</span></li>');
+    var visible_class = entry.visible ? [] : 'class="ishidden"';
+    var visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
+    $('#menu_list').append('<li id="'+entry.id+'" '+visible_class+'><a href="#" class="menulink" data-identity="' + entry.id + '"><b>'+entry.title+'</b>'+visible_popup+'</a><span class="dragger">&equiv;</span></li>');
   });
+  $('#menu_list li a').click(menulink); // select entry in menu
 }
 
-function renderEntry(entry) {
-  $('#entryId').val(entry.cat_id);
-  $('#title').val(entry.cat_title);
-  $('#ckeditor').val(entry.cat_content);
-  $('#time').val(entry.cat_mtime);
-  $('#deletebutton').append(entry.cat_id+' löschen');
+function renderEntry(item) {
+  var entry = item.entry;
+  if (entry!=null && entry.id != null) {
+    var date = new Date(entry.mtime*1000).toUTCString();
+    $('#editlegend').html('Seite bearbeiten <span id="time">(letzte &Auml;nderung: '+date+'</span>');
+    $('#entryId').val(entry.id);
+    $('#title').val(entry.title);
+    $('textarea#ckeditor').val(entry.content);
+    $('#deletebutton').text(entry.title+' löschen');
+  } else { 
+    $('#editlegend').text('+ Neue Seite'); 
+    $('#entryId').val("");
+    $('#title').val("");
+    $('textarea#ckeditor').val("");
+  };
 }
 
 function renderUser(user) {
   $('#useremail').val(user.user_email);
 }
+
 function renderSiteInfo(siteinfo) {
   $('title').append(siteinfo.site_title+" - bearbeiten");
-  $('#head-sitelink').append('<b>'+siteinfo.site_title+'</b>');
+  $('#head-sitelink').html('<b>'+siteinfo.site_title+'</b>');
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
+  $('#sitetheme').val(siteinfo.site_theme);
 }
 
 
 /*******************
-  * Helper functions
+  * toJSON functions
   ******************/
+  // Helper function to serialize all the form fields into a JSON string
 
-function entryToJSON() {  // Helper function to serialize all the form fields into a JSON string
-  return JSON.stringify({
+function newEntryToJSON() { 
+  var data = JSON.stringify({
+    "apikey": apikey,
+    "title": $('#title').val(), 
+    "content": $('#ckeditor').val(),
+    "visible": $('#visiblecheckbox').val(),
+  });
+  return data;
+}
+
+function updateEntryToJSON() {  
+  var data = JSON.stringify({
+    "apikey": apikey,
     "id": $('#entryId').val(), 
     "title": $('#title').val(), 
-    "content": $('#content').val(),
+    "content": $('#ckeditor').val(),
     "visible": $('#visiblecheckbox').val(),
-    "pos": $('#pos').val()
-    });
+  });
+  return data;
+}
+
+function updateSiteInfoToJSON() {  
+  var data = JSON.stringify({
+    "apikey": apikey,
+    "title": $('#sitetitle').val(), 
+    "theme": $('#sitetheme').val(),
+    "headline": $('#siteheadline').val(),
+  });
+  return data;
+}
+
+function updateUserToJSON() {  
+  var data = JSON.stringify({
+    "apikey": apikey,
+    "email": $('#useremail').val()
+  });
+  return data;
 }

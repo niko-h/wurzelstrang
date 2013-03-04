@@ -9,9 +9,9 @@
   * Declare variables
   */
 
-  $title;
-  $theme;
-  $headline;
+  $sitetitle;
+  $sitetheme;
+  $siteheadline;
   $menuitems;
   $contentitems;
   $menu;
@@ -24,7 +24,7 @@ include('func.php');
 <!DOCTYPE HTML>
 <html>
 
-	<?php include('themes/'.$theme.'/head.php') ?>
+	<?php include('themes/'.$sitetheme.'/head.php') ?>
 
-	<?php include('themes/'.$theme.'/body.php') ?>
+	<?php include('themes/'.$sitetheme.'/body.php') ?>
 </html>

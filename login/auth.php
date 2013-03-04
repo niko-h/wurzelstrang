@@ -7,7 +7,7 @@ session_start();
 if(isset($_POST['assertion'])) {
     $url = 'https://verifier.login.persona.org/verify';
     $c = curl_init($url);
-    $data = 'assertion='.$_POST['assertion'].'&audience=http://localhost:8888';
+    $data = 'assertion='.$_POST['assertion'].'&audience=https://localhost:4443';
 
     curl_setopt_array($c, array(
         CURLOPT_RETURNTRANSFER  => true,

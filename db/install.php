@@ -60,13 +60,13 @@
                     user_session  TEXT
                   );
 
-                  CREATE TABLE IF NOT EXISTS categories(
-                    cat_id        INTEGER PRIMARY KEY,
-                    cat_title     INTEGER,
-                    cat_mtime     INTEGER,
-                    cat_content   TEXT,
-                    cat_pos       INTEGER,
-                    cat_visible   INTEGER
+                  CREATE TABLE IF NOT EXISTS sites(
+                    id        INTEGER PRIMARY KEY,
+                    title     INTEGER,
+                    mtime     INTEGER,
+                    content   TEXT,
+                    pos       INTEGER,
+                    visible   INTEGER
                   );
                   ';
         $db->exec($query) or die('Datenbankfehler');
@@ -113,7 +113,7 @@
         // }
         // unset($hasher);
 
-        $query = 'INSERT INTO categories(cat_title, cat_content, cat_pos, cat_visible) VALUES ("Hiho", "Skate ipsum dolor sit amet, Chris Buchinsky noseblunt slide 900 betty frigid air gap wall ride flail. 50-50 crooked grind hardware steps tail shinner Vatoland birdie. Sketchy Saran Wrap shinner hand rail bank backside rad. Hang-up helipop sketchy wax hip ho-ho face plant. Carve mongo dude John Lucero ollie hole skate or die grab cess slide. Flypaper bearings casper slide Rob Roskopp hang up hospital flip hurricane no comply. Hang ten rocket air fastplant boneless bigspin rail slide feeble. Frontside drop in wall ride concave 270 launch ramp face plant. Heel flip pump tailslide skate key deck crail grab Daggers coping. Pop shove-it hang-up street sketchy coping ledge rock and roll.", 1, 1);';
+        $query = 'INSERT INTO sites(title, content, pos, visible) VALUES ("Hiho", "Skate ipsum dolor sit amet, Chris Buchinsky noseblunt slide 900 betty frigid air gap wall ride flail. 50-50 crooked grind hardware steps tail shinner Vatoland birdie. Sketchy Saran Wrap shinner hand rail bank backside rad. Hang-up helipop sketchy wax hip ho-ho face plant. Carve mongo dude John Lucero ollie hole skate or die grab cess slide. Flypaper bearings casper slide Rob Roskopp hang up hospital flip hurricane no comply. Hang ten rocket air fastplant boneless bigspin rail slide feeble. Frontside drop in wall ride concave 270 launch ramp face plant. Heel flip pump tailslide skate key deck crail grab Daggers coping. Pop shove-it hang-up street sketchy coping ledge rock and roll.", 1, 1);';
         $db->exec($query) or die('Fehler beim Speichern.');
         header("Location: ../index.php");
       } else {

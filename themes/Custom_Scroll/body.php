@@ -9,7 +9,7 @@
 	<div id="mother">
 
 		<div id="head">
-			<h1><?php echo $headline ?></h1>
+			<h1><?php echo $siteheadline ?></h1>
 		</div>
 		
 		<div id="menu">
