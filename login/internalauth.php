@@ -10,9 +10,10 @@ function isadmin($mailin){ // mailadress to check
     $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
     if (file_exists($db_file)) {
         $db = new PDO("sqlite:$db_file");
-      if(!$db) die('Datenbankfehler');
-        return $db;
     }
+    if(!$db) die('Datenbankfehler. Es existiert keine Datenbank');
+    return $db;
+    
     $query = 'SELECT user_email AS email FROM user WHERE user_email = :mail LIMIT 1;'; 
       $db = getConnection();
       $stmt = $db->prepare($query);

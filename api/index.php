@@ -14,11 +14,12 @@ if ( HTTPS != FALSE ) {
     if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
         header("Status: 301 Moved Permanently");
         header("Location:nossl.php");
-    }
-} else {    // else get the APIKey for private API calls
-    $APIKEY = APIKEY;
-    // getApiKey();
+    } 
 }
+
+$APIKEY;
+$GLOBALS['APIKEY'] = APIKEY;
+// getApiKey();
 
 require 'Slim/Slim.php';
 

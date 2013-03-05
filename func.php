@@ -13,11 +13,9 @@
     $db_file = "db/content.db";    //SQLite Datenbank Dateiname
     if (file_exists($db_file)) {
         $db = new PDO("sqlite:$db_file");
-      if(!$db) die('Datenbankfehler');
-        return $db;
-    } else {
-        header("Location: db/install.php");
     }
+    if(!$db) die('Es existiert keine Datenbank. install.php aufrufen.');
+    return $db;
   }
    
 

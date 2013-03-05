@@ -239,7 +239,7 @@ dragMenu = function() {
         contentType: 'application/json',
         url: rootURL +'/neworder',
         dataType: "json",
-        data: JSON.stringify({apikey: "horst", neworder: $neworder}),
+        data: JSON.stringify({apikey: apikey, neworder: $neworder}),
         error: function(jqXHR, textStatus, errorThrown){
           alert('newOrder error: ' + textStatus);
         }

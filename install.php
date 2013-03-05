@@ -5,23 +5,35 @@
 *
 **************************/
 
-//require '../admin/lib/PasswordHash.php';
+require('config.php');
+
+// If SSL is not configured, deny API usage
+if ( HTTPS != FALSE ) {
+    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+        header("Status: 301 Moved Permanently");
+        header("Location:nossl.php");
+    } 
+}
+
+$APIKEY;
+$GLOBALS['APIKEY'] = APIKEY;
+// getApiKey();
 
 /**
   * Get Database
   */
 
-  $db_file = "content.db";    //SQLite Datenbank Dateiname
+  $db_file = "db/content.db";    //SQLite Datenbank Dateiname
 
   if (file_exists($db_file)) {
-    header("Location: ../index.php");
+    header("Location: index.php");
   } else {
   
   /**
     * Themedir
     */
 
-    $themedir = "../themes/";
+    $themedir = "themes/";
     $themes = array();
 
     // Open a known directory, and proceed to read its contents
@@ -45,10 +57,12 @@
       if( !empty($_POST['sitetitle']) 
        && !empty($_POST['sitetheme']) 
        && !empty($_POST['siteheadline']) 
-       && !empty($_POST['email']) {
+       && !empty($_POST['email'])) {
 
         //create or open the database
-        $db = new sqlite3('content.db') or die ($error);
+
+        $db = new SQLITE3("$db_file");
+        if(!$db) die('Datenbankfehler');
         $query = 'CREATE TABLE IF NOT EXISTS siteinfo(
                     site_title    TEXT,
                     site_theme    TEXT,
@@ -56,12 +70,11 @@
                   );
 
                   CREATE TABLE IF NOT EXISTS user(
-                    user_email    TEXT,
-                    user_session  TEXT
+                    user_email    TEXT
                   );
 
                   CREATE TABLE IF NOT EXISTS sites(
-                    id        INTEGER PRIMARY KEY,
+                    id        INTEGER PRIMARY KEY AUTOINCREMENT,
                     title     INTEGER,
                     mtime     INTEGER,
                     content   TEXT,
@@ -70,52 +83,58 @@
                   );
                   ';
         $db->exec($query) or die('Datenbankfehler');
-
-
+        
 
         // Seiteninfo
         $query = 'INSERT INTO
                     siteinfo(site_title, site_theme, site_headline)
                   VALUES 
-                    ("'.$_POST['sitetitle'].'"
-                    ,"'.$_POST['sitetheme'].'"
-                    ,"'.$_POST['siteheadline'].'")
+                    ( :sitetitle 
+                    , :sitetheme 
+                    , :siteheadline )
                ;';
-        $db->exec($query) or die('Fehler beim Speichern.');
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->bindValue("sitetitle", $_POST['sitetitle']);
+            $stmt->bindValue("sitetheme", $_POST['sitetheme']);
+            $stmt->bindValue("siteheadline", $_POST['siteheadline']);
+            $stmt->execute();
+        } catch(Exception $e) {
+            echo '{"error":{"text":'. $e->getMessage() .'}}';
+        }
 
         // Userinfo
         $query = 'INSERT INTO 
                     user(user_email) 
                   VALUES 
-                    ("'.$_POST['email'].'")
+                    ( :email )
                   ;';
-        $db->exec($query) or die('Fehler beim Speichern.');
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->bindValue("email", $_POST['email']);
+            $stmt->execute();
+        } catch(Exception $e) {
+            echo '{"error":{"text":'. $e->getMessage() .'}}';
+        }
 
-        // Passwort
-        // $hasher = new PasswordHash(8, false);      
-        // $password = $_POST['pass'];
-        // $passwordwdh = $_POST['passwdh'];
-        // // Passwords should never be longer than 72 characters to prevent DoS attacks
-        // if (strlen($password) > 72 || strlen($password) < 6) { die("Passwort muss zwischen 6 und 72 Zeichen lang sein."); }
+        $query = 'INSERT INTO 
+                    sites(title, content, pos, visible) 
+                  VALUES 
+                    ( :title, :content, :pos, :visible)
+                  ;';
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->bindValue("title", "Juhuu!");
+            $stmt->bindValue("content", "Eine neue Instanz von Wurzelstrang wurde installiert. Zum <a href=\"login/\" target=\"_self\">Einloggen</a>");
+            $stmt->bindValue("pos", 1);
+            $stmt->bindValue("visible", 1);
+            $stmt->execute();
+        } catch(Exception $e) {
+            echo '{"error":{"text":'. $e->getMessage() .'}}';
+        }
 
-        // // The $hash variable will contain the hash of the password
-        // $hash = $hasher->HashPassword($password);
+        header("Location: index.php");
 
-        // if (strlen($hash) >= 20) {
-        //   if( $hasher->CheckPassword($passwordwdh, $hash) ) {
-        //     $query = 'UPDATE user SET user_pass = "'.$hash.'" WHERE user_name = "'.$_POST['uname'].'";';
-        //     $db->exec($query) or die('Fehler beim Speichern.');
-        //   } else {
-        //     die('Neues Passwort und Wiederholung sind nicht gleich.');
-        //   }
-        // } else {
-        //   die('Das Password konnte nicht erstellt werden.');
-        // }
-        // unset($hasher);
-
-        $query = 'INSERT INTO sites(title, content, pos, visible) VALUES ("Hiho", "Skate ipsum dolor sit amet, Chris Buchinsky noseblunt slide 900 betty frigid air gap wall ride flail. 50-50 crooked grind hardware steps tail shinner Vatoland birdie. Sketchy Saran Wrap shinner hand rail bank backside rad. Hang-up helipop sketchy wax hip ho-ho face plant. Carve mongo dude John Lucero ollie hole skate or die grab cess slide. Flypaper bearings casper slide Rob Roskopp hang up hospital flip hurricane no comply. Hang ten rocket air fastplant boneless bigspin rail slide feeble. Frontside drop in wall ride concave 270 launch ramp face plant. Heel flip pump tailslide skate key deck crail grab Daggers coping. Pop shove-it hang-up street sketchy coping ledge rock and roll.", 1, 1);';
-        $db->exec($query) or die('Fehler beim Speichern.');
-        header("Location: ../index.php");
       } else {
         die('Es wurden nicht alle Angaben gemacht. Formular muss ausgefuellt werden.<br>
             <a href="javascript:history.back();">zurueck zum Formular</a>
@@ -132,19 +151,27 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Neue Seite erstellen</title>
-  <link rel="stylesheet" type="text/css" href="../admin/css/kube.css" />   
-  <link rel="stylesheet" type="text/css" href="../admin/css/master.css" /> 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="login/css/kube.css" />   
+  <link rel="stylesheet" type="text/css" href="login/css/master.css" /> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
   <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
   
 </head>
 
 <body>
-<div id="page">
-  <h1>Neue Seite erstellen</h1>
-  <form id="prefsite" class="forms columnar" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" target="_self">
+<div id="page" style="width: 620px;" class="row wrapper">
+  <br />
+  <h2 style="
+        border-radius: 5px;
+        padding: 10px;
+        background: #eee;
+        color: #111;
+        box-shadow: 0px 0px 8px #000;
+        text-shadow: 0px 1px 0px #fff;
+        text-align: center;">Neue Wurzelstrang Seite erstellen</h2>
+  <form id="preferences" class="forms columnar" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" target="_self">
     <fieldset>
       <legend>Seiten Informationen</legend>
       <ul>
@@ -170,6 +197,7 @@
         </li>
       </ul>
     </fieldset>
+    <br />
     <fieldset>
       <legend>Benutzer Informationen</legend>
       <ul>
@@ -177,9 +205,15 @@
           <label for="email" class="bold">Persona Email</label>
           <input name="email" id="email" type="email" >        
         </li>
+        <li>
+          <label class="bold">Hinweis</label>
+          <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
+          und wird zum Anmelden verwendet. Trage keine Emailadresse ein, zu der du keinen Persona-Account nebst Passwort eingerichtet hast!
+          </div>
+        </li>
       </ul>
     </fieldset><br>
-    <input name="submitbtn" id="submitbtn" class="btn btn-big greenbtn disabled" onclick="return allowsend();" value="Seite erstellen" type="submit"> 
+    <input name="submitbtn" id="submitbtn" class="btn btn-big greenbtn" value="Seite erstellen" type="submit"> 
   </form>
 </div>
 
