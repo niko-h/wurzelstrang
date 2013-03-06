@@ -1,6 +1,6 @@
 # Wurzelstrang CMS Installation
 
-** [Wurzelstrang CMS v0](https://bitbucket.org/LordNiko/1pagecms)
+[Wurzelstrang CMS v0](https://bitbucket.org/LordNiko/1pagecms)
 
 
 ## Getting started
@@ -18,7 +18,7 @@ Make sure you have the following installed.
 
 
 ## HTTPS/SSL
-Wurzelstrang CMS is preconfigured to be used via HTTPS. Please consider it if you havent already, since otherwise your sites security comes close to none. You dont need to buy a certificate and it is easy to create your own. But if you fear no evil, just dont forget to configure and you are free to go. Who am I to tell you not to cross that invisible bridge over the river full of crocodiles.
+Wurzelstrang CMS is preconfigured to be used via HTTPS. Please consider it if you havent already, since otherwise your sites security comes close to none. You dont need to buy a certificate and it is easy to create your own. But if you fear no evil, just dont forget to configure and you are free to go. Who am I to tell you not to cross that invisible bridge over the river full of crocodiles.  
 Sincerely, your instructions manual
 
 
@@ -35,12 +35,12 @@ Wurzelstrang does its user authorization using Mozillas Persona. Before you cont
 
 ## install.php
 
-After you edited the config.php and registered your Persona-Account, go to your Browser, go to where your Wurzelstrang-content lies and enter install.php. This might look something like this:
-* localhost/wurzelstrang/install.php
-* www.mycoolsite.com/install.php
-Fill in the form. You can edit all these informations anytime later if you want. Again, it is important you enter a valid Persona-account and since it wont be checked, make sure you have no typo.
-Then continue and voila: Your Wurzelstrang should be set up!
-Some Dummy-Content will be created. You can of course delete that.
+After you edited the config.php and registered your Persona-Account, go to your Browser, go to where your Wurzelstrang-content lies and enter install.php. This might look something like this:  
+* localhost/wurzelstrang/install.php  
+* www.mycoolsite.com/install.php  
+Fill in the form. You can edit all these informations anytime later if you want. Again, it is important you enter a valid Persona-account and since it wont be checked, make sure you have no typo.  
+Then continue and voila: Your Wurzelstrang should be set up!  
+Some Dummy-Content will be created. You can of course delete that.  
 (Help: If something went wrong and you cant enter install.php again, go to the Wurzelstrang-directory, enter the db/ folder and delete the content.db-file. Then you should be able to run install.php again.)
 
 
