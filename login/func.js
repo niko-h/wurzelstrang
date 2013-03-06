@@ -10,7 +10,6 @@ onLoad = function() {
   getUser();                             // get user info
   getSiteInfo();                         // get site info
 	dragMenu();                            // build menu
-  //$('#bg').show();             // hide deletebutton
   $('#deletebutton').hide();             // hide deletebutton
 	$("#menu_list").sortable( "refresh" ); // check menu reorder state
   $( 'textarea#ckeditor' ).ckeditor();          // Load CKEditor
@@ -25,8 +24,6 @@ fade = function(id) {
   * Variables
   ***********/
 
-// var rootURL = "https://localhost:4443/wurzelstrang/api";  // The root URL for the RESTful services
-// var apikey = "horst";
 var currentEntry;
 var user;
 var siteinfo;
@@ -37,6 +34,7 @@ var siteinfo;
   ******************/
 
 $(document).ready(function () {
+  $('#logo').click(linkhello);
   $('#linknew').click(linknew);
   $('#prefbtn').click(prefbtn);
   $('#submitbutton').click(submitbutton);
@@ -45,20 +43,12 @@ $(document).ready(function () {
   $('#updateuserbtn').click(updateuserbtn);
 });
 
-// Register listeners
-// $('#btnSearch').click(function() { 
-//   search($('#searchKey').val());
-//   return false;
-// });
-
-// Trigger search when pressing 'Return' on search key input field
-// $('#searchKey').keypress(function(e){
-//   if(e.which == 13) {
-//     search($('#searchKey').val());
-//     e.preventDefault();
-//     return false;
-//     }
-// });
+function linkhello() {
+  $('#hello').show();
+  $('#edit').hide();
+  $('#preferences').hide();
+  return false;
+};
 
 function linknew() {
   $('#hello').hide();
@@ -73,7 +63,7 @@ function prefbtn() {
   console.log('einstellungen');
   $('#hello').hide();
   $('#edit').hide();
-  $('#preferences').show();
+  $('#preferences').toggle();
   return false;
 };
 
@@ -112,6 +102,19 @@ function menulink() {
   getEntry($(this).data('identity'));
 };
 
+// $('#btnSearch').click(function() { 
+//   search($('#searchKey').val());
+//   return false;
+// });
+
+// Trigger search when pressing 'Return' on search key input field
+// $('#searchKey').keypress(function(e){
+//   if(e.which == 13) {
+//     search($('#searchKey').val());
+//     e.preventDefault();
+//     return false;
+//     }
+// });
 
 
 /*******************
@@ -122,6 +125,16 @@ function hello() {
   $('#hello').show();
   $('#edit').hide();
   $('#preferences').hide();
+}
+
+// Replace broken images with generic entry image
+$("img").error(function(){
+  $(this).attr("src", "css/bgbig.png");
+});
+
+function newEntry() {
+  currentEntry = {};
+  renderEntry(currentEntry); // Display empty form
 }
 
 // Replace broken images with generic entry image
@@ -136,15 +149,20 @@ function hello() {
 //     findByName(searchKey);
 // }
 
-function newEntry() {
-  currentEntry = {};
-  renderEntry(currentEntry); // Display empty form
-}
-
 
 /*****************
   * Call functions
   ****************/
+
+// function findByName(searchKey) {
+//   console.log('findByName: ' + searchKey);
+//   $.ajax({
+//     type: 'GET',
+//     url: rootURL + '/search/' + searchKey,
+//     dataType: "json",
+//     success: renderList 
+//   });
+// }
 
 function getAll() {
   console.log('getAll');
@@ -237,7 +255,7 @@ dragMenu = function() {
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: rootURL +'/neworder',
+        url: rootURL +'/entries/neworder',
         dataType: "json",
         data: JSON.stringify({apikey: apikey, neworder: $neworder}),
         error: function(jqXHR, textStatus, errorThrown){
@@ -248,16 +266,6 @@ dragMenu = function() {
   });
   $( "#menu_list" ).disableSelection();
 }
-
-// function findByName(searchKey) {
-//   console.log('findByName: ' + searchKey);
-//   $.ajax({
-//     type: 'GET',
-//     url: rootURL + '/search/' + searchKey,
-//     dataType: "json",
-//     success: renderList 
-//   });
-// }
 
 function getEntry(id) {
   $.ajax({

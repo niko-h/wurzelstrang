@@ -80,20 +80,13 @@ require('internalauth.php');  // database authorization
 
   <div class="head row">
     <div class="wrapper">
-      <a id="logo" href="wurzelstrang.php" target="_self"><span class="tooltip"><span>Wurzelstrang CMS</span></span></a>
+      <a id="logo" href="#" target="_self"><span class="tooltip"><span>Wurzelstrang Home</span></span></a>
       <span class="head-separator"></span>
       <a href="../index.php" target="_blank" id="head-sitelink"></a>
       <div class="push-right">
         <span class="head-separator"></span>
         <a id="prefbtn" class="btn greybtn" href="#">Einstellungen</a> 
-        <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn">
-          <?php
-            if (isset($_SESSION['user']->email)) { 
-              echo $_SESSION['user']->email.' '; 
-            }
-          ?>
-          abmelden
-        </a>
+        <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn">Abmelden</a>
       </div>
     </div>
   </div>
@@ -123,7 +116,7 @@ require('internalauth.php');  // database authorization
       <div id="hello">
         <fieldset>
           <legend>
-            Hallo
+            Wurzelstrang Home
           </legend>
           <?php require('hello.html'); ?>
         </fieldset>

@@ -30,7 +30,7 @@ $app->get('/siteinfo', 'getSiteInfo');
 $app->put('/siteinfo', 'updateSiteInfo');
 $app->get('/user', 'getUser');
 $app->put('/user', 'updateUser');
-$app->post('/neworder', 'addNewOrder');
+$app->put('/entries/neworder', 'addNewOrder');
 $app->get('/entries', 'getEntries');
 $app->get('/entries/:id',  'getEntry');
 $app->post('/entries', 'addEntry');
@@ -111,7 +111,7 @@ function updateUser() {
         $stmt->bindParam("email", $user->email);
         $stmt->execute();
         $db = null;
-        echo '{"user":{"email":"'. $user->email .'"}}';
+        echo '{"user":{"user_email":"'. $user->email .'"}}';
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }

@@ -1,20 +1,22 @@
-# [Wurzelstrang CMS v0](https://bitbucket.org/LordNiko/1pagecms)
+# [Wurzelstrang CMS v1](https://bitbucket.org/LordNiko/1pagecms)
 
 Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://bitbucket.org/LordNiko) and [Felix Menge](https://bitbucket.org/ph3l1x).
 
 * Written in HTML, CSS, PHP and JavaScript
-* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST API, [jQuery](http://jquery.com/) for the admin interface, [Mozilla's Persona](https://login.persona.org/) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
-* Server-requirements are as little as possible 
-  + php5
-  + sqlite
-  + curl(recommended)
-
+* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST API, [jQuery](http://jquery.com/) for the admin interface, [Mozilla's Persona](https://login.persona.org) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
+* Server-requirements: php5, sqlite, curl(recommended)
 
 
 ## Getting started
 
-* [Download or clone the latest release](https://bitbucket.org/LordNiko/1pagecms/).
+* [Download or clone the latest release](https://bitbucket.org/LordNiko/wurzelstrang/)
+* Read the [INSTALL.md](INSTALL.md)
 
+
+## API
+
+* Wurzelstrang has its own RESTful API.
+* [Read the Documentation here](http://docs.wurzelstrang.apiary.io/)
 
 
 ## Bug tracker
@@ -22,11 +24,9 @@ Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https:
 Have a bug or a feature request? [Please open a new issue](https://bitbucket.org/LordNiko/1pagecms/issues).
 
 
-
 ## Twitter
 
 * Follow [@Wurzelstrang on Twitter](http://twitter.com/wWrzelstrang).
-
 
 
 ## Authors
