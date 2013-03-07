@@ -15,9 +15,9 @@
 * [sqlite](https://sqlite.org/)
 * [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html)
         
-    * To make sure, .htaccess is working right. In Apache: `/etc/apache2/sites-available/default`
+    * To make sure, .htaccess is working right. In Apache: edit `/etc/apache2/sites-available/default`
     * Change `AllowOverride None` to `AllowOverride All`
-    * Reload Apache by typing `sudo /etc/init.d/apache2 reload`>
+    * Reload Apache by typing `sudo /etc/init.d/apache2 reload`
 
 ** System Recommendations **
 
