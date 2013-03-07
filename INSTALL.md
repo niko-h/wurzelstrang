@@ -12,6 +12,7 @@
 ## Server-requirements
 
 Make sure you have the following installed.
+
 * php5
 * sqlite
 * curl is recommended, but not a must have
