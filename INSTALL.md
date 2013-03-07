@@ -14,6 +14,7 @@
 * [php5](http://php.net/)
 * [sqlite](https://sqlite.org/)
 * [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html)
+        
         * To make sure, .htaccess is working right. In Apache:
                 `/etc/apache2/sites-available/default`
         * Change `AllowOverride None` to `AllowOverride All`
