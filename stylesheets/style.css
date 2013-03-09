@@ -6,6 +6,10 @@ body {
   height: 100%;
 }
 
+header {
+  margin: 20px 0;
+}
+
 .wrapper {
   margin: 20px auto;
   width: 940px;
