@@ -1,6 +1,6 @@
 # Wurzelstrang CMS Installation
 
-[Wurzelstrang CMS](https://bitbucket.org/LordNiko/1pagecms)
+[Wurzelstrang CMS](https://github.com/niko-h/wurzelstrang)
 
 ## User Requirements
 
@@ -31,7 +31,7 @@
 
 ## Installation
 
-* [Download or clone the latest release](https://bitbucket.org/LordNiko/wurzelstrang/)
+* [Download or clone the latest release](https://github.com/niko-h/wurzelstrang)
 * Go to the Wurzelstrang-directory and upload erverything.
 * In the shell, type `sudo chown -R www-data:www-data db` so the database-file can be written.
 * Now edit `config.php`. Open it in a plain text editor (not MS Word), read its comments for help and edit accordingly.
