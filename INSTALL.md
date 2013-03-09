@@ -19,7 +19,7 @@
     * Change `AllowOverride None` to `AllowOverride All`
     * Reload Apache by typing `sudo /etc/init.d/apache2 reload`
 
-** System Recommendations **
+### System Recommendations
 
 * [curl](http://curl.haxx.se/)
 * [php-curl](http://www.php.net/manual/en/book.curl.php)
