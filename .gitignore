@@ -1,0 +1,6 @@
+.*.swp
+.*~
+*.sublime-project
+*.sublime-workspace
+db/content.db
+.DS_STORE

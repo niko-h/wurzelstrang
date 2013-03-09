@@ -1,0 +1,43 @@
+# [Wurzelstrang CMS](http://www.nikolaushoefer.de/wurzelstrang)
+
+Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://bitbucket.org/LordNiko).
+
+* Written in HTML, CSS, PHP and JavaScript
+* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST API, [jQuery](http://jquery.com/) for the admin interface, [Mozilla's Persona](https://login.persona.org) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
+* Server-requirements: php5, sqlite, php-curl(recommended)
+
+
+## Getting started
+
+* [Download or clone the latest release](https://bitbucket.org/LordNiko/wurzelstrang/)
+* Read the [INSTALL.md](INSTALL.md)
+
+
+## API
+
+* Wurzelstrang has its own RESTful API.
+* [Read the Documentation here](http://docs.wurzelstrang.apiary.io/)
+
+
+## Bug tracker
+
+Have a bug or a feature request? [Open a new issue](https://bitbucket.org/LordNiko/1pagecms/issues).
+
+
+## Twitter
+
+* Follow [@Wurzelstrang on Twitter](http://twitter.com/wWrzelstrang).
+
+
+## Author
+
+**Nikolaus Höfer**
+
++ [http://nikolaushoefer.de](http://nikolaushoefer.de)
++ [http://twitter.com/Edvayne](http://twitter.com/Edvayne)
++ [https://bitbucket.org/LordNiko](https://bitbucket.org/LordNiko)
+
+
+## Copyright and license
+
+"THE WURZEL LICENSE" (Revision 4):  <kontakt@nikolaushoefer.de> created this software. You can do with it whatever you want under the following conditions: This licence must be included with the software and refer to the author. The software must only be used for non-military uses and only in compliance with human rights. All parts of this material must remain open source. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return. Niko
