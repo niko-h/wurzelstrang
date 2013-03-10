@@ -6,36 +6,71 @@ body {
   height: 100%;
 }
 
+a {
+  color: #57b;
+}
+a:hover {
+  color: #79c;
+}
+
+.wrapper {
+  margin: 0px auto;
+  width: 940px;
+  text-align: left;
+}
+
 header {
   margin: 20px 0;
 }
 
-.wrapper {
-  margin: 20px auto;
-  width: 940px;
-  padding: 20px 20px;
-  border-radius: 5px;
-  background: #eee;
-  color: #111;
-  box-shadow: 0px 0px 8px #000;
-  text-align: left;
+span#logo {
+  width: 60px;
+  background: url(logo.png) no-repeat 5px 18px #ddd;
+  height: 60px;
+  display: inline-block;
+  border-radius: 40px;
+  border: 5px solid #ddd;
+}
+span#logo:after {
+  left: 70px;
+  position: relative;
+  content: "Wurzelstrang";
 }
 
 h1 {
-  text-shadow: 0px 1px 0px #fff;
+  height: 63px;
+  line-height: 63px;
+  vertical-align: middle;
+  text-shadow: 0px 1px 0px #000;
 }
+
+header h2 {
+  margin-left: 75px;
+  display: inline-block;
+  float: left;
+  font-size: 1.4em;
+}
+
+header span.btn-group {
+  float: right;
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+/****/
 
 h2 {
   font-size: 1.5em;
 }
 
-header h2 {
-  display: inline-block;
-  float: left;
-}
-
-header span {
-  float: right;
+.wrapper section {
+  padding: 20px 20px 1px 20px;
+  border-radius: 5px;
+  background: #eee;
+  color: #111;
+  box-shadow: 0px 0px 8px #000;
 }
 
 body ul {
@@ -48,4 +83,8 @@ body ul {
   -webkit-box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
      -moz-box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
           box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
+}
+
+footer {
+  padding: 10px 20px;
 }

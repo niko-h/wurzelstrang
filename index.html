@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Wurzelstrang by niko-h</title>
+    <title>Wurzelstrang CMS</title>
 
-    <link rel="stylesheet" href="stylesheets/kube.css">
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="css/kube.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontawesome/fontawesome.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,63 +16,79 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>/// Wurzelstrang</h1>
+        <h1><span id="logo"></span></h1>
         <h2>A hierarchy-free and simple cms</h2>
 
         <span class="btn-group">
           <a class="btn" href="https://github.com/niko-h/wurzelstrang/zipball/master">Download <strong>ZIP File</strong></a>
           <a class="btn" href="https://github.com/niko-h/wurzelstrang/tarball/master">Download <strong>TAR Ball</strong></a>
-          <a class="btn" href="https://github.com/niko-h/wurzelstrang">View On <strong>GitHub</strong></a>
+          <a class="btn" style="height:13px;" href="https://github.com/niko-h/wurzelstrang">View on <i class="icon-github-sign"></i> <strong>GitHub</strong></a>
         </span>
       
         <div class="clear"></div>
       </header>
-      
+
       <section>
-      
-<ul>
-<li>Written in HTML, CSS, PHP and JavaScript</li>
-<li>Using <a href="https://sqlite.org/">sqlite</a> to store data, <a href="http://slimframework.com/">Slim Framework</a> for the REST API, <a href="http://jquery.com/">jQuery</a> for the admin interface, <a href="https://login.persona.org">Mozilla's Persona</a> for accounting, <a href="ckeditor.com">CKEditor</a> and <a href="http://kcfinder.sunhater.com/">KCFinder</a> for content editing and <a href="http://imperavi.com/kube/">Kube</a> for Administration-Interface's CSS styling</li>
-<li>Server-requirements: php5, sqlite, php-curl(recommended)</li>
-</ul>
+        <h2>About</h2>
+        <ul>
+          <p>
+            The idea behind Wurzelstrang is to give you a lightweight CMS at hand that does not get in your way of designing a website. It is designed for small websites with easy structures. The admin-interface is meant to be as easy as possible, so literally everybody can handle it. For now the interface is in german.
+          </p>
+          Written in HTML, CSS, PHP and JavaScript, using <a href="https://sqlite.org/">sqlite</a> to store data, <a href="http://slimframework.com/">Slim Framework</a> for the REST API, <a href="http://jquery.com/">jQuery</a> for the admin interface, <a href="https://login.persona.org">Mozilla's Persona</a> for accounting, <a href="ckeditor.com">CKEditor</a> and <a href="http://kcfinder.sunhater.com/">KCFinder</a> for content editing and <a href="http://imperavi.com/kube/">Kube</a> for Administration-Interface's CSS styling. <br>
+          Little server-requirements: php5, sqlite, php-curl(recommended)
+        </ul>
 
-<h2>Getting started</h2>
-<ul>
-<li>Download or clone the latest release from one of the links above.</li>
-<li>Read the <a href="https://github.com/niko-h/wurzelstrang/blob/master/INSTALL.md">INSTALL.md</a>
-</li>
-</ul>
+        <h2>Screenshot</h2>
+        <ul>
+          <img style="margin:0px 0px -20px -10px;" src="screenshot.png" alt="Screenshot">
+        </ul>
 
-<h2>API</h2>
-<ul>
-<li>Wurzelstrang has its own RESTful API. <a href="http://docs.wurzelstrang.apiary.io/">Read the Documentation here</a></li>
-</ul>
+        <h2>Demo</h2>
+        <ul>
+          <a href="#"><button class="btn">Try it out!</button></a> The content will be reset every hour.
+        </ul>
 
-<h2>Bug tracker</h2>
-<ul>
-<li>
-Have a bug or a feature request? <a href="https://github.com/niko-h/wurzelstrang/issues">Open a new issue</a>.
-</li>
-</ul>
+        <h2>Getting started</h2>
+        <ul>
+          <li>
+            Download or clone the latest release from one of the links above.
+          </li>
+          <li>
+            Read the <a href="https://github.com/niko-h/wurzelstrang/blob/master/INSTALL.md">INSTALL.md</a>
+          </li>
+        </ul>
 
-<h2>Author</h2>
-<ul>
-<strong>Nikolaus Höfer</strong>
-<li><a href="http://nikolaushoefer.de">http://nikolaushoefer.de</a></li>
-<li><a href="http://twitter.com/Edvayne">http://twitter.com/Edvayne</a></li>
-<li><a href="https://github.com/niko-h">https://github.com/niko-h</a></li>
-</ul>
+        <h2>API</h2>
+        <ul>
+          <li>
+            Wurzelstrang has its own RESTful API. <a href="http://docs.wurzelstrang.apiary.io/">Read the Documentation here</a>
+          </li>
+        </ul>
 
-<h2>Copyright and license</h2>
-<ul>
-"THE WURZEL LICENSE" (Revision 4):  <a href="mailto:kontakt@nikolaushoefer.de">kontakt@nikolaushoefer.de</a> created this software. You can do with it whatever you want under the following conditions: This licence must be included with the software and refer to the author. The software must only be used for non-military uses and only in compliance with human rights. All parts of this material must remain open source. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return. Niko
-</ul>
+        <h2>Bug tracker</h2>
+        <ul>
+          <li>
+            Have a bug or a feature request? <a href="https://github.com/niko-h/wurzelstrang/issues">Open a new issue</a>.
+          </li>
+        </ul>
 
-</section>
-<footer>
-  <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/niko-h">niko-h</a></small></p>
-</footer>
-</div>
-    
+        <h2>Author</h2>
+        <ul>
+          <strong>Nikolaus Höfer</strong>
+          <li><i class="icon-home"></i> <a href="http://nikolaushoefer.de">http://nikolaushoefer.de</a></li>
+          <li><i class="icon-twitter-sign"></i> <a href="http://twitter.com/Edvayne">http://twitter.com/Edvayne</a></li>
+          <li><i class="icon-github-sign"></i> <a href="https://github.com/niko-h">https://github.com/niko-h</a></li>
+        </ul>
+
+        <h2>Copyright and license</h2>
+        <ul>
+          "THE WURZEL LICENSE" (Revision 4):  <a href="mailto:kontakt@nikolaushoefer.de">kontakt@nikolaushoefer.de</a> created this software. You can do with it whatever you want under the following conditions: This licence must be included with the software and refer to the author. The software must only be used for non-military uses and only in compliance with human rights. All parts of this material must remain open source. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return. Niko
+        </ul>
+
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/niko-h">niko-h</a></small></p>
+      </footer>
+    </div>
   </body>
 </html>
