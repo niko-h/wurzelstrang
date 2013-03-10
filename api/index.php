@@ -198,8 +198,9 @@ function addNewOrder() {
         try {
             $db = getConnection();
             $stmt = $db->prepare($query);
-            $key++;
+            
             $stmt->bindParam("pos", $key);
+            $key++;
             $stmt->bindParam("id", $value);
             $stmt->execute();
             $db = null;

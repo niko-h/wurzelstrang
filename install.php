@@ -134,7 +134,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
 
-        header("Location: index.php");
+        
 
       } else {
         die('Es wurden nicht alle Angaben gemacht. Formular muss ausgefuellt werden.<br>

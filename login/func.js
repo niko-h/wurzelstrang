@@ -272,16 +272,17 @@ dragMenu = function() {
       delay: 150,
       appendTo: document.body,
     update: function(event, ui) {
-      neworder = $('#menu_list').sortable('toArray');
-      console.log(neworder);
+      order = $('#menu_list').sortable('toArray');
+      foo = JSON.stringify({apikey: apikey, neworder: neworder})
+      console.log(foo);
       $.ajax({
         type: 'PUT',
         contentType: 'application/json',
         url: rootURL +'/entries/neworder',
         dataType: "json",
-        data: JSON.stringify({apikey: apikey, neworder: neworder}),
+        data: JSON.stringify({apikey: apikey, neworder: order}),
         error: function(jqXHR, textStatus, errorThrown){
-          alert('newOrder error: ' + textStatus);
+          alert('newOrder error: ' + textStatus + errorThrown);
         }
       });
     }
