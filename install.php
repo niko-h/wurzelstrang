@@ -80,7 +80,8 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
                     mtime     INTEGER,
                     content   TEXT,
                     pos       INTEGER,
-                    visible   INTEGER
+                    visible   INTEGER,
+                    levels    INTEGER
                   );
                   ';
         $db->exec($query) or die('Datenbankfehler');
