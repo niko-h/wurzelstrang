@@ -164,7 +164,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 </head>
 
 <body>
-<div id="page" style="width: 620px;" class="row wrapper">
+<div id="page" style="width: 620px;display: block;" class="row wrapper">
   <br />
   <h2 style="
         border-radius: 5px;
