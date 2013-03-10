@@ -273,8 +273,7 @@ dragMenu = function() {
       appendTo: document.body,
     update: function(event, ui) {
       order = $('#menu_list').sortable('toArray');
-      foo = JSON.stringify({apikey: apikey, neworder: neworder})
-      console.log(foo);
+      console.log(order);
       $.ajax({
         type: 'PUT',
         contentType: 'application/json',
