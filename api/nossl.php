@@ -1,3 +1,10 @@
+<?php
+  if (isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'off') {
+    header("Status: 301 Moved Permanently");
+    header("Location:index.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="de">
   <head>
@@ -33,14 +40,7 @@
   <body>
     <div class="box">
       <div class="error">
-        <?php
-          if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') {
-              echo "HTTPS muss konfiguriert sein.";
-          } else {
-            header("Status: 301 Moved Permanently");
-            header("Location:/index.php");
-          }
-        ?>
+        HTTPS muss konfiguriert sein.
       </div>
     </div>
   </body>

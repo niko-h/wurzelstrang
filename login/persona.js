@@ -9,10 +9,10 @@ $(function() {
                 'auth.php',
                 {assertion:assertion},
                 function(msg) {
-                    if((msg == 'yes') && window.location.pathname != path+"wurzelstrang.php") {
+                    if((msg == 'yes') && window.location.pathname != path+"/login/wurzelstrang.php") {
                         window.location = "wurzelstrang.php";
                     }
-                    if((msg == 'no') && window.location.pathname != path+"index.php") {
+                    if((msg == 'no') && window.location.pathname != path+"/login/index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }
@@ -25,7 +25,7 @@ $(function() {
                 {logout:1},
                 function(msg) {
                     //alert(msg+'logout');//debug
-                    if(window.location.pathname != "/wurzelstrang/login/index.php") {
+                    if(window.location.pathname != path+"/login/index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }

@@ -14,18 +14,21 @@ if ( HTTPS != FALSE ) {
     if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
         header("Status: 301 Moved Permanently");
         header("Location:nossl.php");
-    } 
+    }
 }
 
+
 $APIKEY;
-$GLOBALS['APIKEY'] = APIKEY;
-// getApiKey();
+$LEVELS;
+$GLOBALS['APIKEY'] = APIKEY; // getApiKey();
+$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
 require 'Slim/Slim.php';
 
 $app = new Slim();
 
 // define routes
+$app->get('/', 'getApiInfo');
 $app->get('/siteinfo', 'getSiteInfo');
 $app->put('/siteinfo', 'updateSiteInfo');
 $app->get('/user', 'getUser');
@@ -35,11 +38,17 @@ $app->get('/entries', 'getEntries');
 $app->get('/entries/:id',  'getEntry');
 $app->post('/entries', 'addEntry');
 $app->put('/entries/:id', 'updateEntry');
+$app->put('/entries/:id/level', 'updateLevel');
 $app->delete('/entries/:id',   'deleteEntry');
 //$app->get('/entries/search/:query', 'find');
  
 $app->run();
 
+function getApiInfo() {
+    $output = '<h1>Wurzelstrang Api</h1>';
+    $output .= '<a href="//docs.wurzelstrang.apiary.io">Api-Documentation</a>';
+    echo $output;
+}
 
 function getSiteInfo() {
     $query = 'SELECT site_title, site_theme, site_headline FROM siteinfo;';
@@ -118,10 +127,18 @@ function updateUser() {
 }
 
 function getEntries() {
-    if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
-        $query = 'SELECT title, visible, content, id, pos FROM sites ORDER BY pos ASC;';
-    } else {        
-        $query = 'SELECT title, content, id, pos FROM sites WHERE visible!="" ORDER BY pos ASC;';
+    if ($GLOBALS['LEVELS']>='1') {
+        if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
+            $query = 'SELECT title, visible, content, id, pos, levels FROM sites ORDER BY pos ASC;';
+        } else {        
+            $query = 'SELECT title, content, id, pos, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
+        }
+    } else {
+        if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
+            $query = 'SELECT title, visible, content, id, pos FROM sites ORDER BY pos ASC;';
+        } else {        
+            $query = 'SELECT title, content, id, pos FROM sites WHERE visible!="" ORDER BY pos ASC;';
+        }
     }
     try {
         $db = getConnection();
@@ -140,10 +157,18 @@ function getEntries() {
 }
  
 function getEntry($id) {
-    if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
-        $query = 'SELECT title, visible, content, mtime, id FROM sites WHERE id = :id;';
-    } else {        
-        $query = 'SELECT title, content, id FROM sites WHERE visible!="" AND id = :id;';
+    if ($GLOBALS['LEVELS']>='1') {
+        if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
+            $query = 'SELECT title, visible, content, mtime, id, levels FROM sites WHERE id = :id;';
+        } else {        
+            $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" AND id = :id;';
+        }
+    } else {
+        if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
+            $query = 'SELECT title, visible, content, mtime, id FROM sites WHERE id = :id;';
+        } else {        
+            $query = 'SELECT title, content, id FROM sites WHERE visible!="" AND id = :id;';
+        }
     }
     try {
         $db = getConnection();
@@ -191,7 +216,7 @@ function addEntry() {
         header("HTTP/1.0 401 Unauthorized");
         exit;
     }
-    $query = 'INSERT INTO sites ( title, content, mtime, visible) VALUES ( :title, :content, :time, :visible );';
+    $query = 'INSERT INTO sites ( title, content, mtime, visible, levels) VALUES ( :title, :content, :time, :visible, :level );';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -200,6 +225,8 @@ function addEntry() {
         $time = time();
         $stmt->bindParam("time", $time);
         $stmt->bindParam("visible", $entry->visible);
+        $level0 = 0;
+        $stmt->bindParam("level", $level0);
         $stmt->execute();
         echo '{"inserted":{"id":'. $db->lastInsertId() .'}}';
         $time = null;
@@ -231,6 +258,28 @@ function updateEntry($id) {
         $time = null;
         $db = null;
         echo '{"updated":{"id":'. $id .'}}';
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
+function updateLevel($id) {
+    $request = Slim::getInstance()->request();
+    $body = $request->getBody();
+    $entry = json_decode($body);
+    if($entry->apikey != $GLOBALS['APIKEY']) {
+        header("HTTP/1.0 401 Unauthorized");
+        exit;
+    }
+    $query = "UPDATE sites SET levels=:levels WHERE id=:id;";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($query);
+        $stmt->bindParam("id", $id);
+        $stmt->bindParam("levels", $entry->level);
+        $stmt->execute();
+        $db = null;
+        echo '{"updated":{"id":'.$id.'}}';
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }

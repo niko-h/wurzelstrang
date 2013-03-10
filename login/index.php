@@ -15,8 +15,9 @@ if ( HTTPS != FALSE ) {
   <head>
     <title>Login</title>
     <script src="https://login.persona.org/include.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript">
+    <!-- Load jQuery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript">
       path = <? echo '"'.PATH.'"' ?>;
     </script>
     <script src="persona.js"></script>
@@ -24,25 +25,56 @@ if ( HTTPS != FALSE ) {
     <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
     <style type="text/css">
       .box {
-        margin: 30% auto;
+        margin: 200px auto;
         width: 200px;
         border-radius: 5px;
-        padding: 10px;
+        padding-top: 10px;
         padding-top: 15px;
         background: #eee;
         color: #111;
-        box-shadow: 0px 0px 8px #000;
+        box-shadow: 0px 0px 550px rgba(255,255,255,0.5);
         text-shadow: 0px 1px 0px #fff;
         text-align: center;
       }
       .box span img {
         margin-bottom: -3px;
       }
+      #logo {
+        bottom: -1px;
+        position: relative;
+      }
+      span#footer {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        background: #e2e2e2;
+        border-top: 1px solid #bbb;
+        padding: 0px 3px;
+        margin: 10px 0px 0px 0px;
+        display: block;
+        text-align: center;
+        font-size: 0.8em;
+        height: 25px;
+        line-height: 25px;
+      }
     </style>
   </head>
   <body>
     <div class="box">
-      <span><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
+      <b><?php
+        $query = 'SELECT site_title FROM siteinfo;';
+        $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
+        if (file_exists($db_file)) {
+            $db = new PDO("sqlite:$db_file");
+        }
+        if(!$db) echo('Einloggen');
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+        $siteinfo = $stmt->fetch();
+        $db = null;
+        echo $siteinfo['site_title'];
+      ?>
+    </b>
       <br><br>
       <?php
         if (isset($_SESSION['user'])){ 
@@ -52,6 +84,7 @@ if ( HTTPS != FALSE ) {
         } else { echo '<button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
                         <br><br><div class="error">Sie sind abgemeldet</div>'; }
       ?>
+      <span id="footer"><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
     </div>
   </body>
   <noscript>

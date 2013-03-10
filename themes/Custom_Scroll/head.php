@@ -9,7 +9,16 @@ global $menu, $content;
 
 foreach ($menuitems as $link) {  						// Menu bauen
   $id = str_replace(' ', '_', $link['title']).'_'.$link['id'];	// Name für href und id leerzeichen->unterstrich
-	$menu .= '<li><a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$link['title'].'</a></li>';
+
+  // In case you enabled the pseudohierarchies-feature
+  $levels = '';
+  if ($GLOBALS['LEVELS']>='1') {
+    for ($i = 0; $i < $link['levels']; $i++) {
+      $levels.='<span>+ </span>';
+    }
+  }
+
+	$menu .= '<li>'.$levels.'<a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$link['title'].'</a></li>';
 }
 
 foreach ($contentitems as $item) {					// Content bauen
@@ -25,11 +34,10 @@ foreach ($contentitems as $item) {					// Content bauen
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="themes/<?php echo $sitetheme ?>/master.css" /> 
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-	<script>!window.jQuery && document.write(unescape('%3Cscript src="lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<script>!window.jQuery.ui && document.write(unescape('%3Cscript src="lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
-	<script type="text/javascript" src="themes/<?php echo $sitetheme ?>/jquery.tinyscrollbar.min.js"></script>
+	<!-- Load jQuery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tinyscrollbar/1.66/jquery.tinyscrollbar.min.js"></script>
 	<script type="text/javascript" src="themes/<?php echo $sitetheme ?>/scrolling.js"></script>
 
 	<!--[if lt IE 9]>

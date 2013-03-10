@@ -5,6 +5,10 @@
   *
   **************************/
 
+require('config.php');
+
+$LEVELS;
+$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
 /**
   * Database action
@@ -57,7 +61,7 @@
   */ 
 
   function getMenu() {
-    $query = 'SELECT title, id FROM sites WHERE visible!=""  ORDER BY pos ASC;';
+    $query = 'SELECT title, id, levels FROM sites WHERE visible!=""  ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -79,7 +83,7 @@
   */
 
   function getEntries() {
-    $query = 'SELECT title, content, id FROM sites WHERE visible!="" ORDER BY pos ASC;';
+    $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);

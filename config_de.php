@@ -2,7 +2,7 @@
 /**
  * In dieser Datei werden Grundeinstellungen für Wurzelstrang vorgenommen.
  *
- * Mehr Informationen zur config.php gibt es auf {@link http://https://bitbucket.org/LordNiko/1pagecms git-repo}.
+ * Folgende Einstellungen sind vorgesehen: BASIS-URL, INTERNE-URL, API-URL, Sicherheitsschluessel, Sprachdatei, Pseudohierarchien, HTTPS.
  * 
  */
 
@@ -11,36 +11,34 @@
  *
  * Ersetze audience_url_here mit der Adresse (wird verwendet in auth.php) 
  */
-define('AUDIENCE', 'https://localhost:4443');
+define('AUDIENCE', 'audience_url_here');
 
 /** 
- * INTERNE URL zB: "/wurzelstrang/login/"
+ * INTERNE-URL zB: "/wurzelstrang/login/"
  *
  * Ersetze path_url_here mit der Adresse (wird verwendet in persona.js) 
  */
-define('PATH', '/wurzelstrang/login/');
+define('PATH', 'path_url_here');
 
 /** 
- * API URL zB: "https://foobar.de/wurzelstrang/api"
+ * API-URL zB: "https://foobar.de/wurzelstrang/api"
  *
  * Ersetze api_url_here mit der Adresse (wird verwendet in func.js) 
  */
-define('API_URL', 'https://localhost:4443/wurzelstrang/api');
+define('API_URL', 'api_url_here');
 
-/**#@+
- * Sicherheitsschlüssel (wird verwendet in func.js)
+/**
+ * Sicherheitsschluessel (wird verwendet in func.js)
  *
  * Ändere den KEY in eine beliebige, möglichst einzigartige Phrase. 
  * Auf der Seite {@link https://www.random.org/passwords/?num=1&len=24 random.org password generator} 
  * kannst du dir einen KEY generieren lassen. Du kannst den Schlüssel jederzeit wieder ändern.
  *
  */
-define('APIKEY', 'horst');
-
-/**#@-*/
+define('APIKEY', 'KEY');
 
 /**
- * Wurzelstrang Sprachdatei
+ * Sprachdatei
  *
  * Hier kannst du einstellen, welche Sprache genutzt werden soll. Die entsprechende
  * Sprachdatei muss im Ordner languages/ vorhanden sein, beispielsweise de_DE.txt
@@ -51,13 +49,20 @@ define('APIKEY', 'horst');
 // NOCH NICHT IMPLEMENTIERT!
 
 /** 
+ * Pseudohierarchien
+ *
+ * Ergaenzt die Daten um ein Feld "Level", um zB visuelle Einrueckungen von Eintraegen
+ * zum suggerieren von hierarchisch angeordneten Eintraegen
+ * WICHTIG: Muss beim erzeugen der Datenbank konfiguriert, werden, oder die Datenbank muss von Hand angepasst werden.
+ * Die Zahl besagt, wie viele Ebenen erlaubt sind. 0 deaktiviert das Feature.
+ */
+define('LEVELS', '0');
+
+/** 
  * HTTPS Einstellung (wird verwendet in login/index.php, login/wurzelstrang.php & api/index.php)
  * 
  * Hier kannst du die Verwendung von HTTPS festlegen.
  * BITTE verwende HTTPS !1!! Es nicht zu verwenden ist unsicher! 
- * Hier sind zwei Links zum Thema Zertifikate, und warum eigene Zertifikate gut sind, sowie ueber die Konfiguration von HTTPS in MAMP:
- * - {@link http://blog.fefe.de/?ts=b25933c5 blog.fefe.de} 
- * - {@link http://soundsplausible.com/2012/01/14/enable-ssl-in-mamp-2-0-5/ soundsplausible-blog} 
  * Ersetze TRUE durch FALSE, wenn du kein SSL verwenden möchtest. 
  */
 define('HTTPS', TRUE);

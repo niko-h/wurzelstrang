@@ -5,14 +5,18 @@
   *********************************/
 
 onLoad = function() {
-  hello();                               // load hello screen
-  getAll();                              // get itemes for menu
-  getUser();                             // get user info
-  getSiteInfo();                         // get site info
-	dragMenu();                            // build menu
-  $('#deletebutton').hide();             // hide deletebutton
-	$("#menu_list").sortable( "refresh" ); // check menu reorder state
-  $( 'textarea#ckeditor' ).ckeditor();          // Load CKEditor
+    $("#loader").hide();
+    hello();                               // load hello screen
+    getAll();                              // get itemes for menu
+    getUser();                             // get user info
+    getSiteInfo();                         // get site info
+  	dragMenu();                            // build menu
+    $('#page').fadeToggle(800);
+    $('.head').fadeToggle(800);
+    $('#deletebutton').hide();             // hide deletebutton
+    $('#leveloption').hide();
+  	$("#menu_list").sortable( "refresh" ); // check menu reorder state
+    $( 'textarea#ckeditor' ).ckeditor();          // Load CKEditor
 }
 
 fade = function(id) {
@@ -41,6 +45,8 @@ $(document).ready(function () {
   $('#deletebutton').click(deletebutton);
   $('#updatesitebtn').click(updatesitebtn);
   $('#updateuserbtn').click(updateuserbtn);
+  $('#leveldown').click(leveldown);
+  $('#levelup').click(levelup);
 });
 
 function linkhello() {
@@ -55,6 +61,7 @@ function linknew() {
   $('#edit').show();
   $('#preferences').hide();
   $('#deletebutton').hide();
+  $('#leveloption').hide();
   newEntry();
   return false;
 };
@@ -81,6 +88,20 @@ function submitbutton() {
 function deletebutton() {
   $('#edit').hide();
   deleteEntry();
+  return false;
+};
+
+function levelup() {
+  var value = parseFloat($('#levelcount').text());
+  if (value<levelsenabled) { value++; }
+  updateLevel(value);
+  return false;
+};
+
+function leveldown() {
+  var value = parseFloat($('#levelcount').text());
+  if (value>=1) { value--; }
+  updateLevel(value);
   return false;
 };
 
@@ -251,15 +272,16 @@ dragMenu = function() {
       delay: 150,
       appendTo: document.body,
     update: function(event, ui) {
-      $neworder = $('#menu_list').sortable('toArray');
+      order = $('#menu_list').sortable('toArray');
+      console.log(order);
       $.ajax({
-        type: 'POST',
+        type: 'PUT',
         contentType: 'application/json',
         url: rootURL +'/entries/neworder',
         dataType: "json",
-        data: JSON.stringify({apikey: apikey, neworder: $neworder}),
+        data: JSON.stringify({apikey: apikey, neworder: order}),
         error: function(jqXHR, textStatus, errorThrown){
-          alert('newOrder error: ' + textStatus);
+          alert('newOrder error: ' + textStatus + errorThrown);
         }
       });
     }
@@ -274,6 +296,7 @@ function getEntry(id) {
     dataType: "json",
     success: function(data){
       $('#deletebutton').show();
+      $('#leveloption').show();
       currentEntry = data;
       renderEntry(currentEntry);
     }
@@ -318,6 +341,25 @@ function updateEntry() {
   });
 }
 
+function updateLevel(dir) {
+  console.log('updateLevel');
+  console.log(dir);
+  $.ajax({
+    type: 'PUT',
+    contentType: 'application/json',
+    url: rootURL + '/entries/'+$('#entryId').val()+'/level',
+    dataType: "json",
+    data: updateLevelToJSON(dir),
+    success: function(data, textStatus, jqXHR){
+      getEntry(data.updated.id);
+      getAll();
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert('updateEntry error: ' + textStatus);
+    }
+  });
+}
+
 function deleteEntry() {
   console.log('deleteEntry');
   $.ajax({
@@ -345,9 +387,16 @@ function renderList(data) {
   var list = data.entries == null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
   $('#menu_list li').remove();
   $.each(list, function(index, entry) {
-    var visible_class = entry.visible ? [] : 'class="ishidden"';
-    var visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
-    $('#menu_list').append('<li id="'+entry.id+'" '+visible_class+'><a href="#" class="menulink" data-identity="' + entry.id + '"><b>'+entry.title+'</b>'+visible_popup+'</a><span class="dragger">&equiv;</span></li>');
+    visible_class = entry.visible ? [] : ' ishidden';
+    visible_icon = entry.visible ? [] : '<i class="icon-eye-close eyeshut"></i>';
+    visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
+    levels = '';
+    if (levelsenabled >= '1' && entry.levels>=1) {
+      for (var i = 0; i < entry.levels; i++) {
+        levels+='<span class="levels"></span>';
+      };
+    }
+    $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-reorder"></i></span></li>');
   });
   $('#menu_list li a').click(menulink); // select entry in menu
 }
@@ -355,14 +404,20 @@ function renderList(data) {
 function renderEntry(item) {
   var entry = item.entry;
   if (entry!=null && entry.id != null) {
-    var date = new Date(entry.mtime*1000).toUTCString();
-    $('#editlegend').html('Seite bearbeiten <span id="time">(letzte &Auml;nderung: '+date+'</span>');
+    date = new Date(entry.mtime*1000).toUTCString();
+    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: '+date+'</span>');
     $('#entryId').val(entry.id);
     $('#title').val(entry.title);
+    if(entry.visible==1){
+      $('#visiblecheckbox').attr('checked', 'checked');
+    } else {
+      $('#visiblecheckbox').removeAttr('checked');
+    }
     $('textarea#ckeditor').val(entry.content);
-    $('#deletebutton').text(entry.title+' löschen');
+    $('#levelcount').text(entry.levels);
+    $('#deletebutton').html('<i class="icon-remove"></i> Löschen');
   } else { 
-    $('#editlegend').text('+ Neue Seite'); 
+    $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite'); 
     $('#entryId').val("");
     $('#title').val("");
     $('textarea#ckeditor').val("");
@@ -375,7 +430,7 @@ function renderUser(user) {
 
 function renderSiteInfo(siteinfo) {
   $('title').text(siteinfo.site_title+" - bearbeiten");
-  $('#head-sitelink').html('<b>'+siteinfo.site_title+'</b>');
+  $('#head-sitelink').html('<b>'+siteinfo.site_title+' <i class="icon-caret-right"></i></b>');
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
   $('#sitetheme').val(siteinfo.site_theme);
@@ -403,7 +458,15 @@ function updateEntryToJSON() {
     "id": $('#entryId').val(), 
     "title": $('#title').val(), 
     "content": $('#ckeditor').val(),
-    "visible": $('#visiblecheckbox').is(':checked'),
+    "visible": $('#visiblecheckbox').is(':checked')
+  });
+  return data;
+}
+
+function updateLevelToJSON(dir) {  
+  var data = JSON.stringify({
+    "apikey": apikey,
+    "level": dir
   });
   return data;
 }

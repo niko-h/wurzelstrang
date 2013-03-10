@@ -16,8 +16,9 @@ if ( HTTPS != FALSE ) {
 }
 
 $APIKEY;
-$GLOBALS['APIKEY'] = APIKEY;
-// getApiKey();
+$LEVELS;
+$GLOBALS['APIKEY'] = APIKEY; // getApiKey();
+$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
 /**
   * Get Database
@@ -79,7 +80,8 @@ $GLOBALS['APIKEY'] = APIKEY;
                     mtime     INTEGER,
                     content   TEXT,
                     pos       INTEGER,
-                    visible   INTEGER
+                    visible   INTEGER,
+                    levels    INTEGER
                   );
                   ';
         $db->exec($query) or die('Datenbankfehler');
@@ -117,17 +119,16 @@ $GLOBALS['APIKEY'] = APIKEY;
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
 
-        $query = 'INSERT INTO 
-                    sites(title, content, pos, visible) 
-                  VALUES 
-                    ( :title, :content, :pos, :visible)
-                  ;';
+        $query = 'INSERT INTO sites(title, content, pos, visible, levels) VALUES ( :title, :content, :pos, :visible, :level);';
         try {
             $stmt = $db->prepare($query);
             $stmt->bindValue("title", "Juhuu!");
             $stmt->bindValue("content", "Eine neue Instanz von Wurzelstrang wurde installiert. Zum <a href=\"login/\" target=\"_self\">Einloggen</a>");
-            $stmt->bindValue("pos", 1);
-            $stmt->bindValue("visible", 1);
+            $eins = 1;
+            $stmt->bindValue("pos", $eins);
+            $stmt->bindValue("visible", $eins);
+            $level0 = 0;
+            $stmt->bindValue("level", $level0);
             $stmt->execute();
         } catch(Exception $e) {
             echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -153,15 +154,14 @@ $GLOBALS['APIKEY'] = APIKEY;
   <title>Neue Seite erstellen</title>
   <link rel="stylesheet" type="text/css" href="login/css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="login/css/master.css" /> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="lib/jquery-1.8.2.min.js"%3E%3C/script%3E'))</script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-  <script>!window.jQuery.ui && document.write(unescape('%3Cscript src="lib/jquery-ui-1.9.0.custom.min.js"%3E%3C/script%3E'))</script>
+  <!-- Load jQuery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
   
 </head>
 
 <body>
-<div id="page" style="width: 620px;" class="row wrapper">
+<div id="page" style="width: 620px;display: block;" class="row wrapper">
   <br />
   <h2 style="
         border-radius: 5px;

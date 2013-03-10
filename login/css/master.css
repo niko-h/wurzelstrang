@@ -27,8 +27,16 @@ body {
 
 /* =Layout
 -----------------------------------------------------------------------------*/
+
+#loader {
+	margin: 30% auto;
+	width: 100%;
+	text-align: center;
+}
+
 #page {
 	color: #111;
+	display: none;
 }
 
 .wrapper {
@@ -55,6 +63,7 @@ div.head {
 	font-size: 1.1em;
 	line-height: 40px;
 	color: #111;
+	display: none;
 }
 a#logo {
 	margin-top: -3px;
@@ -75,11 +84,11 @@ a#logo:hover span.tooltip {
 	text-decoration: none;
 }
 #logo + span + a:hover {
-	text-decoration: underline;
+	text-decoration: none;
 	text-shadow: 0px 0px 0px transparent;
 }
 #logo + span + a:hover:after {
-	content: " - Seite besuchen";
+	content: " Seite besuchen";
 	text-decoration: none;
 }
 a[id='prefbtn'] {
@@ -175,19 +184,54 @@ div#menu li{
 	border:1px solid #bbb;
 	margin: 0px 10px 4px 10px;
 	border-radius: 2px;
+	padding: 0;
+	height: 29px;
 }
 div#menu li:hover {
 	border-color: #444;
 }
 div#menu li:hover span.tooltip {
-	margin: -21px 0px 0px 200px;
+	margin: -21px 0px 0px 225px;
+}
+
+#menu_list li .levels {
+	color: #888;
+	margin: -4px 4px -4px -4px;
+	padding: 4px;
+	height: 21px;
+	float: left;
+	border-right: 1px solid #bbb;
+	display: inline-block;
+	box-shadow: inset 2px 0 3px #ccc;
+}
+
+#menu_list li a{
+	width: 217px;
+}
+
+#menu_list li a i.edit{
+	display: none;
+}
+#menu_list li a i.eyeshut ,
+#menu_list li a:hover i.edit{
+	display: inline-block;
+	float: right;
+	position: relative;
+	top: 3px;
+	margin-left: 4px;
+}
+
+#menu_list li .dragger {
+	width: 20px;
+	position: relative;
 }
 
  #menu_list li a
 ,#menu_list li .dragger {
 	padding: 4px;
-	display: block;
+	display: inline-block;
 	color: #111;
+	height: 21px;
 	text-decoration: none;
 	background: #eee;
 	box-shadow: inset 0px 1px 1px #fff;
@@ -203,19 +247,28 @@ div#menu li:hover span.tooltip {
 }
 
 #menu_list li .dragger {
-	cursor: move;
+	cursor: ns-resize;
 	color: #888;
 	margin: 0px;
-	width: 20px;
 	text-align: center;
-	font-size: 2em;
-	float: right;
+	font-size: 1.1em;
 	border-left: 1px solid #bbb;
-	margin-top: -29px;
 }
 @-moz-document url-prefix() {
 	#menu_list li .dragger {
-		font-size: 1.5em;
+		font-size: 1.1em;
+		top: -29px;
+	}
+}
+@-moz-document url-prefix() {
+	#menu_list li a i.eyeshut,
+	#menu_list li a:hover i.edit{
+		top: -19px;
+	}
+}
+@-moz-document url-prefix() {
+	span#level {
+		height: 17px !important;
 	}
 }
 .dragger_placeholder { 
@@ -252,6 +305,11 @@ div#menu li:hover span.tooltip {
 #edit fieldset, #hello fieldset, #preferences fieldset {
 	padding: 1em 1em 0em 1em;
 }
+
+
+/* =preferences
+-----------------------------------------------------------------------------*/
+
 #edit textarea {
 	width: 510px;
 	min-height: 500px;
@@ -262,10 +320,33 @@ div#menu li:hover span.tooltip {
 	font-weight: normal;
 }
 
+/* =content
+-----------------------------------------------------------------------------*/
+
+span#level {
+	height: 14px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #999;
+	box-shadow: 0 1px #ccc;
+	background: #ccc; /* Old browsers */
+	background: -moz-linear-gradient(top, #ccc 0%, #eee 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ccc), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ccc 0%,#eee 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ccc 0%,#eee 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ccc 0%,#eee 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #ccc 0%,#eee 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ccc', endColorstr='#eee',GradientType=0 ); /* IE6-9 */
+}
+
 
 /* =Misc
 -----------------------------------------------------------------------------*/
 
+.btn-prepend {
+	margin-right: -2px;
+	border-radius: 4px 0 0 4px;
+	float: left;
+}
 div.fade {
 	position: absolute;
 	margin: auto;

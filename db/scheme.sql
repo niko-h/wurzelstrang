@@ -18,7 +18,8 @@ CREATE TABLE sites(
 	mtime			INTEGER,
 	content		TEXT,
 	pos				INTEGER,
-	visible		INTEGER
+	visible		INTEGER,
+	levels		INTEGER
 );
 
 INSERT INTO siteinfo(site_title, site_theme, site_headline) VALUES ("Wurzelstrang Demo", "Standart", "Wurzelstrang");
