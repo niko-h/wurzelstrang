@@ -119,20 +119,16 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
 
-        if (LEVELS>='1') {
-          $query = 'INSERT INTO sites(title, content, pos, visible, level) VALUES ( :title, :content, :pos, :visible, :level);';
-        } else {
-          $query = 'INSERT INTO sites(title, content, pos, visible) VALUES ( :title, :content, :pos, :visible);';
-        }
+        $query = 'INSERT INTO sites(title, content, pos, visible, levels) VALUES ( :title, :content, :pos, :visible, :level);';
         try {
             $stmt = $db->prepare($query);
             $stmt->bindValue("title", "Juhuu!");
             $stmt->bindValue("content", "Eine neue Instanz von Wurzelstrang wurde installiert. Zum <a href=\"login/\" target=\"_self\">Einloggen</a>");
-            $stmt->bindValue("pos", 1);
-            $stmt->bindValue("visible", 1);
-            if (LEVELS>='1') {
-              $stmt->bindValue("level", 0);
-            }
+            $eins = 1;
+            $stmt->bindValue("pos", $eins);
+            $stmt->bindValue("visible", $eins);
+            $level0 = 0;
+            $stmt->bindValue("level", $level0);
             $stmt->execute();
         } catch(Exception $e) {
             echo '{"error":{"text":'. $e->getMessage() .'}}';

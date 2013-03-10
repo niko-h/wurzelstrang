@@ -216,7 +216,7 @@ function addEntry() {
         header("HTTP/1.0 401 Unauthorized");
         exit;
     }
-    $query = 'INSERT INTO sites ( title, content, mtime, visible) VALUES ( :title, :content, :time, :visible );';
+    $query = 'INSERT INTO sites ( title, content, mtime, visible, levels) VALUES ( :title, :content, :time, :visible, :level );';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -225,6 +225,8 @@ function addEntry() {
         $time = time();
         $stmt->bindParam("time", $time);
         $stmt->bindParam("visible", $entry->visible);
+        $level0 = 0;
+        $stmt->bindParam("level", $entry->$level0);
         $stmt->execute();
         echo '{"inserted":{"id":'. $db->lastInsertId() .'}}';
         $time = null;
