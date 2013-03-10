@@ -226,7 +226,7 @@ function addEntry() {
         $stmt->bindParam("time", $time);
         $stmt->bindParam("visible", $entry->visible);
         $level0 = 0;
-        $stmt->bindParam("level", $entry->$level0);
+        $stmt->bindParam("level", $level0);
         $stmt->execute();
         echo '{"inserted":{"id":'. $db->lastInsertId() .'}}';
         $time = null;
