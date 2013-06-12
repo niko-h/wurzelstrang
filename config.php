@@ -11,7 +11,7 @@
  *
  * Ersetze audience_url_here mit der Adresse (wird verwendet in auth.php) 
  */
-define('AUDIENCE', 'https://localhost:4443');
+define('AUDIENCE', 'http://localhost:8888');
 
 /** 
  * INTERNE-URL zB: "/wurzelstrang/login/"
@@ -25,7 +25,7 @@ define('PATH', '/wurzelstrang-dev');
  *
  * Ersetze api_url_here mit der Adresse (wird verwendet in func.js) 
  */
-define('API_URL', 'https://localhost:4443/wurzelstrang-dev/api');
+define('API_URL', 'http://localhost:8888/wurzelstrang-dev/api');
 
 /**
  * Sicherheitsschlüssel (wird verwendet in func.js)
@@ -66,6 +66,6 @@ define('LEVELS', '3');
  * BITTE verwende HTTPS !1!! Es nicht zu verwenden ist unsicher! 
  * Ersetze TRUE durch FALSE, wenn du kein SSL verwenden möchtest. 
  */
-define('HTTPS', TRUE);
+define('HTTPS', FALSE);
 
 ?>

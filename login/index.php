@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors',1); 
+error_reporting(-1);
+
 session_start();
 require('../config.php');  // config file
 
@@ -6,7 +9,7 @@ require('../config.php');  // config file
 if ( HTTPS != FALSE ) {
     if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
         header("Status: 301 Moved Permanently");
-        header("Location:../api/nossl.php");
+        header("Location:".AUDIENCE."/login");
     }
 }
 ?>
@@ -18,13 +21,13 @@ if ( HTTPS != FALSE ) {
     <!-- Load jQuery -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript">
-      path = <? echo '"'.PATH.'"' ?>;
-    </script>
-    <script src="persona.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/kube.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
-    <style type="text/css">
-      .box {
+    path = <?php echo '"'.PATH.'"' ?>;
+  </script>
+  <script src="persona.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/kube.css" media="all" />
+  <link rel="stylesheet" type="text/css" href="css/master.css" media="all" />
+  <style type="text/css">
+    .box {
         margin: 200px auto;
         width: 200px;
         border-radius: 5px;
