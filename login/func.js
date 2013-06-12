@@ -8,7 +8,8 @@ onLoad = function() {
     $("#loader").hide();
     hello();                               // load hello screen
     getAll();                              // get itemes for menu
-    getUser();                             // get user info
+    getAdmin();                            // get admin info
+    getUsers();                            // get users info 
     getSiteInfo();                         // get site info
   	dragMenu();                            // build menu
     $('#page').fadeToggle(800);
@@ -44,7 +45,8 @@ $(document).ready(function () {
   $('#submitbutton').click(submitbutton);
   $('#deletebutton').click(deletebutton);
   $('#updatesitebtn').click(updatesitebtn);
-  $('#updateuserbtn').click(updateuserbtn);
+  $('#updateadminbtn').click(updateadminbtn);
+  $('#submituserbtn').click(submitnewusrbtn);
   $('#leveldown').click(leveldown);
   $('#levelup').click(levelup);
 });
@@ -110,8 +112,16 @@ function updatesitebtn() {
   return false;
 };
 
-function updateuserbtn() {
-  putUser();
+function updateadminbtn() {
+  putAdmin();
+  return false;
+};
+function submitnewusrbtn() {
+  postUser();
+  return false;
+};
+function deleteusrbtn() {
+  deleteUser($(this).data('identity'));
   return false;
 };
 
@@ -198,41 +208,89 @@ function getAll() {
   });
 }
 
-function getUser() {
-  console.log('getUser');
+function getAdmin() {
   $.ajax({
     type: 'GET',
-    url: rootURL+'/user?apikey='+apikey,
+    url: rootURL+'/users?admin=1&apikey='+apikey,
     dataType: "json", // data type of response
     success: function(data){
+      console.log('getAdmin success');
       $('#deletebutton').show();
-      console.log('getUser success');
-      user = data.user;
-      renderUser(user);
+      renderAdmin(data);
     }
   });
 }
 
-function putUser() {
-  console.log('putUser');
+function putAdmin() {
   $.ajax({
     type: 'PUT',
     contentType: 'application/json',
-    url: rootURL +'/user',
+    url: rootURL +'/users',
     dataType: "json",
-    data: updateUserToJSON(),
+    data: updateAdminToJSON(),
     success: function(data, textStatus, jqXHR){
+      console.log('putAdmin success');
       fade('#savedfade');
-      getUser();
+      getAdmin();
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert('putUser error: ' + textStatus);
+      alert('putAdmin error: ' + textStatus);
     }
   });
 }
 
+function getUsers() {
+  $.ajax({
+    type: 'GET',
+    url: rootURL+'/users?apikey='+apikey,
+    dataType: "json", // data type of response
+    success: function(data){
+      $('#deletebutton').show();
+      console.log('getUsers success');
+      renderUserList(data);
+    }
+  });
+}
+
+function postUser() {
+  $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: rootURL +'/users',
+    dataType: "json",
+    data: userToJSON(),
+    success: function(data, textStatus, jqXHR){
+      console.log('postUser success');
+      fade('#savedfade');
+      getUsers();
+      $('#newuseremail').val("");
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      console.log('postUser error: ' + textStatus);
+      getUsers();
+      $('#newuseremail').val("");
+    }
+  });
+}
+
+function deleteUser(user) {
+  $.ajax({
+    type: 'DELETE',
+    url: rootURL + '/users',
+    data: JSON.stringify({"apikey": apikey,"email":user}),
+    success: function(data, textStatus, jqXHR){
+      console.log('deleteUsersuccess: '+ user);
+      fade('#deletedfade');
+      getUsers();
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert('deleteUser error: '+$('#user').val());
+    }
+  });
+}
+
+
 function getSiteInfo() {
-  console.log('getSiteInfo');
   $.ajax({
     type: 'GET',
     url: rootURL+'/siteinfo',
@@ -424,8 +482,23 @@ function renderEntry(item) {
   };
 }
 
-function renderUser(user) {
-  $('#useremail').val(user.user_email);
+function renderAdmin(data) {
+  console.log("renderAdmin");
+  var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
+  $.each(list, function(index, user) {
+    $('#adminemail').val(user.user_email);
+  });
+}
+
+function renderUserList(data) {
+  // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
+  console.log("renderUserList");
+  var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
+  $('#user-list li').remove();
+  $.each(list, function(index, user) {
+    $('#user-list').append('<li class="push">'+user.user_email+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="deleteusrbutton" data-identity="'+user.user_email+'" href="#">entfernen</a></li>');
+  });
+  $('#user-list li a#deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
 function renderSiteInfo(siteinfo) {
@@ -481,10 +554,18 @@ function updateSiteInfoToJSON() {
   return data;
 }
 
-function updateUserToJSON() {  
+function updateAdminToJSON() {  
   var data = JSON.stringify({
     "apikey": apikey,
-    "email": $('#useremail').val()
+    "email": $('#adminemail').val()
+  });
+  return data;
+}
+
+function userToJSON() {  
+  var data = JSON.stringify({
+    "apikey": apikey,
+    "email": $('#newuseremail').val()
   });
   return data;
 }

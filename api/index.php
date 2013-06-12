@@ -31,15 +31,17 @@ $app = new Slim();
 $app->get('/', 'getApiInfo');
 $app->get('/siteinfo', 'getSiteInfo');
 $app->put('/siteinfo', 'updateSiteInfo');
-$app->get('/user', 'getUser');
-$app->put('/user', 'updateUser');
+$app->get('/users', 'getUser');
+$app->put('/users', 'updateAdmin');
+$app->post('/users', 'addUser');
+$app->delete('/users', 'deleteUser');
 $app->put('/entries/neworder', 'addNewOrder');
 $app->get('/entries', 'getEntries');
 $app->get('/entries/:id',  'getEntry');
 $app->post('/entries', 'addEntry');
 $app->put('/entries/:id', 'updateEntry');
 $app->put('/entries/:id/level', 'updateLevel');
-$app->delete('/entries/:id',   'deleteEntry');
+$app->delete('/entries/:id', 'deleteEntry');
 //$app->get('/entries/search/:query', 'find');
  
 $app->run();
@@ -90,22 +92,29 @@ function updateSiteInfo() {
 
 function getUser() {
     if(isset($_GET['apikey']) && $_GET['apikey'] == $GLOBALS['APIKEY']) {
-        $query = 'SELECT user_email FROM user;';
-    }
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC); 
-        $result = $stmt->fetch();
-        $db = null;
-        echo '{"user":'.json_encode($result).'}';
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        if(isset($_GET['admin']) && $_GET['admin'] == 1) {
+            $query = 'SELECT user_email FROM users WHERE admin == 1;';
+        } else {
+            $query = 'SELECT user_email FROM users WHERE admin == 0;';
+        }
+        try {
+            $db = getConnection();
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+            $contentitems = array();
+            while ( $row = $result = $stmt->fetch()) {
+              array_push($contentitems, $row);
+            }
+            $db = null;
+            echo '{"users": ' . json_encode($contentitems) . '}';
+        } catch(PDOException $e) {
+            echo '{"usererror":{"text":'. $e->getMessage() .'}}';
+        }
     }
 }
 
-function updateUser() {
+function updateAdmin() {
     $request = Slim::getInstance()->request();
     $body = $request->getBody();
     $user = json_decode($body);
@@ -113,7 +122,7 @@ function updateUser() {
         header("HTTP/1.0 401 Unauthorized");
         exit;
     }
-    $query = "UPDATE user SET user_email=:email";
+    $query = "UPDATE users SET user_email=:email";
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -123,6 +132,49 @@ function updateUser() {
         echo '{"user":{"user_email":"'. $user->email .'"}}';
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
+function addUser() {
+    $request = Slim::getInstance()->request();
+    $user = json_decode($request->getBody());
+    if($user->apikey != $GLOBALS['APIKEY']) {
+        header("HTTP/1.0 401 Unauthorized");
+        exit;
+    }
+    $query = 'INSERT INTO users ( user_email, admin) VALUES ( :user_email, :admin );';
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($query);
+        $stmt->bindParam("user_email", $user->email);
+        $null = 0;
+        $stmt->bindParam("admin", $null);
+        $stmt->execute();
+        echo '{"inserted":{"id":'. $user->email .'}}';
+        $db = null;
+    } catch(PDOException $e) {
+        echo '{"insertusererror":{"text": '. $e->getMessage() .'}}';
+    }
+}
+
+function deleteUser() {
+    $request = Slim::getInstance()->request();
+    $body = $request->getBody();
+    $user = json_decode($body);
+    if($user->apikey != $GLOBALS['APIKEY']) {
+        header("HTTP/1.0 401 Unauthorized");
+        exit;
+    }
+    $query = 'DELETE FROM users WHERE user_email = :user_email AND admin != 1;';
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($query);
+        $stmt->bindParam("user_email", $user->email);
+        $stmt->execute();
+        $db = null;
+        echo '{"deleted":'.$user->email.'}';
+    } catch(PDOException $e) {
+        echo '{"deleteusererror":{"text":"Fehler beim L&ouml;schen."}}';
     }
 }
 
@@ -198,9 +250,8 @@ function addNewOrder() {
         try {
             $db = getConnection();
             $stmt = $db->prepare($query);
-            
-            $stmt->bindParam("pos", $key);
             $key++;
+            $stmt->bindParam("pos", $key);
             $stmt->bindParam("id", $value);
             $stmt->execute();
             $db = null;

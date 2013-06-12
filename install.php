@@ -70,8 +70,9 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
                     site_headline TEXT
                   );
 
-                  CREATE TABLE IF NOT EXISTS user(
-                    user_email    TEXT
+                  CREATE TABLE IF NOT EXISTS users(
+                    user_email    TEXT,
+                    admin         BOOLEAN
                   );
 
                   CREATE TABLE IF NOT EXISTS sites(
@@ -107,13 +108,16 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
         // Userinfo
         $query = 'INSERT INTO 
-                    user(user_email) 
+                    user(user_email, admin) 
                   VALUES 
-                    ( :email )
+                    ( :email 
+                    , :admin )
                   ;';
         try {
             $stmt = $db->prepare($query);
             $stmt->bindValue("email", $_POST['email']);
+            $eins = 1;
+            $stmt->bindValue("admin", $eins);
             $stmt->execute();
         } catch(Exception $e) {
             echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -134,7 +138,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
 
-        
+        header("Location: index.php");
 
       } else {
         die('Es wurden nicht alle Angaben gemacht. Formular muss ausgefuellt werden.<br>

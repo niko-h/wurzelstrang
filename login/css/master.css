@@ -117,7 +117,7 @@ a[id='prefbtn'] {
 	background: #eee;
 	box-shadow: 0px 0px 8px #000;
 }
-#prefsite fieldset, #prefuser fieldset {
+#prefsite fieldset, #prefuser fieldset, #prefadmin fieldset {
 	box-shadow: 0px 0px 0px transparent;
 }
 @-moz-document url-prefix() {
@@ -132,7 +132,7 @@ a[id='prefbtn'] {
 	box-shadow: 0px -1px 0px #fff;
 	text-shadow: 0px 1px 0px #fff;
 }
-#prefsite legend, #prefuser legend {
+#prefsite legend, #prefuser legend, #prefadmin legend {
 	box-shadow: 0px 0px 0px transparent;
 }
 

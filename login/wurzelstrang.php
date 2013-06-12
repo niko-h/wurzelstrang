@@ -1,22 +1,26 @@
 <?php 
+
+ini_set('display_errors',1); 
+error_reporting(-1);
+
 /****************
 *
 * Admin-Interface
 *
 *****************/
 
-session_start();
-require('../config.php');  // config file
+  session_start();
+  require('../config.php');  // config file
 
-// If SSL is not configured, deny usage
-if ( HTTPS != FALSE ) {
-    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
-        header("Status: 301 Moved Permanently");
-        header("Location:../api/nossl.php");
-    }
-}
+  // If SSL is not configured, deny usage
+  if ( HTTPS != FALSE ) {
+      if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+          header("Status: 301 Moved Permanently");
+          header("Location:../api/nossl.php");
+      }
+  }
 
-require('internalauth.php');  // database authorization
+  require('internalauth.php');  // database authorization
   
   // Themedir
   $themedir = "../themes/";
@@ -110,7 +114,7 @@ require('internalauth.php');  // database authorization
                   </li>
                   <li>
                     <label>&nbsp;</label>
-                    <label for="visiblecheckbox"><input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" /> Auf der Webseite anzeigen</label>
+                    <label for="visiblecheckbox"><input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" checked /> Auf der Webseite anzeigen</label>
                   </li>
                 </ul>
               </li>  
@@ -181,27 +185,56 @@ require('internalauth.php');  // database authorization
               </ul>
             </fieldset>
           </form>
-          <br>
-          <form id="prefuser" action="javascript:void(0);" class="forms columnar fullwidth">
-            <fieldset>
-              <legend>Persona Konto &auml;ndern</legend>
-              <ul>
-                <li>
-                  <label for="email" class="bold">Email</label>
-                  <input name="email" id="useremail" type="email" value="">        
-                </li>
-                <li>
-                  <label class="bold">Hinweis</label>
-                  <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
-                  und wird zum Anmelden verwendet. Tragen Sie keine Emailadresse ein, zu der Sie keinen Persona-Account nebst Passwort eingerichtet haben!
-                  </div>
-                </li>
-                <li class="push">
-                  <input type="submit" name="submitusrbtn" id="updateuserbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm('[OK] drücken um Emailadresse zu &auml;ndern.')"> 
-                </li>
-              </ul>
-            </fieldset>
-          </form>
+          <?php
+          if ( isadmin($_SESSION['user']->email) ) {
+            echo '
+              <br>
+              <form id="prefadmin" action="javascript:void(0);" class="forms columnar fullwidth">
+                <fieldset>
+                  <legend>Administrator Konto &auml;ndern</legend>
+                  <ul>
+                    <li>
+                      <label for="email" class="bold">Email</label>
+                      <input name="email" id="adminemail" type="email" value="">        
+                    </li>
+                    <li>
+                      <label class="bold">Hinweis</label>
+                      <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
+                      und wird zum Anmelden verwendet. Tragen Sie keine Emailadresse ein, zu der Sie keinen Persona-Account nebst Passwort eingerichtet haben!
+                      </div>
+                    </li>
+                    <li class="push">
+                      <input type="submit" name="submitadminbtn" id="updateadminbtn" class="btn greenbtn" value="Benutzer aktualisieren" onclick="return confirm(\'[OK] drücken um Emailadresse zu &auml;ndern.\')"> 
+                    </li>
+                  </ul>
+                </fieldset>
+              </form>
+              <br>
+              <form id="prefuser" action="javascript:void(0);" class="forms columnar fullwidth">
+                <fieldset>
+                  <legend>Weitere Benutzer</legend>
+                  <ul id="user-list">
+                    <!-- Here comes the Menuitems -->
+                  </ul>
+                  <hr>
+                  <ul>
+                    <li>
+                      <label for="email" class="bold">Email</label>
+                      <input name="email" id="newuseremail" type="email" value="">        
+                      <input type="submit" name="submitnewusrbtn" id="submituserbtn" class="btn greenbtn" value="Benutzer hinzuf&uuml;gen">
+                    </li>
+                    <li>
+                      <label class="bold">Hinweis</label>
+                      <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen!
+                      </div>
+                    </li>
+                  </ul>
+                </fieldset>
+              </form>
+            ';
+          }
+
+          ?>
         </fieldset>
       </div>
     </div>
