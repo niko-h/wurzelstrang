@@ -29,4 +29,6 @@
 		</div>
 
 	</div>
+
+	<div style="font-size: 7px; color: #ccc;">Powered by <a href="http://niko-h.github.com/wurzelstrang" target="_blank">Wurzelstrang</a></div>
 </body>

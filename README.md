@@ -1,15 +1,15 @@
-# [Wurzelstrang CMS v1](https://bitbucket.org/LordNiko/1pagecms)
+# [Wurzelstrang CMS](https://github.com/niko-h/wurzelstrang)
 
-Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://bitbucket.org/LordNiko) and [Felix Menge](https://bitbucket.org/ph3l1x).
+Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https://github.com/niko-h).
 
 * Written in HTML, CSS, PHP and JavaScript
 * Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST API, [jQuery](http://jquery.com/) for the admin interface, [Mozilla's Persona](https://login.persona.org) for accounting, [CKEditor](ckeditor.com) and [KCFinder](http://kcfinder.sunhater.com/) for content editing and [Kube](http://imperavi.com/kube/) for Administration-Interface's CSS styling
-* Server-requirements: php5, sqlite, curl(recommended)
+* Server-requirements: php5, sqlite, php-curl(recommended)
 
 
 ## Getting started
 
-* [Download or clone the latest release](https://bitbucket.org/LordNiko/wurzelstrang/)
+* [Download or clone the latest release](https://github.com/niko-h/wurzelstrang)
 * Read the [INSTALL.md](INSTALL.md)
 
 
@@ -21,29 +21,23 @@ Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https:
 
 ## Bug tracker
 
-Have a bug or a feature request? [Please open a new issue](https://bitbucket.org/LordNiko/1pagecms/issues).
+Have a bug or a feature request? [Open a new issue](https://github.com/niko-h/wurzelstrang/issues).
 
 
 ## Twitter
 
-* Follow [@Wurzelstrang on Twitter](http://twitter.com/wWrzelstrang).
+* Follow [@Wurzelstrang on Twitter](http://twitter.com/Wurzelstrang).
 
 
-## Authors
+## Author
 
 **Nikolaus Höfer**
 
 + [http://nikolaushoefer.de](http://nikolaushoefer.de)
 + [http://twitter.com/Edvayne](http://twitter.com/Edvayne)
-+ [https://bitbucket.org/LordNiko](https://bitbucket.org/LordNiko)
-
-**Felix Menge**
-
-+ [http://twitter.com/pondus_hydrogen](http://twitter.com/pondus_hydrogen)
-+ [https://bitbucket.org/ph3l1x](https://bitbucket.org/ph3l1x)
-
++ [https://github.com/niko-h](https://github.com/niko-h)
 
 
 ## Copyright and license
 
-"DIE WURZEL LIZENZ" (Revision 4): <wurzel@nikolaushoefer.de> und <phelix@l3q.de> haben diese Software geschrieben. Mit diesem Material können Sie unter folgenden Bedingungen machen was Sie wollen: Die Beibehaltung dieser Lizenz und eine Namensnennung sind Vorraussetzung. Eine Verwendung findet ausschliesslich zu zivilen Zwecken und unter Beachtung und Wertschätzung der Menschenrechte statt. Alle verwendeten Bestandteile der Software müssen quelloffen bleiben. Wenn wir uns einmal begegnen sollten und dieses Material Ihnen das wert ist, können Sie uns auf ein Bier einladen.  Niko und Felix
+"THE WURZEL LICENSE" (Revision 4):  <kontakt@nikolaushoefer.de> created this software. You can do with it whatever you want under the following conditions: This licence must be included with the software and refer to the author. The software must only be used for non-military uses and only in compliance with human rights. All parts of this material must remain open source. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return. Niko

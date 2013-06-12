@@ -2,6 +2,14 @@
 
 [Wurzelstrang CMS](https://github.com/niko-h/wurzelstrang)
 
+## Quick Install
+
+* [Download or clone the latest release](https://github.com/niko-h/wurzelstrang)
+* Upload erverything to your Server.
+* Edit `config.php`. Open it in a plain text editor (not MS Word), read its comments for help and edit accordingly.
+* Open install.php in your Browser.
+
+
 ## User Requirements
 
 * Persona
@@ -33,8 +41,8 @@
 
 * [Download or clone the latest release](https://github.com/niko-h/wurzelstrang)
 * Go to the Wurzelstrang-directory and upload erverything.
-* In the shell, type `sudo chown -R www-data:www-data db` so the database-file can be written.
-* Also type `sudo chown -R www-data:www-data uploads` for the uploads-directory.
+* (Optional) In the shell, type `sudo chown -R www-data:www-data db` so the database-file can be written.
+* (Optional) Also type `sudo chown -R www-data:www-data uploads` for the uploads-directory.
 * Now edit `config.php`. Open it in a plain text editor (not MS Word), read its comments for help and edit accordingly.
 * Open install.php in your Browser.
 * Fill in the form. You can edit all these informations anytime later if you want. Again, it is important for you to enter a valid Persona-account and since it wont be checked at that time, make sure you have no typo.  
