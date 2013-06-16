@@ -1,71 +1,65 @@
 <?php
 /**
- * In dieser Datei werden Grundeinstellungen für Wurzelstrang vorgenommen.
- *
- * Folgende Einstellungen sind vorgesehen: BASIS-URL, INTERNE-URL, API-URL, Sicherheitsschluessel, Sprachdatei, Pseudohierarchien, HTTPS.
- * 
+ * In this file you configure your Wurzelstrang before installing it.
+ * The following options are available: BASE-URL, INTERNAL-URL, API-URL, Securitykey, Languagefile, Pseudohierarchies, HTTPS.
  */
 
 /** 
- * BASIS-URL zB: "https://foobar.de"
+ * BASE-URL 
  *
- * Ersetze audience_url_here mit der Adresse (wird verwendet in auth.php) 
+ * replace audience_url_here with the actual address
  */
-define('AUDIENCE', 'http://localhost:8888');
+define('AUDIENCE', 'audience_url_here');  // eg.: "https://foobar.com" or "https://localhost:443"
 
 /** 
- * INTERNE-URL zB: "/wurzelstrang/login/"
+ * INTERNAL-URL 
  *
- * Ersetze path_url_here mit der Adresse (wird verwendet in persona.js) 
+ * replace path_url_here with the actual path
  */
-define('PATH', '/wurzelstrang-dev');
+define('PATH', 'path_url_here');  // eg.: "/wurzelstrang"
 
 /** 
- * API-URL zB: "https://foobar.de/wurzelstrang/api"
+ * API-URL
  *
- * Ersetze api_url_here mit der Adresse (wird verwendet in func.js) 
+ * replace api_url_here with the actual address
  */
-define('API_URL', 'http://localhost:8888/wurzelstrang-dev/api');
+define('API_URL', 'api_url_here');  // eg.: "https://foobar.com/wurzelstrang/api"
 
 /**
- * Sicherheitsschlüssel (wird verwendet in func.js)
+ * Securitykey
  *
- * Ändere den KEY in eine beliebige, möglichst einzigartige Phrase. 
- * Auf der Seite {@link https://www.random.org/passwords/?num=1&len=24 random.org password generator} 
- * kannst du dir einen KEY generieren lassen. Du kannst den Schlüssel jederzeit wieder ändern.
- *
+ * Change apikey into some random string. 
+ * You can generate one here: {@link https://www.random.org/passwords/?num=1&len=24 random.org password generator} 
+ * You can change the key anytime later.
  */
-define('APIKEY', 'horst');
-
+define('APIKEY', 'apikey');
 
 /**
- * Sprachdatei
+ * Languagefile
  *
- * Hier kannst du einstellen, welche Sprache genutzt werden soll. Die entsprechende
- * Sprachdatei muss im Ordner languages/ vorhanden sein, beispielsweise de_DE.txt
- * Wenn du nichts einträgst, wird Deutsch genommen.
+ * Here you can define your language. The corresponding file must be available in /languages/
+ * eg.: de_DE.txt or en_US.txt
  */
-// NOCH NICHT IMPLEMENTIERT!
+// NOT YET IMPLEMENTED!
 // define('LANG', 'de_DE');
-// NOCH NICHT IMPLEMENTIERT!
+// NOT YET IMPLEMENTED!
 
 /** 
- * Pseudohierarchien
+ * Pseudohierarchies
  *
- * Ergaenzt die Daten um ein Feld "Level", um zB visuelle Einrueckungen von Eintraegen
- * zum suggerieren von hierarchisch angeordneten Eintraegen
- * WICHTIG: Muss beim erzeugen der Datenbank konfiguriert, werden, oder die Datenbank muss von Hand angepasst werden.
- * Die Zahl besagt, wie viele Ebenen erlaubt sind. 0 deaktiviert das Feature.
+ * Adds a field "level", to trick some visual hierarchies into the data without relations
+ * IMPORTANT: If you dont configure this before running install.php, you have to edit the database by hand.
+ * The number says, how many levels are allowed. '0' disables the feature.
  */
-define('LEVELS', '3');
+define('LEVELS', '0');
 
 /** 
- * HTTPS Einstellung (wird verwendet in login/index.php, login/wurzelstrang.php & api/index.php)
+ * HTTPS
  * 
- * Hier kannst du die Verwendung von HTTPS festlegen.
- * BITTE verwende HTTPS !1!! Es nicht zu verwenden ist unsicher! 
- * Ersetze TRUE durch FALSE, wenn du kein SSL verwenden möchtest. 
+ * Here you can define wether to choose HTTPS or not. Please do! It is insecure not to.
+ * Replace TRUE with FALSE, if you dont want to use HTTPS.
+ * Also look into the URLs above to be set to either http:// or https:// 
  */
-define('HTTPS', FALSE);
+define('HTTPS', TRUE);
 
 ?>
