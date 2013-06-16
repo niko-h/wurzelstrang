@@ -255,7 +255,7 @@ error_reporting(-1);
   
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
   <script type="text/javascript">
-    path = <? echo '"'.PATH.'"' ?>;
+    path = <?php echo '"'.PATH.'"' ?>;
   </script>
   <script type="text/javascript" src="persona.js"></script>
   <!-- Load CKEditor --> 
@@ -263,9 +263,9 @@ error_reporting(-1);
   <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
   
   <script type="text/javascript">
-    var rootURL = <? echo '"'.API_URL.'"' ?>;
-    var apikey = <? echo '"'.APIKEY.'"' ?>;
-    var levelsenabled = <? echo '"'.LEVELS.'"' ?>;
+    var rootURL = <?php echo '"'.API_URL.'"' ?>;
+    var apikey = <?php echo '"'.APIKEY.'"' ?>;
+    var levelsenabled = <?php echo '"'.LEVELS.'"' ?>;
   </script>
   <script type="text/javascript" src="func.js"></script>
 
