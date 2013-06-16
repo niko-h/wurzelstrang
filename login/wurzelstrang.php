@@ -33,6 +33,7 @@ error_reporting(-1);
       closedir($dh);
     }
   }
+  header("Content-Type: text/html; charset=utf-8");
 ?>
 
 <!DOCTYPE HTML>
