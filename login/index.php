@@ -18,7 +18,7 @@ if ( HTTPS != FALSE ) {
     <!-- Load jQuery -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript">
-      path = <? echo '"'.PATH.'"' ?>;
+      path = <?php echo '"'.PATH.'"' ?>;
     </script>
     <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all" />

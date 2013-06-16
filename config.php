@@ -5,25 +5,25 @@
  */
 
 /** 
- * BASE-URL eg.: "https://foobar.com" or "https://localhost:443"
+ * BASE-URL 
  *
  * replace audience_url_here with the actual address
  */
-define('AUDIENCE', 'audience_url_here');
+define('AUDIENCE', 'audience_url_here');  // eg.: "https://foobar.com" or "https://localhost:443"
 
 /** 
- * INTERNAL-URL eg.: "/wurzelstrang"
+ * INTERNAL-URL 
  *
  * replace path_url_here with the actual path
  */
-define('PATH', 'path_url_here');
+define('PATH', 'path_url_here');  // eg.: "/wurzelstrang"
 
 /** 
- * API-URL eg.: "https://foobar.com/wurzelstrang/api"
+ * API-URL
  *
  * replace api_url_here with the actual address
  */
-define('API_URL', 'api_url_here');
+define('API_URL', 'api_url_here');  // eg.: "https://foobar.com/wurzelstrang/api"
 
 /**
  * Securitykey

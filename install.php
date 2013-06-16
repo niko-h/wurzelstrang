@@ -11,7 +11,7 @@ require('config.php');
 if ( HTTPS != FALSE ) {
     if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
         header("Status: 301 Moved Permanently");
-        header("Location:nossl.php");
+        header("Location:api/nossl.php");
     } 
 }
 
@@ -108,7 +108,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
         // Userinfo
         $query = 'INSERT INTO 
-                    user(user_email, admin) 
+                    users(user_email, admin) 
                   VALUES 
                     ( :email 
                     , :admin )
