@@ -196,7 +196,7 @@ error_reporting(-1);
                   <ul>
                     <li>
                       <label for="email" class="bold">Email</label>
-                      <input name="email" id="adminemail" type="email" value="">        
+                      <input name="email" id="adminemail" type="email" value="" onclick="adminmailvalidate(adminemail.value);">        
                     </li>
                     <li>
                       <label class="bold">Hinweis</label>
@@ -221,8 +221,8 @@ error_reporting(-1);
                   <ul>
                     <li>
                       <label for="email" class="bold">Email</label>
-                      <input name="email" id="newuseremail" type="email" value="">        
-                      <input type="submit" name="submitnewusrbtn" id="submituserbtn" class="btn greenbtn" value="Benutzer hinzuf&uuml;gen">
+                      <input name="email" id="newuseremail" type="email">        
+                      <input type="submit" name="submitnewusrbtn" id="submituserbtn" class="btn greenbtn" value="Benutzer hinzuf&uuml;gen" onclick="usermailvalidate(newuseremail.value);">
                     </li>
                     <li>
                       <label class="bold">Hinweis</label>
