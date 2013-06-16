@@ -45,10 +45,27 @@ $(document).ready(function () {
   $('#submitbutton').click(submitbutton);
   $('#deletebutton').click(deletebutton);
   $('#updatesitebtn').click(updatesitebtn);
-  $('#updateadminbtn').click(updateadminbtn);
-  $('#submituserbtn').click(submitnewusrbtn);
+  // $('#updateadminbtn').click(updateadminbtn);
+  // $('#submituserbtn').click(submitnewusrbtn);
   $('#leveldown').click(leveldown);
   $('#levelup').click(levelup);
+
+  usermailvalidate = function(str) {
+    if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
+      submitnewusrbtn();
+      return true;
+    } else {
+      console.log('Email nicht gueltig bei useremail');
+    }
+  }
+  adminmailvalidate = function(str) {
+    if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
+      updateadminbtn();
+      return true;
+    } else {
+      console.log('Email nicht gueltig bei adminemail');
+    }
+  }
 });
 
 function linkhello() {
@@ -339,7 +356,7 @@ dragMenu = function() {
         dataType: "json",
         data: JSON.stringify({apikey: apikey, neworder: order}),
         error: function(jqXHR, textStatus, errorThrown){
-          alert('newOrder error: ' + textStatus + errorThrown);
+          console.log('newOrder error: ' + textStatus + errorThrown);
         }
       });
     }
