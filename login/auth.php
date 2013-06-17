@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require('../config.php');  // config file
 
@@ -55,14 +56,14 @@ if (isset($_POST['logout'])) {
   * answer to persona.js
   */
 include('internalauth.php');
-if( isadmin($_SESSION['user']->email) || isuser($_SESSION['user']->email) ) {
+if( isadmin($_SESSION['user']->email)==true || isuser($_SESSION['user']->email)==true ) {
     echo 'yes';
 } else if(!isset($_SESSION['user'])) {
     session_destroy();
     echo 'no';
 } else {
-    echo 'no';
     session_destroy();
+    echo 'no';
 }
 
 
