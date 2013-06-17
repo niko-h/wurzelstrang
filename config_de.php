@@ -48,15 +48,6 @@ define('APIKEY', 'KEY');
 // define('LANG', 'de_DE');
 // NOCH NICHT IMPLEMENTIERT!
 
-/** 
- * Pseudohierarchien
- *
- * Ergaenzt die Daten um ein Feld "Level", um zB visuelle Einrueckungen von Eintraegen
- * zum suggerieren von hierarchisch angeordneten Eintraegen
- * WICHTIG: Muss beim erzeugen der Datenbank konfiguriert, werden, oder die Datenbank muss von Hand angepasst werden.
- * Die Zahl besagt, wie viele Ebenen erlaubt sind. 0 deaktiviert das Feature.
- */
-define('LEVELS', '0');
 
 /** 
  * HTTPS Einstellung (wird verwendet in login/index.php, login/wurzelstrang.php & api/index.php)

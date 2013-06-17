@@ -53,7 +53,7 @@ function getApiInfo() {
 }
 
 function getSiteInfo() {
-    $query = 'SELECT site_title, site_theme, site_headline FROM siteinfo;';
+    $query = 'SELECT site_title, site_theme, site_headline, site_levels FROM siteinfo;';
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
@@ -75,13 +75,14 @@ function updateSiteInfo() {
         header("HTTP/1.0 401 Unauthorized");
         exit;
     }
-    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline";
+    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline, site_levels=:levels";
     try {
         $db = getConnection();
         $stmt = $db->prepare($query);
         $stmt->bindParam("title", $site->title);
         $stmt->bindParam("theme", $site->theme);
         $stmt->bindParam("headline", $site->headline);
+        $stmt->bindParam("levels", $site->levels);
         $stmt->execute();
         $db = null;
         echo '{"siteinfo":{"title":"'. $site->title .'", "theme":"'. $site->theme .'", "headline":"'. $site->headline .'"}}';

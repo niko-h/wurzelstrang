@@ -45,15 +45,6 @@ define('APIKEY', 'apikey');
 // NOT YET IMPLEMENTED!
 
 /** 
- * Pseudohierarchies
- *
- * Adds a field "level", to trick some visual hierarchies into the data without relations
- * IMPORTANT: If you dont configure this before running install.php, you have to edit the database by hand.
- * The number says, how many levels are allowed. '0' disables the feature.
- */
-define('LEVELS', '0');
-
-/** 
  * HTTPS
  * 
  * Here you can define wether to choose HTTPS or not. Please do! It is insecure not to.

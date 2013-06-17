@@ -9,21 +9,21 @@
  *
  * replace audience_url_here with the actual address
  */
-define('AUDIENCE', 'audience_url_here');  // eg.: "https://foobar.com" or "https://localhost:443"
+define('AUDIENCE', 'http://localhost:8888');  // eg.: "https://foobar.com" or "https://localhost:443"
 
 /** 
  * INTERNAL-URL 
  *
  * replace path_url_here with the actual path
  */
-define('PATH', 'path_url_here');  // eg.: "/wurzelstrang"
+define('PATH', '/wurzelstrang-dev');  // eg.: "/wurzelstrang"
 
 /** 
  * API-URL
  *
  * replace api_url_here with the actual address
  */
-define('API_URL', 'api_url_here');  // eg.: "https://foobar.com/wurzelstrang/api"
+define('API_URL', 'http://localhost:8888/wurzelstrang-dev/api');  // eg.: "https://foobar.com/wurzelstrang/api"
 
 /**
  * Securitykey
@@ -32,7 +32,7 @@ define('API_URL', 'api_url_here');  // eg.: "https://foobar.com/wurzelstrang/api
  * You can generate one here: {@link https://www.random.org/passwords/?num=1&len=24 random.org password generator} 
  * You can change the key anytime later.
  */
-define('APIKEY', 'apikey');
+define('APIKEY', 'horst');
 
 /**
  * Languagefile
@@ -44,14 +44,6 @@ define('APIKEY', 'apikey');
 // define('LANG', 'de_DE');
 // NOT YET IMPLEMENTED!
 
-/** 
- * Pseudohierarchies
- *
- * Adds a field "level", to trick some visual hierarchies into the data without relations
- * IMPORTANT: If you dont configure this before running install.php, you have to edit the database by hand.
- * The number says, how many levels are allowed. '0' disables the feature.
- */
-define('LEVELS', '0');
 
 /** 
  * HTTPS
@@ -60,6 +52,6 @@ define('LEVELS', '0');
  * Replace TRUE with FALSE, if you dont want to use HTTPS.
  * Also look into the URLs above to be set to either http:// or https:// 
  */
-define('HTTPS', TRUE);
+define('HTTPS', FALSE);
 
 ?>

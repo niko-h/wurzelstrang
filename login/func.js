@@ -55,6 +55,7 @@ $(document).ready(function () {
       submitnewusrbtn();
       return true;
     } else {
+      $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
       console.log('Email nicht gueltig bei useremail');
     }
   }
@@ -63,6 +64,7 @@ $(document).ready(function () {
       updateadminbtn();
       return true;
     } else {
+      $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
       console.log('Email nicht gueltig bei adminemail');
     }
   }
@@ -105,14 +107,16 @@ function submitbutton() {
 };
 
 function deletebutton() {
-  $('#edit').hide();
-  deleteEntry();
-  return false;
+  if(confirm('[OK] drücken um den Eintrag zu löschen.')) {
+    $('#edit').hide();
+    deleteEntry();
+    return false;
+  }
 };
 
 function levelup() {
   var value = parseFloat($('#levelcount').text());
-  if (value<levelsenabled) { value++; }
+  value++;
   updateLevel(value);
   return false;
 };
@@ -466,7 +470,7 @@ function renderList(data) {
     visible_icon = entry.visible ? [] : '<i class="icon-eye-close eyeshut"></i>';
     visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
     levels = '';
-    if (levelsenabled >= '1' && entry.levels>=1) {
+    if ($('#levelstarget').val()==true && entry.levels>=1) {
       for (var i = 0; i < entry.levels; i++) {
         levels+='<span class="levels"></span>';
       };
@@ -483,19 +487,30 @@ function renderEntry(item) {
     $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: '+date+'</span>');
     $('#entryId').val(entry.id);
     $('#title').val(entry.title);
-    if(entry.visible==1){
+    if(entry.visible==true){
       $('#visiblecheckbox').attr('checked', 'checked');
     } else {
       $('#visiblecheckbox').removeAttr('checked');
     }
     $('textarea#ckeditor').val(entry.content);
     $('#levelcount').text(entry.levels);
+    if($('#levelstarget').val()==true){
+      $('#leveloption').show();
+    } else {
+      $('#leveloption').hide();
+    }
     $('#deletebutton').html('<i class="icon-remove"></i> Löschen');
   } else { 
     $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite'); 
     $('#entryId').val("");
     $('#title').val("");
+    $('#visiblecheckbox').attr('checked', 'checked');
     $('textarea#ckeditor').val("");
+    if($('#levelstarget').val()==true){  
+      $('#leveloption').show();
+    } else {
+      $('#leveloption').hide();
+    }
   };
 }
 
@@ -524,6 +539,8 @@ function renderSiteInfo(siteinfo) {
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
   $('#sitetheme').val(siteinfo.site_theme);
+  $('#levelstarget').val(siteinfo.site_levels);
+  button();
 }
 
 
@@ -537,7 +554,7 @@ function newEntryToJSON() {
     "apikey": apikey,
     "title": $('#title').val(), 
     "content": $('#ckeditor').val(),
-    "visible": $('#visiblecheckbox').val(),
+    "visible": $('#visiblecheckbox').is(':checked')
   });
   return data;
 }
@@ -567,6 +584,7 @@ function updateSiteInfoToJSON() {
     "title": $('#sitetitle').val(), 
     "theme": $('#sitetheme').val(),
     "headline": $('#siteheadline').val(),
+    "levels": $('#levelstarget').val()
   });
   return data;
 }

@@ -77,13 +77,7 @@ error_reporting(-1);
           <ul id="menu_list">
             <!-- Here comes the Menuitems -->
           </ul>
-          <?php
-            if (LEVELS>='1') {
-              echo '<span id="menu_list_help"><i class="icon-angle-up"></i> Ebene<span class="head-separator"></span>Klicken <i class="icon-angle-up"></i><span class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i></span>';
-            } else {
-              echo '<span id="menu_list_help"><i class="icon-angle-up"></i> Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i></span>';
-            }
-          ?>
+          <span id="menu_list_help"><i class="icon-angle-up"></i> Klicken zum bearbeiten<span class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i></span>
         </div>
       </fieldset>
     </div>
@@ -115,7 +109,7 @@ error_reporting(-1);
                   </li>
                   <li>
                     <label>&nbsp;</label>
-                    <label for="visiblecheckbox"><input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" checked /> Auf der Webseite anzeigen</label>
+                    <label for="visiblecheckbox"><input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" /> Auf der Webseite anzeigen</label>
                   </li>
                 </ul>
               </li>  
@@ -127,24 +121,17 @@ error_reporting(-1);
                   <li class="third">
                     <button type="submit" id="submitbutton" class="btn greenbtn"><i class="icon-pencil"></i> Speichern</button>
                   </li>
-                  
-                  <?php
-                    if (LEVELS>='1') {
-                      echo '
-                        <li class="third" id="leveloption">
-                          <span class="btn-group">
-                            <button id="leveldown" class="btn .btn-prepend"><i class="icon-chevron-left"></i></button>
-                            <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
-                            <button id="levelup" class="btn .btn-append"><i class="icon-chevron-right"></i></button>            
-                          </span>
-                        </li>
-                      ';
-                    }
-                  ?>
+                  <li class="third" id="leveloption">
+                    <span class="btn-group">
+                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-chevron-left"></i></button>
+                      <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
+                      <button id="levelup" class="btn .btn-append"><i class="icon-chevron-right"></i></button>            
+                    </span>
+                  </li>
 
                   <li class="push-right">
                     <input type="hidden" id="entryId" value="">
-                    <button type="submit" id="deletebutton" class="btn redbtn" name="deletebutton" onclick="return confirm('[OK] drücken um den Eintrag zu löschen.')"></button>             
+                    <button type="submit" id="deletebutton" class="btn redbtn" name="deletebutton"></button>             
                   </li>
                 </ul>
               </li>
@@ -179,6 +166,15 @@ error_reporting(-1);
                       }
                     } ?>
                   </select>
+                </li>
+                <li>
+                  <label for="levels" class="bold">Pseudohierarchien</label>
+                  <span class="btn-group" id="levels" data-toggle="buttons" data-target="#levelstarget">
+                    <button class="btn" value="1">On</button>
+                    <button class="btn" value="0">Off</button>
+                  </span>
+                  <input type="text" style="display:none;" id="levelstarget" />
+                  <div class="descr">Kann zur Einrückung der Menüeinträge verwendet werden um diese optisch zu sortieren.</div>
                 </li>
                 <li class="push">
                   <input name="submitsiteinfobtn" id="updatesitebtn" class="btn greenbtn" value="Seite aktualisieren" type="submit">    
@@ -255,6 +251,7 @@ error_reporting(-1);
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
   
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
+  
   <script type="text/javascript">
     path = <?php echo '"'.PATH.'"' ?>;
   </script>
@@ -266,9 +263,10 @@ error_reporting(-1);
   <script type="text/javascript">
     var rootURL = <?php echo '"'.API_URL.'"' ?>;
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
-    var levelsenabled = <?php echo '"'.LEVELS.'"' ?>;
   </script>
+  <script type="text/javascript" src="lib/kube.buttons.js"></script>
   <script type="text/javascript" src="func.js"></script>
+  
 
   <!--[if lt IE 9]>
   <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

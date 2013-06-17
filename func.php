@@ -7,9 +7,6 @@
 
 require('config.php');
 
-$LEVELS;
-$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
-
 /**
   * Database action
   */
@@ -18,7 +15,11 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
     if (file_exists($db_file)) {
         $db = new PDO("sqlite:$db_file");
     }
-    if(!$db) die('Es existiert keine Datenbank. install.php aufrufen.');
+    if(!$db) {
+      header("Status: 301 Moved Permanently");
+      header("Location:install.php");
+      die('Es existiert keine Datenbank. <a href="install.php" target="_self">install.php</a> aufrufen.');
+    }
     return $db;
   }
    
@@ -50,6 +51,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
         $sitetitle = $siteinfo['site_title'];
         $sitetheme = $siteinfo['site_theme'];
         $siteheadline = $siteinfo['site_headline'];
+        $sitelevels = $siteinfo['site_levels'];
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }

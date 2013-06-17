@@ -16,9 +16,7 @@ if ( HTTPS != FALSE ) {
 }
 
 $APIKEY;
-$LEVELS;
 $GLOBALS['APIKEY'] = APIKEY; // getApiKey();
-$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
 /**
   * Get Database
@@ -67,7 +65,8 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
         $query = 'CREATE TABLE IF NOT EXISTS siteinfo(
                     site_title    TEXT,
                     site_theme    TEXT,
-                    site_headline TEXT
+                    site_headline TEXT,
+                    site_levels   BOOLEAN
                   );
 
                   CREATE TABLE IF NOT EXISTS users(
@@ -81,7 +80,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
                     mtime     INTEGER,
                     content   TEXT,
                     pos       INTEGER,
-                    visible   INTEGER,
+                    visible   BOOLEAN,
                     levels    INTEGER
                   );
                   ';
@@ -90,17 +89,19 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
 
         // Seiteninfo
         $query = 'INSERT INTO
-                    siteinfo(site_title, site_theme, site_headline)
+                    siteinfo(site_title, site_theme, site_headline, site_levels)
                   VALUES 
                     ( :sitetitle 
                     , :sitetheme 
-                    , :siteheadline )
+                    , :siteheadline
+                    , :sitelevels )
                ;';
         try {
             $stmt = $db->prepare($query);
             $stmt->bindValue("sitetitle", $_POST['sitetitle']);
             $stmt->bindValue("sitetheme", $_POST['sitetheme']);
             $stmt->bindValue("siteheadline", $_POST['siteheadline']);
+            $stmt->bindValue("sitelevels", 0);
             $stmt->execute();
         } catch(Exception $e) {
             echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -123,7 +124,7 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
             echo '{"error":{"text":'. $e->getMessage() .'}}';
         }
 
-        $query = 'INSERT INTO sites(title, content, pos, visible, levels) VALUES ( :title, :content, :pos, :visible, :level);';
+        $query = 'INSERT INTO sites(title, content, pos, visible, levels, mtime) VALUES ( :title, :content, :pos, :visible, :level, :time);';
         try {
             $stmt = $db->prepare($query);
             $stmt->bindValue("title", "Juhuu!");
@@ -133,6 +134,8 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
             $stmt->bindValue("visible", $eins);
             $level0 = 0;
             $stmt->bindValue("level", $level0);
+            $timestamp = time();
+            $stmt->bindValue("time", $timestamp);
             $stmt->execute();
         } catch(Exception $e) {
             echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -177,6 +180,22 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
         text-align: center;">Neue Wurzelstrang Seite erstellen</h2>
   <form id="preferences" class="forms columnar" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" target="_self">
     <fieldset>
+      <legend>Benutzer Informationen</legend>
+      <ul>
+        <li>
+          <label for="email" class="bold">Persona Email</label>
+          <input name="email" id="email" type="email" onblur="javascript:mailvalidate();">    
+        </li>
+        <li>
+          <label class="bold">Hinweis</label>
+          <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
+          und wird zum Anmelden verwendet. Trage keine Emailadresse ein, zu der du keinen Persona-Account nebst Passwort eingerichtet hast!
+          </div>
+        </li>
+      </ul>
+    </fieldset>
+    <br>
+    <fieldset>
       <legend>Seiten Informationen</legend>
       <ul>
         <li>
@@ -198,28 +217,28 @@ $GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
               }
             } ?>
           </select>
+          <div class="descr">Eine kleine Auswahl vorgefertigter Themes.</div>
         </li>
       </ul>
     </fieldset>
-    <br />
-    <fieldset>
-      <legend>Benutzer Informationen</legend>
-      <ul>
-        <li>
-          <label for="email" class="bold">Persona Email</label>
-          <input name="email" id="email" type="email" >        
-        </li>
-        <li>
-          <label class="bold">Hinweis</label>
-          <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen 
-          und wird zum Anmelden verwendet. Trage keine Emailadresse ein, zu der du keinen Persona-Account nebst Passwort eingerichtet hast!
-          </div>
-        </li>
-      </ul>
-    </fieldset><br>
-    <input name="submitbtn" id="submitbtn" class="btn btn-big greenbtn" value="Seite erstellen" type="submit"> 
+    <br>
+    <input name="submitbtn" id="submitbtn" class="btn btn-big disabled" value="Seite erstellen" type="submit"> 
   </form>
 </div>
+
+<script type="text/javascript">
+  mailvalidate = function() {
+    str = $('#email').val();
+    if (!(str.indexOf(".") > 2) && !(str.indexOf("@") > 0)) {
+      $('#email').after('<div class="descr error">Keine gültige Emailadresse</div>');
+      $('#submitbtn').attr("class", "btn btn-big disabled");
+      $('#submitbtn').attr('disabled', 'disabled');      
+    } else {
+      $('#submitbtn').attr("class", "btn btn-big greenbtn");
+      $('#submitbtn').removeAttr('disabled');
+    }
+  }
+</script>
 
 </body>
 </html>
