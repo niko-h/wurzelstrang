@@ -12,12 +12,10 @@ foreach ($menuitems as $link) {  						// Menu bauen
 
   // In case you enabled the pseudohierarchies-feature
   $levels = '';
-  if ($GLOBALS['LEVELS']>='1') {
-    for ($i = 0; $i < $link['levels']; $i++) {
-      $levels.='<span>+ </span>';
-    }
+  for ($i = 0; $i < $link['levels']; $i++) {
+    $levels.='<span>+ </span>';
   }
-
+  
 	$menu .= '<li>'.$levels.'<a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$link['title'].'</a></li>';
 }
 

@@ -3,3 +3,5 @@
 *.sublime-project
 *.sublime-workspace
 db/content.db
+wurzeldev.sublime-workspace
+wurzeldev.sublime-project

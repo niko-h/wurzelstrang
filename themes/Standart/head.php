@@ -9,13 +9,14 @@ global $menu, $content;
 
 foreach ($menuitems as $link) {  						// Menu bauen
 	$id = str_replace(' ', '_', $link['title']).'_'.$link['id'];	// Name für href und id leerzeichen->unterstrich
-  if ($GLOBALS['LEVELS']>='1') {
-    $levels = '';
-    for ($i = 0; $i < $link['levels']; $i++) {
-      $levels.='<span>+ </span>';
-    }
+  
+  // In case you enabled the pseudohierarchies-feature
+  $levels='';
+  for ($i = 0; $i < $link['levels']; $i++) {
+    $levels.='<span>+ </span>';
   }
-	$menu .= '<li>'.$levels.'<a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$link['title'].'</a></li>';
+  
+  $menu .= '<li>'.$levels.'<a href="#'.$id.'" id="link_'.$id.'" class="menulink">'.$link['title'].'</a></li>';
 }
 
 foreach ($contentitems as $item) {					// Content bauen
