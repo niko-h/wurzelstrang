@@ -55,7 +55,7 @@ if (isset($_POST['logout'])) {
   * answer to persona.js
   */
 include('internalauth.php');
-if( isadmin($_SESSION['user']->email) ) {
+if( isadmin($_SESSION['user']->email) || isuser($_SESSION['user']->email) ) {
     echo 'yes';
 } else if(!isset($_SESSION['user'])) {
     session_destroy();
