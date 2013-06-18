@@ -7,10 +7,13 @@ Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https:
 * Server-requirements: php5, sqlite, php-curl(recommended)
 
 
-## Getting started
+## Getting started aka Quick Install
 
 * [Download or clone the latest release](https://github.com/niko-h/wurzelstrang)
-* Read the [INSTALL.md](INSTALL.md)
+* Read the [INSTALL.md](INSTALL.md).
+* Upload erverything to your Server.
+* Edit `config-example.php` and change it to `config.php`. Open it in a plain text editor (not MS Word).
+* Open install.php in your Browser.
 
 
 ## API

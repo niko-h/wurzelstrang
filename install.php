@@ -5,15 +5,58 @@
 *
 **************************/
 
-require('config.php');
+/**
+  * Check if config.php exists
+  */
 
-// If SSL is not configured, deny API usage
+  if (file_exists("config.php")) {
+    require('config.php');
+  } else {
+    echo '
+      <style type="text/css">#page {display:none !important;}</style>
+      <div style="position absolute; z-index:100000; width: 620px;display: block;color:#111;" class="row wrapper">
+        <br />
+        <div id="preferences" class="forms columnar">
+          <fieldset>
+            <legend class="error">`config.php` nicht gefunden!</legend>
+            <ul>
+              <li>
+                1. Bitte gehe zum Wurzelstrang-Ordner und bearbeite `config-example.php`.<br>
+                &nbsp; &nbsp; Lies dafür die Kommentare.<br>
+              </li>
+              <li>
+                2. Speichere die Datei `config-example.php` als `config.php` ab.<br>
+              </li>
+              <li>
+                <a href="install.php" class="btn" target="_self">OK. Nochmal versuchen.</a>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+    ';
+  }
+
+
+/**
+  * Handle ssl
+  */
+
 if ( HTTPS != FALSE ) {
-    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
-        header("Status: 301 Moved Permanently");
-        header("Location:api/nossl.php");
-    } 
+  if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+    if("https://" . $_SERVER['HTTP_HOST'] == AUDIENCE) {
+      header("Status: 301 Moved Permanently");
+      header("Location:../api/nossl.php");
+    } else {
+      header("Status: 301 Moved Permanently");
+      header("Location:".AUDIENCE."/install.php");
+    }
+  }
 }
+
+/**
+  * APIKEY
+  */
 
 $APIKEY;
 $GLOBALS['APIKEY'] = APIKEY; // getApiKey();
@@ -151,7 +194,7 @@ $GLOBALS['APIKEY'] = APIKEY; // getApiKey();
     }
 
   }
-
+  header("Content-Type: text/html; charset=utf-8");
 ?>
 
 <!DOCTYPE HTML>

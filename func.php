@@ -5,8 +5,6 @@
   *
   **************************/
 
-require('config.php');
-
 /**
   * Database action
   */
