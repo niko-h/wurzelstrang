@@ -9,10 +9,13 @@ $(function() {
                 'auth.php',
                 {assertion:assertion},
                 function(msg) {
-                    if((msg == 'yes') && window.location.pathname != path+"/login/wurzelstrang.php") {
+                    var url = window.location.pathname;
+                    var filename = url.substring(url.lastIndexOf('/')+1);
+                    console.log('persona.js: '+filename);
+                    if((msg == 'yes') && filename != "wurzelstrang.php") {
                         window.location = "wurzelstrang.php";
                     }
-                    if((msg == 'no') && window.location.pathname != path+"/login/index.php") {
+                    if((msg == 'no') && filename != "index.php") {
                         navigator.id.logout();
                         window.location = "index.php";
                     }

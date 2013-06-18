@@ -32,6 +32,7 @@ fade = function(id) {
 var currentEntry;
 var user;
 var siteinfo;
+var rootURL = '../api';
 
 
 /*******************

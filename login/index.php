@@ -2,12 +2,17 @@
 session_start();
 require('../config.php');  // config file
 
-// If SSL is not configured, deny usage
+// handle ssl
 if ( HTTPS != FALSE ) {
-    if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
-        header("Status: 301 Moved Permanently");
-        header("Location:../api/nossl.php");
+  if ( empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off' ) {
+    if("https://" . $_SERVER['HTTP_HOST'] == AUDIENCE) {
+      header("Status: 301 Moved Permanently");
+      header("Location:../api/nossl.php");
+    } else {
+      header("Status: 301 Moved Permanently");
+      header("Location:".AUDIENCE."/login");
     }
+  }
 }
 header("Content-Type: text/html; charset=utf-8");
 ?>

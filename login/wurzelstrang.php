@@ -1,7 +1,7 @@
 <?php 
 
-ini_set('display_errors',1); 
-error_reporting(-1);
+// ini_set('display_errors',1); 
+// error_reporting(-1);
 
 /****************
 *
@@ -252,16 +252,12 @@ error_reporting(-1);
   
   <script type="text/javascript" src="https://login.persona.org/include.js"></script>
   
-  <script type="text/javascript">
-    path = <?php echo '"'.PATH.'"' ?>;
-  </script>
   <script type="text/javascript" src="persona.js"></script>
   <!-- Load CKEditor --> 
   <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
   <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
   
   <script type="text/javascript">
-    var rootURL = <?php echo '"'.API_URL.'"' ?>;
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
   </script>
   <script type="text/javascript" src="lib/kube.buttons.js"></script>
