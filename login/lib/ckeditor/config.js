@@ -78,5 +78,5 @@ CKEDITOR.editorConfig = function( config ) {
 	// need to have in the Standard(s) toolbar.
 	config.removeButtons = 'Subscript,Superscript';
 
-
 };
+
