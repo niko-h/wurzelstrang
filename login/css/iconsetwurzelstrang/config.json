@@ -11,6 +11,12 @@
       "src": "fontelico"
     },
     {
+      "uid": "9ea0a737ccc45d6c510dcbae56058849",
+      "css": "music",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
       "uid": "12f4ece88e46abd864e40b35e05b11cd",
       "css": "ok",
       "code": 59457,
@@ -140,6 +146,12 @@
       "uid": "5bb103cd29de77e0e06a52638527b575",
       "css": "wrench",
       "code": 59422,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f27bba41a700af51a4dd23cf4edea61d",
+      "css": "headphones",
+      "code": 59398,
       "src": "fontawesome"
     },
     {

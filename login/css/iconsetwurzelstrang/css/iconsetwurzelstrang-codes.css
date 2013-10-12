@@ -6,6 +6,7 @@
 .icon-home:before { content: '\e80c'; } /* '' */
 .icon-play:before { content: '\e853'; } /* '' */
 .icon-check:before { content: '\e810'; } /* '' */
+.icon-music:before { content: '\e800'; } /* '' */
 .icon-cog:before { content: '\e80b'; } /* '' */
 .icon-edit:before { content: '\e80f'; } /* '' */
 .icon-pencil:before { content: '\e80e'; } /* '' */
@@ -73,6 +74,7 @@
 .icon-twitter:before { content: '\e808'; } /* '' */
 .icon-twitter-circled:before { content: '\e802'; } /* '' */
 .icon-paypal:before { content: '\e84c'; } /* '' */
+.icon-headphones:before { content: '\e806'; } /* '' */
 .icon-user:before { content: '\e804'; } /* '' */
 .icon-download:before { content: '\e80d'; } /* '' */
 .icon-search:before { content: '\e803'; } /* '' */

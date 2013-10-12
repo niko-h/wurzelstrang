@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'iconsetwurzelstrang';
-  src: url('../font/iconsetwurzelstrang.eot?96140201');
-  src: url('../font/iconsetwurzelstrang.eot?96140201#iefix') format('embedded-opentype'),
-       url('../font/iconsetwurzelstrang.woff?96140201') format('woff'),
-       url('../font/iconsetwurzelstrang.ttf?96140201') format('truetype'),
-       url('../font/iconsetwurzelstrang.svg?96140201#iconsetwurzelstrang') format('svg');
+  src: url('../font/iconsetwurzelstrang.eot?14941010');
+  src: url('../font/iconsetwurzelstrang.eot?14941010#iefix') format('embedded-opentype'),
+       url('../font/iconsetwurzelstrang.woff?14941010') format('woff'),
+       url('../font/iconsetwurzelstrang.ttf?14941010') format('truetype'),
+       url('../font/iconsetwurzelstrang.svg?14941010#iconsetwurzelstrang') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'iconsetwurzelstrang';
-    src: url('../font/iconsetwurzelstrang.svg?96140201#iconsetwurzelstrang') format('svg');
+    src: url('../font/iconsetwurzelstrang.svg?14941010#iconsetwurzelstrang') format('svg');
   }
 }
 */
@@ -57,6 +57,7 @@
 .icon-home:before { content: '\e80c'; } /* '' */
 .icon-play:before { content: '\e853'; } /* '' */
 .icon-check:before { content: '\e810'; } /* '' */
+.icon-music:before { content: '\e800'; } /* '' */
 .icon-cog:before { content: '\e80b'; } /* '' */
 .icon-edit:before { content: '\e80f'; } /* '' */
 .icon-pencil:before { content: '\e80e'; } /* '' */
@@ -124,6 +125,7 @@
 .icon-twitter:before { content: '\e808'; } /* '' */
 .icon-twitter-circled:before { content: '\e802'; } /* '' */
 .icon-paypal:before { content: '\e84c'; } /* '' */
+.icon-headphones:before { content: '\e806'; } /* '' */
 .icon-user:before { content: '\e804'; } /* '' */
 .icon-download:before { content: '\e80d'; } /* '' */
 .icon-search:before { content: '\e803'; } /* '' */

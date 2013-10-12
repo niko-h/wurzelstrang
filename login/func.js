@@ -468,7 +468,7 @@ function renderList(data) {
   $('#menu_list li').remove();
   $.each(list, function(index, entry) {
     visible_class = entry.visible ? [] : ' ishidden';
-    visible_icon = entry.visible ? [] : '<i class="icon-eye-close eyeshut"></i>';
+    visible_icon = entry.visible ? [] : '<i class="icon-eye-shut eyeshut"></i>';
     visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
     levels = '';
     if ($('#levelstarget').val()==true && entry.levels>=1) {
@@ -476,7 +476,7 @@ function renderList(data) {
         levels+='<span class="levels"></span>';
       };
     }
-    $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-reorder"></i></span></li>');
+    $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
   });
   $('#menu_list li a').click(menulink); // select entry in menu
 }
@@ -500,7 +500,7 @@ function renderEntry(item) {
     } else {
       $('#leveloption').hide();
     }
-    $('#deletebutton').html('<i class="icon-remove"></i> Löschen');
+    $('#deletebutton').html('<i class="icon-cancel"></i> Löschen');
   } else { 
     $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite'); 
     $('#entryId').val("");
@@ -536,7 +536,7 @@ function renderUserList(data) {
 
 function renderSiteInfo(siteinfo) {
   $('title').text(siteinfo.site_title+" - bearbeiten");
-  $('#head-sitelink').html('<b>'+siteinfo.site_title+' <i class="icon-caret-right"></i></b>');
+  $('#head-sitelink').html('<b>'+siteinfo.site_title+' <i class="icon-angle-right"></i></b>');
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
   $('#sitetheme').val(siteinfo.site_theme);

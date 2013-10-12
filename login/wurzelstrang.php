@@ -44,7 +44,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
-  <link rel="stylesheet" href="css/fontawesome/fontawesome.css">
+  <!-- <link rel="stylesheet" href="css/fontawesome/fontawesome.css"> -->
+  <link rel="stylesheet" href="css/iconsetwurzelstrang/css/iconsetwurzelstrang.css">
   <!--[if IE 7]>
   <link rel="stylesheet" href="css/fontawesome/fontawesome-ie7.css">
   <![endif]-->
@@ -123,9 +124,9 @@
                   </li>
                   <li class="third" id="leveloption">
                     <span class="btn-group">
-                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-chevron-left"></i></button>
+                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
                       <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
-                      <button id="levelup" class="btn .btn-append"><i class="icon-chevron-right"></i></button>            
+                      <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
                     </span>
                   </li>
 
