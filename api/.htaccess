@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Ensure HTTPS
+# Comment the following two lines out if you wish no HTTPS redirect.
+#RewriteCond  %{SERVER_PORT}  !443
+#RewriteRule  ^.*$  https://localhost:4443/wurzelstrang/api/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+#RewriteBase /
