@@ -49,7 +49,6 @@
         $sitetitle = $siteinfo['site_title'];
         $sitetheme = $siteinfo['site_theme'];
         $siteheadline = $siteinfo['site_headline'];
-        $sitelevels = $siteinfo['site_levels'];
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }

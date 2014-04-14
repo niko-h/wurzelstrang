@@ -44,7 +44,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/kube.css" />   
   <link rel="stylesheet" type="text/css" href="css/master.css" /> 
-  <link rel="stylesheet" href="css/fontawesome/fontawesome.css">
+  <!-- <link rel="stylesheet" href="css/fontawesome/fontawesome.css"> -->
+  <link rel="stylesheet" href="css/iconsetwurzelstrang/css/iconsetwurzelstrang.css">
   <!--[if IE 7]>
   <link rel="stylesheet" href="css/fontawesome/fontawesome-ie7.css">
   <![endif]-->
@@ -92,7 +93,14 @@
           <legend>
             <i class="icon-home"></i> Start
           </legend>
-          <?php require('hello.html'); ?>
+          <?php 
+            $filename = '../themes/'.theme().'/hello.html';
+            if (file_exists($filename)) {
+              require_once($filename);
+            } else {
+              require_once('hello.html'); 
+            }
+          ?>
         </fieldset>
       </div>
 
@@ -113,7 +121,7 @@
                   </li>
                 </ul>
               </li>  
-              <li>
+              <li class="main-editor-li">
                 <textarea name="content" id="ckeditor"></textarea>
               </li>
               <li>
@@ -123,9 +131,9 @@
                   </li>
                   <li class="third" id="leveloption">
                     <span class="btn-group">
-                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-chevron-left"></i></button>
+                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
                       <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
-                      <button id="levelup" class="btn .btn-append"><i class="icon-chevron-right"></i></button>            
+                      <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
                     </span>
                   </li>
 
@@ -159,11 +167,7 @@
                   <label for="theme" class="bold">Theme</label>
                   <select name="sitetheme" id="sitetheme" class="select">
                     <?php foreach ($themes as $theme) {
-                      if ( isset($siteinfo['theme']) && ( $siteinfo['theme'] == $theme) ) {
-                        echo '              <option selected="selected">'.$theme.'</option>\n';
-                      } else {
-                        echo '              <option>'.$theme.'</option>\n';
-                      }
+                      echo '<option>'.$theme.'</option>\n';
                     } ?>
                   </select>
                 </li>
@@ -262,6 +266,17 @@
   </script>
   <script type="text/javascript" src="lib/kube.buttons.js"></script>
   <script type="text/javascript" src="func.js"></script>
+
+  <!-- Load Theme-specific JS -->
+  <?php 
+    foreach ($themes as $theme) {
+      if($theme == theme()) {
+        if( file_exists('../themes/'.$theme.'/js/wurzel-config.js') ) {
+          echo '<script type="text/javascript" src="../themes/'.$theme.'/js/wurzel-config.js"></script>';        
+        }
+      }
+    }
+  ?>  
   
 
   <!--[if lt IE 9]>

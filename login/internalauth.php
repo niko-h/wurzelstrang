@@ -3,6 +3,26 @@
 // error_reporting(-1);
 
 /**
+  * theme
+  */
+function theme(){ // mailadress to check
+  try {
+    $query = 'SELECT site_theme FROM siteinfo LIMIT 1;'; 
+    $db = getConnection();
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_BOTH); 
+    $theme = $stmt->fetch();
+    $db = null;
+    return $theme[0];
+  } catch(PDOException $e) {
+    echo 'error:'. $e->getMessage();
+  }
+}
+
+
+
+/**
   * isadmin - is given email-adress registered as admin in the database?
   */
 function isadmin($mailin){ // mailadress to check

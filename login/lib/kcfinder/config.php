@@ -26,7 +26,7 @@ $_CONFIG = array(
     'theme' => "oxygen",
 
     'uploadURL' => "../../../uploads",
-    'uploadDir' => "",
+    'uploadDir' => "../../../uploads",
 
     'dirPerms' => 0755,
     'filePerms' => 0644,
@@ -53,8 +53,6 @@ $_CONFIG = array(
     'types' => array(
 
         // CKEditor & FCKEditor types
-        'files'   =>  "",
-        'flash'   =>  "swf",
         'images'  =>  "*img",
 
         // TinyMCE types
@@ -75,13 +73,13 @@ $_CONFIG = array(
 
     'mime_magic' => "",
 
-    'maxImageWidth' => 450,
+    'maxImageWidth' => 4000,
     'maxImageHeight' => 0,
 
-    'thumbWidth' => 100,
+    // 'thumbWidth' => 0,
     'thumbHeight' => 100,
 
-    'thumbsDir' => ".thumbs",
+    'thumbsDir' => "thumbs",
 
     'jpegQuality' => 90,
 

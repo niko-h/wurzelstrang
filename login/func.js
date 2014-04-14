@@ -7,11 +7,11 @@
 onLoad = function() {
     $("#loader").hide();
     hello();                               // load hello screen
-    getAll();                              // get itemes for menu
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
-  	dragMenu();                            // build menu
+  	getAll();                              // get itemes for menu
+    dragMenu();                            // build menu
     $('#page').fadeToggle(800);
     $('.head').fadeToggle(800);
     $('#deletebutton').hide();             // hide deletebutton
@@ -32,7 +32,7 @@ fade = function(id) {
 var currentEntry;
 var user;
 var siteinfo;
-var rootURL = '../api';
+var rootURL = '../api/index.php';
 
 
 /*******************
@@ -75,6 +75,7 @@ function linkhello() {
   $('#hello').show();
   $('#edit').hide();
   $('#preferences').hide();
+  $('.menu-id').hide();
   return false;
 };
 
@@ -93,6 +94,7 @@ function prefbtn() {
   $('#hello').hide();
   $('#edit').hide();
   $('#preferences').toggle();
+  $('.menu-id').hide();
   return false;
 };
 
@@ -111,6 +113,7 @@ function deletebutton() {
   if(confirm('[OK] drücken um den Eintrag zu löschen.')) {
     $('#edit').hide();
     deleteEntry();
+    $('.menu-id').hide();
     return false;
   }
 };
@@ -152,6 +155,8 @@ function menulink() {
   $('#hello').hide();
   $('#edit').show();
   $('#preferences').hide();
+  $('.menu-id').hide();
+  $('#flag_'+$(this).data('identity')).show();
   getEntry($(this).data('identity'));
 };
 
@@ -468,7 +473,7 @@ function renderList(data) {
   $('#menu_list li').remove();
   $.each(list, function(index, entry) {
     visible_class = entry.visible ? [] : ' ishidden';
-    visible_icon = entry.visible ? [] : '<i class="icon-eye-close eyeshut"></i>';
+    visible_icon = entry.visible ? [] : '<i class="icon-eye-shut eyeshut"></i>';
     visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
     levels = '';
     if ($('#levelstarget').val()==true && entry.levels>=1) {
@@ -476,7 +481,8 @@ function renderList(data) {
         levels+='<span class="levels"></span>';
       };
     }
-    $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-reorder"></i></span></li>');
+    // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
+    $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
   });
   $('#menu_list li a').click(menulink); // select entry in menu
 }
@@ -500,7 +506,7 @@ function renderEntry(item) {
     } else {
       $('#leveloption').hide();
     }
-    $('#deletebutton').html('<i class="icon-remove"></i> Löschen');
+    $('#deletebutton').html('<i class="icon-cancel"></i> Löschen');
   } else { 
     $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite'); 
     $('#entryId').val("");
@@ -536,7 +542,7 @@ function renderUserList(data) {
 
 function renderSiteInfo(siteinfo) {
   $('title').text(siteinfo.site_title+" - bearbeiten");
-  $('#head-sitelink').html('<b>'+siteinfo.site_title+' <i class="icon-caret-right"></i></b>');
+  $('#head-sitelink').html('<b>'+siteinfo.site_title+' <i class="icon-angle-right"></i></b>');
   $('#sitetitle').val(siteinfo.site_title);
   $('#siteheadline').val(siteinfo.site_headline);
   $('#sitetheme').val(siteinfo.site_theme);
