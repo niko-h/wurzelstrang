@@ -2,7 +2,8 @@
 .*~
 *.sublime-project
 *.sublime-workspace
-db/content.db
+db/*
+!db/.htaccess
 wurzeldev.sublime-workspace
 wurzeldev.sublime-project
 config.php
