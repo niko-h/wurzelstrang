@@ -4,4 +4,6 @@ apiary.apib
 *.sublime-project
 *.sublime-workspace
 db/content.db
+themes/*
+uploads/*
 .DS_STORE
