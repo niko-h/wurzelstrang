@@ -10,5 +10,5 @@ config.php
 uploads/*
 !uploads/.htaccess
 themes/*
-!themes/.htaccess
+!themes/README.md
 config.codekit
