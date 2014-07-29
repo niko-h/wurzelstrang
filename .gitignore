@@ -11,4 +11,5 @@ uploads/*
 !uploads/.htaccess
 themes/*
 !themes/README.md
+!themes/default
 config.codekit
