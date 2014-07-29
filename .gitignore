@@ -8,5 +8,7 @@ wurzeldev.sublime-workspace
 wurzeldev.sublime-project
 config.php
 uploads/*
+!uploads/.htaccess
 themes/*
+!themes/.htaccess
 config.codekit
