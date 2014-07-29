@@ -53,8 +53,6 @@ $_CONFIG = array(
     'types' => array(
 
         // CKEditor & FCKEditor types
-        'files'   =>  "",
-        'flash'   =>  "swf",
         'images'  =>  "*img",
 
         // TinyMCE types
@@ -79,7 +77,7 @@ $_CONFIG = array(
     'maxImageHeight' => 0,
 
     // 'thumbWidth' => 0,
-    'thumbHeight' => 200,
+    'thumbHeight' => 100,
 
     'thumbsDir' => "thumbs",
 

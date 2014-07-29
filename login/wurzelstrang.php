@@ -93,7 +93,14 @@
           <legend>
             <i class="icon-home"></i> Start
           </legend>
-          <?php require('hello.html'); ?>
+          <?php 
+            $filename = '../themes/'.theme().'/hello.html';
+            if (file_exists($filename)) {
+              require_once($filename);
+            } else {
+              require_once('hello.html'); 
+            }
+          ?>
         </fieldset>
       </div>
 
@@ -114,7 +121,7 @@
                   </li>
                 </ul>
               </li>  
-              <li>
+              <li class="main-editor-li">
                 <textarea name="content" id="ckeditor"></textarea>
               </li>
               <li>
@@ -160,11 +167,7 @@
                   <label for="theme" class="bold">Theme</label>
                   <select name="sitetheme" id="sitetheme" class="select">
                     <?php foreach ($themes as $theme) {
-                      if ( isset($siteinfo['theme']) && ( $siteinfo['theme'] == $theme) ) {
-                        echo '              <option selected="selected">'.$theme.'</option>\n';
-                      } else {
-                        echo '              <option>'.$theme.'</option>\n';
-                      }
+                      echo '<option>'.$theme.'</option>\n';
                     } ?>
                   </select>
                 </li>
@@ -263,6 +266,17 @@
   </script>
   <script type="text/javascript" src="lib/kube.buttons.js"></script>
   <script type="text/javascript" src="func.js"></script>
+
+  <!-- Load Theme-specific JS -->
+  <?php 
+    foreach ($themes as $theme) {
+      if($theme == theme()) {
+        if( file_exists('../themes/'.$theme.'/js/wurzel-config.js') ) {
+          echo '<script type="text/javascript" src="../themes/'.$theme.'/js/wurzel-config.js"></script>';        
+        }
+      }
+    }
+  ?>  
   
 
   <!--[if lt IE 9]>

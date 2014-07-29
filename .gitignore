@@ -6,3 +6,6 @@ db/content.db
 wurzeldev.sublime-workspace
 wurzeldev.sublime-project
 config.php
+uploads
+themes
+config.codekit

@@ -21,7 +21,7 @@ if ( HTTPS != FALSE ) {
 $APIKEY;
 $LEVELS;
 $GLOBALS['APIKEY'] = APIKEY; // getApiKey();
-$GLOBALS['LEVELS'] = LEVELS; // get Levelnumber
+$GLOBALS['LEVELS'] = LEVELS;
 
 require 'Slim/Slim.php';
 
@@ -282,6 +282,15 @@ function addEntry() {
         $stmt->bindParam("level", $level0);
         $stmt->execute();
         echo '{"inserted":{"id":'. $db->lastInsertId() .'}}';
+
+        // if (!file_exists('../uploads/images/'.$db->lastInsertId())) {
+        //     mkdir('../uploads/images/'.$db->lastInsertId(), 0777, true);
+        // }
+        $foldername = str_replace(' ', '_', strtolower($entry->title));
+        if (!file_exists('../uploads/images/'.$foldername)) {
+            mkdir('../uploads/images/'.$foldername, 0777, true);
+        }
+
         $time = null;
         $db = null;
     } catch(PDOException $e) {
@@ -311,6 +320,15 @@ function updateEntry($id) {
         $time = null;
         $db = null;
         echo '{"updated":{"id":'. $id .'}}';
+
+        // if (!file_exists('../uploads/images/'.$id)) {
+        //     mkdir('../uploads/images/'.$id, 0777, true);
+        // }
+        $foldername = str_replace(' ', '_', strtolower($entry->title));
+        if (!file_exists('../uploads/images/'.$foldername)) {
+            mkdir('../uploads/images/'.$foldername, 0777, true);
+        }
+
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -354,6 +372,11 @@ function deleteEntry($id) {
         $stmt->execute();
         $db = null;
         echo '{"deleted":'.$id.'}';
+
+        if (file_exists('../uploads/images/'.$id)) {
+            rmdir('../uploads/images/'.$id);
+        }
+
     } catch(PDOException $e) {
         echo '{"error":{"text":"Fehler beim L&ouml;schen."}}';
     }

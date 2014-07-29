@@ -1,7 +1,7 @@
 <?php
   if (isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'off') {
     header("Status: 301 Moved Permanently");
-    header("Location:index.php");
+    header("Location:../index.php");
   }
 ?>
 

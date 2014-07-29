@@ -7,11 +7,11 @@
 onLoad = function() {
     $("#loader").hide();
     hello();                               // load hello screen
-    getAll();                              // get itemes for menu
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
-  	dragMenu();                            // build menu
+  	getAll();                              // get itemes for menu
+    dragMenu();                            // build menu
     $('#page').fadeToggle(800);
     $('.head').fadeToggle(800);
     $('#deletebutton').hide();             // hide deletebutton
@@ -32,7 +32,7 @@ fade = function(id) {
 var currentEntry;
 var user;
 var siteinfo;
-var rootURL = '../api';
+var rootURL = '../api/index.php';
 
 
 /*******************
@@ -75,6 +75,7 @@ function linkhello() {
   $('#hello').show();
   $('#edit').hide();
   $('#preferences').hide();
+  $('.menu-id').hide();
   return false;
 };
 
@@ -93,6 +94,7 @@ function prefbtn() {
   $('#hello').hide();
   $('#edit').hide();
   $('#preferences').toggle();
+  $('.menu-id').hide();
   return false;
 };
 
@@ -111,6 +113,7 @@ function deletebutton() {
   if(confirm('[OK] drücken um den Eintrag zu löschen.')) {
     $('#edit').hide();
     deleteEntry();
+    $('.menu-id').hide();
     return false;
   }
 };
@@ -152,6 +155,8 @@ function menulink() {
   $('#hello').hide();
   $('#edit').show();
   $('#preferences').hide();
+  $('.menu-id').hide();
+  $('#flag_'+$(this).data('identity')).show();
   getEntry($(this).data('identity'));
 };
 
@@ -476,6 +481,7 @@ function renderList(data) {
         levels+='<span class="levels"></span>';
       };
     }
+    // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
     $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
   });
   $('#menu_list li a').click(menulink); // select entry in menu

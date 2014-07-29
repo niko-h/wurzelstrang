@@ -194,6 +194,12 @@ div#menu li:hover span.tooltip {
 	margin: -21px 0px 0px 225px;
 }
 
+div#menu li span.menu-id,
+div#menu li:hover span.menu-id {
+	display: none;
+	margin: 3px 0px 0px -60px;
+}
+
 #menu_list li .levels {
 	color: #888;
 	margin: -4px 4px -4px -4px;
@@ -362,7 +368,8 @@ div.fade {
 div.greenfde { background: #0f0;	border: 1px solid #0a0; }
 div.redfde { background: #faa;	border: 1px solid #f00; }
 
-span.tooltip { 
+span.tooltip,
+span.tooltip-left { 
 	display: none; 
 	z-index: 1000;
 	position: absolute;
@@ -404,10 +411,47 @@ span.tooltip::after {
 	border-radius: 50%;
 	box-shadow: inset 0 1px 1px #000;
 }
-span.tooltip span {
+span.tooltip span,
+span.tooltip-left span {
 	margin: 0px !important;
 	text-shadow: 0px 1px 0px #000;
 }
+
+span.tooltip-left { 
+	padding: 0 9px 0 7px;
+	-webkit-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+span.tooltip-left:after {
+	content: "";
+	position: absolute;
+	top: 0px;
+	right: -10px;
+	float: right;
+	width: 0px;
+	height: 0px;
+	border-width: 11px 0px 11px 10px;
+	border-style: solid solid solid solid;
+	border-color: transparent transparent transparent #777;
+}
+span.tooltip-left::before {
+	content: "";
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	background: #fff;
+	top: 8px;
+	right: -1px;
+	border-radius: 50%;
+	box-shadow: inset 0 1px 1px #000;
+}
+
 /*remove ckeditor shadow*/
 .cke_chrome {
   box-shadow: 0 0 0px #000 !important;
