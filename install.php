@@ -71,6 +71,11 @@ if( file_exists( $db_file ) ) {
     header( "Location: index.php" );
 } else {
 
+    // check if database file can be created
+    if( !is_writable( dirname( $db_file ) ) || !is_executable( dirname( $db_file ) )) {
+        die( $db_file . ' is not writable!' );
+    }
+
     /**
      * Themedir
      */
