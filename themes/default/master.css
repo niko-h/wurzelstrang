@@ -4,74 +4,88 @@
 *
 **************************/
 
-	
 /* =Layout
 -----------------------------------------------------------------------------*/
-* { padding: 0; margin: 0; }
-html { font-size: 62.5%; }
-html, body, #mother { height: 100%; min-height: 100%; }
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+html, body, #mother {
+    height: 100%;
+    min-height: 100%;
+}
 
 body {
-  color: #333;
-  font-family: Helvetica, sans-serif;
-  padding: 0;
-  margin: 0;
-  min-width: 890px;
-  background: #666;
-  font-size: 1.4em;
+    color: #333;
+    font-family: Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+    min-width: 890px;
+    background: #666;
+    font-size: 1.4em;
 }
+
 #mother {
-  position:relative; /* needed for footer positioning*/
-  margin: 0px auto 0px auto;
-  width: 890px;
-  clear: both;
+    position: relative; /* needed for footer positioning*/
+    margin: 0px auto 0px auto;
+    width: 890px;
+    clear: both;
 }
 
 /* =Header
 -----------------------------------------------------------------------------*/
 #head {
-  margin: 0px;
-  height: 100px;
-  padding: 0px 20px;
-  line-height: 100px;
-  width: 100%;
-  background: #fff;
-  z-index: 3;
+    margin: 0px;
+    height: 100px;
+    padding: 0px 20px;
+    line-height: 100px;
+    width: 100%;
+    background: #fff;
+    z-index: 3;
 }
 
 /* =Nav
 -----------------------------------------------------------------------------*/
 #menu {
-  width: 160px;
-  float: left;
-  padding: 20px;
-  background: #ddd;
+    width: 160px;
+    float: left;
+    padding: 20px;
+    background: #ddd;
 }
+
 ul#menu_list li {
-  list-style-type: none;
-  list-style-image: none;
-  margin-bottom: 5px;
+    list-style-type: none;
+    list-style-image: none;
+    margin-bottom: 5px;
 }
 
 /* =Content
 -----------------------------------------------------------------------------*/
 #content {
-  z-index: 1;
-  background: #eee;
-  width: 500px;
-  margin: 0px 0px 0px 200px;
-  overflow: hidden;
-  padding: 10px 30px 10px 20px;
+    z-index: 1;
+    background: #eee;
+    width: 500px;
+    margin: 0px 0px 0px 200px;
+    overflow: hidden;
+    padding: 10px 30px 10px 20px;
 }
+
 #content h1.contentitem {
-  text-decoration: underline;
+    text-decoration: underline;
 }
+
 #content p {
-  margin-bottom: 20px;
-  line-height: 1.5em;
+    margin-bottom: 20px;
+    line-height: 1.5em;
 }
+
 #content img {
-  max-width: 450px;
+    max-width: 450px;
 }
 
 /* =Footer

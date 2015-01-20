@@ -1,32 +1,32 @@
-<?php 
+<?php
 /***************************
-*
-* Index
-*
-**************************/
+ *
+ * Index
+ *
+ **************************/
 
-header("Content-Type: text/html; charset=utf-8");
+header( "Content-Type: text/html; charset=utf-8" );
 
 /**
-  * Declare variables
-  */
+ * Declare variables
+ */
 
-  $sitetitle;
-  $sitetheme;
-  $siteheadline;
-  $menuitems;
-  $contentitems;
-  $menu;
-  $content;
+$sitetitle;
+$sitetheme;
+$siteheadline;
+$menuitems;
+$contentitems;
+$menu;
+$content;
 
-include('func.php');
+include( 'func.php' );
 
 ?>
 
 <!DOCTYPE HTML>
 <html>
 
-	<?php include('themes/'.$sitetheme.'/head.php') ?>
+<?php include( 'themes/' . $sitetheme . '/head.php' ) ?>
 
-	<?php include('themes/'.$sitetheme.'/body.php') ?>
+<?php include( 'themes/' . $sitetheme . '/body.php' ) ?>
 </html>
