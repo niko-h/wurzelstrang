@@ -10,7 +10,7 @@
 require( '../config.php' );
 
 // If SSL is not configured, deny API usage
-if( HTTPS != FALSE ) {
+if( HTTPS === TRUE ) {
     if( empty( $_SERVER[ 'HTTPS' ] ) || $_SERVER[ 'HTTPS' ] == 'off' ) {
         header( "Status: 301 Moved Permanently" );
         header( "Location:nossl.php" );

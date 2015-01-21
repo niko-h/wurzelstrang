@@ -3,7 +3,7 @@ session_start();
 require( '../config.php' );  // config file
 
 // handle ssl
-if( HTTPS != FALSE ) {
+if( HTTPS === TRUE ) {
     if( empty( $_SERVER[ 'HTTPS' ] ) || $_SERVER[ 'HTTPS' ] == 'off' ) {
         if( "https://" . $_SERVER[ 'HTTP_HOST' ] == AUDIENCE ) {
             header( "Status: 301 Moved Permanently" );

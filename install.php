@@ -42,7 +42,7 @@ if( file_exists( "config.php" ) ) {
  * Handle ssl
  */
 
-if( HTTPS != FALSE ) {
+if( HTTPS === TRUE ) {
     if( empty( $_SERVER[ 'HTTPS' ] ) || $_SERVER[ 'HTTPS' ] == 'off' ) {
         if( "https://" . $_SERVER[ 'HTTP_HOST' ] == AUDIENCE ) {
             header( "Status: 301 Moved Permanently" );
