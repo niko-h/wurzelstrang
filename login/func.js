@@ -33,7 +33,8 @@ var currentEntry;
 var user;
 var siteinfo;
 var rootURL = '../api/index.php';
-
+var newPos = null;
+var newLevel = 0;
 
 /*******************
  * Action Listeners
@@ -87,6 +88,15 @@ function linknew() {
     $('#leveloption').hide();
     newEntry();
     return false;
+};
+
+function addChild() {
+    console.log('addChild');
+    var parentLevel = $(this).data('level');
+    var parentPos = $(this).data('pos');
+    newLevel = parentLevel + 1;
+    newPos = parentPos + 1;
+    linknew();
 };
 
 function prefbtn() {
@@ -359,7 +369,8 @@ dragMenu = function () {
         delay: 150,
         appendTo: document.body,
         update: function (event, ui) {
-            order = $('#menu_list').sortable('toArray');
+            console.log('update');
+            var order = $('#menu_list').sortable('toArray');
             console.log(order);
             $.ajax({
                 type: 'PUT',
@@ -402,8 +413,12 @@ function addEntry() {
             fade('#savedfade');
             getEntry(data.inserted.id);
             getAll();
+            newPos = null;
+            newLevel = 0;
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            newPos = null;
+            newLevel = 0;
             alert('addEntry error: ' + textStatus);
         }
     });
@@ -482,12 +497,20 @@ function renderList(data) {
             for (var i = 0; i < entry.levels; i++) {
                 levels += '<span class="levels"></span>';
             }
-            ;
         }
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
-        $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '"><a href="#" class="menulink row-split" data-identity="' + entry.id + '">' + levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup + '</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
+        $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
+            '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' + 
+                levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup + 
+            '</a>' + 
+            '<a href="#" class="addChild-Button" '+
+                'data-level="' + entry.levels + '" '+
+                'data-identity="' + entry.id + '"'+
+                'data-pos="' + entry.pos + '">+</a>' + 
+            '<span class="dragger push-right"><i class="icon-menu"></i></span></li>');
     });
-    $('#menu_list li a').click(menulink); // select entry in menu
+    $('#menu_list li a.menulink').click(menulink); // select entry in menu
+    $('.addChild-Button').click(addChild);
 }
 
 function renderEntry(item) {
@@ -565,7 +588,10 @@ function newEntryToJSON() {
         "apikey": apikey,
         "title": $('#title').val(),
         "content": $('#ckeditor').val(),
-        "visible": $('#visiblecheckbox').is(':checked')
+        "visible": $('#visiblecheckbox').is(':checked'),
+        "pos": newPos,
+        "level": newLevel,
+        "parentpos": (newPos === null) ? null : newPos-1
     });
     return data;
 }

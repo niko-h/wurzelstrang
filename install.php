@@ -112,19 +112,27 @@ if( file_exists( $db_file ) ) {
             $db = new SQLITE3( "$db_file" );
             if( !$db ) die( 'Datenbankfehler' );
             $query = 'CREATE TABLE IF NOT EXISTS siteinfo(
+                    site_language TEXT,
                     site_title    TEXT,
                     site_theme    TEXT,
                     site_headline TEXT,
-                    site_levels   BOOLEAN
+                    site_levels   BOOLEAN 
                   );
 
                   CREATE TABLE IF NOT EXISTS users(
+                    id            INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_email    TEXT,
                     admin         BOOLEAN
                   );
 
+                  CREATE TABLE IF NOT EXISTS site_admins(
+                    user_id       INTEGER,
+                    site_id       INTEGER
+                  );
+
                   CREATE TABLE IF NOT EXISTS sites(
                     id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                    language  TEXT,
                     title     INTEGER,
                     mtime     INTEGER,
                     content   TEXT,

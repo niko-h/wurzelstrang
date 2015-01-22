@@ -269,17 +269,25 @@ function addEntry() {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
     }
-    $query = 'INSERT INTO sites ( title, content, mtime, visible, levels) VALUES ( :title, :content, :time, :visible, :level );';
+    $query = 'INSERT INTO sites ( title, content, mtime, visible, levels, pos) VALUES ( :title, :content, :time, :visible, :level, :pos );';
+    $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
     try {
         $db = getConnection();
+        
+        if( $entry->parentpos !== null ){
+            $stmt = $db->prepare( $move_query );
+            $stmt->bindParam( "parentpos", $entry->parentpos );
+            $stmt->execute();
+        }
+
         $stmt = $db->prepare( $query );
         $stmt->bindParam( "title", $entry->title );
         $stmt->bindParam( "content", $entry->content );
         $time = time();
         $stmt->bindParam( "time", $time );
         $stmt->bindParam( "visible", $entry->visible );
-        $level0 = 0;
-        $stmt->bindParam( "level", $level0 );
+        $stmt->bindParam( "level", $entry->level );
+        $stmt->bindParam( "pos", $entry->pos );
         $stmt->execute();
         echo '{"inserted":{"id":' . $db->lastInsertId() . '}}';
 
