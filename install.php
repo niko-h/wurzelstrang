@@ -49,7 +49,7 @@ if( HTTPS === TRUE ) {
             header( "Location:../api/nossl.php" );
         } else {
             header( "Status: 301 Moved Permanently" );
-            header( "Location:" . AUDIENCE . "/install.php" );
+            header( "Location:" . str_replace( 'http://', 'https://', AUDIENCE ) . "/install.php" );
         }
     }
 }
@@ -72,7 +72,7 @@ if( file_exists( $db_file ) ) {
 } else {
 
     // check if database file can be created
-    if( !is_writable( dirname( $db_file ) ) || !is_executable( dirname( $db_file ) )) {
+    if( !is_writable( dirname( $db_file ) ) || !is_executable( dirname( $db_file ) ) ) {
         die( $db_file . ' is not writable!' );
     }
 
@@ -88,7 +88,9 @@ if( file_exists( $db_file ) ) {
         if( $dh = opendir( $themedir ) ) {
             while( ( $file = readdir( $dh ) ) !== FALSE ) {
                 if( $file != '.' && $file != '..' ) {
-                    array_push( $themes, $file );
+                    if( is_dir( $themedir . DIRECTORY_SEPARATOR . $file ) ) {
+                        array_push( $themes, $file );
+                    }
                 }
             }
             closedir( $dh );
@@ -112,27 +114,20 @@ if( file_exists( $db_file ) ) {
             $db = new SQLITE3( "$db_file" );
             if( !$db ) die( 'Datenbankfehler' );
             $query = 'CREATE TABLE IF NOT EXISTS siteinfo(
-                    site_language TEXT,
+                    site_lang     TEXT,
                     site_title    TEXT,
                     site_theme    TEXT,
                     site_headline TEXT,
-                    site_levels   BOOLEAN 
+                    site_levels   BOOLEAN
                   );
 
                   CREATE TABLE IF NOT EXISTS users(
-                    id            INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_email    TEXT,
                     admin         BOOLEAN
                   );
 
-                  CREATE TABLE IF NOT EXISTS site_admins(
-                    user_id       INTEGER,
-                    site_id       INTEGER
-                  );
-
                   CREATE TABLE IF NOT EXISTS sites(
                     id        INTEGER PRIMARY KEY AUTOINCREMENT,
-                    language  TEXT,
                     title     INTEGER,
                     mtime     INTEGER,
                     content   TEXT,

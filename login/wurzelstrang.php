@@ -29,7 +29,9 @@ if( is_dir( $themedir ) ) {  // Open a directory and read its contents
     if( $dh = opendir( $themedir ) ) {
         while( ( $file = readdir( $dh ) ) !== FALSE ) {
             if( $file != '.' && $file != '..' ) {
-                array_push( $themes, $file );
+                if( is_dir( $themedir . DIRECTORY_SEPARATOR . $file ) ) {
+                    array_push( $themes, $file );
+                }
             }
         }
         closedir( $dh );
