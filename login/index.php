@@ -10,7 +10,7 @@ if( HTTPS === TRUE ) {
             header( "Location:../api/nossl.php" );
         } else {
             header( "Status: 301 Moved Permanently" );
-            header( "Location:" . AUDIENCE . "/login" );
+            header( "Location:" . str_replace('http://','https://',AUDIENCE) . "/login" );
         }
     }
 }
