@@ -49,7 +49,7 @@ if( HTTPS === TRUE ) {
             header( "Location:../api/nossl.php" );
         } else {
             header( "Status: 301 Moved Permanently" );
-            header( "Location:" . AUDIENCE . "/install.php" );
+            header( "Location:" . str_replace('http://','https://',AUDIENCE) . "/install.php" );
         }
     }
 }
