@@ -138,12 +138,8 @@ if( file_exists( $db_file ) ) {
 
             // Seiteninfo
             $query = 'INSERT INTO
-                    siteinfo(site_title, site_theme, site_headline, site_levels)
-                  VALUES 
-                    ( :sitetitle 
-                    , :sitetheme 
-                    , :siteheadline
-                    , :sitelevels )
+                    siteinfo(  site_title, site_theme, site_headline, site_levels)
+                      VALUES( :sitetitle, :sitetheme, :siteheadline, :sitelevels )
                ;';
             try {
                 $stmt = $db->prepare( $query );
@@ -158,10 +154,8 @@ if( file_exists( $db_file ) ) {
 
             // Userinfo
             $query = 'INSERT INTO
-                    users(user_email, admin) 
-                  VALUES 
-                    ( :email 
-                    , :admin )
+                    users(  user_email, admin )
+                   VALUES( :email,     :admin )
                   ;';
             try {
                 $stmt = $db->prepare( $query );
@@ -173,7 +167,8 @@ if( file_exists( $db_file ) ) {
                 echo '{"error":{"text":' . $e->getMessage() . '}}';
             }
 
-            $query = 'INSERT INTO sites(title, content, pos, visible, levels, mtime) VALUES ( :title, :content, :pos, :visible, :level, :time);';
+            $query = 'INSERT INTO sites(  title,  content,  pos,  visible,  levels, mtime)
+                                 VALUES( :title, :content, :pos, :visible, :level, :time );';
             try {
                 $stmt = $db->prepare( $query );
                 $stmt->bindValue( "title", "Juhuu!" );

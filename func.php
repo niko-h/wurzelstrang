@@ -62,7 +62,7 @@ function getSiteInfo() {
  */
 
 function getMenu() {
-    $query = 'SELECT title, id, levels FROM sites WHERE visible!=""  ORDER BY pos ASC;';
+    $query = 'SELECT title, id, levels FROM sites WHERE visible <> ""  ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare( $query );
@@ -84,7 +84,7 @@ function getMenu() {
  */
 
 function getEntries() {
-    $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
+    $query = 'SELECT title, content, id, levels FROM sites WHERE visible <> "" ORDER BY pos ASC;';
     try {
         $db = getConnection();
         $stmt = $db->prepare( $query );
