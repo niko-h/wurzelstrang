@@ -28,7 +28,7 @@ $GLOBALS[ 'LEVELS' ] = LEVELS;
 
 require 'Slim/Slim.php';
 
-$app = new Slim( array('debug' => TRUE) );
+$app = new Slim( array( 'debug' => TRUE ) );
 
 // define routes
 $app->get( '/', 'getApiInfo' );
@@ -211,27 +211,20 @@ function getEntries() {
     }
 }
 
-function getEntry( $id ) {
-    if( $GLOBALS[ 'LEVELS' ] >= '1' ) {
-        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
-            $query = 'SELECT title, visible, content, mtime, id, levels FROM sites WHERE id = :id;';
-        } else {
-            $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" AND id = :id;';
-        }
+function getEntry( $site_id ) {
+    if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
+        $query = 'SELECT title, visible, content, mtime, id, levels FROM sites WHERE id = :site_id;';
     } else {
-        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
-            $query = 'SELECT title, visible, content, mtime, id FROM sites WHERE id = :id;';
-        } else {
-            $query = 'SELECT title, content, id FROM sites WHERE visible!="" AND id = :id;';
-        }
+        $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" AND id = :site_id;';
     }
     try {
         $db = getConnection();
         $stmt = $db->prepare( $query );
-        $stmt->bindParam( "id", $id );
+        $stmt->bindParam( 'site_id', $site_id );
         $stmt->execute();
         $stmt->setFetchMode( PDO::FETCH_ASSOC );
         $result = $stmt->fetch();
+        $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $db );
         $db = NULL;
         echo '{"entry":' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
@@ -396,29 +389,48 @@ function deleteEntry( $id ) {
 /*
  * Site Admins
  */
-$app->get( '/siteadmins', function () {
+function getSiteAdmins( $site_id, $db ) {
+    $stmt = $db->prepare( "select user_id from site_admins where site_id = :site_id" );
+    $stmt->bindParam( "site_id", $site_id );
+    $stmt->execute();
+    $stmt->setFetchMode( PDO::FETCH_ASSOC );
+    $site_admins = array();
+    while( $row = $result = $stmt->fetch() ) {
+        array_push( $site_admins, intval( $row[ 'user_id' ] ) );
+    }
+
+    return $site_admins;
+}
+
+/*
+ * TODO: Not sure if this is really necessary since siteadmins is added to getEntry
+ */
+$app->get( '/entries/:site_id/siteadmins', function ( $site_id ) {
+    $result = NULL;
+
     try {
         $db = getConnection();
-        $stmt = $db->prepare( "select user_id, site_id from site_admins" );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        $site_admins = array();
-        while( $row = $result = $stmt->fetch() ) {
-            array_push( $site_admins, $row );
-        }
+        $site_admins = getSiteAdmins( $site_id, $db );
         $db = NULL;
-        echo '{"siteadmins": ' . json_encode( $site_admins ) . '}';
+        $result = array(
+            'siteadmins' => array(
+                'site_id'     => intval( $site_id ),
+                'site_admins' => $site_admins
+            ) );
     } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $result = array(
+            'error' => array(
+                'text' => $e->getMessage()
+            ) );
     }
+    echo json_encode( $result );
 } );
 
-$app->post( '/siteadmins', function () {
+$app->post( '/entries/:site_id/siteadmins', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     $result = NULL;
 
     $user_id = $request->post( 'user_id' );
-    $site_id = $request->post( 'site_id' );
 
     if( !is_numeric( $user_id ) || !is_numeric( $site_id ) ) {
         $result = [ 'error' => array( 'text' => 'site_id and user_id have to be set and integers' ) ];
@@ -443,7 +455,7 @@ $app->post( '/siteadmins', function () {
     echo json_encode( $result );
 } );
 
-$app->delete( '/siteadmins/:user_id/:site_id', function ( $user_id, $site_id ) {
+$app->delete( '/entries/:site_id/siteadmins/:user_id', function ( $site_id, $user_id ) {
     if( !is_numeric( $user_id ) || !is_numeric( $site_id ) ) {
         $result = [ 'error' => array( 'text' => 'site_id and user_id have to be set and integers' ) ];
     } else {
@@ -485,6 +497,7 @@ function getConnection() {
         header( "Location: db/install.php" );
     }
 }
+
 $app->run();
 
 ?>
