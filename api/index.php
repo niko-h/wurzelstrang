@@ -182,18 +182,10 @@ function deleteUser() {
 }
 
 function getEntries() {
-    if( $GLOBALS[ 'LEVELS' ] >= '1' ) {
-        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
-            $query = 'SELECT title, visible, content, id, pos, levels FROM sites ORDER BY pos ASC;';
-        } else {
-            $query = 'SELECT title, content, id, pos, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
-        }
+    if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
+        $query = 'SELECT title, visible, content, id, pos, levels FROM sites ORDER BY pos ASC;';
     } else {
-        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
-            $query = 'SELECT title, visible, content, id, pos FROM sites ORDER BY pos ASC;';
-        } else {
-            $query = 'SELECT title, content, id, pos FROM sites WHERE visible!="" ORDER BY pos ASC;';
-        }
+        $query = 'SELECT title, content, id, pos, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
     }
     try {
         $db = getConnection();
