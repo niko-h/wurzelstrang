@@ -9,6 +9,9 @@
 
 require( '../config.php' );
 
+ini_set( 'display_errors', 1 );
+error_reporting( E_WARNING );
+
 // If SSL is not configured, deny API usage
 if( HTTPS === TRUE ) {
     if( empty( $_SERVER[ 'HTTPS' ] ) || $_SERVER[ 'HTTPS' ] == 'off' ) {
@@ -25,7 +28,7 @@ $GLOBALS[ 'LEVELS' ] = LEVELS;
 
 require 'Slim/Slim.php';
 
-$app = new Slim();
+$app = new Slim( array('debug' => TRUE) );
 
 // define routes
 $app->get( '/', 'getApiInfo' );
@@ -44,7 +47,6 @@ $app->put( '/entries/:id/level', 'updateLevel' );
 $app->delete( '/entries/:id', 'deleteEntry' );
 //$app->get('/entries/search/:query', 'find');
 
-$app->run();
 
 function getApiInfo() {
     $output = '<h1>Wurzelstrang Api</h1>';
@@ -273,8 +275,8 @@ function addEntry() {
     $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
     try {
         $db = getConnection();
-        
-        if( $entry->parentpos !== null ){
+
+        if( $entry->parentpos !== NULL ) {
             $stmt = $db->prepare( $move_query );
             $stmt->bindParam( "parentpos", $entry->parentpos );
             $stmt->execute();
@@ -390,6 +392,82 @@ function deleteEntry( $id ) {
     }
 }
 
+
+/*
+ * Site Admins
+ */
+$app->get( '/siteadmins', function () {
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare( "select user_id, site_id from site_admins" );
+        $stmt->execute();
+        $stmt->setFetchMode( PDO::FETCH_ASSOC );
+        $site_admins = array();
+        while( $row = $result = $stmt->fetch() ) {
+            array_push( $site_admins, $row );
+        }
+        $db = NULL;
+        echo '{"siteadmins": ' . json_encode( $site_admins ) . '}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
+$app->post( '/siteadmins', function () {
+    $request = Slim::getInstance()->request();
+    $result = NULL;
+
+    $user_id = $request->post( 'user_id' );
+    $site_id = $request->post( 'site_id' );
+
+    if( !is_numeric( $user_id ) || !is_numeric( $site_id ) ) {
+        $result = [ 'error' => array( 'text' => 'site_id and user_id have to be set and integers' ) ];
+    } else {
+        $query = 'INSERT INTO site_admins VALUES ( :user_id, :site_id );';
+        try {
+            $db = getConnection();
+            $stmt = $db->prepare( $query );
+            $stmt->bindParam( "user_id", $user_id );
+            $stmt->bindParam( "site_id", $site_id );
+            $stmt->execute();
+            $result = array(
+                'addSiteAdmin' => array(
+                    'user_id' => $user_id,
+                    'site_id' => $site_id
+                ) );
+            $db = NULL;
+        } catch( PDOException $e ) {
+            $result = array( 'error' => array( 'text' => $e->getMessage() ) );
+        }
+    }
+    echo json_encode( $result );
+} );
+
+$app->delete( '/siteadmins/:user_id/:site_id', function ( $user_id, $site_id ) {
+    if( !is_numeric( $user_id ) || !is_numeric( $site_id ) ) {
+        $result = [ 'error' => array( 'text' => 'site_id and user_id have to be set and integers' ) ];
+    } else {
+        $query = 'DELETE FROM site_admins WHERE user_id =  :user_id and site_id = :site_id;';
+        try {
+            $db = getConnection();
+            $stmt = $db->prepare( $query );
+            $stmt->bindParam( "user_id", $user_id );
+            $stmt->bindParam( "site_id", $site_id );
+            $stmt->execute();
+            $result = array(
+                'deleteSiteAdmin' => array(
+                    'user_id' => $user_id,
+                    'site_id' => $site_id
+                ) );
+            $db = NULL;
+        } catch( PDOException $e ) {
+            $result = array( 'error' => array( 'text' => $e->getMessage() ) );
+        }
+    }
+    echo json_encode( $result );
+} );
+
+
 /**
  * Database action
  */
@@ -397,12 +475,16 @@ function getConnection() {
     $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
     if( file_exists( $db_file ) ) {
         $db = new PDO( "sqlite:$db_file" );
-        if( !$db ) die( 'Datenbankfehler' );
+        $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); // maybe remove this in production
+        if( !$db ) {
+            die( 'Datenbankfehler' );
+        }
 
         return $db;
     } else {
         header( "Location: db/install.php" );
     }
 }
+$app->run();
 
 ?>
