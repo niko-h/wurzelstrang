@@ -82,8 +82,8 @@ include_once( 'users.php' );
 function isAuthorrized( $request ) {
     if( $request->isGet() ) {
         error_log( $_GET[ 'apikey' ] );
-        if( !( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) ) {
-            return FALSE;
+        if(  isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
+            return TRUE;
         }
     } else {
         // TODO we have to talk about the apikey
@@ -91,14 +91,12 @@ function isAuthorrized( $request ) {
             return TRUE;
         }
 
-        if( json_decode( $request->getBody() )->apikey != $GLOBALS[ 'APIKEY' ] ) {
-            error_log( json_decode( $request->getBody() )->apikey );
-
-            return FALSE;
+        if( json_decode( $request->getBody() )->apikey == $GLOBALS[ 'APIKEY' ] ) {
+            return TRUE;
         }
     }
 
-    return TRUE;
+    return FALSE;
 }
 
 function checkAuthorization( $request ) {

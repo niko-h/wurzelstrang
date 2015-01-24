@@ -10,11 +10,11 @@ $app->put( '/entries/neworder', function () { //TODO rename because of collision
     checkAuthorization( $request );
 
     $neworder = json_decode( $request->getBody() );
-    foreach( $neworder->neworder as $pos => $id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
+    foreach( $neworder->neworder as $pos => $site_id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
         $query = 'UPDATE sites SET pos = :pos WHERE id = :id;';
 
         try {
-            updateDB( $query, [ 'pos' => $pos, 'id' => $id ] );
+            updateDB( $query, [ 'pos' => $pos, 'id' => $site_id ] );
             $pos++;
         } catch( PDOException $e ) {
             echo '{"error":{"text":' . $e->getMessage() . '}}';
@@ -95,7 +95,7 @@ $app->post( '/entries', function () {
 } );
 
 // updateEntry
-$app->put( '/entries/:id', function ( $id ) {
+$app->put( '/entries/:id', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
@@ -106,11 +106,11 @@ $app->put( '/entries/:id', function ( $id ) {
                             'content' => $entry->content,
                             'time'    => time(),
                             'visible' => $entry->visible,
-                            'id'      => $id ] );
-        echo '{"updated":{"id":' . $id . '}}';
+                            'id'      => $site_id ] );
+        echo '{"updated":{"id":' . $site_id . '}}';
 
-        // if (!file_exists('../uploads/images/'.$id)) {
-        //     mkdir('../uploads/images/'.$id, 0777, true);
+        // if (!file_exists('../uploads/images/'.$site_id)) {
+        //     mkdir('../uploads/images/'.$site_id, 0777, true);
         // }
         $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
         if( !file_exists( '../uploads/images/' . $foldername ) ) {
@@ -123,18 +123,18 @@ $app->put( '/entries/:id', function ( $id ) {
 } );
 
 // deleteEntry
-$app->delete( '/entries/:id', function ( $id ) {
+$app->delete( '/entries/:id', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
     $query = 'DELETE FROM sites WHERE id = :id;';
     try {
-        updateDB( $query, [ 'id' => $id ] );
-        echo '{"deleted":' . $id . '}';
+        updateDB( $query, [ 'id' => $site_id ] );
+        echo '{"deleted":' . $site_id . '}';
 
-        if( file_exists( '../uploads/images/' . $id ) ) {
-            rmdir( '../uploads/images/' . $id );
+        if( file_exists( '../uploads/images/' . $site_id ) ) {
+            rmdir( '../uploads/images/' . $site_id );
         }
 
     } catch( PDOException $e ) {
@@ -143,16 +143,16 @@ $app->delete( '/entries/:id', function ( $id ) {
 } );
 
 // updateLevel
-$app->put( '/entries/:id/level', function ( $id ) {
+$app->put( '/entries/:id/level', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
     $query = "UPDATE sites SET levels=:levels WHERE id=:id;";
     try {
-        updateDB( $query, [ 'id' => $id, 'levels' => $entry->level ] );
+        updateDB( $query, [ 'id' => $site_id, 'levels' => $entry->level ] );
 
-        echo '{"updated":{"id":' . $id . '}}';
+        echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
