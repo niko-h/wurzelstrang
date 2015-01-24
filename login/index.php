@@ -70,7 +70,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 <body>
 <div class="box">
     <b><?php
-        require_once('../api/index.php');
+        require_once('../api/db.php');
         $query = 'SELECT site_title FROM siteinfo;';
         $siteinfo = fetchFromDB( $query, [ ] )[ 0 ];
         echo $siteinfo[ 'site_title' ];
