@@ -5,24 +5,7 @@
  *
  **************************/
 
-/**
- * Database action
- */
-function getConnection() {
-    $db_file = "db/content.db";    //SQLite Datenbank Dateiname
-    $db = FALSE;
-    if( file_exists( $db_file ) ) {
-        $db = new PDO( "sqlite:$db_file" );
-    }
-    if( !$db ) {
-        header( "Status: 301 Moved Permanently" );
-        header( "Location:install.php" );
-        die( 'Es existiert keine Datenbank. <a href="install.php" target="_self">install.php</a> aufrufen.' );
-    }
-
-    return $db;
-}
-
+require_once('api/db.php');
 
 /**
  * call functions
@@ -40,12 +23,11 @@ getEntries();
 function getSiteInfo() {
     $query = 'SELECT site_title, site_theme, site_headline FROM siteinfo;';
     try {
-        $db = getConnection();
+        $db = getConnection('db/content.db');
         $stmt = $db->prepare( $query );
         $stmt->execute();
         $stmt->setFetchMode( PDO::FETCH_ASSOC );
         $siteinfo = $stmt->fetch();
-        $db = NULL;
 
         global $sitetitle, $sitetheme, $siteheadline;
         $sitetitle = $siteinfo[ 'site_title' ];
@@ -64,7 +46,7 @@ function getSiteInfo() {
 function getMenu() {
     $query = 'SELECT title, id, levels FROM sites WHERE visible <> ""  ORDER BY pos ASC;';
     try {
-        $db = getConnection();
+        $db = getConnection('db/content.db');
         $stmt = $db->prepare( $query );
         $stmt->execute();
         $stmt->setFetchMode( PDO::FETCH_ASSOC );
@@ -86,7 +68,7 @@ function getMenu() {
 function getEntries() {
     $query = 'SELECT title, content, id, levels FROM sites WHERE visible <> "" ORDER BY pos ASC;';
     try {
-        $db = getConnection();
+        $db = getConnection('db/content.db');
         $stmt = $db->prepare( $query );
         $stmt->execute();
         $stmt->setFetchMode( PDO::FETCH_ASSOC );
@@ -95,7 +77,6 @@ function getEntries() {
         while( $row = $stmt->fetch() ) {
             array_push( $contentitems, $row );
         }
-        $db = NULL;
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
