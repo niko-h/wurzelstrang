@@ -70,17 +70,9 @@ header( "Content-Type: text/html; charset=utf-8" );
 <body>
 <div class="box">
     <b><?php
+        require_once('../api/index.php');
         $query = 'SELECT site_title FROM siteinfo;';
-        $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
-        if( file_exists( $db_file ) ) {
-            $db = new PDO( "sqlite:$db_file" );
-        }
-        if( !$db ) echo( 'Einloggen' );
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        $siteinfo = $stmt->fetch();
-        $db = NULL;
+        $siteinfo = fetchFromDB( $query, [ ] )[ 0 ];
         echo $siteinfo[ 'site_title' ];
         ?>
     </b>
