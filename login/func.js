@@ -18,11 +18,11 @@ onLoad = function () {
     $('#leveloption').hide();
     $("#menu_list").sortable("refresh"); // check menu reorder state
     $('textarea#ckeditor').ckeditor();          // Load CKEditor
-}
+};
 
 fade = function (id) {
     $(id).delay(10).fadeToggle("slow", "linear").delay(1500).fadeToggle("slow", "linear");
-}
+};
 
 
 /************
@@ -60,7 +60,7 @@ $(document).ready(function () {
             $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
             console.log('Email nicht gueltig bei useremail');
         }
-    }
+    };
     adminmailvalidate = function (str) {
         if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
             updateadminbtn();
@@ -78,7 +78,7 @@ function linkhello() {
     $('#preferences').hide();
     $('.menu-id').hide();
     return false;
-};
+}
 
 function linknew() {
     $('#hello').hide();
@@ -88,7 +88,7 @@ function linknew() {
     $('#leveloption').hide();
     newEntry();
     return false;
-};
+}
 
 function addChild() {
     console.log('addChild');
@@ -97,7 +97,7 @@ function addChild() {
     newLevel = parentLevel + 1;
     newPos = parentPos + 1;
     linknew();
-};
+}
 
 function prefbtn() {
     console.log('einstellungen');
@@ -106,7 +106,7 @@ function prefbtn() {
     $('#preferences').toggle();
     $('.menu-id').hide();
     return false;
-};
+}
 
 function submitbutton() {
     if ($('#title').val() != '') {
@@ -117,7 +117,7 @@ function submitbutton() {
         }
         return false;
     }
-};
+}
 
 function deletebutton() {
     if (confirm('[OK] drücken um den Eintrag zu löschen.')) {
@@ -126,14 +126,14 @@ function deletebutton() {
         $('.menu-id').hide();
         return false;
     }
-};
+}
 
 function levelup() {
     var value = parseFloat($('#levelcount').text());
     value++;
     updateLevel(value);
     return false;
-};
+}
 
 function leveldown() {
     var value = parseFloat($('#levelcount').text());
@@ -142,25 +142,27 @@ function leveldown() {
     }
     updateLevel(value);
     return false;
-};
+}
 
 function updatesitebtn() {
     putSiteInfo();
     return false;
-};
+}
 
 function updateadminbtn() {
     putAdmin();
     return false;
-};
+}
+
 function submitnewusrbtn() {
     postUser();
     return false;
-};
+}
+
 function deleteusrbtn() {
     deleteUser($(this).data('identity'));
     return false;
-};
+}
 
 function menulink() {
     console.log('menulink');
@@ -170,7 +172,7 @@ function menulink() {
     $('.menu-id').hide();
     $('#flag_' + $(this).data('identity')).show();
     getEntry($(this).data('identity'));
-};
+}
 
 // $('#btnSearch').click(function() { 
 //   search($('#searchKey').val());
@@ -267,12 +269,12 @@ function putAdmin() {
         url: rootURL + '/users',
         dataType: "json",
         data: updateAdminToJSON(),
-        success: function (data, textStatus, jqXHR) {
+        success: function () {
             console.log('putAdmin success');
             fade('#savedfade');
             getAdmin();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
             alert('putAdmin error: ' + textStatus);
         }
     });
@@ -298,13 +300,13 @@ function postUser() {
         url: rootURL + '/users',
         dataType: "json",
         data: userToJSON(),
-        success: function (data, textStatus, jqXHR) {
+        success: function () {
             console.log('postUser success');
             fade('#savedfade');
             getUsers();
             $('#newuseremail').val("");
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
             console.log('postUser error: ' + textStatus);
             getUsers();
             $('#newuseremail').val("");
@@ -317,12 +319,12 @@ function deleteUser(user) {
         type: 'DELETE',
         url: rootURL + '/users',
         data: JSON.stringify({"apikey": apikey, "email": user}),
-        success: function (data, textStatus, jqXHR) {
+        success: function () {
             console.log('deleteUsersuccess: ' + user);
             fade('#deletedfade');
             getUsers();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function () {
             alert('deleteUser error: ' + $('#user').val());
         }
     });
@@ -350,11 +352,11 @@ function putSiteInfo() {
         url: rootURL + '/siteinfo',
         dataType: "json",
         data: updateSiteInfoToJSON(),
-        success: function (data, textStatus, jqXHR) {
+        success: function () {
             fade('#savedfade');
             getSiteInfo();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus ) {
             alert('putSiteInfo error: ' + textStatus);
         }
     });
@@ -368,7 +370,7 @@ dragMenu = function () {
         opacity: 0.7,
         delay: 150,
         appendTo: document.body,
-        update: function (event, ui) {
+        update: function () {
             console.log('update');
             var order = $('#menu_list').sortable('toArray');
             console.log(order);
@@ -409,14 +411,14 @@ function addEntry() {
         url: rootURL + '/entries',
         dataType: "json",
         data: newEntryToJSON(),
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             fade('#savedfade');
             getEntry(data.inserted.id);
             getAll();
             newPos = null;
             newLevel = 0;
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
             newPos = null;
             newLevel = 0;
             alert('addEntry error: ' + textStatus);
@@ -432,12 +434,12 @@ function updateEntry() {
         url: rootURL + '/entries/' + $('#entryId').val(),
         dataType: "json",
         data: updateEntryToJSON(),
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             fade('#savedfade');
             getEntry(data.updated.id);
             getAll();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
         }
     });
@@ -452,11 +454,11 @@ function updateLevel(dir) {
         url: rootURL + '/entries/' + $('#entryId').val() + '/level',
         dataType: "json",
         data: updateLevelToJSON(dir),
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
             getEntry(data.updated.id);
             getAll();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
         }
     });
@@ -468,11 +470,11 @@ function deleteEntry() {
         type: 'DELETE',
         url: rootURL + '/entries/' + $('#entryId').val(),
         data: JSON.stringify({"apikey": apikey}),
-        success: function (data, textStatus, jqXHR) {
+        success: function () {
             fade('#deletedfade');
             getAll();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function () {
             alert('deleteEntry error');
         }
     });
@@ -500,14 +502,14 @@ function renderList(data) {
         }
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
         $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
-            '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' + 
-                levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup + 
-            '</a>' + 
-            '<a href="#" class="addChild-Button" '+
-                'data-level="' + entry.levels + '" '+
-                'data-identity="' + entry.id + '"'+
-                'data-pos="' + entry.pos + '">+</a>' + 
-            '<span class="dragger push-right"><i class="icon-menu"></i></span></li>');
+        '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
+        levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
+        '</a>' +
+        '<a href="#" class="addChild-Button" ' +
+        'data-level="' + entry.levels + '" ' +
+        'data-identity="' + entry.id + '"' +
+        'data-pos="' + entry.pos + '">+</a>' +
+        '<span class="dragger push-right"><i class="icon-menu"></i></span></li>');
     });
     $('#menu_list li a.menulink').click(menulink); // select entry in menu
     $('.addChild-Button').click(addChild);
@@ -545,7 +547,6 @@ function renderEntry(item) {
             $('#leveloption').hide();
         }
     }
-    ;
 }
 
 function renderAdmin(data) {
@@ -562,9 +563,9 @@ function renderUserList(data) {
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
-        $('#user-list').append('<li class="push">' + user.user_email + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="deleteusrbutton" data-identity="' + user.user_email + '" href="#">entfernen</a></li>');
+        $('#user-list').append('<li class="push">' + user.user_email + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteusrbutton" data-identity="' + user.user_email + '" href="#">entfernen</a></li>');
     });
-    $('#user-list li a#deleteusrbutton').click(deleteusrbtn); // delete user
+    $('.deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
 function renderSiteInfo(siteinfo) {
@@ -584,20 +585,20 @@ function renderSiteInfo(siteinfo) {
 // Helper function to serialize all the form fields into a JSON string
 
 function newEntryToJSON() {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "title": $('#title').val(),
         "content": $('#ckeditor').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "pos": newPos,
         "level": newLevel,
-        "parentpos": (newPos === null) ? null : newPos-1
+        "parentpos": (newPos === null) ? null : newPos - 1
     });
     return data;
 }
 
 function updateEntryToJSON() {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "id": $('#entryId').val(),
         "title": $('#title').val(),
@@ -608,7 +609,7 @@ function updateEntryToJSON() {
 }
 
 function updateLevelToJSON(dir) {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "level": dir
     });
@@ -616,7 +617,7 @@ function updateLevelToJSON(dir) {
 }
 
 function updateSiteInfoToJSON() {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "title": $('#sitetitle').val(),
         "theme": $('#sitetheme').val(),
@@ -627,7 +628,7 @@ function updateSiteInfoToJSON() {
 }
 
 function updateAdminToJSON() {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "email": $('#adminemail').val()
     });
@@ -635,7 +636,7 @@ function updateAdminToJSON() {
 }
 
 function userToJSON() {
-    var data = JSON.stringify({
+    data = JSON.stringify({
         "apikey": apikey,
         "email": $('#newuseremail').val()
     });
