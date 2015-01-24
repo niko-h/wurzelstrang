@@ -10,7 +10,7 @@ if( HTTPS === TRUE ) {
             header( "Location:../api/nossl.php" );
         } else {
             header( "Status: 301 Moved Permanently" );
-            header( "Location:" . str_replace('http://','https://',AUDIENCE) . "/login" );
+            header( "Location:" . str_replace( 'http://', 'https://', AUDIENCE ) . "/login" );
         }
     }
 }
@@ -70,9 +70,9 @@ header( "Content-Type: text/html; charset=utf-8" );
 <body>
 <div class="box">
     <b><?php
-        require_once('../api/db.php');
+        require_once( '../api/db.php' );
         $query = 'SELECT site_title FROM siteinfo;';
-        $siteinfo = fetchFromDB( $query, [ ] )[ 0 ];
+        $siteinfo = fetchFromDB( $query )[ 0 ];
         echo $siteinfo[ 'site_title' ];
         ?>
     </b>

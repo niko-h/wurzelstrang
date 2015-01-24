@@ -31,7 +31,7 @@ $app->get( '/entries', function () {
         $query = 'SELECT title, content, id, pos, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
     }
     try {
-        $contentitems = fetchFromDB( $query, [ ] );
+        $contentitems = fetchFromDB( $query );
         echo '{"entries": ' . json_encode( $contentitems ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';

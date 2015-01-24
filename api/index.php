@@ -8,7 +8,7 @@
 //TODO: GET Suche
 
 require_once( '../config.php' );
-require_once('db.php');
+require_once( 'db.php' );
 
 
 // If SSL is not configured, deny API usage
@@ -45,7 +45,7 @@ $app->get( '/', function () {
 $app->get( '/siteinfo', function () {
     $query = 'SELECT site_title, site_theme, site_headline, site_levels FROM siteinfo;';
     try {
-        $siteinfo = fetchFromDB( $query, [ ] )[ 0 ];
+        $siteinfo = fetchFromDB( $query )[ 0 ];
         echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
@@ -83,7 +83,7 @@ include_once( 'users.php' );
 function isAuthorrized( $request ) {
     if( $request->isGet() ) {
         error_log( $_GET[ 'apikey' ] );
-        if(  isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
+        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
             return TRUE;
         }
     } else {
@@ -106,9 +106,6 @@ function checkAuthorization( $request ) {
         exit;
     }
 }
-
-
-
 
 
 $app->run();

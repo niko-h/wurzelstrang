@@ -14,7 +14,7 @@ $app->get( '/users', function () {
         $query = 'SELECT user_email FROM users WHERE admin == 0;';
     }
     try {
-        $contentitems = fetchFromDB( $query, [ ] );
+        $contentitems = fetchFromDB( $query );
         echo '{"users": ' . json_encode( $contentitems ) . '}';
     } catch( PDOException $e ) {
         echo '{"usererror":{"text":' . $e->getMessage() . '}}';
