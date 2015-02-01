@@ -5,7 +5,7 @@
 /**
  * theme
  */
-function theme() { // mailadress to check
+function theme() { 
     try {
         $query = 'SELECT site_theme FROM siteinfo LIMIT 1;';
         $db = getConnection();
