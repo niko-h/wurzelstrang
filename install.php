@@ -124,7 +124,8 @@ if( file_exists( $db_file ) ) {
                   CREATE TABLE IF NOT EXISTS users(
                     id            INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_email    TEXT,
-                    admin         BOOLEAN
+                    admin         BOOLEAN,
+                    CONSTRAINT users_unique UNIQUE (user_email)
                   );
 
                   CREATE TABLE IF NOT EXISTS site_admins(
