@@ -1,5 +1,7 @@
 <?php
 
+require_once( 'siteadmins.php' );
+
 /*
  * Users
  */
@@ -56,6 +58,18 @@ $app->delete( '/users/:id', function ( $user_id ) {
     } catch( PDOException $e ) {
         echo '{"deleteusererror":{"text":"Fehler beim L&ouml;schen."}}';
     }
+} );
+
+// add sites to administrate
+$app->post( '/users/:id/sites', function ( $user_id ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+    $sites = json_decode( $request->post( 'sites' ) );
+
+    foreach( $sites as &$site_id ) {
+        addSiteAdmin( $user_id, $site_id );
+    }
+    #TODO implement propper error handling
 } );
 
 
