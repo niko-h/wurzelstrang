@@ -10,6 +10,8 @@
  *          Folgende Einstellungen sind vorgesehen: BASIS-URL, Sicherheitsschluessel, HTTPS.
  */
 
+define('DEFAULT_LANGUAGE', 'de');
+
 /***
  * ENGLISH  BASE-URL used for Admininterface (/login)
  *          replace audience_url_here with the actual base-address youre using for login

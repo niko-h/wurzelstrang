@@ -20,12 +20,6 @@ if( HTTPS === TRUE ) {
 }
 
 
-$APIKEY;
-$LEVELS;
-$GLOBALS[ 'APIKEY' ] = APIKEY; // getApiKey();
-$GLOBALS[ 'LEVELS' ] = LEVELS;
-$GLOBALS[ 'DB' ] = NULL;
-
 require 'Slim/Slim.php';
 
 // TODO remove debug for production
@@ -56,7 +50,7 @@ $app->put( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
     $body = $request->getBody();
     $site = json_decode( $body );
-    if( $site->apikey != $GLOBALS[ 'APIKEY' ] ) {
+    if( $site->apikey != APIKEY ) {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
     }
@@ -83,16 +77,16 @@ include_once( 'users.php' );
 function isAuthorrized( $request ) {
     if( $request->isGet() ) {
         error_log( $_GET[ 'apikey' ] );
-        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == $GLOBALS[ 'APIKEY' ] ) {
+        if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == APIKEY ) {
             return TRUE;
         }
     } else {
         // TODO we have to talk about the apikey
-        if( $request->post( 'apikey' ) == $GLOBALS[ 'APIKEY' ] ) {
+        if( $request->post( 'apikey' ) == APIKEY ) {
             return TRUE;
         }
 
-        if( json_decode( $request->getBody() )->apikey == $GLOBALS[ 'APIKEY' ] ) {
+        if( json_decode( $request->getBody() )->apikey == APIKEY ) {
             return TRUE;
         }
     }

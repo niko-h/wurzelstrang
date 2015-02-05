@@ -524,8 +524,8 @@ function renderList(data) {
         visible_icon = entry.visible ? [] : '<i class="icon-eye-shut eyeshut"></i>';
         visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
         levels = '';
-        if ($('#levelstarget').val() == true && entry.levels >= 1) {
-            for (var i = 0; i < entry.levels; i++) {
+        if ($('#levelstarget').val() == true && entry.level >= 1) {
+            for (var i = 0; i < entry.level; i++) {
                 levels += '<span class="levels"></span>';
             }
         }
@@ -535,7 +535,7 @@ function renderList(data) {
             levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
         '</a>' +
         '<a href="#" class="addChild-Button" ' +
-        'data-level="' + entry.levels + '" ' +
+        'data-level="' + entry.level + '" ' +
         'data-identity="' + entry.id + '"' +
         'data-pos="' + entry.pos + '">+</a>' +
         '<span class="dragger push-right"><i class="icon-menu"></i></span></li>');
@@ -557,7 +557,7 @@ function renderEntry(item) {
             $('#visiblecheckbox').removeAttr('checked');
         }
         $('textarea#ckeditor').val(entry.content);
-        $('#levelcount').text(entry.levels);
+        $('#levelcount').text(entry.level);
         if ($('#levelstarget').val() == true) {
             $('#leveloption').show();
         } else {
