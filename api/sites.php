@@ -62,7 +62,7 @@ $app->post( '/entries', function () {
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
-    $query = 'INSERT INTO sites ( title, content, mtime, visible, levels, pos) VALUES ( :title, :content, :time, :visible, :level, :pos );';
+    $query = 'INSERT INTO sites ( title, content, template, mtime, visible, levels, pos) VALUES ( :title, :content, :template, :time, :visible, :level, :pos );';
     $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
     try {
         $db = getConnection();
@@ -76,13 +76,11 @@ $app->post( '/entries', function () {
                             'time'    => time(),
                             'visible' => $entry->visible,
                             'level'   => $entry->level,
+                            'template'=> $entry->template,
                             'pos'     => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $db->lastInsertId() . '}}';
 
-        // if (!file_exists('../uploads/images/'.$db->lastInsertId())) {
-        //     mkdir('../uploads/images/'.$db->lastInsertId(), 0777, true);
-        // }
         $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
         if( !file_exists( '../uploads/images/' . $foldername ) ) {
             mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
@@ -109,9 +107,6 @@ $app->put( '/entries/:id', function ( $site_id ) {
                             'id'      => $site_id ] );
         echo '{"updated":{"id":' . $site_id . '}}';
 
-        // if (!file_exists('../uploads/images/'.$site_id)) {
-        //     mkdir('../uploads/images/'.$site_id, 0777, true);
-        // }
         $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
         if( !file_exists( '../uploads/images/' . $foldername ) ) {
             mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
@@ -146,11 +141,28 @@ $app->delete( '/entries/:id', function ( $site_id ) {
 $app->put( '/entries/:id/level', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
-    $entry = json_decode( $request->getBody() );
+    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
     $query = "UPDATE sites SET levels=:levels WHERE id=:id;";
     try {
-        updateDB( $query, [ 'id' => $site_id, 'levels' => $entry->level ] );
+        updateDB( $query, [ 'id' => $site_id, 'levels' => $request_body->level ] );
+
+        echo '{"updated":{"id":' . $site_id . '}}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
+
+// change Template
+$app->put( '/entries/:id/template', function ( $site_id ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, template: 'foobar' } */
+
+    $query = "UPDATE sites SET template=:template WHERE id=:id;";
+    try {
+        updateDB( $query, [ 'id' => $site_id, 'template' => $request_body->template ] );
 
         echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {

@@ -144,6 +144,7 @@ if( file_exists( $db_file ) ) {
                     title     INTEGER,
                     mtime     INTEGER,
                     content   TEXT,
+                    template  TEXT,
                     pos       INTEGER,
                     visible   BOOLEAN,
                     levels    INTEGER
