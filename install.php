@@ -55,13 +55,6 @@ if( HTTPS === TRUE ) {
 }
 
 /**
- * APIKEY
- */
-
-$APIKEY;
-$GLOBALS[ 'APIKEY' ] = APIKEY; // getApiKey();
-
-/**
  * Get Database
  */
 

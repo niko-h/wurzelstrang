@@ -1,5 +1,7 @@
 <?php
 
+require_once( '../config.php' );
+
 /**
  * Entries
  */
@@ -62,7 +64,7 @@ $app->post( '/entries', function () {
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
-    $query = 'INSERT INTO sites ( title, content, template, mtime, visible, level, pos) VALUES ( :title, :content, :template, :time, :visible, :level, :pos );';
+    $query = 'INSERT INTO sites ( title, content, language, template, mtime, visible, level, pos) VALUES ( :title, :content, :language, :template, :time, :visible, :level, :pos );';
     $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
     try {
         $db = getConnection();
@@ -73,6 +75,7 @@ $app->post( '/entries', function () {
 
         updateDB( $query, [ 'title'    => $entry->title,
                             'content'  => $entry->content,
+                            'language' => isset($entry->language)?$entry->language:DEFAULT_LANGUAGE,
                             'time'     => time(),
                             'visible'  => $entry->visible,
                             'level'    => $entry->level,
