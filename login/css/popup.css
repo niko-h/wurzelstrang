@@ -1,0 +1,30 @@
+.popupoverflow {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  background: rgba(60, 60, 60, 0.5);
+}
+.popupoverflow:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+.popupoverflow .popup {
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 0 8px #000;
+  border: 0;
+  background: #ddd;
+  text-align: left;
+  border-radius: 5px;
+  position: relative;
+  margin: 20px;
+  padding: 10px;
+  color: #000;
+}

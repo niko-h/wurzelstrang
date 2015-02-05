@@ -30,6 +30,7 @@ fade = function (id) {
  ***********/
 
 var currentEntry;
+var currentUser;
 var user;
 var siteinfo;
 var rootURL = '../api/index.php';
@@ -152,6 +153,11 @@ function updateadminbtn() {
 
 function submitnewusrbtn() {
     postUser();
+    return false;
+}
+
+function editusrbtn() {
+    getUserPrefs($(this).data('identity'));
     return false;
 }
 
@@ -306,9 +312,29 @@ function postUser() {
             $('#newuseremail').val("");
         },
         error: function (jqXHR, textStatus) {
-            console.log('postUser error: ' + textStatus);
+            if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
+                alert('Dieser Nutzer existiert bereits.') 
+            };
+            console.log('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
+        }
+    });
+}
+
+
+function getUserPrefs(user) {
+    console.log('getUserPrefs')
+    $.ajax({
+        type: 'GET',
+        url: rootURL + '/users?apikey=' + apikey,
+        dataType: "json", // data type of response
+        success: function (data) {
+            currentUser = data;
+            renderUser();
+        },
+        error: function (jqXHR, textStatus) {
+            alert('getUser error: ' + textStatus);
         }
     });
 }
@@ -566,8 +592,18 @@ function renderUserList(data) {
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
-        $('#user-list').append('<li class="push">' + user.user_email + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteusrbutton" data-identity="' + user.user_email + '" href="#">entfernen</a></li>');
+        $('#user-list').append(
+            $('<li>').addClass('push').append(
+                user.user_email + 
+                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+            ).append(
+                $('<a href="#">').addClass('editusrbutton').data('identity', user.user_email).text('bearbeiten')
+            ).append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').append(
+                $('<a href="#">').addClass('deleteusrbutton').data('identity', user.user_email).text('entfernen')
+            )
+        );
     });
+    $('.editusrbutton').click(editusrbtn); // delete user
     $('.deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
@@ -579,6 +615,13 @@ function renderSiteInfo(siteinfo) {
     $('#sitetheme').val(siteinfo.site_theme);
     $('#levelstarget').val(siteinfo.site_levels);
     button();
+}
+
+function renderUser() {
+    console.log("renderUser");
+    $('.popupoverflow').show();
+    $('.popup').text('FOOOOO ' + JSON.parse(currentUser));
+
 }
 
 
