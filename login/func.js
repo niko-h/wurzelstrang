@@ -30,6 +30,7 @@ fade = function (id) {
  ***********/
 
 var currentEntry;
+var sitelist;
 var user;
 var siteinfo;
 var rootURL = '../api/index.php';
@@ -82,7 +83,6 @@ function linkhello() {
 }
 
 function closepopup() {
-    $('.popupcontent').text('');
     $('.popupoverflow').hide();
 }
 
@@ -257,6 +257,7 @@ function getAll() {
         success: function (data) {
             console.log('getAll success');
             renderList(data);
+            sitelist = data;
         }
     });
 }
@@ -337,7 +338,8 @@ function getUserPrefs(user) {
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            renderUser(data);
+            getAll();
+            renderUser(data, user);
         },
         error: function (jqXHR, textStatus) {
             alert('getUser error: ' + textStatus);
@@ -353,6 +355,7 @@ function deleteUser(user) {
         success: function () {
             console.log('deleteUsersuccess: ' + user);
             fade('#deletedfade');
+            $('.userpopup').hide();
             getUsers();
         },
         error: function () {
@@ -599,18 +602,13 @@ function renderUserList(data) {
     $('#user-list li').remove();
     $.each(list, function (index, user) {
         $('#user-list').append(
-            $('<li>').addClass('push').append(
-                user.user_email + 
-                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            ).append(
-                $('<a href="#">').addClass('editusrbutton').attr('data-identity', user.id).text('bearbeiten')
-            ).append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').append(
-                $('<a href="#">').addClass('deleteusrbutton').attr('data-identity', user.id).text('entfernen')
+            $('<li>').addClass('push').append(user.user_email)
+            .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                        .attr('data-identity', user.id).text('Bearbeiten')
             )
         );
     });
     $('.editusrbutton').click(editusrbtn); // delete user
-    $('.deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
 function renderSiteInfo(siteinfo) {
@@ -623,12 +621,30 @@ function renderSiteInfo(siteinfo) {
     button();
 }
 
-function renderUser(user) {
+function renderUser(user, userid) {
     console.log("renderUser");
-    $('.popupoverflow').show();
-    console.log(user);
-    $('.popupcontent').text('').append('User: ' + user.user_email).append('<br>').append('Sites: ' + user.sites);
+    $('.userpopup').show();
+    $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
+    var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
+    $('.userpopup-sitelist li').remove();
+    $.each(list, function (index, site) {
+        $('.userpopup-sitelist').append(
+            $('<li>').append(
+                $('<label>').addClass('bold').text(site.title)
+            ).append(
+                $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id) 
+            )
+        );
+    });
+    
+    var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
+    $.each(accesslist, function (index, access) {
+        $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+    })
 
+    $('#deleteusrbutton').attr('data-identity', userid);
+
+    $('#deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
 

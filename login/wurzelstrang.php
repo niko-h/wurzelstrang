@@ -110,13 +110,6 @@ header( "Content-Type: text/html; charset=utf-8" );
     <p style="clear: both;">&nbsp;</p>
 </div>
 
-<div class="popupoverflow">
-    <div class="popup">
-        <div class="popuphead"><a href="#" class="closepopup">X</a></div>
-        <div class="popupcontent"></div>
-    </div>
-</div>
-
 <div id="loader" class="loaderoverlay">
     <img src="css/loading.gif"/>
 </div>

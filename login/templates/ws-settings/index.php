@@ -23,4 +23,5 @@
         ?>
     </fieldset>
 
+    <? require_once( 'ws-settings-userpopup.php' ); ?>
 </body>
