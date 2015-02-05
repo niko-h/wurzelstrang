@@ -37,12 +37,9 @@ $app->get( '/entries/:site_id/siteadmins', function ( $site_id ) {
     echo json_encode( $result );
 } );
 
-$app->post( '/entries/:site_id/siteadmins', function ( $site_id ) {
-    $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
 
-    $user_id = $request->post( 'user_id' );
-
+#TODO implement propper error handling
+function addSiteAdmin( $user_id, $site_id ) {
     if( !is_numeric( $user_id ) || !is_numeric( $site_id ) ) {
         $result = [ 'error' => array( 'text' => 'site_id and user_id have to be set and integers' ) ];
     } else {
@@ -54,7 +51,16 @@ $app->post( '/entries/:site_id/siteadmins', function ( $site_id ) {
             $result = [ 'error' => [ 'text' => $e->getMessage() ] ];
         }
     }
-    echo json_encode( $result );
+    return $result;
+}
+
+$app->post( '/entries/:site_id/siteadmins', function ( $site_id ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+
+    $user_id = $request->post( 'user_id' );
+
+    echo json_encode( addSiteAdmin( $user_id, $site_id ) );
 } );
 
 $app->delete( '/entries/:site_id/siteadmins/:user_id', function ( $site_id, $user_id ) {
