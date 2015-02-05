@@ -14,7 +14,7 @@ function getConnection($db_file = '../db/content.db') {
 
             return $db;
         } else {
-            header( "Location: db/install.php" );
+            header( "Location: install.php" );
         }
     } else {
         return $GLOBALS[ 'DB' ];

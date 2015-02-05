@@ -65,15 +65,19 @@ $GLOBALS[ 'APIKEY' ] = APIKEY; // getApiKey();
  * Get Database
  */
 
-$db_file = "db/content.db";    //SQLite Datenbank Dateiname
+$db_file = "db/content.db"; // SQLite Datenbank Dateiname
+$uploads_folder = "uploads";// Folder for uploads
 
 if( file_exists( $db_file ) ) {
     header( "Location: index.php" );
 } else {
 
-    // check if database file can be created
+    // check if database and uploads folder is writable
     if( !is_writable( dirname( $db_file ) ) || !is_executable( dirname( $db_file ) ) ) {
         die( $db_file . ' is not writable!' );
+    }
+    if( !is_writable( $uploads_folder ) || !is_executable( $uploads_folder) ) {
+        die( $uploads_folder . ' is not writable!' );
     }
 
     /**
