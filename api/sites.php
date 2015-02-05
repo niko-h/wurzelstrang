@@ -28,9 +28,9 @@ $app->put( '/entries/neworder', function () { //TODO rename because of collision
 // getEntries
 $app->get( '/entries', function () {
     if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, id, pos, level FROM sites ORDER BY pos ASC;';
+        $query = 'SELECT title, visible, content, language, template, id, pos, level FROM sites ORDER BY pos ASC;';
     } else {
-        $query = 'SELECT title, content, id, pos, level FROM sites WHERE visible!="" ORDER BY pos ASC;';
+        $query = 'SELECT title, content, language, id, pos, level FROM sites WHERE visible!="" ORDER BY pos ASC;';
     }
     try {
         $contentitems = fetchFromDB( $query );
@@ -43,9 +43,9 @@ $app->get( '/entries', function () {
 // getEntry
 $app->get( '/entries/:id', function ( $site_id ) {
     if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, mtime, id, level FROM sites WHERE id = :site_id;';
+        $query = 'SELECT title, visible, content, language, template, mtime, id, level FROM sites WHERE id = :site_id;';
     } else {
-        $query = 'SELECT title, content, id, level FROM sites WHERE visible!="" AND id = :site_id;';
+        $query = 'SELECT title, content, language, id, level FROM sites WHERE visible!="" AND id = :site_id;';
     }
     try {
         $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];

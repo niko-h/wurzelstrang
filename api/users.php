@@ -9,9 +9,9 @@ $app->get( '/users', function () {
     checkAuthorization( Slim::getInstance()->request() );
 
     if( isset( $_GET[ 'admin' ] ) && $_GET[ 'admin' ] == 1 ) {
-        $query = 'SELECT user_email FROM users WHERE admin == 1;';
+        $query = 'SELECT id, user_email FROM users WHERE admin == 1;';
     } else {
-        $query = 'SELECT user_email FROM users WHERE admin == 0;';
+        $query = 'SELECT id, user_email FROM users WHERE admin == 0;';
     }
     try {
         $contentitems = fetchFromDB( $query );
@@ -20,6 +20,28 @@ $app->get( '/users', function () {
         echo '{"usererror":{"text":' . $e->getMessage() . '}}';
     }
 } );
+
+
+$app->get( '/users/:id', function ( $user_id ) {
+    checkAuthorization( Slim::getInstance()->request() );
+    $query = 'SELECT user_email FROM users WHERE id = :user_id;';
+
+    try {
+        $result = fetchFromDB( $query, [ 'user_id' => $user_id ] )[0];
+
+        $siteadmin_query = 'select site_id from site_admins where user_id = :user_id';
+        $sites = fetchFromDB($siteadmin_query, ['user_id'=>$user_id]);
+        $result['sites'] = array();
+        foreach ($sites as &$row) {
+            array_push($result['sites'],intval($row['site_id']));
+        }
+
+        echo json_encode( $result );
+    } catch( PDOException $e ) {
+        echo '{"usererror":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
 
 // updateAdmin
 $app->put( '/users', function () {
