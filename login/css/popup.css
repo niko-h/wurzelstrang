@@ -6,7 +6,7 @@
   text-align: center;
   height: 100%;
   width: 100%;
-  background: rgba(60, 60, 60, 0.5);
+  background: rgba(30, 30, 30, 0.8);
 }
 .popupoverflow:before {
   content: "";

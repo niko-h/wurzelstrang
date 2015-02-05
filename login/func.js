@@ -30,7 +30,6 @@ fade = function (id) {
  ***********/
 
 var currentEntry;
-var currentUser;
 var user;
 var siteinfo;
 var rootURL = '../api/index.php';
@@ -52,6 +51,9 @@ init = function() {                 // called at the bottom
     // $('#submituserbtn').click(submitnewusrbtn);
     $('#leveldown').click(leveldown);
     $('#levelup').click(levelup);
+    $('.closepopup').click(closepopup);
+    $('.popupoverflow').click(closepopup);
+    $('.popupcontent').click(function(e) { e.stopPropagation(); });
 
     usermailvalidate = function (str) {
         if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
@@ -77,6 +79,11 @@ function linkhello() {
     showRight('hello');
     $('.menu-id').hide();
     return false;
+}
+
+function closepopup() {
+    $('.popupcontent').text('');
+    $('.popupoverflow').hide();
 }
 
 function linknew() {
@@ -327,11 +334,10 @@ function getUserPrefs(user) {
     console.log('getUserPrefs')
     $.ajax({
         type: 'GET',
-        url: rootURL + '/users?apikey=' + apikey,
+        url: rootURL + '/users/' + user + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            currentUser = data;
-            renderUser();
+            renderUser(data);
         },
         error: function (jqXHR, textStatus) {
             alert('getUser error: ' + textStatus);
@@ -342,8 +348,8 @@ function getUserPrefs(user) {
 function deleteUser(user) {
     $.ajax({
         type: 'DELETE',
-        url: rootURL + '/users',
-        data: JSON.stringify({"apikey": apikey, "email": user}),
+        url: rootURL + '/users/' + user,
+        data: JSON.stringify({"apikey": apikey}),
         success: function () {
             console.log('deleteUsersuccess: ' + user);
             fade('#deletedfade');
@@ -597,9 +603,9 @@ function renderUserList(data) {
                 user.user_email + 
                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             ).append(
-                $('<a href="#">').addClass('editusrbutton').data('identity', user.user_email).text('bearbeiten')
+                $('<a href="#">').addClass('editusrbutton').attr('data-identity', user.id).text('bearbeiten')
             ).append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').append(
-                $('<a href="#">').addClass('deleteusrbutton').data('identity', user.user_email).text('entfernen')
+                $('<a href="#">').addClass('deleteusrbutton').attr('data-identity', user.id).text('entfernen')
             )
         );
     });
@@ -617,10 +623,11 @@ function renderSiteInfo(siteinfo) {
     button();
 }
 
-function renderUser() {
+function renderUser(user) {
     console.log("renderUser");
     $('.popupoverflow').show();
-    $('.popup').text('FOOOOO ' + JSON.parse(currentUser));
+    console.log(user);
+    $('.popupcontent').text('').append('User: ' + user.user_email).append('<br>').append('Sites: ' + user.sites);
 
 }
 
