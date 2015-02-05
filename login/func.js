@@ -6,7 +6,7 @@
 
 onLoad = function () {
     $("#loader").hide();
-    hello();                               // load hello screen
+    linkhello();                           // load hello screen
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
@@ -40,7 +40,7 @@ var newLevel = 0;
  * Action Listeners
  ******************/
 
-$(document).ready(function () {
+init = function() {                 // called at the bottom
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
@@ -69,21 +69,17 @@ $(document).ready(function () {
             $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
             console.log('Email nicht gueltig bei adminemail');
         }
-    }
-});
+    };
+};
 
 function linkhello() {
-    $('#hello').show();
-    $('#edit').hide();
-    $('#preferences').hide();
+    showRight('hello');
     $('.menu-id').hide();
     return false;
 }
 
 function linknew() {
-    $('#hello').hide();
-    $('#edit').show();
-    $('#preferences').hide();
+    showRight('edit');
     $('#deletebutton').hide();
     $('#leveloption').hide();
     newEntry();
@@ -166,9 +162,7 @@ function deleteusrbtn() {
 
 function menulink() {
     console.log('menulink');
-    $('#hello').hide();
-    $('#edit').show();
-    $('#preferences').hide();
+    showRight('edit');
     $('.menu-id').hide();
     $('#flag_' + $(this).data('identity')).show();
     getEntry($(this).data('identity'));
@@ -193,10 +187,15 @@ function menulink() {
  * Layout functions
  ******************/
 
-function hello() {
-    $('#hello').show();
-    $('#edit').hide();
-    $('#preferences').hide();
+function showRight(id) {
+    $('.rightpanel').each(function() {
+        $(this).hide();
+    });
+    if (id.match("^#")) {
+        $(id).show();
+    } else {
+        $('#'+id).show();
+    }
 }
 
 // Replace broken images with generic entry image
@@ -390,6 +389,7 @@ dragMenu = function () {
 }
 
 function getEntry(id) {
+    console.log('getEntry')
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + id + '?apikey=' + apikey,
@@ -399,6 +399,9 @@ function getEntry(id) {
             $('#leveloption').show();
             currentEntry = data;
             renderEntry(currentEntry);
+        },
+        error: function (jqXHR, textStatus) {
+            alert('getEntry error: ' + textStatus);
         }
     });
 }
@@ -503,7 +506,7 @@ function renderList(data) {
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
         $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
         '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
-        levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
+            levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
         '</a>' +
         '<a href="#" class="addChild-Button" ' +
         'data-level="' + entry.levels + '" ' +
@@ -642,3 +645,5 @@ function userToJSON() {
     });
     return data;
 }
+
+$(document).ready( init() );
