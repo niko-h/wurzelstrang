@@ -26,9 +26,9 @@ $app->put( '/entries/neworder', function () { //TODO rename because of collision
 // getEntries
 $app->get( '/entries', function () {
     if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, id, pos, levels FROM sites ORDER BY pos ASC;';
+        $query = 'SELECT title, visible, content, id, pos, level FROM sites ORDER BY pos ASC;';
     } else {
-        $query = 'SELECT title, content, id, pos, levels FROM sites WHERE visible!="" ORDER BY pos ASC;';
+        $query = 'SELECT title, content, id, pos, level FROM sites WHERE visible!="" ORDER BY pos ASC;';
     }
     try {
         $contentitems = fetchFromDB( $query );
@@ -41,9 +41,9 @@ $app->get( '/entries', function () {
 // getEntry
 $app->get( '/entries/:id', function ( $site_id ) {
     if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, mtime, id, levels FROM sites WHERE id = :site_id;';
+        $query = 'SELECT title, visible, content, mtime, id, level FROM sites WHERE id = :site_id;';
     } else {
-        $query = 'SELECT title, content, id, levels FROM sites WHERE visible!="" AND id = :site_id;';
+        $query = 'SELECT title, content, id, level FROM sites WHERE visible!="" AND id = :site_id;';
     }
     try {
         $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];
@@ -62,7 +62,7 @@ $app->post( '/entries', function () {
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
-    $query = 'INSERT INTO sites ( title, content, template, mtime, visible, levels, pos) VALUES ( :title, :content, :template, :time, :visible, :level, :pos );';
+    $query = 'INSERT INTO sites ( title, content, template, mtime, visible, level, pos) VALUES ( :title, :content, :template, :time, :visible, :level, :pos );';
     $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
     try {
         $db = getConnection();
@@ -143,9 +143,9 @@ $app->put( '/entries/:id/level', function ( $site_id ) {
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
-    $query = "UPDATE sites SET levels=:levels WHERE id=:id;";
+    $query = "UPDATE sites SET level=:level WHERE id=:id;";
     try {
-        updateDB( $query, [ 'id' => $site_id, 'levels' => $request_body->level ] );
+        updateDB( $query, [ 'id' => $site_id, 'level' => $request_body->level ] );
 
         echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {

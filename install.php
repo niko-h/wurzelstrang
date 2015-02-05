@@ -147,7 +147,7 @@ if( file_exists( $db_file ) ) {
                     template  TEXT,
                     pos       INTEGER,
                     visible   BOOLEAN,
-                    levels    INTEGER
+                    level     INTEGER
                   );
                   ';
             $db->exec( $query ) or die( 'Datenbankfehler' );
@@ -184,7 +184,7 @@ if( file_exists( $db_file ) ) {
                 echo '{"error":{"text":' . $e->getMessage() . '}}';
             }
 
-            $query = 'INSERT INTO sites(  title,  content,  pos,  visible,  levels, mtime)
+            $query = 'INSERT INTO sites(  title,  content,  pos,  visible,  level, mtime)
                                  VALUES( :title, :content, :pos, :visible, :level, :time );';
             try {
                 $stmt = $db->prepare( $query );
