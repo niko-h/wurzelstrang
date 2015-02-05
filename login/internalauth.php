@@ -1,21 +1,18 @@
 <?php
-// ini_set('display_errors',1); 
-// error_reporting(-1);
+//ini_set( 'display_errors', 1 );
+//error_reporting( -1 );
+
+require_once( '../api/db.php' );
+
 
 /**
  * theme
  */
-function theme() { 
+function theme() {
     try {
         $query = 'SELECT site_theme FROM siteinfo LIMIT 1;';
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_BOTH );
-        $theme = $stmt->fetch();
-        $db = NULL;
 
-        return $theme[ 0 ];
+        return fetchFromDB( $query )[ 0 ][ 'site_theme' ];
     } catch( PDOException $e ) {
         echo 'error:' . $e->getMessage();
     }
@@ -27,19 +24,13 @@ function theme() {
  */
 function isadmin( $mailin ) { // mailadress to check
     try {
-        $query = 'SELECT user_email AS email FROM users WHERE user_email = :mail AND admin = :eins LIMIT 1;';
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->bindParam( "mail", $mailin );
-        $eins = 1;
-        $stmt->bindParam( "eins", $eins );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_BOTH );
-        $mail = $stmt->fetch();
-        $db = NULL;
-
-        return $mail[ 0 ];
-
+        $query = 'SELECT user_email FROM users WHERE user_email = :mail AND admin = 1 LIMIT 1;';
+        $result = fetchFromDB( $query, [ 'mail' => $mailin ] );
+        if( sizeof( $result ) > 0 ) {
+            return $result[ 0 ][ 'user_email' ];
+        } else {
+            return [ ];
+        }
     } catch( PDOException $e ) {
         echo 'error:' . $e->getMessage();
     }
@@ -50,18 +41,9 @@ function isadmin( $mailin ) { // mailadress to check
  */
 function isuser( $mailin ) { // mailadress to check
     try {
-        $query = 'SELECT user_email AS email FROM users WHERE user_email = :mail AND admin = :zero LIMIT 1;';
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->bindParam( "mail", $mailin );
-        $null = 0;
-        $stmt->bindParam( "zero", $null );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_BOTH );
-        $mail = $stmt->fetch();
-        $db = NULL;
+        $query = 'SELECT user_email FROM users WHERE user_email = :mail AND admin = 0 LIMIT 1;';
 
-        return $mail[ 0 ];
+        return fetchFromDB( $query, [ 'mail' => $mailin ] )[ 0 ][ 'user_email' ];
     } catch( PDOException $e ) {
         echo 'error:' . $e->getMessage();
     }
@@ -91,19 +73,6 @@ if( !isset( $_SESSION[ 'user' ]->email ) ) {
 function logout() {
     session_destroy();
     header( "Location:index.php" );
-}
-
-/**
- * Database action
- */
-function getConnection() {
-    $db_file = "../db/content.db";    //SQLite Datenbank Dateiname
-    if( file_exists( $db_file ) ) {
-        $db = new PDO( "sqlite:$db_file" );
-        if( !$db ) die( 'Datenbankfehler' );
-
-        return $db;
-    }
 }
 
 ?>

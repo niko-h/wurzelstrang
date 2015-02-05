@@ -3,8 +3,8 @@
 /**
  * Database action
  */
-function getConnection($db_file = '../db/content.db') {
-    if( $GLOBALS[ 'DB' ] == NULL ) {
+function getConnection( $db_file = '../db/content.db' ) {
+    if( !isset( $GLOBALS[ 'DB' ] ) ) {
         if( file_exists( $db_file ) ) {
             $db = new PDO( "sqlite:$db_file" );
             $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); // maybe remove this in production
@@ -21,8 +21,8 @@ function getConnection($db_file = '../db/content.db') {
     }
 }
 
-function fetchFromDB( $query, $parameter=[], $db_file = '../db/content.db' ) {
-    $db = getConnection($db_file);
+function fetchFromDB( $query, $parameter = [ ], $db_file = '../db/content.db' ) {
+    $db = getConnection( $db_file );
     $stmt = $db->prepare( $query );
     $stmt->execute( $parameter );
     $stmt->setFetchMode( PDO::FETCH_ASSOC );
