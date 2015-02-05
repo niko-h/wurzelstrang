@@ -71,13 +71,13 @@ $app->post( '/entries', function () {
             updateDB( $move_query, [ 'parentpos' => $entry->parentpos ] );
         }
 
-        updateDB( $query, [ 'title'   => $entry->title,
-                            'content' => $entry->content,
-                            'time'    => time(),
-                            'visible' => $entry->visible,
-                            'level'   => $entry->level,
-                            'template'=> $entry->template,
-                            'pos'     => $entry->pos ] );
+        updateDB( $query, [ 'title'    => $entry->title,
+                            'content'  => $entry->content,
+                            'time'     => time(),
+                            'visible'  => $entry->visible,
+                            'level'    => $entry->level,
+                            'template' => $entry->template,
+                            'pos'      => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $db->lastInsertId() . '}}';
 
@@ -137,32 +137,38 @@ $app->delete( '/entries/:id', function ( $site_id ) {
     }
 } );
 
-// updateLevel
-$app->put( '/entries/:id/level', function ( $site_id ) {
-    $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
-    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
-    $query = "UPDATE sites SET level=:level WHERE id=:id;";
+/* generic functions to get and manipulate single features of one site */
+
+$app->get( '/entries/:id/:feature', function ( $site_id, $feature ) {
+    if( isAuthorrized( Slim::getInstance()->request() ) ) {
+        $query = 'SELECT ' . $feature . ' FROM sites WHERE id = :site_id;';
+    } else {
+        $query = 'SELECT ' . $feature . ' FROM sites WHERE visible!="" AND id = :site_id;';
+    }
     try {
-        updateDB( $query, [ 'id' => $site_id, 'level' => $request_body->level ] );
-
-        echo '{"updated":{"id":' . $site_id . '}}';
+        $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];
+        if( isAuthorrized( Slim::getInstance()->request() ) ) {
+            $result[ 'siteadmins' ] = getSiteAdmins( $site_id );
+        }
+        echo json_encode( $result );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 } );
 
 
-// change Template
-$app->put( '/entries/:id/template', function ( $site_id ) {
+$app->put( '/entries/:id/:feature', function ( $site_id, $feature ) {
+    if( !in_array( $feature, [ 'level', 'title', 'content', 'template', 'language' ] ) ) {
+        die( 'not allowed' );
+    }
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
-    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, template: 'foobar' } */
+    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
-    $query = "UPDATE sites SET template=:template WHERE id=:id;";
+    $query = "UPDATE sites SET " . $feature . "=:level WHERE id=:id;";
     try {
-        updateDB( $query, [ 'id' => $site_id, 'template' => $request_body->template ] );
+        updateDB( $query, [ 'id' => $site_id, $feature => $request_body->$feature ] );
 
         echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {
