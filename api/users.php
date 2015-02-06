@@ -60,6 +60,9 @@ $app->delete( '/users/:id', function ( $user_id ) {
     }
 } );
 
+# TODO implement get sites
+# TODO implement delete sites
+
 // add sites to administrate
 $app->post( '/users/:id/sites', function ( $user_id ) {
     $request = Slim::getInstance()->request();

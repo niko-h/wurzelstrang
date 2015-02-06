@@ -73,16 +73,16 @@ $app->post( '/entries', function () {
             updateDB( $move_query, [ 'parentpos' => $entry->parentpos ] );
         }
 
-        updateDB( $query, [ 'title'    => $entry->title,
-                            'content'  => $entry->content,
-                            'language' => isset($entry->language)?$entry->language:DEFAULT_LANGUAGE,
-                            'time'     => time(),
-                            'visible'  => $entry->visible,
-                            'level'    => $entry->level,
-                            'template' => $entry->template,
-                            'pos'      => $entry->pos ] );
+        $id = updateDB( $query, [ 'title'    => $entry->title,
+                                  'content'  => $entry->content,
+                                  'language' => isset($entry->language)?$entry->language:DEFAULT_LANGUAGE,
+                                  'time'     => time(),
+                                  'visible'  => $entry->visible,
+                                  'level'    => $entry->level,
+                                  'template' => $entry->template,
+                                  'pos'      => $entry->pos ] );
 
-        echo '{"inserted":{"id":' . $db->lastInsertId() . '}}';
+        echo '{"inserted":{"id":' . $id . '}}';
 
         $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
         if( !file_exists( '../uploads/images/' . $foldername ) ) {
