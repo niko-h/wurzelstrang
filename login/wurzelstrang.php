@@ -98,9 +98,7 @@ header( "Content-Type: text/html; charset=utf-8" );
             <?php require_once( 'templates/ws-hello/index.php' ); ?>
         </div>
 
-        <div id="edit" class="rightpanel">
-            <?php require_once( 'templates/ws-edit-default/index.php' ); ?>
-        </div>
+        <div id="edit" class="rightpanel"></div>
 
         <div id="preferences" class="rightpanel">
             <?php require_once( 'templates/ws-settings/index.php' ); ?>

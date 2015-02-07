@@ -23,7 +23,7 @@
                     </ul>
                 </li>
                 <li class="main-editor-li">
-                    <textarea name="content"></textarea>
+                    <textarea name="content" id="ckeditor"></textarea>
                 </li>
                 <li>
                     <ul class="row">
