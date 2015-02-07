@@ -38,4 +38,5 @@ function updateDB( $query, $parameter ) {
     $db = getConnection();
     $stmt = $db->prepare( $query );
     $stmt->execute( $parameter );
+    return $db->lastInsertId();
 }
