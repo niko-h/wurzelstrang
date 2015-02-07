@@ -519,6 +519,10 @@ function renderEntry(item, template) {
             $('textarea#ckeditor').ckeditor();
         }
 
+        $.each(siteinfo.languages, function( index, value ) {
+            $('#languageSelector').append($('<option></option>').val(value).html(value).attr('selected',value == item.entry.language));
+        });
+
         $('#submitbutton').click(submitbutton);
         $('#deletebutton').click(deletebutton);
         $('#updatesitebtn').click(updatesitebtn);
@@ -589,6 +593,7 @@ function renderSiteInfo(siteinfo) {
     $('#siteheadline').val(siteinfo.site_headline);
     $('#sitetheme').val(siteinfo.site_theme);
     $('#levelstarget').val(siteinfo.site_levels);
+
     button();
 }
 
