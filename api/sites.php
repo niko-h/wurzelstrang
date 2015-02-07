@@ -80,7 +80,7 @@ $app->post( '/entries', function () {
                                   'time'     => time(),
                                   'visible'  => $entry->visible,
                                   'level'    => $entry->level,
-                                  'template' => isset( $entry->template ) ? $entry->template : 'default',
+                                  'template' => isset( $entry->template ) ? $entry->template : 'ws-edit-default',
                                   'pos'      => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $id . '}}';

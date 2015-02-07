@@ -20,7 +20,7 @@ if( HTTPS === TRUE ) {
     }
 }
 
-require( 'internalauth.php' );  // database authorization
+require_once( 'internalauth.php' );  // database authorization
 
 // Themedir
 $themedir = "../themes/";
@@ -31,22 +31,6 @@ if( is_dir( $themedir ) ) {  // Open a directory and read its contents
             if( $file != '.' && $file != '..' ) {
                 if( is_dir( $themedir . DIRECTORY_SEPARATOR . $file ) ) {
                     array_push( $themes, $file );
-                }
-            }
-        }
-        closedir( $dh );
-    }
-}
-
-// Templatedir
-$templatedir = "./templates/";
-$templates = array();
-if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
-    if( $dh = opendir( $templatedir ) ) {
-        while( ( $file = readdir( $dh ) ) !== FALSE ) {
-            if( $file != '.' && $file != '..' ) {
-                if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
-                    array_push( $templates, $file );
                 }
             }
         }
@@ -92,8 +76,6 @@ header( "Content-Type: text/html; charset=utf-8" );
             <i class="icon-flag"></i>
             <select id="lang-sel">
                 <option disabled>Sprache/Language</option>
-                <option>1</option>
-                <option>2</option>
             </select>             
         </div>
     </div>

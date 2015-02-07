@@ -6,6 +6,7 @@
 
 onLoad = function () {
     $("#loader").hide();
+    getLanguages();                        // get Languages
     linkhello();                           // load hello screen
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
@@ -30,6 +31,7 @@ fade = function (id) {
  ***********/
 
 var currentEntry;
+var languages;
 var sitelist;
 var user;
 var siteinfo;
@@ -199,13 +201,26 @@ $("img").error(function () {
 
 function newEntry() {
     currentEntry = {};
-    renderEntry(currentEntry,'default'); // Display empty form
+    renderEntry(currentEntry); // Display empty form
 }
 
 
 /*****************
  * Call functions
  ****************/
+
+function getLanguages() {
+    console.log('getLanguages');
+    $.ajax({
+        type: 'GET',
+        url: rootURL + '/languages?apikey=' + apikey,
+        dataType: "json", // data type of response
+        success: function (data) {
+            languages = data;
+            $('#lang-sel').renderLanguages();
+        }
+    });
+}
 
 function getAll() {
     console.log('getAll');
@@ -394,7 +409,7 @@ function getEntry(id) {
             $('#deletebutton').show();
             $('#leveloption').show();
             currentEntry = data;
-            renderEntry(currentEntry, data.entry.template);
+            renderEntry(currentEntry);
         },
         error: function (jqXHR, textStatus) {
             alert('getEntry error: ' + textStatus);
@@ -514,17 +529,17 @@ function renderList(data) {
     $('.addChild-Button').click(addChild);
 }
 
-function renderEntry(item, template) {
-    $('#edit').load('templates/ws-edit-'+template,function(){
+function renderEntry(item) {
+    var template;
+    if(typeof item.template == 'undefined') {
+        template = 'ws-edit-default';
+    } else { template = item.template;  }
 
-        if(template =='default') {
+    $('#edit').load('templates/'+template, function() {
+
+        if(template =='ws-edit-default') {
             $('textarea#ckeditor').ckeditor();
         }
-
-        $.each(siteinfo.languages, function( index, value ) {
-            $('#languageSelector').append($('<option></option>').val(value).html(value).attr('selected',item.entry && value == item.entry.language));
-        });
-
 
         $('#submitbutton').click(submitbutton);
         $('#deletebutton').click(deletebutton);
@@ -629,6 +644,12 @@ function renderUser(user, userid) {
     $('#deleteusrbutton').attr('data-identity', userid);
 
     $('#deleteusrbutton').click(deleteusrbtn); // delete user
+}
+
+function renderLanguages() {
+    $.each(languages, function( index, value ) {
+        $(this).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.language));
+    });
 }
 
 
