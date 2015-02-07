@@ -67,7 +67,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 
         <div class="push-right">
             <span class="head-separator"></span>
-            <? if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+            <?php if( isadmin( $_SESSION[ 'user' ]->email ) ) {
                 echo '<a id="prefbtn" class="btn greybtn" href="#"><i class="icon-cog"></i> Einstellungen</a>';
             } ?>
             <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn"><i class="icon-off"></i> Abmelden</a>

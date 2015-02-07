@@ -13,7 +13,7 @@
                         <li>
                             <label for="title" class="bold">Titel</label>
                             <input id="title" type="text" name="title" required placeholder="Titel" value="">
-                            <?
+                            <?php
                             // Templatedir
                             $templatedir = "../.";
                             $templates = array();
