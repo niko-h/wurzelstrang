@@ -13,7 +13,36 @@
                         <li>
                             <label for="title" class="bold">Titel</label>
                             <input id="title" type="text" name="title" required placeholder="Titel" value="">
-                            <select id="languageSelector" name="languageSelector" size="1"></select>
+                            <?
+                            // Templatedir
+                            $templatedir = "../.";
+                            $templates = array();
+                            if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
+                                if( $dh = opendir( $templatedir ) ) {
+                                    while( ( $file = readdir( $dh ) ) !== FALSE ) {
+                                        if( $file != '.' && $file != '..' ) {
+                                            if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
+                                                array_push( $templates, $file );
+                                            }
+                                        }
+                                    }
+                                    closedir( $dh );
+                                }
+                            }
+
+                            // require_once( '../../internalauth.php' );  // database authorization
+                            // if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                                echo '<select id="templateSelector" name="templateSelector" size="1">';
+                                    foreach ($templates as $template) {
+                                        if( $template == 'ws-edit-default' ) {
+                                            echo '<option>default</option>';
+                                        } elseif (!substr( $template, 0, 3 ) === "ws-") {
+                                            echo '<option>' + $template + '</option>';
+                                        }
+                                    }
+                                echo '</select>';
+                            // }
+                            ?>
                         </li>
                         <li>
                             <label>&nbsp;</label>
