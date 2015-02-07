@@ -55,10 +55,10 @@ $app->get( '/siteinfo', function () {
     }
 } );
 
-$app->get( '/siteinfo/:language', function ($language) {
-    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo where site_language = :language;';
+$app->get( '/siteinfo/:language', function ( $language ) {
+    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo WHERE site_language = :language;';
     try {
-        $siteinfo = fetchFromDB( $query,[':language'=>$language] )[ 0 ];
+        $siteinfo = fetchFromDB( $query, [ ':language' => $language ] )[ 0 ];
 
         $language_query = 'SELECT DISTINCT site_language FROM siteinfo;';
         $languages = array();
@@ -112,6 +112,15 @@ $app->post( '/siteinfo/languages', function () {
         $query = 'INSERT INTO siteinfo (site_language, site_title, site_theme, site_headline, site_levels)
                   VALUES (:site_language, :site_title, :site_theme, :site_headline, :site_levels)';
         updateDB( $query, $siteinfo );
+
+        /* get all sites to clone them */
+        $query = 'SELECT * FROM sites WHERE language = :default_lang';
+        foreach( fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] ) as &$row ) {
+            $row[ 'language' ] = $request_body->language;
+            $query = "INSERT INTO sites (id, language, title, mtime, content, template, pos, visible, level)
+                      VALUES (:id, :language, :title, :mtime, :content, :template, :pos, :visible, :level);";
+            updateDB($query, $row);
+        }
 
         echo json_encode( $siteinfo );
     } catch( PDOException $e ) {

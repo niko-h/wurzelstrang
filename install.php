@@ -133,7 +133,7 @@ if( file_exists( $db_file ) ) {
                   );
 
                   CREATE TABLE IF NOT EXISTS sites(
-                    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id        INTEGER ,
                     language  TEXT,
                     title     INTEGER,
                     mtime     INTEGER,
@@ -141,7 +141,8 @@ if( file_exists( $db_file ) ) {
                     template  TEXT,
                     pos       INTEGER,
                     visible   BOOLEAN,
-                    level     INTEGER
+                    level     INTEGER,
+                    CONSTRAINT sites_key UNIQUE (id, language)
                   );
                   ';
             $db->exec( $query ) or die( 'Datenbankfehler' );
@@ -178,8 +179,8 @@ if( file_exists( $db_file ) ) {
                 echo '{"error":{"text":' . $e->getMessage() . '}}';
             }
 
-            $query = 'INSERT INTO sites(  language,  title,  content,  pos,  visible,  level,  mtime)
-                                 VALUES( :language, :title, :content, :pos, :visible, :level, :time );';
+            $query = 'INSERT INTO sites(  id,  language,  title,  content,  pos,  visible,  level,  mtime)
+                                 VALUES(   1, :language, :title, :content, :pos, :visible, :level, :time );';
             try {
                 $stmt = $db->prepare( $query );
                 $stmt->bindValue( "language", DEFAULT_LANGUAGE );
