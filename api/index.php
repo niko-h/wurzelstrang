@@ -40,6 +40,15 @@ $app->get( '/siteinfo', function () {
     $query = 'SELECT site_title, site_theme, site_headline, site_levels FROM siteinfo;';
     try {
         $siteinfo = fetchFromDB( $query )[ 0 ];
+
+        $language_query = 'select distinct language from sites;';
+        $languages = array();
+        foreach( fetchFromDB( $language_query ) as &$row ) {
+            array_push( $languages, $row[ 'language' ] );
+        }
+
+        $siteinfo[ 'languages' ] = $languages;
+
         echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';

@@ -41,20 +41,15 @@ var newLevel = 0;
  * Action Listeners
  ******************/
 
-init = function() {                 // called at the bottom
+init = function () {                 // called at the bottom
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
-    $('#submitbutton').click(submitbutton);
-    $('#deletebutton').click(deletebutton);
-    $('#updatesitebtn').click(updatesitebtn);
-    // $('#updateadminbtn').click(updateadminbtn);
-    // $('#submituserbtn').click(submitnewusrbtn);
-    $('#leveldown').click(leveldown);
-    $('#levelup').click(levelup);
+    
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
     $('.popupcontent').click(function(e) { e.stopPropagation(); });
+
 
     usermailvalidate = function (str) {
         if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
@@ -204,7 +199,7 @@ $("img").error(function () {
 
 function newEntry() {
     currentEntry = {};
-    renderEntry(currentEntry); // Display empty form
+    renderEntry(currentEntry,'default'); // Display empty form
 }
 
 
@@ -399,7 +394,7 @@ function getEntry(id) {
             $('#deletebutton').show();
             $('#leveloption').show();
             currentEntry = data;
-            renderEntry(currentEntry);
+            renderEntry(currentEntry, data.entry.template);
         },
         error: function (jqXHR, textStatus) {
             alert('getEntry error: ' + textStatus);
@@ -519,38 +514,59 @@ function renderList(data) {
     $('.addChild-Button').click(addChild);
 }
 
-function renderEntry(item) {
-    var entry = item.entry;
-    if (entry != null && entry.id != null) {
-        date = new Date(entry.mtime * 1000).toUTCString();
-        $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
-        $('#entryId').val(entry.id);
-        $('#title').val(entry.title);
-        if (entry.visible == true) {
+function renderEntry(item, template) {
+    $('#edit').load('templates/ws-edit-'+template,function(){
+
+        if(template =='default') {
+            $('textarea#ckeditor').ckeditor();
+        }
+
+        $.each(siteinfo.languages, function( index, value ) {
+            $('#languageSelector').append($('<option></option>').val(value).html(value).attr('selected',value == item.entry.language));
+        });
+
+        $('#submitbutton').click(submitbutton);
+        $('#deletebutton').click(deletebutton);
+        $('#updatesitebtn').click(updatesitebtn);
+        // $('#updateadminbtn').click(updateadminbtn);
+        // $('#submituserbtn').click(submitnewusrbtn);
+        $('#leveldown').click(leveldown);
+        $('#levelup').click(levelup);
+
+
+        var entry = item.entry;
+        if (entry != null && entry.id != null) {
+            date = new Date(entry.mtime * 1000).toUTCString();
+            $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
+            $('#entryId').val(entry.id);
+            $('#title').val(entry.title);
+            if (entry.visible == true) {
+                $('#visiblecheckbox').attr('checked', 'checked');
+            } else {
+                $('#visiblecheckbox').removeAttr('checked');
+            }
+            $('textarea#ckeditor').val(entry.content);
+            $('#levelcount').text(entry.level);
+            if ($('#levelstarget').val() == true) {
+                $('#leveloption').show();
+            } else {
+                $('#leveloption').hide();
+            }
+            $('#deletebutton').html('<i class="icon-cancel"></i> Löschen');
+        } else {
+            $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
+            $('#entryId').val("");
+            $('#title').val("");
             $('#visiblecheckbox').attr('checked', 'checked');
-        } else {
-            $('#visiblecheckbox').removeAttr('checked');
+            $('textarea#ckeditor').val("");
+            if ($('#levelstarget').val() == true) {
+                $('#leveloption').show();
+            } else {
+                $('#leveloption').hide();
+            }
         }
-        $('textarea#ckeditor').val(entry.content);
-        $('#levelcount').text(entry.level);
-        if ($('#levelstarget').val() == true) {
-            $('#leveloption').show();
-        } else {
-            $('#leveloption').hide();
-        }
-        $('#deletebutton').html('<i class="icon-cancel"></i> Löschen');
-    } else {
-        $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
-        $('#entryId').val("");
-        $('#title').val("");
-        $('#visiblecheckbox').attr('checked', 'checked');
-        $('textarea#ckeditor').val("");
-        if ($('#levelstarget').val() == true) {
-            $('#leveloption').show();
-        } else {
-            $('#leveloption').hide();
-        }
-    }
+    });
+
 }
 
 function renderAdmin(data) {
@@ -584,6 +600,7 @@ function renderSiteInfo(siteinfo) {
     $('#siteheadline').val(siteinfo.site_headline);
     $('#sitetheme').val(siteinfo.site_theme);
     $('#levelstarget').val(siteinfo.site_levels);
+
     button();
 }
 

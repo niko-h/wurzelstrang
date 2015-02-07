@@ -79,7 +79,7 @@ $app->post( '/entries', function () {
                                   'time'     => time(),
                                   'visible'  => $entry->visible,
                                   'level'    => $entry->level,
-                                  'template' => $entry->template,
+                                  'template' => isset($entry->template)?$entry->template:'default',
                                   'pos'      => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $id . '}}';

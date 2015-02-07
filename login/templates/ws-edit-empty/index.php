@@ -13,6 +13,7 @@
                         <li>
                             <label for="title" class="bold">Titel</label>
                             <input id="title" type="text" name="title" required placeholder="Titel" value="">
+                            <select id="languageSelector" name="languageSelector" size="1"></select>
                         </li>
                         <li>
                             <label>&nbsp;</label>
@@ -23,7 +24,7 @@
                     </ul>
                 </li>
                 <li class="main-editor-li">
-                    <textarea name="content"></textarea>
+                    <textarea name="content" id="ckeditor"></textarea>
                 </li>
                 <li>
                     <ul class="row">
