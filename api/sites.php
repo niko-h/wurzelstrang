@@ -140,6 +140,36 @@ $app->delete( '/entries/:id', function ( $site_id ) {
     }
 } );
 
+/* create a copy of this site, add the new language */
+$app->post( '/entries/:id/language', function () {
+        $request = Slim::getInstance()->request();
+        checkAuthorization( $request );
+        $request_body = json_decode( $request->getBody() );
+
+        try {
+            $db = getConnection();
+            /* get default siteinfo */
+            $query = 'SELECT * FROM sites WHERE language = :default_lang';
+            $site = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
+            /* change language according to parameter */
+            unset($site['id']);
+            $site[ 'language' ] = $request_body->language;
+            print_r($site);
+
+            /* insert new version */
+            $query = 'insert into sites (language, title, mtime, content, template, pos, visible, level)
+                      values (:language, :title, :mtime, :content, :template, :pos, :visible, :level)';
+            updateDB( $query, $site );
+
+            echo "done";
+        } catch( PDOException $e ) {
+            echo '{"error":{"text":' . $e->getMessage() . '}}';
+        }
+
+    } );
+
+
+
 
 /* generic functions to get and manipulate single features of one site */
 
