@@ -522,8 +522,9 @@ function renderEntry(item, template) {
         }
 
         $.each(siteinfo.languages, function( index, value ) {
-            $('#languageSelector').append($('<option></option>').val(value).html(value).attr('selected',value == item.entry.language));
+            $('#languageSelector').append($('<option></option>').val(value).html(value).attr('selected',item.entry && value == item.entry.language));
         });
+
 
         $('#submitbutton').click(submitbutton);
         $('#deletebutton').click(deletebutton);
