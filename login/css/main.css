@@ -47,7 +47,7 @@ body {
 
 #right {
     background: url(bgbig.png) no-repeat center;
-    height: 350px;
+    /*height: 350px;*/
 }
 
 /* =Header
@@ -324,7 +324,7 @@ div#menu li:hover span.menu-id {
     margin: 10px 0px 0px 0px;
     display: block;
     text-align: center;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 #menu_list_div span#menu_list_help .head-separator {

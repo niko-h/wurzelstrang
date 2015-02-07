@@ -8,13 +8,16 @@
         <legend><i class="icon-cog"></i> Einstellungen</legend>
 
         <?php 
+            if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+    			require_once( 'ws-settings-languages.php' );
 
-        	require_once( 'ws-settings-prefsite.php' );
+                echo "<br>";
 
-	        echo "<br>";
+                require_once( 'ws-settings-prefsite.php' );
 
-			if( isadmin( $_SESSION[ 'user' ]->email ) ) {
-				require_once( 'ws-settings-prefadmin.php' );
+                echo "<br>";
+
+            	require_once( 'ws-settings-prefadmin.php' );
 
 				echo "<br>";
 

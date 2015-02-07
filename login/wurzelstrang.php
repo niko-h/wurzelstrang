@@ -37,7 +37,25 @@ if( is_dir( $themedir ) ) {  // Open a directory and read its contents
         closedir( $dh );
     }
 }
+
+// Templatedir
+$templatedir = "./templates/";
+$templates = array();
+if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
+    if( $dh = opendir( $templatedir ) ) {
+        while( ( $file = readdir( $dh ) ) !== FALSE ) {
+            if( $file != '.' && $file != '..' ) {
+                if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
+                    array_push( $templates, $file );
+                }
+            }
+        }
+        closedir( $dh );
+    }
+}
+
 header( "Content-Type: text/html; charset=utf-8" );
+
 ?>
 
 <!DOCTYPE HTML>
@@ -65,8 +83,18 @@ header( "Content-Type: text/html; charset=utf-8" );
 
         <div class="push-right">
             <span class="head-separator"></span>
-            <a id="prefbtn" class="btn greybtn" href="#"><i class="icon-cog"></i> Einstellungen</a>
+            <? if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                echo '<a id="prefbtn" class="btn greybtn" href="#"><i class="icon-cog"></i> Einstellungen</a>';
+            } ?>
             <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn"><i class="icon-off"></i> Abmelden</a>
+        </div>
+        <div class="push-right">
+            <i class="icon-flag"></i>
+            <select id="lang-sel">
+                <option disabled>Sprache/Language</option>
+                <option>1</option>
+                <option>2</option>
+            </select>             
         </div>
     </div>
 </div>

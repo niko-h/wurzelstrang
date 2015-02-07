@@ -181,20 +181,6 @@ function menulink() {
     getEntry($(this).data('identity'));
 }
 
-// $('#btnSearch').click(function() { 
-//   search($('#searchKey').val());
-//   return false;
-// });
-
-// Trigger search when pressing 'Return' on search key input field
-// $('#searchKey').keypress(function(e){
-//   if(e.which == 13) {
-//     search($('#searchKey').val());
-//     e.preventDefault();
-//     return false;
-//     }
-// });
-
 
 /*******************
  * Layout functions
@@ -221,32 +207,10 @@ function newEntry() {
     renderEntry(currentEntry); // Display empty form
 }
 
-// Replace broken images with generic entry image
-// $("img").error(function(){
-//   $(this).attr("src", "pics/generic.jpg");
-// });
-
-// function search(searchKey) {
-//   if (searchKey == '') 
-//     findAll();
-//   else
-//     findByName(searchKey);
-// }
-
 
 /*****************
  * Call functions
  ****************/
-
-// function findByName(searchKey) {
-//   console.log('findByName: ' + searchKey);
-//   $.ajax({
-//     type: 'GET',
-//     url: rootURL + '/search/' + searchKey,
-//     dataType: "json",
-//     success: renderList 
-//   });
-// }
 
 function getAll() {
     console.log('getAll');
@@ -378,6 +342,7 @@ function getSiteInfo() {
     });
 }
 
+
 function putSiteInfo() {
     console.log('putSiteInfo');
     $.ajax({
@@ -389,6 +354,7 @@ function putSiteInfo() {
         success: function () {
             fade('#savedfade');
             getSiteInfo();
+            getAll();
         },
         error: function (jqXHR, textStatus ) {
             alert('putSiteInfo error: ' + textStatus);
@@ -547,7 +513,7 @@ function renderList(data) {
         'data-level="' + entry.level + '" ' +
         'data-identity="' + entry.id + '"' +
         'data-pos="' + entry.pos + '">+</a>' +
-        '<span class="dragger push-right"><i class="icon-menu"></i></span></li>');
+        '<span class="dragger push-right"><i class="icon-drag"></i></span></li>');
     });
     $('#menu_list li a.menulink').click(menulink); // select entry in menu
     $('.addChild-Button').click(addChild);

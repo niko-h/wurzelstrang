@@ -3,7 +3,23 @@
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
   "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
   "glyphs": [
+    {
+      "uid": "838c897bace17b702aa6901cdc2174d0",
+      "css": "drag",
+      "code": 59476,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M566.4 767.6H664.1V865.2H566.4V767.6ZM767.6 767.6H865.2V865.2H767.6V767.6ZM134.8 767.6H232.4V865.2H134.8V767.6ZM351.6 767.6H449.2V865.2H351.6V767.6ZM566.4 566.4H664.1V664.1H566.4V566.4ZM767.6 566.4H865.2V664.1H767.6V566.4ZM134.8 566.4H232.4V664.1H134.8V566.4ZM351.6 566.4H449.2V664.1H351.6V566.4ZM566.4 351.6H664.1V449.2H566.4V351.6ZM767.6 351.6H865.2V449.2H767.6V351.6ZM134.8 351.6H232.4V449.2H134.8V351.6ZM351.6 351.6H449.2V449.2H351.6V351.6ZM566.4 134.8H664.1V232.4H566.4V134.8ZM767.6 134.8H865.2V232.4H767.6V134.8ZM134.8 134.8H232.4V232.4H134.8V134.8ZM351.6 134.8H449.2V232.4H351.6V134.8Z",
+        "width": 1000
+      },
+      "search": [
+        "drag"
+      ]
+    },
     {
       "uid": "72109d2fb3088d0e66ea6a9204297651",
       "css": "spin",
@@ -98,6 +114,12 @@
       "uid": "a3f89e106175a5c5c4e9738870b12e55",
       "css": "tags",
       "code": 59462,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "57a0ac800df728aad61a7cf9e12f5fef",
+      "css": "flag",
+      "code": 59424,
       "src": "fontawesome"
     },
     {
@@ -344,6 +366,12 @@
       "uid": "bc64550dd022ce21604f97309b346cea",
       "css": "cog",
       "code": 59403,
+      "src": "entypo"
+    },
+    {
+      "uid": "ddecf5ad7935e3fb1b70dac6ed00d06a",
+      "css": "language",
+      "code": 59473,
       "src": "entypo"
     },
     {

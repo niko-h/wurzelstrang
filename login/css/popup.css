@@ -1,6 +1,7 @@
 .popupoverflow {
   display: none;
-  position: absolute;
+  overflow: auto;
+  position: fixed;
   top: 0;
   left: 0;
   text-align: center;
@@ -20,13 +21,14 @@
   vertical-align: middle;
   box-shadow: 0 0 8px #000;
   border: 0;
-  background: #ddd;
+  background: #eee;
   text-align: left;
   border-radius: 5px;
   position: relative;
   margin: 20px;
   padding: 10px;
   color: #000;
+  max-width: 800px;
 }
 .popuphead {
   margin: -10px -10px 15px -10px;
@@ -35,7 +37,8 @@
 }
 .userpopuptitle {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
+  margin-right: 10px;
 }
 .closepopup {
   float: right;
