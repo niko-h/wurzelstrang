@@ -65,7 +65,7 @@ $app->post( '/entries', function () {
     $entry = json_decode( $request->getBody() );
 
     $query = 'INSERT INTO sites ( title, content, language, template, mtime, visible, level, pos) VALUES ( :title, :content, :language, :template, :time, :visible, :level, :pos );';
-    $move_query = 'update sites set pos = pos + 1 where pos > :parentpos;';
+    $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos;';
     try {
         $db = getConnection();
 
@@ -75,11 +75,11 @@ $app->post( '/entries', function () {
 
         $id = updateDB( $query, [ 'title'    => $entry->title,
                                   'content'  => $entry->content,
-                                  'language' => isset($entry->language)?$entry->language:DEFAULT_LANGUAGE,
+                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
                                   'time'     => time(),
                                   'visible'  => $entry->visible,
                                   'level'    => $entry->level,
-                                  'template' => isset($entry->template)?$entry->template:'default',
+                                  'template' => isset( $entry->template ) ? $entry->template : 'default',
                                   'pos'      => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $id . '}}';
@@ -142,33 +142,39 @@ $app->delete( '/entries/:id', function ( $site_id ) {
 
 /* create a copy of this site, add the new language */
 $app->post( '/entries/:id/language', function () {
-        $request = Slim::getInstance()->request();
-        checkAuthorization( $request );
-        $request_body = json_decode( $request->getBody() );
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+    $request_body = json_decode( $request->getBody() );
 
-        try {
-            $db = getConnection();
-            /* get default siteinfo */
-            $query = 'SELECT * FROM sites WHERE language = :default_lang';
-            $site = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
-            /* change language according to parameter */
-            unset($site['id']);
-            $site[ 'language' ] = $request_body->language;
-            print_r($site);
+    try {
+        $db = getConnection();
 
-            /* insert new version */
-            $query = 'insert into sites (language, title, mtime, content, template, pos, visible, level)
-                      values (:language, :title, :mtime, :content, :template, :pos, :visible, :level)';
-            updateDB( $query, $site );
-
-            echo "done";
-        } catch( PDOException $e ) {
-            echo '{"error":{"text":' . $e->getMessage() . '}}';
+        /* check if language allready exists */
+        $query = 'SELECT count(id) FROM sites WHERE language = :default_lang';
+        $no_of_sites_with_lang = fetchFromDB( $query, [ 'default_lang' => $request_body->language ] )[ 0 ];
+        if( $no_of_sites_with_lang > 0 ) {
+            die( json_encode( 'language allready available for this site' ) );
         }
 
-    } );
+        /* get default siteinfo */
+        $query = 'SELECT * FROM sites WHERE language = :default_lang';
+        $site = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
+        /* change language according to parameter */
+        unset( $site[ 'id' ] );
+        $site[ 'language' ] = $request_body->language;
+        print_r( $site );
 
+        /* insert new version */
+        $query = 'INSERT INTO sites (language, title, mtime, content, template, pos, visible, level)
+                      VALUES (:language, :title, :mtime, :content, :template, :pos, :visible, :level)';
+        updateDB( $query, $site );
 
+        echo "done";
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+
+} );
 
 
 /* generic functions to get and manipulate single features of one site */
