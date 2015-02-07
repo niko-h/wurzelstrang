@@ -148,11 +148,12 @@ if( file_exists( $db_file ) ) {
 
             // Seiteninfo
             $query = 'INSERT INTO
-                    siteinfo(  site_title, site_theme, site_headline, site_levels)
-                      VALUES( :sitetitle, :sitetheme, :siteheadline, :sitelevels )
+                    siteinfo(  site_language, site_title, site_theme, site_headline, site_levels)
+                      VALUES( :sitelanguage, :sitetitle, :sitetheme, :siteheadline, :sitelevels )
                ;';
             try {
                 $stmt = $db->prepare( $query );
+                $stmt->bindValue( "sitelanguage", DEFAULT_LANGUAGE );
                 $stmt->bindValue( "sitetitle", $_POST[ 'sitetitle' ] );
                 $stmt->bindValue( "sitetheme", $_POST[ 'sitetheme' ] );
                 $stmt->bindValue( "siteheadline", $_POST[ 'siteheadline' ] );
@@ -170,24 +171,22 @@ if( file_exists( $db_file ) ) {
             try {
                 $stmt = $db->prepare( $query );
                 $stmt->bindValue( "email", $_POST[ 'email' ] );
-                $eins = 1;
-                $stmt->bindValue( "admin", $eins );
+                $stmt->bindValue( "admin", 1 );
                 $stmt->execute();
             } catch( Exception $e ) {
                 echo '{"error":{"text":' . $e->getMessage() . '}}';
             }
 
-            $query = 'INSERT INTO sites(  title,  content,  pos,  visible,  level, mtime)
-                                 VALUES( :title, :content, :pos, :visible, :level, :time );';
+            $query = 'INSERT INTO sites(  language,  title,  content,  pos,  visible,  level,  mtime)
+                                 VALUES( :language, :title, :content, :pos, :visible, :level, :time );';
             try {
                 $stmt = $db->prepare( $query );
-                $stmt->bindValue( "title", "Juhuu!" );
+                $stmt->bindValue( "language", DEFAULT_LANGUAGE );
+                $stmt->bindValue( "title", "Knorke!" );
                 $stmt->bindValue( "content", "Eine neue Instanz von Wurzelstrang wurde installiert. Zum <a href=\"login/\" target=\"_self\">Einloggen</a>" );
-                $eins = 1;
-                $stmt->bindValue( "pos", $eins );
-                $stmt->bindValue( "visible", $eins );
-                $level0 = 0;
-                $stmt->bindValue( "level", $level0 );
+                $stmt->bindValue( "pos", 1 );
+                $stmt->bindValue( "visible", 1 );
+                $stmt->bindValue( "level", 0 );
                 $timestamp = time();
                 $stmt->bindValue( "time", $timestamp );
                 $stmt->execute();
