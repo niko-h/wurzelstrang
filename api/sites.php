@@ -149,12 +149,12 @@ $app->post( '/entries/:id/language', function () {
     try {
         $db = getConnection();
 
-        /* check if language allready exists */
-        $query = 'SELECT count(id) FROM sites WHERE language = :default_lang';
-        $no_of_sites_with_lang = fetchFromDB( $query, [ 'default_lang' => $request_body->language ] )[ 0 ];
-        if( $no_of_sites_with_lang > 0 ) {
-            die( json_encode( 'language allready available for this site' ) );
-        }
+//        /* check if language allready exists */
+//        $query = 'SELECT count(id) FROM sites WHERE and language = :default_lang';
+//        $no_of_sites_with_lang = fetchFromDB( $query, [ 'default_lang' => $request_body->language ] )[ 0 ];
+//        if( $no_of_sites_with_lang > 0 ) {
+//            die( json_encode( 'language allready available for this site' ) );
+//        }
 
         /* get default siteinfo */
         $query = 'SELECT * FROM sites WHERE language = :default_lang';
