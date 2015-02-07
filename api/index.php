@@ -37,7 +37,7 @@ $app->get( '/', function () {
 
 /* siteInfo */
 $app->get( '/siteinfo', function () {
-    $query = 'SELECT site_title, site_theme, site_headline, site_levels FROM siteinfo;';
+    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo;';
     try {
         $siteinfo = fetchFromDB( $query )[ 0 ];
 
@@ -54,6 +54,25 @@ $app->get( '/siteinfo', function () {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 } );
+
+$app->get( '/siteinfo/:language', function ($language) {
+    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo where site_language = :language;';
+    try {
+        $siteinfo = fetchFromDB( $query,[':language'=>$language] )[ 0 ];
+
+        $language_query = 'SELECT DISTINCT site_language FROM siteinfo;';
+        $languages = array();
+        foreach( fetchFromDB( $language_query ) as &$row ) {
+            array_push( $languages, $row[ 'site_language' ] );
+        }
+        $siteinfo[ 'languages' ] = $languages;
+
+        echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
 
 $app->put( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
