@@ -41,10 +41,10 @@ $app->get( '/siteinfo', function () {
     try {
         $siteinfo = fetchFromDB( $query )[ 0 ];
 
-        $language_query = 'select distinct language from sites;';
+        $language_query = 'SELECT DISTINCT site_language FROM siteinfo;';
         $languages = array();
         foreach( fetchFromDB( $language_query ) as &$row ) {
-            array_push( $languages, $row[ 'language' ] );
+            array_push( $languages, $row[ 'site_language' ] );
         }
 
         $siteinfo[ 'languages' ] = $languages;
@@ -73,6 +73,32 @@ $app->put( '/siteinfo', function () {
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
+} );
+
+
+$app->post( '/siteinfo/languages', function () {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+    $request_body = json_decode( $request->getBody() );
+
+    try {
+        $db = getConnection();
+        /* get default siteinfo */
+        $query = 'SELECT * FROM siteinfo WHERE site_language = :default_lang';
+        $siteinfo = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
+        /* change language according to parameter */
+        $siteinfo[ 'site_language' ] = $request_body->language;
+
+        /* insert new version */
+        $query = 'INSERT INTO siteinfo (site_language, site_title, site_theme, site_headline, site_levels)
+                  VALUES (:site_language, :site_title, :site_theme, :site_headline, :site_levels)';
+        updateDB( $query, $siteinfo );
+
+        echo json_encode( $siteinfo );
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+
 } );
 
 

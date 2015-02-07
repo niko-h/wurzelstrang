@@ -115,7 +115,8 @@ if( file_exists( $db_file ) ) {
                     site_title    TEXT,
                     site_theme    TEXT,
                     site_headline TEXT,
-                    site_levels   BOOLEAN
+                    site_levels   BOOLEAN,
+                    CONSTRAINT siteinfo_language UNIQUE (site_language)
                   );
 
                   CREATE TABLE IF NOT EXISTS users(
