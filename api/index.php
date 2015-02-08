@@ -130,6 +130,31 @@ $app->post( '/siteinfo/languages', function () {
 } );
 
 
+$app->get(
+    '/availableTemplates',
+    function(){
+        $request = Slim::getInstance()->request();
+        checkAuthorization( $request );
+
+        // Templatedir
+        $templatedir = "../login/templates";
+        $templates = array();
+        if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
+            if( $dh = opendir( $templatedir ) ) {
+                while( ( $file = readdir( $dh ) ) !== FALSE ) {
+                    if( $file != '.' && $file != '..' ) {
+                        if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
+                            array_push( $templates, $file );
+                        }
+                    }
+                }
+                closedir( $dh );
+            }
+        }
+        echo json_encode($templates);
+    });
+
+
 /* include other api parts */
 include_once( 'sites.php' );
 include_once( 'users.php' );
