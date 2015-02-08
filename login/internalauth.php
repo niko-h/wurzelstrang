@@ -4,21 +4,6 @@
 
 require_once( '../api/db.php' );
 
-
-/**
- * theme
- */
-function theme() {
-    try {
-        $query = 'SELECT site_theme FROM siteinfo LIMIT 1;';
-
-        return fetchFromDB( $query )[ 0 ][ 'site_theme' ];
-    } catch( PDOException $e ) {
-        echo 'error:' . $e->getMessage();
-    }
-}
-
-
 /**
  * isadmin - is given email-adress registered as admin in the database?
  */

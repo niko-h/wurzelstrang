@@ -29,9 +29,7 @@
                   <li>
                       <label for="usertemplate" class="bold">Template</label>
                       <select name="usertemplate" id="usertemplate" class="select">
-                          <?php foreach( $themes as $theme ) {
-                              echo '<option>' . $theme . '</option>\n';
-                          } ?>
+                          <!-- templates come here via JS renderTemplateList() -->
                       </select>
                   </li>
                   <li class="push">

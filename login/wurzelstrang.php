@@ -38,6 +38,22 @@ if( is_dir( $themedir ) ) {  // Open a directory and read its contents
     }
 }
 
+// Templatedir
+$templatedir = "templates/";
+$templates = array();
+if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
+    if( $dh = opendir( $templatedir ) ) {
+        while( ( $file = readdir( $dh ) ) !== FALSE ) {
+            if( $file != '.' && $file != '..' ) {
+                if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
+                    array_push( $templates, $file );
+                }
+            }
+        }
+        closedir( $dh );
+    }
+}
+
 header( "Content-Type: text/html; charset=utf-8" );
 
 ?>
@@ -126,6 +142,15 @@ header( "Content-Type: text/html; charset=utf-8" );
   * JavaScript
   *************-->
 
+<script type="text/javascript">
+    var ws_debug = false;      
+    <?php if (DEBUG) { echo 'ws_debug = true;'; }; ?>
+
+    function logger(msg) {      // Debugger
+        if (ws_debug) { console.log(msg); };
+    }
+</script>
+
 <!-- Load jQuery -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
@@ -143,43 +168,18 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script type="text/javascript" src="lib/kube.buttons.js"></script>
 <script type="text/javascript" src="func.js"></script>
 
-<!-- Load Theme-specific JS -->
-<?php
-foreach( $themes as $theme ) {
-    if( $theme == theme() ) {
-        if( file_exists( '../themes/' . $theme . '/js/wurzel-config.js' ) ) {
-            echo '<script type="text/javascript" src="../themes/' . $theme . '/js/wurzel-config.js"></script>';
-        }
-    }
-}
-?>
-
-
 <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script type="text/javascript">onLoad();</script>
+<script type="text/javascript"> onLoad(); </script>
 
 </body>
 <noscript>
     <div class="row">
         <div class="twofifth centered error">
             Sorry, this won't work without JavaScript.
-            If you want to administrate the contents of your site,
-            you'll have to activate JavaScript in your browser-preferences.
-            If you don't like JavaScript, be at least assured, that Wurzelstrang CMS
-            does not require your website to contain any. So this only affects you as
-            your site's admin, not your visitors.<br>
-            Thanks.
             <hr>
-            Entschuldigung, die Verwaltungsebene von Wurzelstrang CMS setzt vorraus,
-            dass Sie JavaScript in Ihren Browser-Einstellungen aktiviert haben, um
-            die Inhalte Ihrer Internetseite zu bearbeiten.
-            Wenn Sie JavaScript nicht m&ouml;gen, Sei Ihnen hiermit versichert, dass
-            Wurzelstrang CMS keines auf Ihrer Internetseite vorraussetzt.
-            Dies betrifft also keinen Ihrer Besucher, sondern lediglich Sie als
-            Administrator.<br>
-            Danke.
+            Entschuldigung, JavaScript muss aktiviert sein.
         </div>
     </div>
 </noscript>

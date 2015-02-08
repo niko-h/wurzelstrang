@@ -31,6 +31,7 @@ fade = function (id) {
  ***********/
 
 var currentEntry;
+var templates;
 var languages;
 var sitelist;
 var user;
@@ -59,7 +60,7 @@ init = function () {                 // called at the bottom
             return true;
         } else {
             $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-            console.log('Email nicht gueltig bei useremail');
+            logger('Email nicht gueltig bei useremail');
         }
     };
     adminmailvalidate = function (str) {
@@ -68,7 +69,7 @@ init = function () {                 // called at the bottom
             return true;
         } else {
             $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-            console.log('Email nicht gueltig bei adminemail');
+            logger('Email nicht gueltig bei adminemail');
         }
     };
 };
@@ -92,7 +93,7 @@ function linknew() {
 }
 
 function addChild() {
-    console.log('addChild');
+    logger('addChild');
     var parentLevel = $(this).data('level');
     var parentPos = $(this).data('pos');
     newLevel = parentLevel + 1;
@@ -101,7 +102,7 @@ function addChild() {
 }
 
 function prefbtn() {
-    console.log('einstellungen');
+    logger('einstellungen');
     $('#hello').hide();
     $('#edit').hide();
     $('#preferences').toggle();
@@ -171,7 +172,7 @@ function deleteusrbtn() {
 }
 
 function menulink() {
-    console.log('menulink');
+    logger('menulink');
     showRight('edit');
     $('.menu-id').hide();
     $('#flag_' + $(this).data('identity')).show();
@@ -210,26 +211,40 @@ function newEntry() {
  ****************/
 
 function getLanguages() {
-    console.log('getLanguages');
+    logger('getLanguages');
     $.ajax({
         type: 'GET',
         url: rootURL + '/languages?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             languages = data;
-            $('#lang-sel').renderLanguages();
+            renderLanguages('#lang-sel');
+        }
+    });
+}
+
+function getTemplates() {
+    logger('getTemplates');
+    $.ajax({
+        type: 'GET',
+        url: rootURL + 'availableTemplates?apikey=' + apikey,
+        dataType: "json", // data type of response
+        success: function (data) {
+            templates = data;
+            renderTemplateList('#templateSelector'); // ws-edit-default
+            renderTemplateList('#usertemplate');
         }
     });
 }
 
 function getAll() {
-    console.log('getAll');
+    logger('getAll');
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            console.log('getAll success');
+            logger('getAll success');
             renderList(data);
             sitelist = data;
         }
@@ -242,7 +257,7 @@ function getAdmin() {
         url: rootURL + '/users?admin=1&apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            console.log('getAdmin success');
+            logger('getAdmin success');
             $('#deletebutton').show();
             renderAdmin(data);
         }
@@ -257,7 +272,7 @@ function putAdmin() {
         dataType: "json",
         data: updateAdminToJSON(),
         success: function () {
-            console.log('putAdmin success');
+            logger('putAdmin success');
             fade('#savedfade');
             getAdmin();
         },
@@ -274,7 +289,7 @@ function getUsers() {
         dataType: "json", // data type of response
         success: function (data) {
             $('#deletebutton').show();
-            console.log('getUsers success');
+            logger('getUsers success');
             renderUserList(data);
         }
     });
@@ -288,7 +303,7 @@ function postUser() {
         dataType: "json",
         data: userToJSON(),
         success: function () {
-            console.log('postUser success');
+            logger('postUser success');
             fade('#savedfade');
             getUsers();
             $('#newuseremail').val("");
@@ -297,7 +312,7 @@ function postUser() {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
                 alert('Dieser Nutzer existiert bereits.') 
             };
-            console.log('postUser error: ' + jqXHR.responseText);
+            logger('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
         }
@@ -306,7 +321,7 @@ function postUser() {
 
 
 function getUserPrefs(user) {
-    console.log('getUserPrefs')
+    logger('getUserPrefs')
     $.ajax({
         type: 'GET',
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
@@ -327,7 +342,7 @@ function deleteUser(user) {
         url: rootURL + '/users/' + user,
         data: JSON.stringify({"apikey": apikey}),
         success: function () {
-            console.log('deleteUsersuccess: ' + user);
+            logger('deleteUsersuccess: ' + user);
             fade('#deletedfade');
             $('.userpopup').hide();
             getUsers();
@@ -345,7 +360,7 @@ function getSiteInfo() {
         url: rootURL + '/siteinfo',
         dataType: "json", // data type of response
         success: function (data) {
-            console.log('getSiteInfo success: ' + data.siteinfo.site_title);
+            logger('getSiteInfo success: ' + data.siteinfo.site_title);
             siteinfo = data.siteinfo;
             renderSiteInfo(siteinfo);
         }
@@ -354,7 +369,7 @@ function getSiteInfo() {
 
 
 function putSiteInfo() {
-    console.log('putSiteInfo');
+    logger('putSiteInfo');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
@@ -373,7 +388,7 @@ function putSiteInfo() {
 }
 
 dragMenu = function () {
-    console.log('dragMenu');
+    logger('dragMenu');
     $("#menu_list").sortable({
         placeholder: "dragger_placeholder",
         handle: ".dragger",
@@ -381,9 +396,9 @@ dragMenu = function () {
         delay: 150,
         appendTo: document.body,
         update: function () {
-            console.log('update');
+            logger('update');
             var order = $('#menu_list').sortable('toArray');
-            console.log(order);
+            logger(order);
             $.ajax({
                 type: 'PUT',
                 contentType: 'application/json',
@@ -391,7 +406,7 @@ dragMenu = function () {
                 dataType: "json",
                 data: JSON.stringify({apikey: apikey, neworder: order}),
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log('newOrder error: ' + textStatus + errorThrown);
+                    logger('newOrder error: ' + textStatus + errorThrown);
                 }
             });
         }
@@ -400,7 +415,7 @@ dragMenu = function () {
 }
 
 function getEntry(id) {
-    console.log('getEntry')
+    logger('getEntry')
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + id + '?apikey=' + apikey,
@@ -418,7 +433,7 @@ function getEntry(id) {
 }
 
 function addEntry() {
-    console.log('addEntry');
+    logger('addEntry');
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -441,7 +456,7 @@ function addEntry() {
 }
 
 function updateEntry() {
-    console.log('updateEntry');
+    logger('updateEntry');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
@@ -460,8 +475,8 @@ function updateEntry() {
 }
 
 function updateLevel(dir) {
-    console.log('updateLevel');
-    console.log(dir);
+    logger('updateLevel');
+    logger(dir);
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
@@ -479,7 +494,7 @@ function updateLevel(dir) {
 }
 
 function deleteEntry() {
-    console.log('deleteEntry');
+    logger('deleteEntry');
     $.ajax({
         type: 'DELETE',
         url: rootURL + '/entries/' + $('#entryId').val(),
@@ -501,7 +516,7 @@ function deleteEntry() {
 
 function renderList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
-    console.log("renderList");
+    logger("renderList");
     var list = data.entries == null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
     $('#menu_list li').remove();
     $.each(list, function (index, entry) {
@@ -534,6 +549,8 @@ function renderEntry(item) {
     if(typeof item.template == 'undefined') {
         template = 'ws-edit-default';
     } else { template = item.template;  }
+
+    getTemplates();
 
     $('#edit').load('templates/'+template, function() {
 
@@ -586,7 +603,7 @@ function renderEntry(item) {
 }
 
 function renderAdmin(data) {
-    console.log("renderAdmin");
+    logger("renderAdmin");
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $.each(list, function (index, user) {
         $('#adminemail').val(user.user_email);
@@ -595,7 +612,7 @@ function renderAdmin(data) {
 
 function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
-    console.log("renderUserList");
+    logger("renderUserList");
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
@@ -621,8 +638,11 @@ function renderSiteInfo(siteinfo) {
 }
 
 function renderUser(user, userid) {
-    console.log("renderUser");
+    logger("renderUser");
     $('.userpopup').show();
+
+    getTemplates();
+
     $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
     var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
@@ -646,9 +666,19 @@ function renderUser(user, userid) {
     $('#deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
-function renderLanguages() {
+function renderLanguages(list) {
     $.each(languages, function( index, value ) {
-        $(this).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.language));
+        $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.language));
+    });
+}
+
+function renderTemplateList(list) {
+    $.each(templates, function( index, template ) {
+        var templateName = template;
+        if (templateName === 'ws-edit-default') { templateName = 'default'; };
+        if (templateName.indexOf(3) != 'ws-') {
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', template == currentEntry.language));            
+        };
     });
 }
 
