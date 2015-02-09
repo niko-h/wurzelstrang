@@ -295,6 +295,12 @@ function deleteLanguage(lang) {
             console.log('deleteLangSuccess: ' + lang);
             fade('#deletedfade');
             getLanguages();
+            if($.cookie("LANGUAGE") == lang) {
+                $.removeCookie('LANGUAGE');
+                $.cookie('LANGUAGE', languages[0]);        
+            }
+            getSiteInfo();
+            getAll();
         },
         error: function () {
             alert('deleteUser error: ' + $('#user').val());
