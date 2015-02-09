@@ -6,19 +6,20 @@
 
 onLoad = function () {
     $("#loader").hide();
-    getLanguages();                        // get Languages
     linkhello();                           // load hello screen
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
     getAll();                              // get itemes for menu
     dragMenu();                            // build menu
+    getLanguages();                        // get Languages
+    getTemplates();                        // get list of available templates
     $('#page').fadeToggle(800);
     $('.head').fadeToggle(800);
     $('#deletebutton').hide();             // hide deletebutton
     $('#leveloption').hide();
-    $("#menu_list").sortable("refresh"); // check menu reorder state
-    $('textarea#ckeditor').ckeditor();          // Load CKEditor
+    $("#menu_list").sortable("refresh");   // check menu reorder state
+    $('textarea#ckeditor').ckeditor();     // Load CKEditor
 };
 
 fade = function (id) {
@@ -39,6 +40,7 @@ var siteinfo;
 var rootURL = '../api/index.php';
 var newPos = null;
 var newLevel = 0;
+var langSelected = getLanguage();
 
 /*******************
  * Action Listeners
@@ -48,19 +50,22 @@ init = function () {                 // called at the bottom
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
-    
+    $('#lang-sel').change(langsel);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
     $('.popupcontent').click(function(e) { e.stopPropagation(); });
-
-
+    $('#submitlangbtn').click(submitnewlang);
+    $('#updatesiteinfobtn').click(updatesiteinfobtn);
+    // $('#updateadminbtn').click(updateadminbtn);
+    // $('#submituserbtn').click(submitnewusrbtn);
+        
     usermailvalidate = function (str) {
         if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
             submitnewusrbtn();
             return true;
         } else {
             $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-            logger('Email nicht gueltig bei useremail');
+            console.log('Email nicht gueltig bei useremail');
         }
     };
     adminmailvalidate = function (str) {
@@ -69,7 +74,7 @@ init = function () {                 // called at the bottom
             return true;
         } else {
             $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-            logger('Email nicht gueltig bei adminemail');
+            console.log('Email nicht gueltig bei adminemail');
         }
     };
 };
@@ -93,7 +98,7 @@ function linknew() {
 }
 
 function addChild() {
-    logger('addChild');
+    console.log('addChild');
     var parentLevel = $(this).data('level');
     var parentPos = $(this).data('pos');
     newLevel = parentLevel + 1;
@@ -102,7 +107,7 @@ function addChild() {
 }
 
 function prefbtn() {
-    logger('einstellungen');
+    console.log('einstellungen');
     $('#hello').hide();
     $('#edit').hide();
     $('#preferences').toggle();
@@ -146,7 +151,7 @@ function leveldown() {
     return false;
 }
 
-function updatesitebtn() {
+function updatesiteinfobtn() {
     putSiteInfo();
     return false;
 }
@@ -172,13 +177,30 @@ function deleteusrbtn() {
 }
 
 function menulink() {
-    logger('menulink');
+    console.log('menulink');
     showRight('edit');
     $('.menu-id').hide();
     $('#flag_' + $(this).data('identity')).show();
     getEntry($(this).data('identity'));
 }
 
+function langsel() {
+    var newLang = $('#lang-sel').val();
+    if($.cookie("LANGUAGE") != null) {
+        $.removeCookie('LANGUAGE');        
+    }
+    $.cookie('LANGUAGE', newLang);
+    console.log('newLang: ' + newLang);
+    getAll();
+    getSiteInfo();
+}
+
+function submitnewlang() {
+    var val = $('input#newlanguage').val();
+    if (val !== '') {
+        postLanguage(val);
+    };
+}
 
 /*******************
  * Layout functions
@@ -210,41 +232,69 @@ function newEntry() {
  * Call functions
  ****************/
 
+function getLanguage() {
+    return $.cookie('LANGUAGE');
+}
+
 function getLanguages() {
-    logger('getLanguages');
+    console.log('getLanguages');
     $.ajax({
         type: 'GET',
-        url: rootURL + '/languages?apikey=' + apikey,
+        url: rootURL + 'siteinfo?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            languages = data;
+            languages = data.siteinfo.languages;
             renderLanguages('#lang-sel');
         }
     });
 }
 
+function postLanguage(val) {
+    console.log('postLanguage');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: rootURL + '/siteinfo/languages',
+        dataType: "json",
+        data: langToJSON(val),
+        success: function () {
+            console.log('postLang success');
+            fade('#savedfade');
+            getLanguages();
+            $('#newlanguage').val("");
+            getAll();
+        },
+        error: function (jqXHR, textStatus) {
+            if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
+                alert('Diese Sprache existiert bereits.') 
+            };
+            console.log('postLang error: ' + jqXHR.responseText);
+            getLanguages();
+            $('#newlanguage').val("");
+        }
+    });
+}
+
 function getTemplates() {
-    logger('getTemplates');
+    console.log('getTemplates');
     $.ajax({
         type: 'GET',
         url: rootURL + 'availableTemplates?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             templates = data;
-            renderTemplateList('#templateSelector'); // ws-edit-default
-            renderTemplateList('#usertemplate');
         }
     });
 }
 
 function getAll() {
-    logger('getAll');
+    console.log('getAll');
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            logger('getAll success');
+            console.log('getAll success');
             renderList(data);
             sitelist = data;
         }
@@ -257,7 +307,7 @@ function getAdmin() {
         url: rootURL + '/users?admin=1&apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            logger('getAdmin success');
+            console.log('getAdmin success');
             $('#deletebutton').show();
             renderAdmin(data);
         }
@@ -272,7 +322,7 @@ function putAdmin() {
         dataType: "json",
         data: updateAdminToJSON(),
         success: function () {
-            logger('putAdmin success');
+            console.log('putAdmin success');
             fade('#savedfade');
             getAdmin();
         },
@@ -289,7 +339,7 @@ function getUsers() {
         dataType: "json", // data type of response
         success: function (data) {
             $('#deletebutton').show();
-            logger('getUsers success');
+            console.log('getUsers success');
             renderUserList(data);
         }
     });
@@ -303,7 +353,7 @@ function postUser() {
         dataType: "json",
         data: userToJSON(),
         success: function () {
-            logger('postUser success');
+            console.log('postUser success');
             fade('#savedfade');
             getUsers();
             $('#newuseremail').val("");
@@ -312,7 +362,7 @@ function postUser() {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
                 alert('Dieser Nutzer existiert bereits.') 
             };
-            logger('postUser error: ' + jqXHR.responseText);
+            console.log('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
         }
@@ -321,7 +371,7 @@ function postUser() {
 
 
 function getUserPrefs(user) {
-    logger('getUserPrefs')
+    console.log('getUserPrefs')
     $.ajax({
         type: 'GET',
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
@@ -342,7 +392,7 @@ function deleteUser(user) {
         url: rootURL + '/users/' + user,
         data: JSON.stringify({"apikey": apikey}),
         success: function () {
-            logger('deleteUsersuccess: ' + user);
+            console.log('deleteUsersuccess: ' + user);
             fade('#deletedfade');
             $('.userpopup').hide();
             getUsers();
@@ -357,10 +407,10 @@ function deleteUser(user) {
 function getSiteInfo() {
     $.ajax({
         type: 'GET',
-        url: rootURL + '/siteinfo',
+        url: rootURL + '/siteinfo/' + getLanguage(),
         dataType: "json", // data type of response
         success: function (data) {
-            logger('getSiteInfo success: ' + data.siteinfo.site_title);
+            console.log('getSiteInfo success: ' + data.siteinfo.site_title);
             siteinfo = data.siteinfo;
             renderSiteInfo(siteinfo);
         }
@@ -369,11 +419,11 @@ function getSiteInfo() {
 
 
 function putSiteInfo() {
-    logger('putSiteInfo');
+    console.log('putSiteInfo');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/siteinfo',
+        url: rootURL + '/siteinfo/' + getLanguage(),
         dataType: "json",
         data: updateSiteInfoToJSON(),
         success: function () {
@@ -388,7 +438,7 @@ function putSiteInfo() {
 }
 
 dragMenu = function () {
-    logger('dragMenu');
+    console.log('dragMenu');
     $("#menu_list").sortable({
         placeholder: "dragger_placeholder",
         handle: ".dragger",
@@ -396,9 +446,9 @@ dragMenu = function () {
         delay: 150,
         appendTo: document.body,
         update: function () {
-            logger('update');
+            console.log('update');
             var order = $('#menu_list').sortable('toArray');
-            logger(order);
+            console.log(order);
             $.ajax({
                 type: 'PUT',
                 contentType: 'application/json',
@@ -406,7 +456,7 @@ dragMenu = function () {
                 dataType: "json",
                 data: JSON.stringify({apikey: apikey, neworder: order}),
                 error: function (jqXHR, textStatus, errorThrown) {
-                    logger('newOrder error: ' + textStatus + errorThrown);
+                    console.log('newOrder error: ' + textStatus + errorThrown);
                 }
             });
         }
@@ -415,7 +465,7 @@ dragMenu = function () {
 }
 
 function getEntry(id) {
-    logger('getEntry')
+    console.log('getEntry')
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + id + '?apikey=' + apikey,
@@ -433,7 +483,7 @@ function getEntry(id) {
 }
 
 function addEntry() {
-    logger('addEntry');
+    console.log('addEntry');
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -456,7 +506,7 @@ function addEntry() {
 }
 
 function updateEntry() {
-    logger('updateEntry');
+    console.log('updateEntry');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
@@ -475,8 +525,8 @@ function updateEntry() {
 }
 
 function updateLevel(dir) {
-    logger('updateLevel');
-    logger(dir);
+    console.log('updateLevel');
+    console.log(dir);
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
@@ -494,7 +544,7 @@ function updateLevel(dir) {
 }
 
 function deleteEntry() {
-    logger('deleteEntry');
+    console.log('deleteEntry');
     $.ajax({
         type: 'DELETE',
         url: rootURL + '/entries/' + $('#entryId').val(),
@@ -516,7 +566,7 @@ function deleteEntry() {
 
 function renderList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
-    logger("renderList");
+    console.log("renderList");
     var list = data.entries == null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
     $('#menu_list li').remove();
     $.each(list, function (index, entry) {
@@ -550,9 +600,9 @@ function renderEntry(item) {
         template = 'ws-edit-default';
     } else { template = item.template;  }
 
-    getTemplates();
-
     $('#edit').load('templates/'+template, function() {
+
+        renderTemplateList('#templateSelector'); // ws-edit-default
 
         if(template =='ws-edit-default') {
             $('textarea#ckeditor').ckeditor();
@@ -560,9 +610,6 @@ function renderEntry(item) {
 
         $('#submitbutton').click(submitbutton);
         $('#deletebutton').click(deletebutton);
-        $('#updatesitebtn').click(updatesitebtn);
-        // $('#updateadminbtn').click(updateadminbtn);
-        // $('#submituserbtn').click(submitnewusrbtn);
         $('#leveldown').click(leveldown);
         $('#levelup').click(levelup);
 
@@ -603,7 +650,7 @@ function renderEntry(item) {
 }
 
 function renderAdmin(data) {
-    logger("renderAdmin");
+    console.log("renderAdmin");
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $.each(list, function (index, user) {
         $('#adminemail').val(user.user_email);
@@ -612,7 +659,7 @@ function renderAdmin(data) {
 
 function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
-    logger("renderUserList");
+    console.log("renderUserList");
     var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
@@ -638,10 +685,10 @@ function renderSiteInfo(siteinfo) {
 }
 
 function renderUser(user, userid) {
-    logger("renderUser");
+    console.log("renderUser");
     $('.userpopup').show();
 
-    getTemplates();
+    renderTemplateList('#usertemplate');
 
     $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
     var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
@@ -667,17 +714,27 @@ function renderUser(user, userid) {
 }
 
 function renderLanguages(list) {
+    $(list).html($('<option disabled>').html('Sprache/Language'));
+    $('#language-list').html('');
     $.each(languages, function( index, value ) {
-        $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.language));
+        $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
+        $('#language-list').append(
+            $('<li>').addClass('push').append(value)
+            .append($('<a href="#">').addClass('deletelangbutton btn redbtn push-right')
+                        .attr('data-lang', value).text('Löschen')
+            )
+        );
     });
 }
 
 function renderTemplateList(list) {
+    console.log('renderTemplateList');
+    $(list).html('');
     $.each(templates, function( index, template ) {
         var templateName = template;
         if (templateName === 'ws-edit-default') { templateName = 'default'; };
-        if (templateName.indexOf(3) != 'ws-') {
-            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', template == currentEntry.language));            
+        if (templateName.substring(0, 3) !== 'ws-') {
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.template):''));           
         };
     });
 }
@@ -743,6 +800,14 @@ function userToJSON() {
     data = JSON.stringify({
         "apikey": apikey,
         "email": $('#newuseremail').val()
+    });
+    return data;
+}
+
+function langToJSON(val) {
+    data = JSON.stringify({
+        "apikey": apikey,
+        "language": val
     });
     return data;
 }

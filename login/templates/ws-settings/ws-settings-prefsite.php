@@ -31,7 +31,7 @@
                 </div>
             </li>
             <li class="push">
-                <input name="submitsiteinfobtn" id="updatesitebtn" class="btn greenbtn"
+                <input name="submitsiteinfobtn" id="updatesiteinfobtn" class="btn greenbtn"
                        value="Seite aktualisieren" type="submit">
             </li>
         </ul>

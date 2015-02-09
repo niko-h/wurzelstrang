@@ -20,6 +20,12 @@ if( HTTPS === TRUE ) {
     }
 }
 
+if(!isset($_COOKIE['DEFAULT_LANGUAGE'])) {
+    // setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE);
+    setcookie('LANGUAGE', DEFAULT_LANGUAGE);
+}
+
 require_once( 'internalauth.php' );  // database authorization
 
 // Themedir
@@ -31,22 +37,6 @@ if( is_dir( $themedir ) ) {  // Open a directory and read its contents
             if( $file != '.' && $file != '..' ) {
                 if( is_dir( $themedir . DIRECTORY_SEPARATOR . $file ) ) {
                     array_push( $themes, $file );
-                }
-            }
-        }
-        closedir( $dh );
-    }
-}
-
-// Templatedir
-$templatedir = "templates/";
-$templates = array();
-if( is_dir( $templatedir ) ) {  // Open a directory and read its contents
-    if( $dh = opendir( $templatedir ) ) {
-        while( ( $file = readdir( $dh ) ) !== FALSE ) {
-            if( $file != '.' && $file != '..' ) {
-                if( is_dir( $templatedir . DIRECTORY_SEPARATOR . $file ) ) {
-                    array_push( $templates, $file );
                 }
             }
         }
@@ -146,14 +136,19 @@ header( "Content-Type: text/html; charset=utf-8" );
     var ws_debug = false;      
     <?php if (DEBUG) { echo 'ws_debug = true;'; }; ?>
 
-    function logger(msg) {      // Debugger
-        if (ws_debug) { console.log(msg); };
+    var logger = console.log;
+    function console.log(msg) {
+        if (ws_debug) { 
+            logger(msg);
+        } else { return false; }
     }
+
 </script>
 
 <!-- Load jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<script src="lib/jquery.cookie.js"></script>
 
 <script type="text/javascript" src="https://login.persona.org/include.js"></script>
 
@@ -166,7 +161,7 @@ header( "Content-Type: text/html; charset=utf-8" );
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
 </script>
 <script type="text/javascript" src="lib/kube.buttons.js"></script>
-<script type="text/javascript" src="func.js"></script>
+<script type="text/javascript" src="js/func.js"></script>
 
 <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
