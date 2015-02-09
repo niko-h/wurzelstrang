@@ -37,9 +37,9 @@ $app->get( '/', function () {
 
 /* siteInfo */
 $app->get( '/siteinfo', function () {
-    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo;';
+    $query = 'SELECT site_title, site_theme, site_headline, site_language, site_levels FROM siteinfo WHERE site_language = :language;';
     try {
-        $siteinfo = fetchFromDB( $query )[ 0 ];
+        $siteinfo = fetchFromDB( $query, [ 'language' => DEFAULT_LANGUAGE ] )[ 0 ];
 
         $language_query = 'SELECT DISTINCT site_language FROM siteinfo;';
         $languages = array();
@@ -48,6 +48,7 @@ $app->get( '/siteinfo', function () {
         }
 
         $siteinfo[ 'languages' ] = $languages;
+        $siteinfo[ 'default_language' ] = DEFAULT_LANGUAGE;
 
         echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
     } catch( PDOException $e ) {
@@ -66,6 +67,7 @@ $app->get( '/siteinfo/:language', function ( $language ) {
             array_push( $languages, $row[ 'site_language' ] );
         }
         $siteinfo[ 'languages' ] = $languages;
+        $siteinfo[ 'default_language' ] = DEFAULT_LANGUAGE;
 
         echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
     } catch( PDOException $e ) {
@@ -80,6 +82,10 @@ $app->delete( '/siteinfo/:language', function ( $language ) {
     $request_body = json_decode( $body );
     if( $request_body->apikey != APIKEY ) {
         header( "HTTP/1.0 401 Unauthorized" );
+        exit;
+    }
+    if( $language == DEFAULT_LANGUAGE ) {
+        header( "HTTP/1.0 403 Forbidden" );
         exit;
     }
 
