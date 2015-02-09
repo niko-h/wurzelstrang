@@ -82,6 +82,10 @@ $app->delete( '/siteinfo/:language', function ( $language ) {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
     }
+    if($language == DEFAULT_LANGUAGE){
+        header( "HTTP/1.0 403 Forbidden" );
+        exit;
+    }
 
     try {
         $query = 'DELETE FROM siteinfo WHERE site_language = :language';
