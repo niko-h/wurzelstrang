@@ -254,7 +254,7 @@ function postLanguage(val) {
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: rootURL + '/siteinfo/languages',
+        url: rootURL + '/siteinfo',
         dataType: "json",
         data: langToJSON(val),
         success: function () {
@@ -423,7 +423,7 @@ function putSiteInfo() {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/siteinfo/' + getLanguage(),
+        url: rootURL + '/siteinfo',
         dataType: "json",
         data: updateSiteInfoToJSON(),
         success: function () {
@@ -753,7 +753,8 @@ function newEntryToJSON() {
         "visible": $('#visiblecheckbox').is(':checked'),
         "pos": newPos,
         "level": newLevel,
-        "parentpos": (newPos === null) ? null : newPos - 1
+        "parentpos": (newPos === null) ? null : newPos - 1,
+        "language": getLanguage()
     });
     return data;
 }
@@ -764,7 +765,8 @@ function updateEntryToJSON() {
         "id": $('#entryId').val(),
         "title": $('#title').val(),
         "content": $('#ckeditor').val(),
-        "visible": $('#visiblecheckbox').is(':checked')
+        "visible": $('#visiblecheckbox').is(':checked'),
+        "language": getLanguage()
     });
     return data;
 }
@@ -783,7 +785,8 @@ function updateSiteInfoToJSON() {
         "title": $('#sitetitle').val(),
         "theme": $('#sitetheme').val(),
         "headline": $('#siteheadline').val(),
-        "levels": $('#levelstarget').val()
+        "levels": $('#levelstarget').val(),
+        "language": getLanguage()
     });
     return data;
 }
