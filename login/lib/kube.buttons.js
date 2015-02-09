@@ -16,10 +16,10 @@ button = function () {
 			var $obj = $(this);
 
 			var data = $obj.data('buttons');
-			if (!data)
-			{
+			// if (!data)
+			// {
 				$obj.data('buttons', (data = new Buttons(this, option)));
-			}
+			// }
 		});
 	};
 

@@ -191,8 +191,14 @@ function langsel() {
     }
     $.cookie('LANGUAGE', newLang);
     console.log('newLang: ' + newLang);
+    $('#changedlangfade').html(getLanguage());
+    fade('#changedlangfade');
+    if ( $('#preferences').css('display') !== 'block' ) {
+        showRight('');
+    }
     getAll();
     getSiteInfo();
+    currentEntry = '';
 }
 
 function submitnewlang() {
@@ -200,6 +206,11 @@ function submitnewlang() {
     if (val !== '') {
         postLanguage(val);
     };
+}
+
+function deletelangbutton() {
+    var lang = $(this).data('lang');
+    deleteLanguage(lang);
 }
 
 /*******************
@@ -271,6 +282,22 @@ function postLanguage(val) {
             console.log('postLang error: ' + jqXHR.responseText);
             getLanguages();
             $('#newlanguage').val("");
+        }
+    });
+}
+
+function deleteLanguage(lang) {
+    $.ajax({
+        type: 'DELETE',
+        url: rootURL + '/siteinfo/' + lang,
+        data: JSON.stringify({"apikey": apikey}),
+        success: function () {
+            console.log('deleteLangSuccess: ' + lang);
+            fade('#deletedfade');
+            getLanguages();
+        },
+        error: function () {
+            alert('deleteUser error: ' + $('#user').val());
         }
     });
 }
@@ -579,17 +606,25 @@ function renderList(data) {
                 levels += '<span class="levels"></span>';
             }
         }
+        var addChildBtn = '';
+        var smallMenulink = '';
+        if ( $('#levelstarget').val() == true ) {
+            $('a.menulink').addClass('smallMenulink');
+            addChildBtn = '<a href="#" class="addChild-Button" ' +
+                            'data-level="' + entry.level + '" ' +
+                            'data-identity="' + entry.id + '"' +
+                            'data-pos="' + entry.pos + '">+</a>';
+        } 
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
         $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
         '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
             levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
-        '</a>' +
-        '<a href="#" class="addChild-Button" ' +
-        'data-level="' + entry.level + '" ' +
-        'data-identity="' + entry.id + '"' +
-        'data-pos="' + entry.pos + '">+</a>' +
+        '</a>' + addChildBtn +
         '<span class="dragger push-right"><i class="icon-drag"></i></span></li>');
     });
+    if ( $('#levelstarget').val() == true ) {
+        $('a.menulink').addClass('smallMenulink');
+    }
     $('#menu_list li a.menulink').click(menulink); // select entry in menu
     $('.addChild-Button').click(addChild);
 }
@@ -681,6 +716,7 @@ function renderSiteInfo(siteinfo) {
     $('#sitetheme').val(siteinfo.site_theme);
     $('#levelstarget').val(siteinfo.site_levels);
 
+    $('#levels .btn').removeClass('btn-active');
     button();
 }
 
@@ -725,6 +761,8 @@ function renderLanguages(list) {
             )
         );
     });
+
+    $('.deletelangbutton').click(deletelangbutton);
 }
 
 function renderTemplateList(list) {
@@ -786,6 +824,7 @@ function newOrderToJSON(order) {
         "neworder": order, 
         "language": getLanguage()
     });
+    return data;
 }
 
 function updateSiteInfoToJSON() {
