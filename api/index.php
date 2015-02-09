@@ -218,7 +218,7 @@ function checkAuthorization( $request ) {
     }
 }
 
-
+$app->contentType( 'application/json' );
 $app->run();
 
 ?>
