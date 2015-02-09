@@ -67,6 +67,7 @@ $app->get( '/siteinfo/:language', function ( $language ) {
             array_push( $languages, $row[ 'site_language' ] );
         }
         $siteinfo[ 'languages' ] = $languages;
+        $siteinfo[ 'default_language' ] = DEFAULT_LANGUAGE;
 
         echo '{"siteinfo":' . json_encode( $siteinfo ) . '}';
     } catch( PDOException $e ) {
