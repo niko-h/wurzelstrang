@@ -291,7 +291,7 @@ function getAll() {
     console.log('getAll');
     $.ajax({
         type: 'GET',
-        url: rootURL + '/entries?apikey=' + apikey,
+        url: rootURL + '/entries?apikey=' + apikey + '&language=' + getLanguage(),
         dataType: "json", // data type of response
         success: function (data) {
             console.log('getAll success');
@@ -454,7 +454,7 @@ dragMenu = function () {
                 contentType: 'application/json',
                 url: rootURL + '/entries/neworder',
                 dataType: "json",
-                data: JSON.stringify({apikey: apikey, neworder: order}),
+                data: newOrderToJSON(order),
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log('newOrder error: ' + textStatus + errorThrown);
                 }
@@ -468,7 +468,7 @@ function getEntry(id) {
     console.log('getEntry')
     $.ajax({
         type: 'GET',
-        url: rootURL + '/entries/' + id + '?apikey=' + apikey,
+        url: rootURL + '/entries/' + id + '?apikey=' + apikey + '&language=' + getLanguage(),
         dataType: "json",
         success: function (data) {
             $('#deletebutton').show();
@@ -774,9 +774,18 @@ function updateEntryToJSON() {
 function updateLevelToJSON(dir) {
     data = JSON.stringify({
         "apikey": apikey,
-        "level": dir
+        "level": dir,
+        "language": getLanguage()
     });
     return data;
+}
+
+function newOrderToJSON(order) {
+    data = JSON.stringify({
+        "apikey": apikey,
+        "neworder": order, 
+        "language": getLanguage()
+    });
 }
 
 function updateSiteInfoToJSON() {
