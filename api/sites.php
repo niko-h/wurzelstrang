@@ -27,13 +27,17 @@ $app->put( '/entries/neworder', function () { //TODO rename because of collision
 
 // getEntries
 $app->get( '/entries', function () {
-    if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, language, template, id, pos, level FROM sites ORDER BY pos ASC;';
+
+    $request = Slim::getInstance()->request();
+    $language = $request->get( 'language' );
+
+    if( isAuthorrized( $request ) ) {
+        $query = 'SELECT title, visible, content, language, template, id, pos, level FROM sites WHERE language = :language ORDER BY pos ASC;';
     } else {
-        $query = 'SELECT title, content, language, id, pos, level FROM sites WHERE visible!="" ORDER BY pos ASC;';
+        $query = 'SELECT title, content, language, id, pos, level FROM sites WHERE visible!="" AND language = :language ORDER BY pos ASC;';
     }
     try {
-        $contentitems = fetchFromDB( $query );
+        $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
         echo '{"entries": ' . json_encode( $contentitems ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
@@ -42,13 +46,16 @@ $app->get( '/entries', function () {
 
 // getEntry
 $app->get( '/entries/:id', function ( $site_id ) {
-    if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT title, visible, content, language, template, mtime, id, level FROM sites WHERE id = :site_id;';
+    $request = Slim::getInstance()->request();
+    $language = $request->get( 'language' );
+
+    if( isAuthorrized( $request ) ) {
+        $query = 'SELECT title, visible, content, language, template, mtime, id, level FROM sites WHERE id = :site_id AND language = :language;';
     } else {
-        $query = 'SELECT title, content, language, id, level FROM sites WHERE visible!="" AND id = :site_id;';
+        $query = 'SELECT title, content, language, id, level FROM sites WHERE visible!="" AND id = :site_id AND language = :language;';
     }
     try {
-        $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];
+        $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
         if( isAuthorrized( Slim::getInstance()->request() ) ) {
             $result[ 'siteadmins' ] = getSiteAdmins( $site_id );
         }
@@ -102,8 +109,8 @@ $app->put( '/entries/:id', function ( $site_id ) {
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
 
-    if(!$request_body->language){
-        die('language missing!');
+    if( !$request_body->language ) {
+        die( 'language missing!' );
     }
 
     $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id AND language=:language;";
@@ -115,7 +122,7 @@ $app->put( '/entries/:id', function ( $site_id ) {
                             'id'       => $site_id,
                             'language' => $request_body->language ] );
 
-        echo json_encode( [ 'updated' => [ 'id' => $site_id,
+        echo json_encode( [ 'updated' => [ 'id'       => $site_id,
                                            'language' => $request_body->language ] ] );
 
         $foldername = str_replace( ' ', '_', strtolower( $request_body->title ) );
@@ -205,16 +212,16 @@ $app->get( '/entries/:id/:feature', function ( $site_id, $feature ) {
 
 
 $app->put( '/entries/:id/:feature', function ( $site_id, $feature ) {
-    if( !in_array( $feature, [ 'level', 'title', 'content', 'template', 'language' ] ) ) {
+    if( !in_array( $feature, [ 'level', 'title', 'content', 'template' ] ) ) {
         die( 'not allowed' );
     }
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
-    $query = "UPDATE sites SET " . $feature . "=:feature WHERE id=:id;";
+    $query = "UPDATE sites SET " . $feature . "=:feature WHERE id=:id AND language = :language;";
     try {
-        updateDB( $query, [ 'id' => $site_id, 'feature' => $request_body->$feature ] );
+        updateDB( $query, [ 'id' => $site_id, 'feature' => $request_body->$feature, 'language' => $request_body->language ] );
 
         echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {
