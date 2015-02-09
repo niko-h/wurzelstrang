@@ -82,7 +82,7 @@ $app->put( '/siteinfo', function () {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
     }
-    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline, site_levels=:levels WHERE language=:language";
+    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline, site_levels=:levels WHERE site_language=:language";
     try {
         updateDB( $query, [ 'title'    => $request_body->title,
                             'theme'    => $request_body->theme,
