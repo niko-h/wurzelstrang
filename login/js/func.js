@@ -423,7 +423,7 @@ function putSiteInfo() {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/siteinfo/' + getLanguage(),
+        url: rootURL + '/siteinfo',
         dataType: "json",
         data: updateSiteInfoToJSON(),
         success: function () {
@@ -783,7 +783,8 @@ function updateSiteInfoToJSON() {
         "title": $('#sitetitle').val(),
         "theme": $('#sitetheme').val(),
         "headline": $('#siteheadline').val(),
-        "levels": $('#levelstarget').val()
+        "levels": $('#levelstarget').val(),
+        "language": getLanguage()
     });
     return data;
 }
