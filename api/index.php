@@ -77,25 +77,26 @@ $app->get( '/siteinfo/:language', function ( $language ) {
 $app->put( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
     $body = $request->getBody();
-    $site = json_decode( $body );
-    if( $site->apikey != APIKEY ) {
+    $request_body = json_decode( $body );
+    if( $request_body->apikey != APIKEY ) {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
     }
-    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline, site_levels=:levels";
+    $query = "UPDATE siteinfo SET site_title=:title, site_theme=:theme, site_headline=:headline, site_levels=:levels WHERE language=:language";
     try {
-        updateDB( $query, [ 'title'    => $site->title,
-                            'theme'    => $site->theme,
-                            'headline' => $site->headline,
-                            'levels'   => $site->levels ] );
-        echo '{"siteinfo":{"title":"' . $site->title . '", "theme":"' . $site->theme . '", "headline":"' . $site->headline . '"}}';
+        updateDB( $query, [ 'title'    => $request_body->title,
+                            'theme'    => $request_body->theme,
+                            'headline' => $request_body->headline,
+                            'levels'   => $request_body->levels,
+                            'language' => $request_body->language ] );
+        echo '{"siteinfo":{"title":"' . $request_body->title . '", "theme":"' . $request_body->theme . '", "headline":"' . $request_body->headline . '"}}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 } );
 
 
-$app->post( '/siteinfo/languages', function () {
+$app->post( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
@@ -119,7 +120,7 @@ $app->post( '/siteinfo/languages', function () {
             $row[ 'language' ] = $request_body->language;
             $query = "INSERT INTO sites (id, language, title, mtime, content, template, pos, visible, level)
                       VALUES (:id, :language, :title, :mtime, :content, :template, :pos, :visible, :level);";
-            updateDB($query, $row);
+            updateDB( $query, $row );
         }
 
         echo json_encode( $siteinfo );
@@ -132,7 +133,7 @@ $app->post( '/siteinfo/languages', function () {
 
 $app->get(
     '/availableTemplates',
-    function(){
+    function () {
         $request = Slim::getInstance()->request();
         checkAuthorization( $request );
 
@@ -151,8 +152,8 @@ $app->get(
                 closedir( $dh );
             }
         }
-        echo json_encode($templates);
-    });
+        echo json_encode( $templates );
+    } );
 
 
 /* include other api parts */

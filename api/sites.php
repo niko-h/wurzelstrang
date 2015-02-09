@@ -100,18 +100,25 @@ $app->post( '/entries', function () {
 $app->put( '/entries/:id', function ( $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
-    $entry = json_decode( $request->getBody() );
+    $request_body = json_decode( $request->getBody() );
 
-    $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id;";
+    if(!$request_body->language){
+        die('language missing!');
+    }
+
+    $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id AND language=:language;";
     try {
-        updateDB( $query, [ 'title'   => $entry->title,
-                            'content' => $entry->content,
-                            'time'    => time(),
-                            'visible' => $entry->visible,
-                            'id'      => $site_id ] );
-        echo '{"updated":{"id":' . $site_id . '}}';
+        updateDB( $query, [ 'title'    => $request_body->title,
+                            'content'  => $request_body->content,
+                            'time'     => time(),
+                            'visible'  => $request_body->visible,
+                            'id'       => $site_id,
+                            'language' => $request_body->language ] );
 
-        $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
+        echo json_encode( [ 'updated' => [ 'id' => $site_id,
+                                           'language' => $request_body->language ] ] );
+
+        $foldername = str_replace( ' ', '_', strtolower( $request_body->title ) );
         if( !file_exists( '../uploads/images/' . $foldername ) ) {
             mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
         }
@@ -205,9 +212,9 @@ $app->put( '/entries/:id/:feature', function ( $site_id, $feature ) {
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
 
-    $query = "UPDATE sites SET " . $feature . "=:level WHERE id=:id;";
+    $query = "UPDATE sites SET " . $feature . "=:feature WHERE id=:id;";
     try {
-        updateDB( $query, [ 'id' => $site_id, $feature => $request_body->$feature ] );
+        updateDB( $query, [ 'id' => $site_id, 'feature' => $request_body->$feature ] );
 
         echo '{"updated":{"id":' . $site_id . '}}';
     } catch( PDOException $e ) {
