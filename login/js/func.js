@@ -762,8 +762,7 @@ function renderLanguages(list) {
         $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
         $('#language-list').append(
             $('<li>').addClass('push').append(value)
-            .append($('<a href="#">').addClass('deletelangbutton btn redbtn push-right')
-                        .attr('data-lang', value).text('Löschen')
+            .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
             )
         );
     });
