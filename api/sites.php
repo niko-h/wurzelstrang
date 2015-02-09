@@ -72,7 +72,7 @@ $app->post( '/entries', function () {
     $entry = json_decode( $request->getBody() );
 
     $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
-              VALUES ( (SELECT MAX(id) + 1 FROM sites), :title, :content, :language, :template, :time, :visible, :level, :pos );';
+              VALUES ( (SELECT MAX(id) + 1 FROM sites where language = :language), :title, :content, :language, :template, :time, :visible, :level, :pos );';
     $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos;';
     try {
         $db = getConnection();
