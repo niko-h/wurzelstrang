@@ -106,7 +106,9 @@ header( "Content-Type: text/html; charset=utf-8" );
     </div>
 
     <div id="savedfade" class="fade greenfde">Gespeichert</div>
-    <div id="deletedfade" class="fade redfde">Gelöscht.</div>
+    <div id="deletedfade" class="fade redfde">Gelöscht</div>
+    <div id="changedlangfade" class="fade greenfde">Sprache gewechselt</div>
+    
 
     <div id="right">
 

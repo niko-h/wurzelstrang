@@ -47,7 +47,7 @@ body {
 
 #right {
     background: url(bgbig.png) no-repeat center;
-    /*height: 350px;*/
+    min-height: 350px;
 }
 
 /* =Header
@@ -229,7 +229,10 @@ div#menu li:hover span.menu-id {
     box-shadow: inset 2px 0 3px #ccc;
 }
 
-#menu_list li a {
+a.menulink {
+    width: 217px;
+}
+a.smallMenulink {
     width: 200px;
 }
 
