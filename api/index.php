@@ -74,6 +74,28 @@ $app->get( '/siteinfo/:language', function ( $language ) {
 } );
 
 
+$app->delete( '/siteinfo/:language', function ( $language ) {
+    $request = Slim::getInstance()->request();
+    $body = $request->getBody();
+    $request_body = json_decode( $body );
+    if( $request_body->apikey != APIKEY ) {
+        header( "HTTP/1.0 401 Unauthorized" );
+        exit;
+    }
+
+    try {
+        $query = 'DELETE FROM siteinfo WHERE site_language = :language';
+        updateDB( $query, [ 'language' => $language ] );
+        $query = 'DELETE FROM sites WHERE language = :language';
+        updateDB( $query, [ 'language' => $language ] );
+
+        echo json_encode( [ 'deleted language' => $language ] );
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
+
 $app->put( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
     $body = $request->getBody();
