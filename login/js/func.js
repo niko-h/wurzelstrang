@@ -56,6 +56,7 @@ init = function () {                 // called at the bottom
     $('.popupcontent').click(function(e) { e.stopPropagation(); });
     $('#submitlangbtn').click(submitnewlang);
     $('#updatesiteinfobtn').click(updatesiteinfobtn);
+    $('#siteprefsbtn').click(editsitebtn);
     // $('#updateadminbtn').click(updateadminbtn);
     // $('#submituserbtn').click(submitnewusrbtn);
         
@@ -168,6 +169,11 @@ function submitnewusrbtn() {
 
 function editusrbtn() {
     getUserPrefs($(this).data('identity'));
+    return false;
+}
+
+function editsitebtn() {
+    getSitePrefs($(this).data('identity'));
     return false;
 }
 
@@ -419,6 +425,22 @@ function getUserPrefs(user) {
     });
 }
 
+function getSitePrefs(site) {
+    console.log('getSitePrefs')
+    $.ajax({
+        type: 'GET',
+        url: rootURL + '/entries/' + site + '?apikey=' + apikey,
+        dataType: "json", // data type of response
+        success: function (data) {
+            getAll();
+            renderSitePopup(data, site);
+        },
+        error: function (jqXHR, textStatus) {
+            alert('getSite error: ' + textStatus);
+        }
+    });
+}
+
 function deleteUser(user) {
     $.ajax({
         type: 'DELETE',
@@ -641,7 +663,7 @@ function renderEntry(item) {
         template = 'ws-edit-default';
     } else { template = item.template;  }
 
-    $('#edit').load('templates/'+template, function() {
+    $('#edit_main').load('templates/'+template, function() {
 
         renderTemplateList('#templateSelector'); // ws-edit-default
 
@@ -753,6 +775,35 @@ function renderUser(user, userid) {
     $('#deleteusrbutton').attr('data-identity', userid);
 
     $('#deleteusrbutton').click(deleteusrbtn); // delete user
+}
+
+function renderSitePopup(site, siteid) {
+    console.log("renderSitePopup");
+    $('.editpopup').show();
+
+    renderTemplateList('#templateSelector');
+
+    $('.sitepopuptitle').text(site.title + ' - Eigenschaften');
+    // var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
+    // $('.userpopup-sitelist li').remove();
+    // $.each(list, function (index, site) {
+    //     $('.userpopup-sitelist').append(
+    //         $('<li>').append(
+    //             $('<label>').addClass('bold').text(site.title)
+    //         ).append(
+    //             $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id) 
+    //         )
+    //     );
+    // });
+    
+    // var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
+    // $.each(accesslist, function (index, access) {
+    //     $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+    // })
+
+    // $('#deleteusrbutton').attr('data-identity', userid);
+
+    // $('#deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
 function renderLanguages(list) {

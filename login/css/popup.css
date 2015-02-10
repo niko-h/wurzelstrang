@@ -8,6 +8,7 @@
   height: 100%;
   width: 100%;
   background: rgba(30, 30, 30, 0.8);
+  z-index: 99999;
 }
 .popupoverflow:before {
   content: "";

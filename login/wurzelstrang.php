@@ -105,22 +105,76 @@ header( "Content-Type: text/html; charset=utf-8" );
         </fieldset>
     </div>
 
-    <div id="savedfade" class="fade greenfde">Gespeichert</div>
-    <div id="deletedfade" class="fade redfde">Gelöscht</div>
-    <div id="changedlangfade" class="fade greenfde">Sprache gewechselt</div>
-    
-
     <div id="right">
 
         <div id="hello" class="rightpanel">
             <?php require_once( 'templates/ws-hello/index.php' ); ?>
         </div>
 
-        <div id="edit" class="rightpanel"></div>
+        <div id="edit" class="rightpanel">
+            <form action="javascript:void(0);" class="forms">
+                <fieldset>
+                    <legend id="editlegend"></legend>
+                    <ul>
+                        <li>
+                            <ul class="multicolumn">
+                                <li>
+                                    <label for="title" class="bold">Titel</label>
+                                    <input id="title" type="text" name="title" required placeholder="Titel" value="">
+                                </li>
+                                <li>
+                                    <?php
+                                        if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                                            echo '<li class="push">
+                                                    <label>&nbsp;</label>
+                                                    <button id="siteprefsbtn" class="btn">
+                                                        <i class="icon-cog"></i> Eigenschaften
+                                                    </button>
+                                                  </li>';
+                                            require_once( 'templates/ws-edit-popup/index.php' );
+                                        }
+                                    ?>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="edit_main" class="main-editor-li">
+                            <!-- Template here -->
+                        </li>
+                        <li>
+                            <ul class="row">
+                                <li class="third">
+                                    <button type="submit" id="submitbutton" class="btn greenbtn"><i
+                                            class="icon-pencil"></i> Speichern
+                                    </button>
+                                </li>
+                                <li class="third" id="leveloption">
+                                    <span class="btn-group">
+                                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
+                                      <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
+                                      <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
+                                    </span>
+                                </li>
+
+                                <li class="push-right">
+                                    <input type="hidden" id="entryId" value="">
+                                    <button type="submit" id="deletebutton" class="btn redbtn"
+                                            name="deletebutton"></button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </div>
 
         <div id="preferences" class="rightpanel">
             <?php require_once( 'templates/ws-settings/index.php' ); ?>
         </div>
+
+        <div id="savedfade" class="fade greenfde">Gespeichert</div>
+        <div id="deletedfade" class="fade redfde">Gelöscht</div>
+        <div id="changedlangfade" class="fade greenfde">Sprache gewechselt</div>
+        
     </div>
 
     <p style="clear: both;">&nbsp;</p>
