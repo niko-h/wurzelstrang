@@ -594,7 +594,7 @@ function updateLevel(dir) {
         dataType: "json",
         data: updateLevelToJSON(dir),
         success: function (data) {
-            getEntry(data.updated.id);
+            getEntry($('#entryId').val());
             getAll();
         },
         error: function (jqXHR, textStatus) {
