@@ -150,7 +150,6 @@ $app->delete( '/entries/:language/:site_id', function ( $site_id, $language ) {
 } );
 
 
-
 /**
  * Change one Entry
  *
@@ -183,6 +182,37 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 } );
+
+
+/**
+ * Change single features of Site
+ *
+ * request: {"apikey": APIKEY, "value": VALUE}
+ * response: {"set":"FEATURE -> VALUE"}
+ */
+function changeFeature($language, $site_id, $feature){
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+    $request_body = json_decode( $request->getBody() );
+
+    $query = "UPDATE sites SET ".$feature."=:value WHERE id=:id AND language = :language;";
+    try {
+        updateDB( $query, [ 'id' => $site_id, 'value' => $request_body->value, 'language' => $language ] );
+        echo json_encode(['set'=>$feature.' -> '.$request_body->value]);
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+}
+
+$app->put( '/entries/:language/:site_id/level', function ( $language, $site_id ) {
+    changeFeature($language,$site_id,'level');
+} );
+
+$app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id ) {
+    changeFeature($language,$site_id,'visible');
+} );
+
+
 
 /**
  * Add new Siteadmins
@@ -233,7 +263,6 @@ $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $lan
     echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
 
 } );
-
 
 
 ///* create a copy of this site, add the new language */

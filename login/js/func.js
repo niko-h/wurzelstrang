@@ -53,13 +53,15 @@ init = function () {                 // called at the bottom
     $('#lang-sel').change(langsel);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
-    $('.popupcontent').click(function(e) { e.stopPropagation(); });
+    $('.popupcontent').click(function (e) {
+        e.stopPropagation();
+    });
     $('#submitlangbtn').click(submitnewlang);
     $('#updatesiteinfobtn').click(updatesiteinfobtn);
     $('#siteprefsbtn').click(editsitebtn);
     // $('#updateadminbtn').click(updateadminbtn);
     // $('#submituserbtn').click(submitnewusrbtn);
-        
+
     usermailvalidate = function (str) {
         if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
             submitnewusrbtn();
@@ -192,14 +194,14 @@ function menulink() {
 
 function langsel() {
     var newLang = $('#lang-sel').val();
-    if($.cookie("LANGUAGE") != null) {
-        $.removeCookie('LANGUAGE');        
+    if ($.cookie("LANGUAGE") != null) {
+        $.removeCookie('LANGUAGE');
     }
     $.cookie('LANGUAGE', newLang);
     console.log('newLang: ' + newLang);
     $('#changedlangfade').html(getLanguage());
     fade('#changedlangfade');
-    if ( $('#preferences').css('display') !== 'block' ) {
+    if ($('#preferences').css('display') !== 'block') {
         showRight('');
     }
     getAll();
@@ -211,7 +213,8 @@ function submitnewlang() {
     var val = $('input#newlanguage').val();
     if (val !== '') {
         postLanguage(val);
-    };
+    }
+    ;
 }
 
 function deletelangbutton() {
@@ -224,13 +227,13 @@ function deletelangbutton() {
  ******************/
 
 function showRight(id) {
-    $('.rightpanel').each(function() {
+    $('.rightpanel').each(function () {
         $(this).hide();
     });
     if (id.match("^#")) {
         $(id).show();
     } else {
-        $('#'+id).show();
+        $('#' + id).show();
     }
 }
 
@@ -282,9 +285,10 @@ function postLanguage(val) {
             getAll();
         },
         error: function (jqXHR, textStatus) {
-            if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
-                alert('Diese Sprache existiert bereits.') 
-            };
+            if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
+                alert('Diese Sprache existiert bereits.')
+            }
+            ;
             console.log('postLang error: ' + jqXHR.responseText);
             getLanguages();
             $('#newlanguage').val("");
@@ -301,9 +305,9 @@ function deleteLanguage(lang) {
             console.log('deleteLangSuccess: ' + lang);
             fade('#deletedfade');
             getLanguages();
-            if($.cookie("LANGUAGE") == lang) {
+            if ($.cookie("LANGUAGE") == lang) {
                 $.removeCookie('LANGUAGE');
-                $.cookie('LANGUAGE', languages[0]);        
+                $.cookie('LANGUAGE', languages[0]);
             }
             getSiteInfo();
             getAll();
@@ -330,7 +334,7 @@ function getAll() {
     console.log('getAll');
     $.ajax({
         type: 'GET',
-        url: rootURL + '/entries?apikey=' + apikey + '&language=' + getLanguage(),
+        url: rootURL + '/entries/' + getLanguage() + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             console.log('getAll success');
@@ -398,9 +402,10 @@ function postUser() {
             $('#newuseremail').val("");
         },
         error: function (jqXHR, textStatus) {
-            if (jqXHR.responseText.indexOf("UNIQUE") > -1) { 
-                alert('Dieser Nutzer existiert bereits.') 
-            };
+            if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
+                alert('Dieser Nutzer existiert bereits.')
+            }
+            ;
             console.log('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
@@ -429,7 +434,7 @@ function getSitePrefs(site) {
     console.log('getSitePrefs')
     $.ajax({
         type: 'GET',
-        url: rootURL + '/entries/' + site + '?apikey=' + apikey,
+        url: rootURL + '/entries/' + getLanguage() + '/' + site + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             getAll();
@@ -486,7 +491,7 @@ function putSiteInfo() {
             getSiteInfo();
             getAll();
         },
-        error: function (jqXHR, textStatus ) {
+        error: function (jqXHR, textStatus) {
             alert('putSiteInfo error: ' + textStatus);
         }
     });
@@ -523,7 +528,7 @@ function getEntry(id) {
     console.log('getEntry')
     $.ajax({
         type: 'GET',
-        url: rootURL + '/entries/' + id + '?apikey=' + apikey + '&language=' + getLanguage(),
+        url: rootURL + '/entries/' + getLanguage() + '/' + id + '?apikey=' + apikey,
         dataType: "json",
         success: function (data) {
             $('#deletebutton').show();
@@ -542,7 +547,7 @@ function addEntry() {
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: rootURL + '/entries',
+        url: rootURL + '/entries' + getLanguage(),
         dataType: "json",
         data: newEntryToJSON(),
         success: function (data) {
@@ -565,7 +570,7 @@ function updateEntry() {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/entries/' + $('#entryId').val(),
+        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val(),
         dataType: "json",
         data: updateEntryToJSON(),
         success: function (data) {
@@ -585,7 +590,7 @@ function updateLevel(dir) {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/entries/' + $('#entryId').val() + '/level',
+        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val() + '/level',
         dataType: "json",
         data: updateLevelToJSON(dir),
         success: function (data) {
@@ -602,7 +607,7 @@ function deleteEntry() {
     console.log('deleteEntry');
     $.ajax({
         type: 'DELETE',
-        url: rootURL + '/entries/' + $('#entryId').val(),
+        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val(),
         data: JSON.stringify({"apikey": apikey}),
         success: function () {
             fade('#deletedfade');
@@ -636,21 +641,21 @@ function renderList(data) {
         }
         var addChildBtn = '';
         var smallMenulink = '';
-        if ( $('#levelstarget').val() == true ) {
+        if ($('#levelstarget').val() == true) {
             $('a.menulink').addClass('smallMenulink');
             addChildBtn = '<a href="#" class="addChild-Button" ' +
-                            'data-level="' + entry.level + '" ' +
-                            'data-identity="' + entry.id + '"' +
-                            'data-pos="' + entry.pos + '">+</a>';
-        } 
+            'data-level="' + entry.level + '" ' +
+            'data-identity="' + entry.id + '"' +
+            'data-pos="' + entry.pos + '">+</a>';
+        }
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
         $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
         '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
-            levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
+        levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
         '</a>' + addChildBtn +
         '<span class="dragger push-right"><i class="icon-drag"></i></span></li>');
     });
-    if ( $('#levelstarget').val() == true ) {
+    if ($('#levelstarget').val() == true) {
         $('a.menulink').addClass('smallMenulink');
     }
     $('#menu_list li a.menulink').click(menulink); // select entry in menu
@@ -659,15 +664,17 @@ function renderList(data) {
 
 function renderEntry(item) {
     var template;
-    if(typeof item.template == 'undefined') {
+    if (typeof item.template == 'undefined') {
         template = 'ws-edit-default';
-    } else { template = item.template;  }
+    } else {
+        template = item.template;
+    }
 
-    $('#edit_main').load('templates/'+template, function() {
+    $('#edit_main').load('templates/' + template, function () {
 
         renderTemplateList('#templateSelector'); // ws-edit-default
 
-        if(template =='ws-edit-default') {
+        if (template == 'ws-edit-default') {
             $('textarea#ckeditor').ckeditor();
         }
 
@@ -728,8 +735,8 @@ function renderUserList(data) {
     $.each(list, function (index, user) {
         $('#user-list').append(
             $('<li>').addClass('push').append(user.user_email)
-            .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                        .attr('data-identity', user.id).text('Bearbeiten')
+                .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                    .attr('data-identity', user.id).text('Bearbeiten')
             )
         );
     });
@@ -762,11 +769,11 @@ function renderUser(user, userid) {
             $('<li>').append(
                 $('<label>').addClass('bold').text(site.title)
             ).append(
-                $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id) 
+                $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id)
             )
         );
     });
-    
+
     var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
     $.each(accesslist, function (index, access) {
         $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
@@ -795,7 +802,7 @@ function renderSitePopup(site, siteid) {
     //         )
     //     );
     // });
-    
+
     // var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
     // $.each(accesslist, function (index, access) {
     //     $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
@@ -809,11 +816,11 @@ function renderSitePopup(site, siteid) {
 function renderLanguages(list) {
     $(list).html($('<option disabled>').html('Sprache/Language'));
     $('#language-list').html('');
-    $.each(languages, function( index, value ) {
+    $.each(languages, function (index, value) {
         $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
         $('#language-list').append(
             $('<li>').addClass('push').append(value)
-            .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
+                .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
             )
         );
     });
@@ -824,12 +831,16 @@ function renderLanguages(list) {
 function renderTemplateList(list) {
     console.log('renderTemplateList');
     $(list).html('');
-    $.each(templates, function( index, template ) {
+    $.each(templates, function (index, template) {
         var templateName = template;
-        if (templateName === 'ws-edit-default') { templateName = 'default'; };
+        if (templateName === 'ws-edit-default') {
+            templateName = 'default';
+        }
+        ;
         if (templateName.substring(0, 3) !== 'ws-') {
-            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.template):''));           
-        };
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.template) : ''));
+        }
+        ;
     });
 }
 
@@ -868,8 +879,7 @@ function updateEntryToJSON() {
 function updateLevelToJSON(dir) {
     data = JSON.stringify({
         "apikey": apikey,
-        "level": dir,
-        "language": getLanguage()
+        "value": dir
     });
     return data;
 }
@@ -877,7 +887,7 @@ function updateLevelToJSON(dir) {
 function newOrderToJSON(order) {
     data = JSON.stringify({
         "apikey": apikey,
-        "neworder": order, 
+        "neworder": order,
         "language": getLanguage()
     });
     return data;
@@ -919,4 +929,4 @@ function langToJSON(val) {
     return data;
 }
 
-$(document).ready( init() );
+$(document).ready(init());
