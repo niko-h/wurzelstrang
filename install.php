@@ -129,7 +129,8 @@ if( file_exists( $db_file ) ) {
                   CREATE TABLE IF NOT EXISTS site_admins(
                     user_id       INTEGER,
                     site_id       INTEGER,
-                    CONSTRAINT site_admin_unique UNIQUE (user_id, site_id)
+                    language      TEXT,
+                    CONSTRAINT site_admin_unique UNIQUE (user_id, site_id, language)
                   );
 
                   CREATE TABLE IF NOT EXISTS sites(

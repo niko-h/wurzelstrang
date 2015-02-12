@@ -2,21 +2,25 @@
 
 require_once( '../config.php' );
 
-/**
- * Entries
- */
+/* TODO: add request and response examples */
 
-// addNewOrder
-$app->put( '/entries/neworder', function () { //TODO rename because of collision with /entries/:id
+
+/**
+ * Changes order of elements
+ *
+ * request:
+ * response:
+ */
+$app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename because of collision with /entries/:id
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
 
     $neworder = json_decode( $request->getBody() );
     foreach( $neworder->neworder as $pos => $site_id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
-        $query = 'UPDATE sites SET pos = :pos WHERE id = :id;';
+        $query = 'UPDATE sites SET pos = :pos WHERE id = :id AND language = :language;';
 
         try {
-            updateDB( $query, [ 'pos' => $pos, 'id' => $site_id ] );
+            updateDB( $query, [ 'pos' => $pos, 'id' => $site_id, 'language' => $language ] );
             $pos++;
         } catch( PDOException $e ) {
             echo '{"error":{"text":' . $e->getMessage() . '}}';
@@ -24,12 +28,19 @@ $app->put( '/entries/neworder', function () { //TODO rename because of collision
     }
 } );
 
+/**
+ * Entries
+ */
 
-// getEntries
-$app->get( '/entries', function () {
+/**
+ * Gets all Entries for a given language
+ *
+ * request:
+ * response:
+ */
+$app->get( '/entries/:language', function ( $language ) {
 
     $request = Slim::getInstance()->request();
-    $language = $request->get( 'language' );
 
     if( isAuthorrized( $request ) ) {
         $query = 'SELECT title, visible, content, language, template, id, pos, level FROM sites WHERE language = :language ORDER BY pos ASC;';
@@ -44,46 +55,30 @@ $app->get( '/entries', function () {
     }
 } );
 
-// getEntry
-$app->get( '/entries/:id', function ( $site_id ) {
-    $request = Slim::getInstance()->request();
-    $language = $request->get( 'language' );
 
-    if( isAuthorrized( $request ) ) {
-        $query = 'SELECT title, visible, content, language, template, mtime, id, level FROM sites WHERE id = :site_id AND language = :language;';
-    } else {
-        $query = 'SELECT title, content, language, id, level FROM sites WHERE visible!="" AND id = :site_id AND language = :language;';
-    }
-    try {
-        $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
-        if( isAuthorrized( Slim::getInstance()->request() ) ) {
-            $result[ 'siteadmins' ] = getSiteAdmins( $site_id );
-        }
-        echo '{"entry":' . json_encode( $result ) . '}';
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-} );
-
-// addEntry
-$app->post( '/entries', function () {
+/**
+ * Adds a new Entry
+ *
+ * request:
+ * response:
+ */
+$app->post( '/entries/:language', function ( $language ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $entry = json_decode( $request->getBody() );
 
     $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
-              VALUES ( (SELECT MAX(id) + 1 FROM sites where language = :language), :title, :content, :language, :template, :time, :visible, :level, :pos );';
-    $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos;';
+              VALUES ( (SELECT MAX(id) + 1 FROM sites WHERE language = :language), :title, :content, :language, :template, :time, :visible, :level, :pos );';
+    $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos AND language = :language;';
     try {
-        $db = getConnection();
 
         if( $entry->parentpos !== NULL ) {
-            updateDB( $move_query, [ 'parentpos' => $entry->parentpos ] );
+            updateDB( $move_query, [ 'parentpos' => $entry->parentpos, 'language' => $language ] );
         }
 
         $id = updateDB( $query, [ 'title'    => $entry->title,
                                   'content'  => $entry->content,
-                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
+//                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
                                   'time'     => time(),
                                   'visible'  => $entry->visible,
                                   'level'    => $entry->level,
@@ -103,15 +98,69 @@ $app->post( '/entries', function () {
     }
 } );
 
-// updateEntry
-$app->put( '/entries/:id', function ( $site_id ) {
+
+/**
+ * Gets one Entry
+ *
+ * request:
+ * response:
+ */
+$app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
+    $request = Slim::getInstance()->request();
+//    $language = $request->get( 'language' ) ? $request->get( 'language' ) : DEFAULT_LANGUAGE;
+
+    if( isAuthorrized( $request ) ) {
+        $query = 'SELECT title, visible, content, language, template, mtime, id, level FROM sites WHERE id = :site_id AND language = :language;';
+    } else {
+        $query = 'SELECT title, content, language, id, level FROM sites WHERE visible!=\'\' AND id = :site_id AND language = :language;';
+    }
+    try {
+        $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
+        if( isAuthorrized( Slim::getInstance()->request() ) ) {
+            $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $language );
+        }
+        echo '{"entry":' . json_encode( $result ) . '}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
+/**
+ * Delete one Site
+ *
+ * request:
+ * response:
+ */
+$app->delete( '/entries/:language/:site_id', function ( $site_id, $language ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+
+    $query = 'DELETE FROM sites WHERE id = :id AND language = :language;';
+    try {
+        updateDB( $query, [ 'id' => $site_id, 'language' => $language ] );
+        echo '{"deleted":' . $site_id . '}';
+
+        if( file_exists( '../uploads/images/' . $site_id ) ) {
+            rmdir( '../uploads/images/' . $site_id );
+        }
+
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":"Fehler beim L&ouml;schen."}}';
+    }
+} );
+
+
+
+/**
+ * Change one Entry
+ *
+ * request:
+ * response:
+ */
+$app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
-
-    if( !$request_body->language ) {
-        die( 'language missing!' );
-    }
 
     $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id AND language=:language;";
     try {
@@ -120,7 +169,7 @@ $app->put( '/entries/:id', function ( $site_id ) {
                             'time'     => time(),
                             'visible'  => $request_body->visible,
                             'id'       => $site_id,
-                            'language' => $request_body->language ] );
+                            'language' => $language ] );
 
         echo json_encode( [ 'updated' => [ 'id'       => $site_id,
                                            'language' => $request_body->language ] ] );
@@ -135,99 +184,131 @@ $app->put( '/entries/:id', function ( $site_id ) {
     }
 } );
 
-// deleteEntry
-$app->delete( '/entries/:id', function ( $site_id ) {
-    $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
-    $entry = json_decode( $request->getBody() );
-
-    $query = 'DELETE FROM sites WHERE id = :id;';
-    try {
-        updateDB( $query, [ 'id' => $site_id ] );
-        echo '{"deleted":' . $site_id . '}';
-
-        if( file_exists( '../uploads/images/' . $site_id ) ) {
-            rmdir( '../uploads/images/' . $site_id );
-        }
-
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":"Fehler beim L&ouml;schen."}}';
-    }
-} );
-
-/* create a copy of this site, add the new language */
-$app->post( '/entries/:id/language', function () {
+/**
+ * Add new Siteadmins
+ *
+ * request:
+ * response:
+ */
+$app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
 
+    if( !$request_body->siteadmins ) {
+        http_response_code( 400 );
+        echo json_encode( array( "error" => "siteadmins missing" ) );
+        exit;
+    }
+
+    foreach( $request_body->siteadmins as $user_id ) {
+        $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
+        try {
+            updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
+        } catch( PDOException $e ) {
+//            echo '{"error":{"text":' . $e->getMessage() . '}}';
+            /* TODO implement error handling*/
+        }
+    }
+
+    echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
+} );
+
+/**
+ * Delete one SiteAdmin
+ *
+ * request:
+ * response:
+ */
+$app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $language, $site_id, $user_id ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+
+    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id;";
     try {
-        $db = getConnection();
-
-//        /* check if language allready exists */
-//        $query = 'SELECT count(id) FROM sites WHERE and language = :default_lang';
-//        $no_of_sites_with_lang = fetchFromDB( $query, [ 'default_lang' => $request_body->language ] )[ 0 ];
-//        if( $no_of_sites_with_lang > 0 ) {
-//            die( json_encode( 'language allready available for this site' ) );
-//        }
-
-        /* get default siteinfo */
-        $query = 'SELECT * FROM sites WHERE language = :default_lang';
-        $site = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
-        /* change language according to parameter */
-        $site[ 'language' ] = $request_body->language;
-        print_r( $site );
-
-        /* insert new version */
-        $query = 'INSERT INTO sites (id, language, title, mtime, content, template, pos, visible, level)
-                      VALUES (:id, :language, :title, :mtime, :content, :template, :pos, :visible, :level)';
-        updateDB( $query, $site );
-
-        echo "done";
+        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id ] );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
+    echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
 
 } );
+
+
+
+///* create a copy of this site, add the new language */
+//$app->post( '/entries/:language/:site_id', function () {
+//    $request = Slim::getInstance()->request();
+//    checkAuthorization( $request );
+//    $request_body = json_decode( $request->getBody() );
+//
+//    try {
+//        $db = getConnection();
+//
+////        /* check if language allready exists */
+////        $query = 'SELECT count(id) FROM sites WHERE and language = :default_lang';
+////        $no_of_sites_with_lang = fetchFromDB( $query, [ 'default_lang' => $request_body->language ] )[ 0 ];
+////        if( $no_of_sites_with_lang > 0 ) {
+////            die( json_encode( 'language allready available for this site' ) );
+////        }
+//
+//        /* get default siteinfo */
+//        $query = 'SELECT * FROM sites WHERE language = :default_lang';
+//        $site = fetchFromDB( $query, [ 'default_lang' => DEFAULT_LANGUAGE ] )[ 0 ];
+//        /* change language according to parameter */
+//        $site[ 'language' ] = $request_body->language;
+//        print_r( $site );
+//
+//        /* insert new version */
+//        $query = 'INSERT INTO sites (id, language, title, mtime, content, template, pos, visible, level)
+//                      VALUES (:id, :language, :title, :mtime, :content, :template, :pos, :visible, :level)';
+//        updateDB( $query, $site );
+//
+//        echo "done";
+//    } catch( PDOException $e ) {
+//        echo '{"error":{"text":' . $e->getMessage() . '}}';
+//    }
+//
+//} );
 
 
 /* generic functions to get and manipulate single features of one site */
 
-$app->get( '/entries/:id/:feature', function ( $site_id, $feature ) {
-    if( isAuthorrized( Slim::getInstance()->request() ) ) {
-        $query = 'SELECT ' . $feature . ' FROM sites WHERE id = :site_id;';
-    } else {
-        $query = 'SELECT ' . $feature . ' FROM sites WHERE visible!="" AND id = :site_id;';
-    }
-    try {
-        $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];
-        if( isAuthorrized( Slim::getInstance()->request() ) ) {
-            $result[ 'siteadmins' ] = getSiteAdmins( $site_id );
-        }
-        echo json_encode( $result );
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-} );
+//$app->get( '/entries/:id/:feature', function ( $site_id, $feature ) {
+//    if( isAuthorrized( Slim::getInstance()->request() ) ) {
+//        $query = 'SELECT ' . $feature . ' FROM sites WHERE id = :site_id;';
+//    } else {
+//        $query = 'SELECT ' . $feature . ' FROM sites WHERE visible!="" AND id = :site_id;';
+//    }
+//    try {
+//        $result = fetchFromDB( $query, [ 'site_id' => $site_id ] )[ 0 ];
+//        if( isAuthorrized( Slim::getInstance()->request() ) ) {
+//            $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $language );
+//        }
+//        echo json_encode( $result );
+//    } catch( PDOException $e ) {
+//        echo '{"error":{"text":' . $e->getMessage() . '}}';
+//    }
+//} );
 
 
-$app->put( '/entries/:id/:feature', function ( $site_id, $feature ) {
-    if( !in_array( $feature, [ 'level', 'title', 'content', 'template' ] ) ) {
-        die( 'not allowed' );
-    }
-    $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
-    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
-
-    $query = "UPDATE sites SET " . $feature . "=:feature WHERE id=:id AND language = :language;";
-    try {
-        updateDB( $query, [ 'id' => $site_id, 'feature' => $request_body->$feature, 'language' => $request_body->language ] );
-
-        echo '{"updated":{"id":' . $site_id . '}}';
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-} );
+//$app->put( '/entries/:id/:feature', function ( $site_id, $feature ) {
+//    if( !in_array( $feature, [ 'level', 'title', 'content', 'template' ] ) ) {
+//        die( 'not allowed' );
+//    }
+//    $request = Slim::getInstance()->request();
+//    checkAuthorization( $request );
+//    $request_body = json_decode( $request->getBody() ); /* { apikey: secret, level: 23 } */
+//
+//    $query = "UPDATE sites SET " . $feature . "=:feature WHERE id=:id AND language = :language;";
+//    try {
+//        updateDB( $query, [ 'id' => $site_id, 'feature' => $request_body->$feature, 'language' => $request_body->language ] );
+//
+//        echo '{"updated":{"id":' . $site_id . '}}';
+//    } catch( PDOException $e ) {
+//        echo '{"error":{"text":' . $e->getMessage() . '}}';
+//    }
+//} );
 
 
 include_once( 'siteadmins.php' );
