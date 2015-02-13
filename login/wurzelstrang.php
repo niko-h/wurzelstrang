@@ -206,19 +206,11 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
-<script type="text/javascript">
-    var ws_debug = <?php echo '"'.DEBUG.'"' ?>;
-
-    var logger = console.log;
-    function console.log(msg) {
-        if (ws_debug) { 
-            logger(msg);
-        } else { return false; }
-    }
-
-</script>
 <script type="text/javascript"> 
-    console.log('load Apikey');
+    var ws_debug = false;
+        ws_debug = <?php echo '"'.DEBUG.'"' ?>;
+    if (ws_debug) { console.log = function() {}; }
+
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
 
     onLoad(); 

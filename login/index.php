@@ -28,7 +28,7 @@ header( "Content-Type: text/html; charset=utf-8" );
     </script>
     <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="css/master.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="static/css/ws.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="css/login.css" media="all"/>
 </head>
 <body>
@@ -51,7 +51,7 @@ header( "Content-Type: text/html; charset=utf-8" );
                 <br><br><div class="error">Sie sind abgemeldet</div>';
     }
     ?>
-    <span id="footer"><img id="logo" src="css/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
+    <span id="footer"><img id="logo" src="static/img/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
 </div>
 </body>
 <noscript>
