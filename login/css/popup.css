@@ -1,3 +1,11 @@
+/************
+ * 
+ *
+ * POPUP.CSS
+ *
+ *
+ ************/
+
 .popupoverflow {
   display: none;
   overflow: auto;
@@ -7,6 +15,7 @@
   text-align: center;
   height: 100%;
   width: 100%;
+  background: transparent;
   background: rgba(30, 30, 30, 0.8);
   z-index: 99999;
 }

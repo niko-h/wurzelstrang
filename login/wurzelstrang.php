@@ -54,10 +54,8 @@ header( "Content-Type: text/html; charset=utf-8" );
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Wurzelstrang</title>
     <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="css/kube.css"/>
-    <link rel="stylesheet" type="text/css" href="css/master.css"/>
-    <!-- <link rel="stylesheet" href="css/fontawesome/fontawesome.css"> -->
-    <link rel="stylesheet" href="css/iconsetwurzelstrang/css/iconsetwurzelstrang.css">
+    <link rel="stylesheet" type="text/css" href="css/iconsetwurzelstrang/css/iconsetwurzelstrang.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/ws.min.css"/>
     <!--[if IE 7]>
     <link rel="stylesheet" href="css/fontawesome/fontawesome-ie7.css">
     <![endif]-->
@@ -181,25 +179,12 @@ header( "Content-Type: text/html; charset=utf-8" );
 </div>
 
 <div id="loader" class="loaderoverlay">
-    <img src="css/loading.gif"/>
+    <img src="static/img/loading.gif"/>
 </div>
 
 <!--*************
   * JavaScript
   *************-->
-
-<script type="text/javascript">
-    var ws_debug = false;      
-    <?php if (DEBUG) { echo 'ws_debug = true;'; }; ?>
-
-    var logger = console.log;
-    function console.log(msg) {
-        if (ws_debug) { 
-            logger(msg);
-        } else { return false; }
-    }
-
-</script>
 
 <!-- Load jQuery -->
 <script src="lib/jquery.min.js"></script>
@@ -213,16 +198,31 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
 
-<script type="text/javascript">
-    var apikey = <?php echo '"'.APIKEY.'"' ?>;
-</script>
 <script type="text/javascript" src="lib/kube.buttons.js"></script>
-<script type="text/javascript" src="js/func.js"></script>
+
+<script type="text/javascript" src="static/js/ws.min.js"></script>
 
 <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script type="text/javascript"> onLoad(); </script>
+
+<script type="text/javascript">
+    var ws_debug = <?php echo '"'.DEBUG.'"' ?>;
+
+    var logger = console.log;
+    function console.log(msg) {
+        if (ws_debug) { 
+            logger(msg);
+        } else { return false; }
+    }
+
+</script>
+<script type="text/javascript"> 
+    console.log('load Apikey');
+    var apikey = <?php echo '"'.APIKEY.'"' ?>;
+
+    onLoad(); 
+</script>
 
 </body>
 <noscript>

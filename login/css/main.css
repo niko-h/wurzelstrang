@@ -1,9 +1,18 @@
+/************
+ * 
+ *
+ * MAIN.CSS
+ *
+ *
+ ************/
+
+
 /* =Typography
 -----------------------------------------------------------------------------*/
 body {
     font-family: sans-serif;
     background: #555;
-    background: url(bg.gif) 0px 0px repeat #151515;
+    background: url(../img/bg.gif) 0 0 repeat #151515;
     color: #eee;
     height: 100%;
 }
@@ -42,11 +51,11 @@ body {
 .wrapper {
     margin: auto;
     width: 940px;
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 #right {
-    background: url(bgbig.png) no-repeat center;
+    background: url(../img/bgbig.png) no-repeat center;
     min-height: 350px;
 }
 
@@ -55,32 +64,33 @@ body {
 div.head {
     position: relative;
     height: 40px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border-bottom: 1px solid #666;
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0px 20px 40px rgba(255, 255, 255, 0.8), inset 0px 1px 2px #fff, 0px 0px 5px #000;
+    background: #ddd;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 20px 40px rgba(255, 255, 255, 0.8), inset 0 1px 2px #fff, 0 0 5px #000;
     font-size: 1.1em;
     line-height: 40px;
     color: #111;
     display: none;
 }
 
-a#logo {
+#logo {
     margin-top: -3px;
     vertical-align: middle;
     height: 16px;
     width: 32px;
     display: inline-block;
-    background: url(logo.png) no-repeat 0px 0px;
+    background: url(../img/logo.png) no-repeat 0 0;
 }
 
-a#logo:hover span.tooltip {
+#logo:hover span.tooltip {
     display: block;
     margin: -4px 45px;
 }
 
 #logo + span + a {
-    text-shadow: 0px 1px 0px #fff;
+    text-shadow: 0 1px 0 #fff;
     cursor: pointer;
     color: #111;
     text-decoration: none;
@@ -88,7 +98,7 @@ a#logo:hover span.tooltip {
 
 #logo + span + a:hover {
     text-decoration: none;
-    text-shadow: 0px 0px 0px transparent;
+    text-shadow: 0 0 0 transparent;
 }
 
 #logo + span + a:hover:after {
@@ -102,10 +112,10 @@ a[id='prefbtn'] {
 }
 
 .head-separator {
-    background: url(head-separator.png) 0px 0px no-repeat;
+    background: url(../img/head-separator.png) 0 0 no-repeat;
     position: relative;
     height: 40px;
-    margin: 0px 8px;
+    margin: 0 8px;
     width: 2px;
     display: inline-block;
     line-height: 40px;
@@ -121,28 +131,28 @@ a[id='prefbtn'] {
 #edit fieldset, #menu fieldset, #hello fieldset, #preferences fieldset {
     border-radius: 6px;
     background: #eee;
-    box-shadow: 0px 0px 8px #000;
+    box-shadow: 0 0 8px #000;
 }
 
 #prefsite fieldset, #prefuser fieldset, #prefadmin fieldset, #editpopup fieldset {
-    box-shadow: 0px 0px 0px transparent;
+    box-shadow: 0 0 0 transparent;
 }
 
 @-moz-document url-prefix() {
     #edit fieldset, #menu fieldset, #hello fieldset, #preferences fieldset {
-        box-shadow: 0px 0px 0px transparent;
+        box-shadow: 0 0 0 transparent;
     }
 }
 
 #edit legend, #menu legend, #hello legend, #preferences legend {
     background: #eee;
     border-radius: 5px;
-    box-shadow: 0px -1px 0px #fff;
-    text-shadow: 0px 1px 0px #fff;
+    box-shadow: 0 -1px 0 #fff;
+    text-shadow: 0 1px 0 #fff;
 }
 
 #prefsite legend, #prefuser legend, #prefadmin legend {
-    box-shadow: 0px 0px 0px transparent;
+    box-shadow: 0 0 0 transparent;
 }
 
 /* =Nav
@@ -170,52 +180,52 @@ a#menu-help-btn {
 
 }
 
-a#menu-help-btn:hover {
+#menu-help-btn:hover {
     color: #222;
     border: 1px solid #ccc;
 }
 
-div#menu_list_div {
-    margin: 0px;
-    padding: 10px 0px 0px 0px;
+#menu_list_div {
+    margin: 0;
+    padding: 10px 0 0 0;
     border: 1px solid #aaa;
     color: #333;
     background: url(data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABIAAD/7gAOQWRvYmUAZMAAAAAB/9sAhAAEAwMDAwMEAwMEBQMDAwUGBQQEBQYHBgYGBgYHCQcICAgIBwkJCwsMCwsJDAwMDAwMEBAQEBASEhISEhISEhISAQQEBAcHBw4JCQ4UDg0OFBQSEhISFBISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhL/wAARCAACAAEDAREAAhEBAxEB/8QASwABAAAAAAAAAAAAAAAAAAAACAEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAAAJIRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AHTQP//Z) top left repeat #fff;
     border-radius: 5px;
-    -webkit-box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
-    -moz-box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
-    box-shadow: 0px 1px 1px #fff, inset -1px 1px 4px #ccc;
+    -webkit-box-shadow: 0 1px 1px #fff, inset -1px 1px 4px #ccc;
+    -moz-box-shadow: 0 1px 1px #fff, inset -1px 1px 4px #ccc;
+    box-shadow: 0 1px 1px #fff, inset -1px 1px 4px #ccc;
 }
 
-ul#menu_list {
-    margin: 0px;
-    padding: 0px;
+#menu_list {
+    margin: 0;
+    padding: 0;
 }
 
-div#menu li {
+#menu li {
     list-style-type: none;
     list-style-image: none;
     white-space: nowrap;
     background: #fff;
     border: 1px solid #bbb;
-    margin: 0px 10px 4px 10px;
+    margin: 0 10px 4px 10px;
     border-radius: 2px;
     padding: 0;
     height: 29px;
 }
 
-div#menu li:hover {
+#menu li:hover {
     border-color: #444;
 }
 
-div#menu li:hover span.tooltip {
-    margin: -21px 0px 0px 225px;
+#menu li:hover span.tooltip {
+    margin: -21px 0 0 225px;
 }
 
-div#menu li span.menu-id,
-div#menu li:hover span.menu-id {
+#menu li span.menu-id,
+#menu li:hover span.menu-id {
     display: none;
-    margin: 3px 0px 0px -60px;
+    margin: 3px 0 0 -60px;
 }
 
 #menu_list li .levels {
@@ -265,7 +275,7 @@ a.smallMenulink {
     height: 21px;
     text-decoration: none;
     background: #eee;
-    box-shadow: inset 0px 1px 1px #fff;
+    box-shadow: inset 0 1px 1px #fff;
 }
 
 #menu_list li a:hover span {
@@ -285,7 +295,7 @@ a.smallMenulink {
 #menu_list li .dragger {
     cursor: ns-resize;
     color: #888;
-    margin: 0px;
+    margin: 0;
     text-align: center;
     font-size: 1.1em;
     border-left: 1px solid #bbb;
@@ -323,8 +333,8 @@ a.smallMenulink {
     border-bottom-right-radius: 5px;
     background: #e2e2e2;
     border-top: 1px solid #bbb;
-    padding: 0px 3px;
-    margin: 10px 0px 0px 0px;
+    padding: 0 3px;
+    margin: 10px 0 0 0;
     display: block;
     text-align: center;
     font-size: 0.7em;
@@ -334,7 +344,7 @@ a.smallMenulink {
     height: 20px;
     background-position-y: -5px;
     bottom: -1px;
-    margin: 0px 5px;
+    margin: 0 5px;
 }
 
 /* =content, hello, bg & preferences
@@ -401,7 +411,7 @@ div.fade {
     left: 45%;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0px 10px 30px #000;
+    box-shadow: 0 10px 30px #000;
     font-size: 2em;
     z-index: 10000000000000;
 }
@@ -429,7 +439,7 @@ span.tooltip-left {
     background: #777;
     border: none;
     line-height: 22px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+    text-shadow: 0 1px 1px #444;
     white-space: nowrap;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
@@ -440,12 +450,12 @@ span.tooltip-left {
 span.tooltip:before {
     content: "";
     position: absolute;
-    top: 0px;
+    top: 0;
     left: -10px;
     float: left;
-    width: 0px;
-    height: 0px;
-    border-width: 11px 10px 11px 0px;
+    width: 0;
+    height: 0;
+    border-width: 11px 10px 11px 0;
     border-style: solid solid solid solid;
     border-color: transparent #777 transparent transparent;
 }
@@ -464,16 +474,16 @@ span.tooltip::after {
 
 span.tooltip span,
 span.tooltip-left span {
-    margin: 0px !important;
-    text-shadow: 0px 1px 0px #000;
+    margin: 0 !important;
+    text-shadow: 0 1px 0 #000;
 }
 
 span.tooltip-left {
     padding: 0 9px 0 7px;
-    -webkit-border-top-right-radius: 0px;
-    border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
     -webkit-border-top-left-radius: 3px;
     border-top-left-radius: 3px;
     -webkit-border-bottom-left-radius: 3px;
@@ -483,12 +493,12 @@ span.tooltip-left {
 span.tooltip-left:after {
     content: "";
     position: absolute;
-    top: 0px;
+    top: 0;
     right: -10px;
     float: right;
-    width: 0px;
-    height: 0px;
-    border-width: 11px 0px 11px 10px;
+    width: 0;
+    height: 0;
+    border-width: 11px 0 11px 10px;
     border-style: solid solid solid solid;
     border-color: transparent transparent transparent #777;
 }
@@ -507,7 +517,7 @@ span.tooltip-left::before {
 
 /*remove ckeditor shadow*/
 .cke_chrome {
-    box-shadow: 0 0 0px #000 !important;
+    box-shadow: 0 0 0 #000 !important;
 }
 
 /* =Codemirror
@@ -517,7 +527,7 @@ span.tooltip-left::before {
 }
 
 .CodeMirror-linenumber {
-    padding: 0 5px 0 0px !important;
+    padding: 0 5px 0 0 !important;
 }
 
 .cm-s-monokai .CodeMirror-gutters {

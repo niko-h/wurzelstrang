@@ -13,3 +13,4 @@ themes/*
 !themes/README.md
 !themes/default
 config.codekit
+login/node_modules
