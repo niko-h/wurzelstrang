@@ -34,11 +34,10 @@ function postLanguage(val) {
             $('#newlanguage').val("");
             getAll();
         },
-        error: function (jqXHR, textStatus) {
+        error: function (jqXHR) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
                 alert('Diese Sprache existiert bereits.')
             }
-            ;
             console.log('postLang error: ' + jqXHR.responseText);
             getLanguages();
             $('#newlanguage').val("");
@@ -151,11 +150,10 @@ function postUser() {
             getUsers();
             $('#newuseremail').val("");
         },
-        error: function (jqXHR, textStatus) {
+        error: function (jqXHR) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
                 alert('Dieser Nutzer existiert bereits.')
             }
-            ;
             console.log('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
@@ -165,7 +163,7 @@ function postUser() {
 
 
 function getUserPrefs(user) {
-    console.log('getUserPrefs')
+    console.log('getUserPrefs');
     $.ajax({
         type: 'GET',
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
@@ -181,7 +179,7 @@ function getUserPrefs(user) {
 }
 
 function getSitePrefs(site) {
-    console.log('getSitePrefs')
+    console.log('getSitePrefs');
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + getLanguage() + '/' + site + '?apikey=' + apikey,
@@ -249,7 +247,8 @@ function putSiteInfo() {
 
 dragMenu = function () {
     console.log('dragMenu');
-    $("#menu_list").sortable({
+    var menuList = $("#menu_list");
+    menuList.sortable({
         placeholder: "dragger_placeholder",
         handle: ".dragger",
         opacity: 0.7,
@@ -271,11 +270,11 @@ dragMenu = function () {
             });
         }
     });
-    $("#menu_list").disableSelection();
-}
+    menuList.disableSelection();
+};
 
 function getEntry(id) {
-    console.log('getEntry')
+    console.log('getEntry');
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + getLanguage() + '/' + id + '?apikey=' + apikey,
@@ -343,7 +342,7 @@ function updateLevel(dir) {
         url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val() + '/level',
         dataType: "json",
         data: updateLevelToJSON(dir),
-        success: function (data) {
+        success: function () {
             getEntry($('#entryId').val());
             getAll();
         },
