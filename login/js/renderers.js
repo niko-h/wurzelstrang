@@ -5,21 +5,21 @@
 function renderList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     console.log("renderList");
-    var list = data.entries == null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
+    var list = data.entries === null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
     $('#menu_list li').remove();
     $.each(list, function (index, entry) {
         visible_class = entry.visible ? [] : ' ishidden';
         visible_icon = entry.visible ? [] : '<i class="icon-eye-shut eyeshut"></i>';
         visible_popup = entry.visible ? [] : '<span class="tooltip"><span>Wird auf der Webseite derzeit nicht angezeigt.</span></span>';
         levels = '';
-        if ($('#levelstarget').val() == true && entry.level >= 1) {
+        if ($('#levelstarget').val() === true && entry.level >= 1) {
             for (var i = 0; i < entry.level; i++) {
                 levels += '<span class="levels"></span>';
             }
         }
         var addChildBtn = '';
         var smallMenulink = '';
-        if ($('#levelstarget').val() == true) {
+        if ($('#levelstarget').val() === true) {
             $('a.menulink').addClass('smallMenulink');
             addChildBtn = '<a href="#" class="addChild-Button" ' +
             'data-level="' + entry.level + '" ' +
@@ -33,7 +33,7 @@ function renderList(data) {
         '</a>' + addChildBtn +
         '<span class="dragger push-right"><i class="icon-drag"></i></span></li>');
     });
-    if ($('#levelstarget').val() == true) {
+    if ($('#levelstarget').val() === true) {
         $('a.menulink').addClass('smallMenulink');
     }
     $('#menu_list li a.menulink').unbind().click(menulink); // select entry in menu
@@ -60,19 +60,19 @@ function renderEntry(item) {
         $('#levelup').unbind().click(levelup);
 
         var entry = item.entry;
-        if (entry != null && entry.id != null) {
+        if (entry !== null && entry.id !== null) {
             date = new Date(entry.mtime * 1000).toUTCString();
             $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
             $('#title').val(entry.title);
-            if (entry.visible == true) {
+            if (entry.visible === true) {
                 $('#visiblecheckbox').attr('checked', 'checked');
             } else {
                 $('#visiblecheckbox').removeAttr('checked');
             }
             $('textarea#ckeditor').val(entry.content);
             $('#levelcount').text(entry.level);
-            if ($('#levelstarget').val() == true) {
+            if ($('#levelstarget').val() === true) {
                 $('#leveloption').show();
             } else {
                 $('#leveloption').hide();
@@ -84,7 +84,7 @@ function renderEntry(item) {
             $('#title').val("");
             // $('#visiblecheckbox').attr('checked', 'checked');
             $('textarea#ckeditor').val("");
-            if ($('#levelstarget').val() == true) {
+            if ($('#levelstarget').val() === true) {
                 $('#leveloption').show();
             } else {
                 $('#leveloption').hide();
@@ -96,7 +96,7 @@ function renderEntry(item) {
 
 function renderAdmin(data) {
     console.log("renderAdmin");
-    var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
+    var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $.each(list, function (index, user) {
         $('#adminemail').val(user.user_email);
     });
@@ -105,7 +105,7 @@ function renderAdmin(data) {
 function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     console.log("renderUserList");
-    var list = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
+    var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
         $('#user-list').append(
@@ -137,7 +137,7 @@ function renderUser(user, userid) {
     renderTemplateList('#usertemplate');
 
     $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
-    var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
+    var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
     $.each(list, function (index, site) {
         $('.userpopup-sitelist').append(
@@ -149,7 +149,7 @@ function renderUser(user, userid) {
         );
     });
 
-    var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
+    var accesslist = user.sites === null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
     $.each(accesslist, function (index, access) {
         $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
     });

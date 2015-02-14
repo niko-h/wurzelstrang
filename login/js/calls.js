@@ -36,7 +36,7 @@ function postLanguage(val) {
         },
         error: function (jqXHR) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
-                alert('Diese Sprache existiert bereits.')
+                alert('Diese Sprache existiert bereits.');
             }
             console.log('postLang error: ' + jqXHR.responseText);
             getLanguages();
@@ -152,7 +152,7 @@ function postUser() {
         },
         error: function (jqXHR) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
-                alert('Dieser Nutzer existiert bereits.')
+                alert('Dieser Nutzer existiert bereits.');
             }
             console.log('postUser error: ' + jqXHR.responseText);
             getUsers();

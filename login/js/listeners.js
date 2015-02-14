@@ -58,8 +58,8 @@ function prefbtn() {
 }
 
 function submitbutton() {
-    if ($('#title').val() != '') {
-        if ($('#entryId').val() == '') {
+    if ($('#title').val() !== '') {
+        if ($('#entryId').val() ==='') {
             addEntry();
         } else {
             updateEntry();
@@ -135,7 +135,7 @@ function menulink() {
 
 function langsel() {
     var newLang = $('#lang-sel').val();
-    if ($.cookie("LANGUAGE") != null) {
+    if ($.cookie("LANGUAGE") !== null) {
         $.removeCookie('LANGUAGE');
     }
     $.cookie('LANGUAGE', newLang);

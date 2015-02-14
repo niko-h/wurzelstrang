@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		concat: {
 	    	js: {
 	    		src: ['js/helpers.js', 'js/listeners.js', 'js/calls.js', 'js/renderers.js', 'js/toJSON.js', 'js/main.js'],
-	    		dest: 'static/js/ws.min.js',
+	    		dest: 'static/js/ws.js',
 	    	},
 	    	css: {
 	    		src: ['css/kube.css', 'css/main.css', 'css/popup.css'],
@@ -26,20 +26,37 @@ module.exports = function(grunt) {
     		beforeconcat: ['js/**/*.js'],
     		afterconcat: ['static/js/ws.min.js']
 		},
-		csslint: {
-			lax: {
-				options: {
-					import: false
-				},
-				src: ['css/main.css', 'css/popup.css']
+		uglify: {
+			my_target: {
+				files: {
+					'static/js/ws.min.js': ['static/js/ws.js']
+				}
 			}
-		}
+		},
+
+
+		//csslint: {
+		//	lax: {
+		//		options: {
+		//			import: false
+		//		},
+		//		src: ['css/main.css', 'css/popup.css']
+		//	}
+		//}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
-	grunt.registerTask('default', ['concat', 'jshint:beforeconcat', 'csslint', 'watch']);
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.registerTask(
+		'default', [
+			'concat',
+			'jshint:beforeconcat',
+			'uglify',
+			//'csslint',
+			'watch'
+		]);
 
 };
