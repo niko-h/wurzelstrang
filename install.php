@@ -216,7 +216,7 @@ header( "Content-Type: text/html; charset=utf-8" );
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Neue Seite erstellen</title>
     <link rel="stylesheet" type="text/css" href="login/css/kube.css"/>
-    <link rel="stylesheet" type="text/css" href="login/css/master.css"/>
+    <link rel="stylesheet" type="text/css" href="login/static/css/ws.min.css"/>
     <!-- Load jQuery -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
