@@ -208,7 +208,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 
 <script type="text/javascript"> 
     var ws_debug = false;
-    if (<?php echo DEBUG ?>) {
+    if ('TRUE' === <?php echo DEBUG ?>) {
         ws_debug = true;
     };
     if (!ws_debug) { console.log = function() {}; }
