@@ -152,7 +152,7 @@ function renderUser(user, userid) {
     var accesslist = user.sites == null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
     $.each(accesslist, function (index, access) {
         $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
-    })
+    });
 
     $('#deleteusrbutton').attr('data-identity', userid);
 
@@ -211,10 +211,8 @@ function renderTemplateList(list) {
         if (templateName === 'ws-edit-default') {
             templateName = 'default';
         }
-        ;
         if (templateName.substring(0, 3) !== 'ws-') {
             $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.template) : ''));
         }
-        ;
     });
 }

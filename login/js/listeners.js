@@ -155,7 +155,6 @@ function submitnewlang() {
     if (val !== '') {
         postLanguage(val);
     }
-    ;
 }
 
 function deletelangbutton() {

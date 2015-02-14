@@ -39,7 +39,7 @@ showRight = function(id) {
     } else {
         $('#' + id).show();
     }
-}
+};
 
 // Replace broken images with generic entry image
 $("img").error(function () {
