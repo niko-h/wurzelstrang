@@ -78,7 +78,7 @@ $app->post( '/entries/:language', function ( $language ) {
 
         $id = updateDB( $query, [ 'title'    => $entry->title,
                                   'content'  => $entry->content,
-//                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
+                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
                                   'time'     => time(),
                                   'visible'  => $entry->visible,
                                   'level'    => $entry->level,
