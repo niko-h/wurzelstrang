@@ -27,6 +27,12 @@ module.exports = function(grunt) {
     		afterconcat: ['static/js/ws.min.js']
 		},
 		uglify: {
+			options: {
+				mangle: true,
+				compress: true,
+				report: 'gzip',
+				sourceMap: 'static/js/ws.map.js'
+			},
 			my_target: {
 				files: {
 					'static/js/ws.min.js': ['static/js/ws.js']
