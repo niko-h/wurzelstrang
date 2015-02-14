@@ -81,3 +81,6 @@ function langToJSON(val) {
     });
     return data;
 }
+
+$(document).ready(init());
+

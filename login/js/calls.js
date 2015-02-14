@@ -180,6 +180,22 @@ function getUserPrefs(user) {
     });
 }
 
+function deleteUser(user) {
+    $.ajax({
+        type: 'DELETE',
+        url: rootURL + '/users/' + user,
+        data: JSON.stringify({"apikey": apikey}),
+        success: function () {
+            console.log('deleteUsersuccess: ' + user);
+            fade('#deletedfade');
+            getUsers();
+        },
+        error: function () {
+            alert('deleteUser error: ' + $('#user').val());
+        }
+    });
+}
+
 function getSitePrefs(site) {
     console.log('getSitePrefs')
     $.ajax({
@@ -195,24 +211,6 @@ function getSitePrefs(site) {
         }
     });
 }
-
-function deleteUser(user) {
-    $.ajax({
-        type: 'DELETE',
-        url: rootURL + '/users/' + user,
-        data: JSON.stringify({"apikey": apikey}),
-        success: function () {
-            console.log('deleteUsersuccess: ' + user);
-            fade('#deletedfade');
-            $('.userpopup').hide();
-            getUsers();
-        },
-        error: function () {
-            alert('deleteUser error: ' + $('#user').val());
-        }
-    });
-}
-
 
 function getSiteInfo() {
     $.ajax({
@@ -334,6 +332,22 @@ function updateEntry() {
     });
 }
 
+function deleteEntry(id) {
+    console.log('deleteEntry');
+    $.ajax({
+        type: 'DELETE',
+        url: rootURL + '/entries/' + getLanguage() + '/' + id,
+        data: JSON.stringify({"apikey": apikey}),
+        success: function () {
+            fade('#deletedfade');
+            getAll();
+        },
+        error: function () {
+            alert('deleteEntry error');
+        }
+    });
+}
+
 function updateLevel(dir) {
     console.log('updateLevel');
     console.log(dir);
@@ -349,22 +363,6 @@ function updateLevel(dir) {
         },
         error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
-        }
-    });
-}
-
-function deleteEntry() {
-    console.log('deleteEntry');
-    $.ajax({
-        type: 'DELETE',
-        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val(),
-        data: JSON.stringify({"apikey": apikey}),
-        success: function () {
-            fade('#deletedfade');
-            getAll();
-        },
-        error: function () {
-            alert('deleteEntry error');
         }
     });
 }

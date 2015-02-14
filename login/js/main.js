@@ -37,6 +37,3 @@ var newPos = null;
 var newLevel = 0;
 var langSelected = getLanguage();
 
-
-$(document).ready(init());
-
