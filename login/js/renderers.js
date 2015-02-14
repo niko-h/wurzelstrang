@@ -36,8 +36,8 @@ function renderList(data) {
     if ($('#levelstarget').val() == true) {
         $('a.menulink').addClass('smallMenulink');
     }
-    $('#menu_list li a.menulink').click(menulink); // select entry in menu
-    $('.addChild-Button').click(addChild);
+    $('#menu_list li a.menulink').unbind().click(menulink); // select entry in menu
+    $('.addChild-Button').unbind().click(addChild);
 }
 
 function renderEntry(item) {
@@ -50,17 +50,14 @@ function renderEntry(item) {
 
     $('#edit_main').load('templates/' + template, function () {
 
-        renderTemplateList('#templateSelector'); // ws-edit-default
-
         if (template == 'ws-edit-default') {
             $('textarea#ckeditor').ckeditor();
         }
 
-        $('#submitbutton').click(submitbutton);
-        $('#deletebutton').click(deletebutton);
-        $('#leveldown').click(leveldown);
-        $('#levelup').click(levelup);
-
+        $('#submitbutton').unbind().click(submitbutton);
+        $('#deletebutton').unbind().click(deletebutton);
+        $('#leveldown').unbind().click(leveldown);
+        $('#levelup').unbind().click(levelup);
 
         var entry = item.entry;
         if (entry != null && entry.id != null) {
@@ -80,12 +77,12 @@ function renderEntry(item) {
             } else {
                 $('#leveloption').hide();
             }
-            $('#deletebutton').html('<i class="icon-cancel"></i> Löschen');
+            $('#deletebutton').attr('data-id', item.entry.id).html('<i class="icon-cancel"></i> Löschen');
         } else {
             $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
             $('#entryId').val("");
             $('#title').val("");
-            $('#visiblecheckbox').attr('checked', 'checked');
+            // $('#visiblecheckbox').attr('checked', 'checked');
             $('textarea#ckeditor').val("");
             if ($('#levelstarget').val() == true) {
                 $('#leveloption').show();
@@ -118,7 +115,7 @@ function renderUserList(data) {
             )
         );
     });
-    $('.editusrbutton').click(editusrbtn); // delete user
+    $('.editusrbutton').unbind().click(editusrbtn); // delete user
 }
 
 function renderSiteInfo(siteinfo) {
@@ -159,7 +156,7 @@ function renderUser(user, userid) {
 
     $('#deleteusrbutton').attr('data-identity', userid);
 
-    $('#deleteusrbutton').click(deleteusrbtn); // delete user
+    $('#deleteusrbutton').unbind().click(deleteusrbtn); // delete user
 }
 
 function renderSitePopup(site, siteid) {
@@ -203,7 +200,7 @@ function renderLanguages(list) {
         );
     });
 
-    $('.deletelangbutton').click(deletelangbutton);
+    $('.deletelangbutton').unbind().click(deletelangbutton);
 }
 
 function renderTemplateList(list) {

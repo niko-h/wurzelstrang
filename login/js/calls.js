@@ -34,10 +34,11 @@ function postLanguage(val) {
             $('#newlanguage').val("");
             getAll();
         },
-        error: function (jqXHR) {
+        error: function (jqXHR, textStatus) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
                 alert('Diese Sprache existiert bereits.')
             }
+            ;
             console.log('postLang error: ' + jqXHR.responseText);
             getLanguages();
             $('#newlanguage').val("");
@@ -150,10 +151,11 @@ function postUser() {
             getUsers();
             $('#newuseremail').val("");
         },
-        error: function (jqXHR) {
+        error: function (jqXHR, textStatus) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
                 alert('Dieser Nutzer existiert bereits.')
             }
+            ;
             console.log('postUser error: ' + jqXHR.responseText);
             getUsers();
             $('#newuseremail').val("");
@@ -163,7 +165,7 @@ function postUser() {
 
 
 function getUserPrefs(user) {
-    console.log('getUserPrefs');
+    console.log('getUserPrefs')
     $.ajax({
         type: 'GET',
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
@@ -178,8 +180,24 @@ function getUserPrefs(user) {
     });
 }
 
+function deleteUser(user) {
+    $.ajax({
+        type: 'DELETE',
+        url: rootURL + '/users/' + user,
+        data: JSON.stringify({"apikey": apikey}),
+        success: function () {
+            console.log('deleteUsersuccess: ' + user);
+            fade('#deletedfade');
+            getUsers();
+        },
+        error: function () {
+            alert('deleteUser error: ' + $('#user').val());
+        }
+    });
+}
+
 function getSitePrefs(site) {
-    console.log('getSitePrefs');
+    console.log('getSitePrefs')
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + getLanguage() + '/' + site + '?apikey=' + apikey,
@@ -193,24 +211,6 @@ function getSitePrefs(site) {
         }
     });
 }
-
-function deleteUser(user) {
-    $.ajax({
-        type: 'DELETE',
-        url: rootURL + '/users/' + user,
-        data: JSON.stringify({"apikey": apikey}),
-        success: function () {
-            console.log('deleteUsersuccess: ' + user);
-            fade('#deletedfade');
-            $('.userpopup').hide();
-            getUsers();
-        },
-        error: function () {
-            alert('deleteUser error: ' + $('#user').val());
-        }
-    });
-}
-
 
 function getSiteInfo() {
     $.ajax({
@@ -247,8 +247,7 @@ function putSiteInfo() {
 
 dragMenu = function () {
     console.log('dragMenu');
-    var menuList = $("#menu_list");
-    menuList.sortable({
+    $("#menu_list").sortable({
         placeholder: "dragger_placeholder",
         handle: ".dragger",
         opacity: 0.7,
@@ -270,11 +269,11 @@ dragMenu = function () {
             });
         }
     });
-    menuList.disableSelection();
-};
+    $("#menu_list").disableSelection();
+}
 
 function getEntry(id) {
-    console.log('getEntry');
+    console.log('getEntry')
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + getLanguage() + '/' + id + '?apikey=' + apikey,
@@ -333,6 +332,22 @@ function updateEntry() {
     });
 }
 
+function deleteEntry(id) {
+    console.log('deleteEntry');
+    $.ajax({
+        type: 'DELETE',
+        url: rootURL + '/entries/' + getLanguage() + '/' + id,
+        data: JSON.stringify({"apikey": apikey}),
+        success: function () {
+            fade('#deletedfade');
+            getAll();
+        },
+        error: function () {
+            alert('deleteEntry error');
+        }
+    });
+}
+
 function updateLevel(dir) {
     console.log('updateLevel');
     console.log(dir);
@@ -342,28 +357,12 @@ function updateLevel(dir) {
         url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val() + '/level',
         dataType: "json",
         data: updateLevelToJSON(dir),
-        success: function () {
+        success: function (data) {
             getEntry($('#entryId').val());
             getAll();
         },
         error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
-        }
-    });
-}
-
-function deleteEntry() {
-    console.log('deleteEntry');
-    $.ajax({
-        type: 'DELETE',
-        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val(),
-        data: JSON.stringify({"apikey": apikey}),
-        success: function () {
-            fade('#deletedfade');
-            getAll();
-        },
-        error: function () {
-            alert('deleteEntry error');
         }
     });
 }

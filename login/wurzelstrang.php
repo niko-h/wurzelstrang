@@ -207,10 +207,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 <![endif]-->
 
 <script type="text/javascript"> 
-    var ws_debug = false;
-//    if (<?php //echo DEBUG ?>//) {
-//        ws_debug = true;
-//    };
+    var ws_debug = <?php echo defined('DEBUG') && DEBUG?'true':'false'; ?>;
     if (!ws_debug) { console.log = function() {}; }
 
     var apikey = <?php echo '"'.APIKEY.'"' ?>;

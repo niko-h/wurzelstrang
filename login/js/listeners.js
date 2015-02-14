@@ -3,6 +3,7 @@
  ******************/
 
 init = function () {                 // called at the bottom
+    console.log('init');
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
@@ -33,6 +34,7 @@ function closepopup() {
 function linknew() {
     showRight('edit');
     $('#deletebutton').hide();
+    $('#siteprefsbtn').hide();
     $('#leveloption').hide();
     newEntry();
     return false;
@@ -52,7 +54,6 @@ function prefbtn() {
     $('#hello').hide();
     $('#edit').hide();
     $('#preferences').toggle();
-    $('.menu-id').hide();
     return false;
 }
 
@@ -70,8 +71,7 @@ function submitbutton() {
 function deletebutton() {
     if (confirm('[OK] drücken um den Eintrag zu löschen.')) {
         $('#edit').hide();
-        deleteEntry();
-        $('.menu-id').hide();
+        deleteEntry($(this).data('id'));
         return false;
     }
 }
@@ -118,8 +118,11 @@ function editsitebtn() {
 }
 
 function deleteusrbtn() {
-    deleteUser($(this).data('identity'));
-    return false;
+    if (confirm('[OK] drücken um den User zu löschen.')) {
+        $('.userpopup').hide();
+        deleteUser($(this).data('identity'));
+        return false;
+    }
 }
 
 function menulink() {
@@ -156,8 +159,10 @@ function submitnewlang() {
 }
 
 function deletelangbutton() {
-    var lang = $(this).data('lang');
-    deleteLanguage(lang);
+    if (confirm('[OK] drücken um die Sprache ' + $(this).data('lang') + ' zu löschen.')) {
+        deleteLanguage($(this).data('lang'));
+        return false;
+    }
 }
 
 
