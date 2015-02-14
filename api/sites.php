@@ -131,7 +131,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
  * request:
  * response:
  */
-$app->delete( '/entries/:language/:site_id', function ( $site_id, $language ) {
+$app->delete( '/entries/:language/:site_id', function ( $language, $site_id) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
 
