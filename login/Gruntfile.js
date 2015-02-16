@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		concat: {
 	    	js: {
-	    		src: ['js/helpers.js', 'js/listeners.js', 'js/calls.js', 'js/renderers.js', 'js/toJSON.js', 'js/main.js'],
+	    		src: ['js/main.js', 'js/siteinfo.js', 'js/language.js', 'js/menu.js', 'js/user.js', 'js/entry.js', 'js/helpers.js'],
 	    		dest: 'static/js/ws.js',
 	    	},
 	    	css: {

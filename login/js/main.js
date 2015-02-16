@@ -45,13 +45,6 @@ onLoad = function () {                     // Load once everything is ready
  * Variables
  ***********/
 
-var currentEntry;
-var templates;
-var sitelist;
-var user;
-var siteinfo;
 var rootURL = '../api/index.php';
-var newPos = null;
-var newLevel = 0;
 var langSelected = getLanguage();
 
