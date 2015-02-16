@@ -12,16 +12,6 @@ module.exports = function(grunt) {
 	    		dest: 'static/css/ws.min.css',
 	    	},
 		},
-		watch: {
-			js: {
-				files: ['js/**/*.js'],
-				tasks: ['concat:js', 'jshint:afterconcat'],
-			},
-			css: {
-				files: ['css/**/*.css'],
-				tasks: ['concat:css'],
-			},
-		},
 		jshint: {
     		beforeconcat: ['js/**/*.js'],
     		afterconcat: ['static/js/ws.min.js']
@@ -29,7 +19,9 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				mangle: true,
-				compress: true,
+				compress: {
+					drop_console: false // <- ENABLE for production
+				},
 				report: 'gzip',
 				sourceMap: 'static/js/ws.map.js'
 			},
@@ -39,8 +31,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
-
 		//csslint: {
 		//	lax: {
 		//		options: {
@@ -48,7 +38,17 @@ module.exports = function(grunt) {
 		//		},
 		//		src: ['css/main.css', 'css/popup.css']
 		//	}
-		//}
+		//},
+		watch: {
+			js: {
+				files: ['js/**/*.js'],
+				tasks: ['concat:js', 'jshint:beforeconcat', 'uglify'],
+			},
+			css: {
+				files: ['css/**/*.css'],
+				tasks: ['concat:css'],
+			},
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');

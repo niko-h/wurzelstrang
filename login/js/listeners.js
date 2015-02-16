@@ -2,25 +2,6 @@
  * Action Listeners
  ******************/
 
-init = function () {                 // called at the bottom
-    console.log('init');
-    $('#logo').click(linkhello);
-    $('#linknew').click(linknew);
-    $('#prefbtn').click(prefbtn);
-    $('#lang-sel').change(langsel);
-    $('.closepopup').click(closepopup);
-    $('.popupoverflow').click(closepopup);
-    $('.popupcontent').click(function (e) {
-        e.stopPropagation();
-    });
-    $('#submitlangbtn').click(submitnewlang);
-    $('#updatesiteinfobtn').click(updatesiteinfobtn);
-    $('#siteprefsbtn').click(editsitebtn);
-    // $('#updateadminbtn').click(updateadminbtn);
-    // $('#submituserbtn').click(submitnewusrbtn);
-
-};
-
 function linkhello() {
     showRight('hello');
     $('.menu-id').hide();

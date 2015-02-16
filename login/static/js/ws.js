@@ -50,25 +50,6 @@ $("img").error(function () {
  * Action Listeners
  ******************/
 
-init = function () {                 // called at the bottom
-    console.log('init');
-    $('#logo').click(linkhello);
-    $('#linknew').click(linknew);
-    $('#prefbtn').click(prefbtn);
-    $('#lang-sel').change(langsel);
-    $('.closepopup').click(closepopup);
-    $('.popupoverflow').click(closepopup);
-    $('.popupcontent').click(function (e) {
-        e.stopPropagation();
-    });
-    $('#submitlangbtn').click(submitnewlang);
-    $('#updatesiteinfobtn').click(updatesiteinfobtn);
-    $('#siteprefsbtn').click(editsitebtn);
-    // $('#updateadminbtn').click(updateadminbtn);
-    // $('#submituserbtn').click(submitnewusrbtn);
-
-};
-
 function linkhello() {
     showRight('hello');
     $('.menu-id').hide();
@@ -222,71 +203,6 @@ function newEntry() {
  * Call functions
  ****************/
 
-function getLanguage() {
-    return $.cookie('LANGUAGE');
-}
-
-function getLanguages() {
-    console.log('getLanguages');
-    $.ajax({
-        type: 'GET',
-        url: rootURL + 'siteinfo?apikey=' + apikey,
-        dataType: "json", // data type of response
-        success: function (data) {
-            languages = data.siteinfo.languages;
-            renderLanguages('#lang-sel');
-        }
-    });
-}
-
-function postLanguage(val) {
-    console.log('postLanguage');
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: rootURL + '/siteinfo',
-        dataType: "json",
-        data: langToJSON(val),
-        success: function () {
-            console.log('postLang success');
-            fade('#savedfade');
-            getLanguages();
-            $('#newlanguage').val("");
-            getAll();
-        },
-        error: function (jqXHR) {
-            if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
-                alert('Diese Sprache existiert bereits.');
-            }
-            console.log('postLang error: ' + jqXHR.responseText);
-            getLanguages();
-            $('#newlanguage').val("");
-        }
-    });
-}
-
-function deleteLanguage(lang) {
-    $.ajax({
-        type: 'DELETE',
-        url: rootURL + '/siteinfo/' + lang,
-        data: JSON.stringify({"apikey": apikey}),
-        success: function () {
-            console.log('deleteLangSuccess: ' + lang);
-            fade('#deletedfade');
-            getLanguages();
-            if ($.cookie("LANGUAGE") == lang) {
-                $.removeCookie('LANGUAGE');
-                $.cookie('LANGUAGE', languages[0]);
-            }
-            getSiteInfo();
-            getAll();
-        },
-        error: function () {
-            alert('deleteUser error: ' + $('#user').val());
-        }
-    });
-}
-
 function getTemplates() {
     console.log('getTemplates');
     $.ajax({
@@ -299,8 +215,8 @@ function getTemplates() {
     });
 }
 
-function getAll() {
-    console.log('getAll');
+function getAllSiteNames() {
+    console.log('getAllSiteNames');
     $.ajax({
         type: 'GET',
         url: rootURL + '/entries/' + getLanguage() + '?apikey=' + apikey,
@@ -389,7 +305,7 @@ function getUserPrefs(user) {
         url: rootURL + '/users/' + user + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            getAll();
+            getAllSiteNames();
             renderUser(data, user);
         },
         error: function (jqXHR, textStatus) {
@@ -421,7 +337,7 @@ function getSitePrefs(site) {
         url: rootURL + '/entries/' + getLanguage() + '/' + site + '?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            getAll();
+            getAllSiteNames();
             renderSitePopup(data, site);
         },
         error: function (jqXHR, textStatus) {
@@ -455,7 +371,7 @@ function putSiteInfo() {
         success: function () {
             fade('#savedfade');
             getSiteInfo();
-            getAll();
+            getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
             alert('putSiteInfo error: ' + textStatus);
@@ -520,7 +436,7 @@ function addEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.inserted.id);
-            getAll();
+            getAllSiteNames();
             newPos = null;
             newLevel = 0;
         },
@@ -543,7 +459,7 @@ function updateEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.updated.id);
-            getAll();
+            getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
@@ -559,7 +475,7 @@ function deleteEntry(id) {
         data: JSON.stringify({"apikey": apikey}),
         success: function () {
             fade('#deletedfade');
-            getAll();
+            getAllSiteNames();
         },
         error: function () {
             alert('deleteEntry error');
@@ -578,7 +494,7 @@ function updateLevel(dir) {
         data: updateLevelToJSON(dir),
         success: function () {
             getEntry($('#entryId').val());
-            getAll();
+            getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
             alert('updateEntry error: ' + textStatus);
@@ -776,20 +692,6 @@ function renderSitePopup(site, siteid) {
     // $('#deleteusrbutton').click(deleteusrbtn); // delete user
 }
 
-function renderLanguages(list) {
-    $(list).html($('<option disabled>').html('Sprache/Language'));
-    $('#language-list').html('');
-    $.each(languages, function (index, value) {
-        $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
-        $('#language-list').append(
-            $('<li>').addClass('push').append(value)
-                .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
-            )
-        );
-    });
-
-    $('.deletelangbutton').unbind().click(deletelangbutton);
-}
 
 function renderTemplateList(list) {
     console.log('renderTemplateList');
@@ -897,13 +799,32 @@ $(document).ready(init());
  *
  *********************************/
 
-onLoad = function () {
+init = function () {                 // Called at the bottom. Initialize listeners.
+    console.log('init');
+    $('#logo').click(linkhello);
+    $('#linknew').click(linknew);
+    $('#prefbtn').click(prefbtn);
+    $('#lang-sel').change(langsel);
+    $('.closepopup').click(closepopup);
+    $('.popupoverflow').click(closepopup);
+    $('.popupcontent').click(function (e) {
+        e.stopPropagation();
+    });
+    $('#submitlangbtn').click(submitnewlang);
+    $('#updatesiteinfobtn').click(updatesiteinfobtn);
+    $('#siteprefsbtn').click(editsitebtn);
+    // $('#updateadminbtn').click(updateadminbtn);
+    // $('#submituserbtn').click(submitnewusrbtn);
+};
+
+onLoad = function () {                     // Load once everything is ready
+    console.log('onLoad');
     $("#loader").hide();
     linkhello();                           // load hello screen
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
-    getAll();                              // get itemes for menu
+    getAllSiteNames();                              // get itemes for menu
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
     getTemplates();                        // get list of available templates
@@ -921,7 +842,6 @@ onLoad = function () {
 
 var currentEntry;
 var templates;
-var languages;
 var sitelist;
 var user;
 var siteinfo;
