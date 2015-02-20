@@ -4,6 +4,48 @@ require_once( '../config.php' );
 
 /* TODO: add request and response examples */
 
+/* helper */
+function isAdmin() {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
+    try {
+        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 1;';
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
+
+        return $result[ 0 ][ 'count' ] > 0;
+    } catch( PDOException $e ) {
+        echo 'error:' . $e->getMessage();
+
+        return FALSE;
+    }
+}
+
+function isSiteAdmin( $site_id, $language ) {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
+    try {
+        $query = 'SELECT count(*) AS count
+                  FROM site_admins s
+                  LEFT JOIN users u ON s.user_id = u.id
+                  WHERE
+                    u.user_email = :user_email AND
+                    s.site_id = :site_id AND
+                    s.language = :language;';
+
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email,
+                                         'site_id'    => $site_id,
+                                         'language'   => $language ] );
+
+        return $result[ 0 ][ 'count' ] > 0;
+    } catch( PDOException $e ) {
+        echo 'error:' . $e->getMessage();
+
+        return FALSE;
+    }
+}
+
 
 /**
  * Changes order of elements
@@ -14,6 +56,7 @@ require_once( '../config.php' );
 $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename because of collision with /entries/:id
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+
 
     $neworder = json_decode( $request->getBody() );
     foreach( $neworder->neworder as $pos => $site_id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
@@ -39,7 +82,6 @@ $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename
  * response:
  */
 $app->get( '/entries/:language', function ( $language ) {
-
     $request = Slim::getInstance()->request();
 
     if( isAuthorrized( $request ) ) {
