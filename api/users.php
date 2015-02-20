@@ -99,6 +99,27 @@ $app->post( '/users/:id/sites', function ( $user_id ) {
 
 } );
 
+/**
+ * Delete one Site from list of Administrated sites of this user
+ *
+ * request:
+ * response:
+ */
+
+$app->delete( '/users/:user_id/sites/:language/:site_id', function ( $user_id, $language, $site_id ) {
+    $request = Slim::getInstance()->request();
+    checkAuthorization( $request );
+
+    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
+    try {
+        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+//    echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
+
+} );
+
 
 // updateAdmin
 $app->put( '/users', function () {

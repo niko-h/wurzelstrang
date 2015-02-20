@@ -260,9 +260,9 @@ $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $lan
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
 
-    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id;";
+    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
     try {
-        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id ] );
+        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
