@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once( '../config.php' );
 
@@ -56,6 +57,12 @@ function isSiteAdmin( $site_id, $language ) {
 $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename because of collision with /entries/:id
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+
+    if(!isAdmin()){
+        http_response_code( 401 );
+        echo json_encode( array( "error" => "Unauthorized" ) );
+        exit;
+    }
 
 
     $neworder = json_decode( $request->getBody() );

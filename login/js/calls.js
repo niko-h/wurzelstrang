@@ -259,7 +259,7 @@ dragMenu = function () {
             $.ajax({
                 type: 'PUT',
                 contentType: 'application/json',
-                url: rootURL + '/entries/neworder',
+                url: rootURL + '/entries/' + getLanguage() +'/neworder',
                 dataType: "json",
                 data: newOrderToJSON(order),
                 error: function (jqXHR, textStatus, errorThrown) {

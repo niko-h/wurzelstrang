@@ -4,6 +4,7 @@
  * API for Wurzelstrang CMS
  *
  **************************/
+session_start();
 
 //TODO: GET Suche
 
