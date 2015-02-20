@@ -216,14 +216,21 @@ $app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id
 
 /**
  * Add new Siteadmins
+ * POST /api/index.php/entries/en/2/siteadmins
  *
- * request:
- * response:
+ * request:  {"apikey":"apikey", "siteadmins":[4,5,6]}
+ * response: {"siteadmins":[4,5,6]}
  */
 $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
+
+    if( !is_int($site_id)){
+        http_response_code( 400 );
+        echo json_encode( array( "error" => "site_id should be an integer, url is /entries/:language/:site_id/siteadmins" ) );
+        exit;
+    }
 
     if( !$request_body->siteadmins ) {
         http_response_code( 400 );
