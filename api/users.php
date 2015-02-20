@@ -32,7 +32,7 @@ $app->get( '/users/:id', function ( $user_id ) {
     try {
         $result = fetchFromDB( $query, [ 'user_id' => $user_id ] )[ 0 ];
 
-        $siteadmin_query = 'select site_id from site_admins where user_id = :user_id';
+        $siteadmin_query = 'SELECT site_id FROM site_admins WHERE user_id = :user_id';
         $sites = fetchFromDB( $siteadmin_query, [ 'user_id' => $user_id ] );
         $result[ 'sites' ] = array();
         foreach( $sites as &$row ) {
@@ -63,16 +63,40 @@ $app->delete( '/users/:id', function ( $user_id ) {
 # TODO implement get sites
 # TODO implement delete sites
 
-// add sites to administrate
+/**
+ * Add new Sites this user adminstrates
+ * POST /api/index.php/users/2/sites
+ *
+ * request:  {"apikey":"apikey", "language":"en", "sites":[4,5,6]}
+ * response: {"language":"en", "sites":[4,5,6]}
+ */
 $app->post( '/users/:id/sites', function ( $user_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
-    $sites = json_decode( $request->post( 'sites' ) );
+    $request_body = json_decode( $request->getBody() );
 
-    foreach( $sites as &$site_id ) {
-        addSiteAdmin( $user_id, $site_id );
+    if( !$request_body->sites ) {
+        http_response_code( 400 );
+        echo json_encode( array( "error" => "sites missing" ) );
+        exit;
     }
-    #TODO implement propper error handling
+
+    if( !$request_body->language ) {
+        http_response_code( 400 );
+        echo json_encode( array( "error" => "language missing" ) );
+        exit;
+    }
+
+    foreach( $request_body->sites as $site_id ) {
+        $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
+        try {
+            updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $request_body->language ] );
+        } catch( PDOException $e ) {
+            /* TODO implement error handling */
+        }
+    }
+
+
 } );
 
 
