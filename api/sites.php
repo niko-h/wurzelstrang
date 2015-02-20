@@ -131,7 +131,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
  * request:
  * response:
  */
-$app->delete( '/entries/:language/:site_id', function ( $language, $site_id) {
+$app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
 
@@ -190,28 +190,27 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
  * request: {"apikey": APIKEY, "value": VALUE}
  * response: {"set":"FEATURE -> VALUE"}
  */
-function changeFeature($language, $site_id, $feature){
+function changeFeature( $language, $site_id, $feature ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
 
-    $query = "UPDATE sites SET ".$feature."=:value WHERE id=:id AND language = :language;";
+    $query = "UPDATE sites SET " . $feature . "=:value WHERE id=:id AND language = :language;";
     try {
         updateDB( $query, [ 'id' => $site_id, 'value' => $request_body->value, 'language' => $language ] );
-        echo json_encode(['set'=>$feature.' -> '.$request_body->value]);
+        echo json_encode( [ 'set' => $feature . ' -> ' . $request_body->value ] );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 }
 
 $app->put( '/entries/:language/:site_id/level', function ( $language, $site_id ) {
-    changeFeature($language,$site_id,'level');
+    changeFeature( $language, $site_id, 'level' );
 } );
 
 $app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id ) {
-    changeFeature($language,$site_id,'visible');
+    changeFeature( $language, $site_id, 'visible' );
 } );
-
 
 
 /**
@@ -226,7 +225,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
     checkAuthorization( $request );
     $request_body = json_decode( $request->getBody() );
 
-    if( !is_int($site_id)){
+    if( !is_numeric( $site_id ) ) {
         http_response_code( 400 );
         echo json_encode( array( "error" => "site_id should be an integer, url is /entries/:language/:site_id/siteadmins" ) );
         exit;
