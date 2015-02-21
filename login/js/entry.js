@@ -244,7 +244,7 @@ function renderSitePopup(site) {
     renderTemplateList('#templateSelector');
 
     $('.editpopuptitle').text(site.title + ' - Eigenschaften');
-    var list = sitelist.entries == null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
+    var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.editpopup-userlist li').remove();
     $.each(list, function (index, site) {
         $('.editpopup-userlist').append(
@@ -256,10 +256,10 @@ function renderSitePopup(site) {
         );
     });
 
-    var accesslist = site.siteadmins == null ? [] : (site.siteadmins instanceof Array ? site.siteadmins : [site.siteadmins]);
+    var accesslist = site.siteadmins === null ? [] : (site.siteadmins instanceof Array ? site.siteadmins : [site.siteadmins]);
     $.each(accesslist, function (index, access) {
         $('.editpopup-userlist input.editpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
-    })
+    });
 
     if ('1' === site.visible) {
         $('#visiblecheckbox').attr('checked', 'checked');
