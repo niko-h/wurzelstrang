@@ -824,19 +824,10 @@ input.input-search {
     padding: 6px 16px;
     border-radius: 4px;
     background-color: #f3f3f3;
-    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(200, 200, 200, 0.4));
-    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(200, 200, 200, 0.4));
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0.3)), to(rgba(200, 200, 200, 0.4)));
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(200, 200, 200, 0.4));
-    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(200, 200, 200, 0.4));
-    background-image: linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(200, 200, 200, 0.4));
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(255,255,255,0.3)', endColorstr='rgba(200,200,200,0.4)', GradientType=0);
     border: 1px solid #dadada;
     border-left: 1px solid #d2d2d2;
     border-right: 1px solid #d2d2d2;
     border-bottom-color: #a9a9a9;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
-    text-shadow: 0 1px 0px #ffffff;
 }
 
 .btn,
@@ -845,9 +836,7 @@ input.input-search {
 }
 
 .btn:hover {
-    filter: none;
     background: none;
-    text-shadow: 0 1px 0px rgba(255, 255, 255, 0.8);
     text-decoration: none;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
@@ -867,7 +856,8 @@ input.input-search {
     filter: none;
     background-color: #ddd;
     text-shadow: 0 1px 0px rgba(255, 255, 255, 0.8);
-    padding: 7px 17px 8px 17px;
+    padding: 7px 17px 7px 17px;
+    cursor: default;
 }
 
 /* Small */

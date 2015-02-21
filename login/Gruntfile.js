@@ -4,23 +4,13 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		concat: {
 	    	js: {
-	    		src: ['js/helpers.js', 'js/listeners.js', 'js/calls.js', 'js/renderers.js', 'js/toJSON.js', 'js/main.js'],
+	    		src: ['js/main.js', 'js/siteinfo.js', 'js/language.js', 'js/menu.js', 'js/user.js', 'js/entry.js', 'js/helpers.js'],
 	    		dest: 'static/js/ws.js',
 	    	},
 	    	css: {
 	    		src: ['css/kube.css', 'css/main.css', 'css/popup.css'],
 	    		dest: 'static/css/ws.min.css',
 	    	},
-		},
-		watch: {
-			js: {
-				files: ['js/**/*.js'],
-				tasks: ['concat:js', 'jshint:afterconcat'],
-			},
-			css: {
-				files: ['css/**/*.css'],
-				tasks: ['concat:css'],
-			},
 		},
 		jshint: {
     		beforeconcat: ['js/**/*.js'],
@@ -29,7 +19,9 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				mangle: true,
-				compress: true,
+				compress: {
+					drop_console: false // <- ENABLE for production
+				},
 				report: 'gzip',
 				sourceMap: 'static/js/ws.map.js'
 			},
@@ -39,8 +31,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
-
 		//csslint: {
 		//	lax: {
 		//		options: {
@@ -48,7 +38,17 @@ module.exports = function(grunt) {
 		//		},
 		//		src: ['css/main.css', 'css/popup.css']
 		//	}
-		//}
+		//},
+		watch: {
+			js: {
+				files: ['js/**/*.js'],
+				tasks: ['concat:js', 'jshint:beforeconcat', 'uglify'],
+			},
+			css: {
+				files: ['css/**/*.css'],
+				tasks: ['concat:css'],
+			},
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');

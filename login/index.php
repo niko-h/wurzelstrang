@@ -23,9 +23,6 @@ header( "Content-Type: text/html; charset=utf-8" );
     <script src="https://login.persona.org/include.js"></script>
     <!-- Load jQuery -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        path = <?php echo '"'.PATH.'"' ?>;
-    </script>
     <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="static/css/ws.min.css" media="all"/>
@@ -47,7 +44,7 @@ header( "Content-Type: text/html; charset=utf-8" );
                 <br><br><div class="success">Sie sind angemeldet als: ' . $_SESSION[ 'user' ]->email . '</div>';
 
     } else {
-        echo '<button name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
+        echo '<button href="#" name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
                 <br><br><div class="error">Sie sind abgemeldet</div>';
     }
     ?>

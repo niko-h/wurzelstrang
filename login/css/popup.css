@@ -29,27 +29,20 @@
 .popupoverflow .popup {
   display: inline-block;
   vertical-align: middle;
-  box-shadow: 0 0 8px #000;
   border: 0;
-  background: #eee;
   text-align: left;
   border-radius: 5px;
   position: relative;
-  margin: 20px;
-  padding: 10px;
   color: #000;
   max-width: 800px;
 }
-.popuphead {
-  margin: -10px -10px 15px -10px;
-  padding: 10px;
-  line-height: 27px;
-}
-.userpopuptitle {
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: 10px;
-}
 .closepopup {
   float: right;
+  padding: 5px 3px;
+  margin-top: -38px;
+  border-radius: 20px;
+}
+.popuplistlabel {
+  display: inline-block !important;
+  margin-left: 5px;
 }

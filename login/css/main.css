@@ -19,19 +19,37 @@ body {
 
 /* =Buttons
 -----------------------------------------------------------------------------*/
-.greenbtn, .greenbtn:hover {
+.greenbtn {
     border-color: #88DA88;
     background-color: #ccffcc;
 }
+.greenbtn:hover {
+    background-color: #ccffcc;
+}
+.greenbtn:active {
+    border-color: #356F35;   
+}
 
-.greybtn, .greybtn:hover {
+.greybtn {
     border-color: #aaa;
     background-color: #eee;
 }
+.greybtn:hover {
+    background-color: #eee;
+}
+.greybtn:active {
+    border-color: #0F0F0F;   
+}
 
-.redbtn, .redbtn:hover {
+.redbtn {
     border-color: #DA0000;
     background-color: #ffcccc;
+}
+.redbtn:hover {
+    background-color: #ffcccc;
+}
+.redbtn:active {
+    border-color: #4A0000;   
 }
 
 /* =Layout
@@ -90,15 +108,15 @@ div.head {
 }
 
 #logo + span + a {
-    text-shadow: 0 1px 0 #fff;
-    cursor: pointer;
+    /*text-shadow: 0 1px 0 #fff;
+    */cursor: pointer;
     color: #111;
     text-decoration: none;
 }
 
 #logo + span + a:hover {
     text-decoration: none;
-    text-shadow: 0 0 0 transparent;
+    /*text-shadow: 0 0 0 transparent;*/
 }
 
 #logo + span + a:hover:after {
@@ -128,13 +146,14 @@ a[id='prefbtn'] {
     margin-top: 20px;
 }
 
-#edit fieldset, #menu fieldset, #hello fieldset, #preferences fieldset {
+#edit fieldset, #menu fieldset, #hello fieldset, #preferences fieldset, .popup fieldset {
     border-radius: 6px;
     background: #eee;
     box-shadow: 0 0 8px #000;
+    padding: 1em 1em 0em 1em;
 }
 
-#prefsite fieldset, #prefuser fieldset, #prefadmin fieldset, #editpopup fieldset {
+#preferences fieldset fieldset, .popup fieldset fieldset {
     box-shadow: 0 0 0 transparent;
 }
 
@@ -144,14 +163,14 @@ a[id='prefbtn'] {
     }
 }
 
-#edit legend, #menu legend, #hello legend, #preferences legend {
+#edit legend, #menu legend, #hello legend, #preferences legend, .popup legend {
     background: #eee;
     border-radius: 5px;
     box-shadow: 0 -1px 0 #fff;
-    text-shadow: 0 1px 0 #fff;
+    /*text-shadow: 0 1px 0 #fff;*/
 }
 
-#prefsite legend, #prefuser legend, #prefadmin legend {
+#preferences fieldset fieldset legend, .popup fieldset fieldset legend {
     box-shadow: 0 0 0 transparent;
 }
 
@@ -218,10 +237,6 @@ a#menu-help-btn {
     border-color: #444;
 }
 
-#menu li:hover span.tooltip {
-    margin: -21px 0 0 225px;
-}
-
 #menu li span.menu-id,
 #menu li:hover span.menu-id {
     display: none;
@@ -259,8 +274,13 @@ a.smallMenulink {
     margin-left: 4px;
 }
 
-#menu_list .addChild-Button {
+.addChild-Button {
     width: 9px;
+    position: relative;
+}
+.addChild-Button .tooltip {
+    left: 25px;
+    top: 4px;
 }
 
 #menu_list li .dragger {
@@ -354,10 +374,6 @@ a.smallMenulink {
     float: right;
 }
 
-#edit fieldset, #hello fieldset, #preferences fieldset {
-    padding: 1em 1em 0em 1em;
-}
-
 /* =preferences
 -----------------------------------------------------------------------------*/
 
@@ -380,7 +396,7 @@ a.smallMenulink {
 }
 
 span#level {
-    height: 14px;
+    height: 13px;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #999;
     box-shadow: 0 1px #ccc;
@@ -439,8 +455,8 @@ span.tooltip-left {
     background: #777;
     border: none;
     line-height: 22px;
-    text-shadow: 0 1px 1px #444;
-    white-space: nowrap;
+    /*text-shadow: 0 1px 1px #444;
+    */white-space: nowrap;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
     -webkit-border-bottom-right-radius: 3px;
@@ -472,52 +488,18 @@ span.tooltip::after {
     box-shadow: inset 0 1px 1px #000;
 }
 
-span.tooltip span,
-span.tooltip-left span {
+span.tooltip span {
     margin: 0 !important;
-    text-shadow: 0 1px 0 #000;
-}
-
-span.tooltip-left {
-    padding: 0 9px 0 7px;
-    -webkit-border-top-right-radius: 0;
-    border-top-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    border-bottom-right-radius: 0;
-    -webkit-border-top-left-radius: 3px;
-    border-top-left-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-span.tooltip-left:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -10px;
-    float: right;
-    width: 0;
-    height: 0;
-    border-width: 11px 0 11px 10px;
-    border-style: solid solid solid solid;
-    border-color: transparent transparent transparent #777;
-}
-
-span.tooltip-left::before {
-    content: "";
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #fff;
-    top: 8px;
-    right: -1px;
-    border-radius: 50%;
-    box-shadow: inset 0 1px 1px #000;
+    /*text-shadow: 0 1px 0 #000;*/
 }
 
 /*remove ckeditor shadow*/
 .cke_chrome {
     box-shadow: 0 0 0 #000 !important;
+}
+
+.forms.columnar legend {
+    margin-bottom: 0;
 }
 
 /* =Codemirror

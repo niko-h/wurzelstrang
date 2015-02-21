@@ -16,7 +16,7 @@
 		</ol>
 		<p>Viel Erfolg.</p>
 		<span id="gap"></span>
-		<span id="footer"><a class="btn" href="http://niko-h.github.com/wurzelstrang/" target="_blank">
+		<span id="footer"><a class="btn greybtn" href="http://niko-h.github.com/wurzelstrang/" target="_blank">
 			Diese Seite basiert auf Wurzelstrang CMS
 		</a></span>
 	</fieldset>
