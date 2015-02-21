@@ -4,13 +4,32 @@
  *
  *********************************/
 
-onLoad = function () {
+init = function () {                 // Called at the bottom. Initialize listeners.
+    console.log('init');
+    $('#logo').click(linkhello);
+    $('#linknew').click(linknew);
+    $('#prefbtn').click(prefbtn);
+    $('#lang-sel').change(langsel);
+    $('.closepopup').click(closepopup);
+    $('.popupoverflow').click(closepopup);
+    $('.popup').click(function (e) {
+        e.stopPropagation();
+    });
+    $('#submitlangbtn').click(submitnewlang);
+    $('#updatesiteinfobtn').click(updatesiteinfobtn);
+    $('#siteprefsbtn').click(editsitebtn);
+    // $('#updateadminbtn').click(updateadminbtn);
+    // $('#submituserbtn').click(submitnewusrbtn);
+};
+
+onLoad = function () {                     // Load once everything is ready
+    console.log('onLoad');
     $("#loader").hide();
     linkhello();                           // load hello screen
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
-    getAll();                              // get itemes for menu
+    getAllSiteNames();                     // get itemes for menu
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
     getTemplates();                        // get list of available templates
@@ -26,14 +45,6 @@ onLoad = function () {
  * Variables
  ***********/
 
-var currentEntry;
-var templates;
-var languages;
-var sitelist;
-var user;
-var siteinfo;
 var rootURL = '../api/index.php';
-var newPos = null;
-var newLevel = 0;
 var langSelected = getLanguage();
 

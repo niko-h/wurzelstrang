@@ -90,15 +90,25 @@ header( "Content-Type: text/html; charset=utf-8" );
     <div id="menu">
         <fieldset>
             <legend>Seiten</legend>
-            <div class="menuhead row">
-                <a href="#" id="linknew" class="btn greenbtn bold"><i class="icon-pencil"></i> Neue Seite</a>
-            </div>
+            <?php
+                if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                    echo '<div class="menuhead row">
+                            <a href="#" id="linknew" class="btn greenbtn bold"><i class="icon-pencil"></i> Neue Seite</a>
+                          </div>';
+                }
+            ?>
             <div id="menu_list_div">
                 <ul id="menu_list">
                     <!-- Here comes the Menuitems -->
                 </ul>
-                <span id="menu_list_help"><i class="icon-angle-up"></i> Klicken zum bearbeiten<span
-                        class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i></span>
+                <span id="menu_list_help">
+                    <i class="icon-angle-up"></i> Klicken zum bearbeiten
+                    <?php
+                        if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                            echo '<span class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i>';
+                        }
+                    ?>
+                </span>
             </div>
         </fieldset>
     </div>
@@ -129,7 +139,6 @@ header( "Content-Type: text/html; charset=utf-8" );
                                                         <i class="icon-cog"></i> Eigenschaften
                                                     </button>
                                                   </li>';
-                                            require_once( 'templates/ws-edit-popup/index.php' );
                                         }
                                     ?>
                                 </li>
@@ -152,18 +161,19 @@ header( "Content-Type: text/html; charset=utf-8" );
                                       <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
                                     </span>
                                 </li>
-
-                                <li class="push-right">
-                                    <input type="hidden" id="entryId" value="">
-                                    <button type="submit" id="deletebutton" class="btn redbtn"
-                                            name="deletebutton"></button>
-                                </li>
+                                <input type="hidden" id="entryId" value="">
                             </ul>
                         </li>
                     </ul>
                 </fieldset>
             </form>
         </div>
+
+        <?php
+            if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                require_once( 'templates/ws-edit-popup/index.php' );
+            }
+        ?>
 
         <div id="preferences" class="rightpanel">
             <?php require_once( 'templates/ws-settings/index.php' ); ?>
@@ -200,18 +210,15 @@ header( "Content-Type: text/html; charset=utf-8" );
 
 <script type="text/javascript" src="lib/kube.buttons.js"></script>
 
-<script type="text/javascript" src="static/js/ws.min.js"></script>
+<script type="text/javascript" src="static/js/ws.js"></script>
 
 <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
 <script type="text/javascript"> 
-    var ws_debug = <?php echo defined('DEBUG') && DEBUG?'true':'false'; ?>;
-    if (!ws_debug) { console.log = function() {}; }
-
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
-
+    var isadmin = <?php if(isadmin( $_SESSION[ 'user' ]->email )) echo "true"; ?>;
     onLoad(); 
 </script>
 

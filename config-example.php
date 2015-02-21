@@ -39,17 +39,10 @@ define( 'APIKEY', 'apikey' );
  */
 define( 'HTTPS', TRUE );
 
-
-
 /***
  * ENGLISH  DEFAULT_LANGUAGE lets you define the name of your first content-language.
  *          Please be aware that the user-interface still is german only.
  */
 define( 'DEFAULT_LANGUAGE', 'de' );
-
-/***
- * ENGLISH  DEBUG enables JS-Console Output. Disabled per default.
- */
-define( 'DEBUG', TRUE );
 
 ?>

@@ -6,8 +6,7 @@
     padding-top: 15px;
     background: #eee;
     color: #111;
-    box-shadow: 0px 0px 550px rgba(255, 255, 255, 0.5);
-    text-shadow: 0px 1px 0px #fff;
+    box-shadow: 0 0 8px #000, 0px 0px 550px rgba(255, 255, 255, 0.5);
     text-align: center;
 }
 

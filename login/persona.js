@@ -32,7 +32,9 @@ $(function () {
                 {logout: 1},
                 function (msg) {
                     //alert(msg+'logout');//debug
-                    if (window.location.pathname != path + "/login/index.php") {
+                    var path = window.location.pathname
+                    var suffix = "/login/index.php";
+                    if (path.indexOf(suffix, path.length - suffix.length) === -1 ) {
                         navigator.id.logout();
                         window.location = "index.php";
                     }
