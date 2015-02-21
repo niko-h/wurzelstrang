@@ -12,7 +12,7 @@ init = function () {                 // Called at the bottom. Initialize listene
     $('#lang-sel').change(langsel);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
-    $('.popupcontent').click(function (e) {
+    $('.popup').click(function (e) {
         e.stopPropagation();
     });
     $('#submitlangbtn').click(submitnewlang);
@@ -29,7 +29,7 @@ onLoad = function () {                     // Load once everything is ready
     getAdmin();                            // get admin info
     getUsers();                            // get users info 
     getSiteInfo();                         // get site info
-    getAllSiteNames();                              // get itemes for menu
+    getAllSiteNames();                     // get itemes for menu
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
     getTemplates();                        // get list of available templates

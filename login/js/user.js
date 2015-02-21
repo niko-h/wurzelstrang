@@ -176,10 +176,11 @@ function renderUser(user, userid) {
     $.each(list, function (index, site) {
         $('.userpopup-sitelist').append(
             $('<li>').append(
-                $('<label>').addClass('bold').text(site.title)
-            ).append(
                 $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id)
-            )
+	            .after(
+	                $('<label>').addClass('bold popuplistlabel').text(site.title)
+	            )
+	        )
         );
     });
 
