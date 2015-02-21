@@ -4,7 +4,9 @@
  * API for Wurzelstrang CMS
  *
  **************************/
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 //TODO: GET Suche
 
@@ -194,7 +196,6 @@ include_once( 'users.php' );
  */
 function isAuthorrized( $request ) {
     if( $request->isGet() ) {
-        error_log( $_GET[ 'apikey' ] );
         if( isset( $_GET[ 'apikey' ] ) && $_GET[ 'apikey' ] == APIKEY ) {
             return TRUE;
         }

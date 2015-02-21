@@ -9,7 +9,9 @@
  *
  *****************/
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require( '../config.php' );  // config file
 
 // If SSL is not configured, deny usage
@@ -62,7 +64,9 @@ header( "Content-Type: text/html; charset=utf-8" );
 </head>
 
 <body>
-
+<?php
+//print_r(session_save_path());
+?>
 <div class="head row">
     <div class="wrapper">
         <a id="logo" href="#" target="_self"><span class="tooltip"><span>Wurzelstrang Start</span></span></a>

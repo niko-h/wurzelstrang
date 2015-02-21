@@ -69,7 +69,7 @@ if( file_exists( $db_file ) ) {
     if( !is_writable( dirname( $db_file ) ) || !is_executable( dirname( $db_file ) ) ) {
         die( $db_file . ' is not writable!' );
     }
-    if( !is_writable( $uploads_folder ) || !is_executable( $uploads_folder) ) {
+    if( !is_writable( $uploads_folder ) || !is_executable( $uploads_folder ) ) {
         die( $uploads_folder . ' is not writable!' );
     }
 
@@ -121,7 +121,7 @@ if( file_exists( $db_file ) ) {
 
                   CREATE TABLE IF NOT EXISTS users(
                     id            INTEGER PRIMARY KEY AUTOINCREMENT,
-                    user_email    TEXT,
+                    user_email    TEXT NOT NULL,
                     admin         BOOLEAN,
                     CONSTRAINT users_unique UNIQUE (user_email)
                   );
@@ -130,6 +130,8 @@ if( file_exists( $db_file ) ) {
                     user_id       INTEGER,
                     site_id       INTEGER,
                     language      TEXT,
+                    FOREIGN KEY (user_id) REFERENCES users(id),
+                    FOREIGN KEY (site_id) REFERENCES sites(id),
                     CONSTRAINT site_admin_unique UNIQUE (user_id, site_id, language)
                   );
 

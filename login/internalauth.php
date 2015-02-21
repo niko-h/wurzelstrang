@@ -7,30 +7,38 @@ require_once( '../api/db.php' );
 /**
  * isadmin - is given email-adress registered as admin in the database?
  */
-function isadmin( $mailin ) { // mailadress to check
+function isAdmin() {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
     try {
-        $query = 'SELECT user_email FROM users WHERE user_email = :mail AND admin = 1 LIMIT 1;';
-        $result = fetchFromDB( $query, [ 'mail' => $mailin ] );
-        if( sizeof( $result ) > 0 ) {
-            return $result[ 0 ][ 'user_email' ];
-        } else {
-            return [ ];
-        }
+        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 1;';
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
+
+        return $result[ 0 ][ 'count' ] > 0;
     } catch( PDOException $e ) {
         echo 'error:' . $e->getMessage();
+
+        return FALSE;
     }
 }
 
 /**
  * isuser - is given email-adress registered in the database?
  */
-function isuser( $mailin ) { // mailadress to check
+function isuser() {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
     try {
-        $query = 'SELECT user_email FROM users WHERE user_email = :mail AND admin = 0 LIMIT 1;';
+        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 0;';
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
 
-        return fetchFromDB( $query, [ 'mail' => $mailin ] )[ 0 ][ 'user_email' ];
+        return $result[ 0 ][ 'count' ] > 0;
     } catch( PDOException $e ) {
         echo 'error:' . $e->getMessage();
+
+        return FALSE;
     }
 }
 
@@ -41,7 +49,7 @@ function isuser( $mailin ) { // mailadress to check
 if( !isset( $_SESSION[ 'user' ]->email ) ) {
     $_SESSION[ 'error' ] = 'Sie wurden abgemeldet.';
     logout();
-} else if( isadmin( $_SESSION[ 'user' ]->email ) == FALSE && isuser( $_SESSION[ 'user' ]->email ) == FALSE ) {
+} else if( !isAdmin() && !isuser() ) {
     $_SESSION[ 'error' ] = 'Sie wurden abgemeldet.';
     logout();
 } else if( isset( $_GET[ 'logout' ] ) ) {

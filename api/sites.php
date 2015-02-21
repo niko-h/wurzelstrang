@@ -1,52 +1,12 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once( '../config.php' );
+include_once( 'siteadmins.php' );
 
 /* TODO: add request and response examples */
-
-/* helper */
-function isAdmin() {
-    if( !isset( $_SESSION[ 'user' ] ) ) {
-        return FALSE;
-    }
-    try {
-        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 1;';
-        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
-
-        return $result[ 0 ][ 'count' ] > 0;
-    } catch( PDOException $e ) {
-        echo 'error:' . $e->getMessage();
-
-        return FALSE;
-    }
-}
-
-function isSiteAdmin( $site_id, $language ) {
-    if( !isset( $_SESSION[ 'user' ] ) ) {
-        return FALSE;
-    }
-    try {
-        $query = 'SELECT count(*) AS count
-                  FROM site_admins s
-                  LEFT JOIN users u ON s.user_id = u.id
-                  WHERE
-                    u.user_email = :user_email AND
-                    s.site_id = :site_id AND
-                    s.language = :language;';
-
-        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email,
-                                         'site_id'    => $site_id,
-                                         'language'   => $language ] );
-
-        return $result[ 0 ][ 'count' ] > 0;
-    } catch( PDOException $e ) {
-        echo 'error:' . $e->getMessage();
-
-        return FALSE;
-    }
-}
-
 
 /**
  * Changes order of elements
@@ -58,12 +18,7 @@ $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
 
-    if(!isAdmin()){
-        http_response_code( 401 );
-        echo json_encode( array( "error" => "Unauthorized" ) );
-        exit;
-    }
-
+    checkForAdmin();
 
     $neworder = json_decode( $request->getBody() );
     foreach( $neworder->neworder as $pos => $site_id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
@@ -114,6 +69,8 @@ $app->get( '/entries/:language', function ( $language ) {
 $app->post( '/entries/:language', function ( $language ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+    checkForAdmin();
+
     $entry = json_decode( $request->getBody() );
 
     $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
@@ -183,6 +140,8 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
 $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+    checkForAdmin();
+
 
     $query = 'DELETE FROM sites WHERE id = :id AND language = :language;';
     try {
@@ -208,6 +167,13 @@ $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
 $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+
+    if(!isSiteAdmin( $site_id, $language ) && !isAdmin()){
+            http_response_code( 401 );
+            echo json_encode( array( "error" => "Unauthorized" ) );
+            exit;
+    }
+
     $request_body = json_decode( $request->getBody() );
 
     $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id AND language=:language;";
@@ -272,6 +238,8 @@ $app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id
 $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+    checkForAdmin();
+
     $request_body = json_decode( $request->getBody() );
 
     if( !is_numeric( $site_id ) ) {
@@ -308,6 +276,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
 $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $language, $site_id, $user_id ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+    checkForAdmin();
 
     $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
     try {
@@ -395,4 +364,3 @@ $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $lan
 //} );
 
 
-include_once( 'siteadmins.php' );

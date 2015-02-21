@@ -1,5 +1,58 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+/* helper */
+function isAdmin() {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
+    try {
+        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 1;';
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
+
+        return $result[ 0 ][ 'count' ] > 0;
+    } catch( PDOException $e ) {
+        echo 'error:' . $e->getMessage();
+
+        return FALSE;
+    }
+}
+
+function checkForAdmin(){
+    if(!isAdmin()){
+        http_response_code( 401 );
+        echo json_encode( array( "error" => "Unauthorized" ) );
+        exit;
+    }
+}
+
+function isSiteAdmin( $site_id, $language ) {
+    if( !isset( $_SESSION[ 'user' ] ) ) {
+        return FALSE;
+    }
+    try {
+        $query = 'SELECT count(*) AS count
+                  FROM site_admins s
+                  LEFT JOIN users u ON s.user_id = u.id
+                  WHERE
+                    u.user_email = :user_email AND
+                    s.site_id = :site_id AND
+                    s.language = :language;';
+
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email,
+                                         'site_id'    => $site_id,
+                                         'language'   => $language ] );
+
+        return $result[ 0 ][ 'count' ] > 0;
+    } catch( PDOException $e ) {
+        echo 'error:' . $e->getMessage();
+
+        return FALSE;
+    }
+}
 
 /*
  * Site Admins
@@ -7,6 +60,7 @@ session_start();
 function getSiteAdmins( $site_id, $language ) {
     $request = Slim::getInstance()->request();
     checkAuthorization( $request );
+    checkForAdmin();
 
     $db = getConnection();
     $stmt = $db->prepare( "SELECT user_id FROM site_admins WHERE site_id = :site_id AND language = :language" );

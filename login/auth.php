@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if( session_status() == PHP_SESSION_NONE ) {
+    session_start();
+}
 require( '../config.php' );  // config file
 
 // If SSL is not configured, deny usage
@@ -56,12 +58,16 @@ if( isset( $_POST[ 'logout' ] ) ) {
  * answer to persona.js
  */
 include( 'internalauth.php' );
-if( isadmin( $_SESSION[ 'user' ]->email ) == TRUE || isuser( $_SESSION[ 'user' ]->email ) == TRUE ) {
+if( isAdmin() || isuser() ) {
     echo 'yes';
 } else if( !isset( $_SESSION[ 'user' ] ) ) {
-    session_destroy();
+    error_log( '!isset( $_SESSION[ \'user\' ] ): ' . print_r( $_SESSION, TRUE ) );
+    if( session_status() == PHP_SESSION_ACTIVE ) {
+        session_destroy();
+    }
     echo 'no';
 } else {
+    error_log( '$_SESSION: ' . print_r( $_SESSION, TRUE ) );
     session_destroy();
     echo 'no';
 }
