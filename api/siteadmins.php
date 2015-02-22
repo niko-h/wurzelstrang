@@ -59,7 +59,7 @@ function isSiteAdmin( $site_id, $language ) {
  */
 function getSiteAdmins( $site_id, $language ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     checkForAdmin();
 
     $db = getConnection();

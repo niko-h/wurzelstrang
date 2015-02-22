@@ -16,7 +16,7 @@ include_once( 'siteadmins.php' );
  */
 $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename because of collision with /entries/:id
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
 
     checkForAdmin();
 
@@ -68,7 +68,7 @@ $app->get( '/entries/:language', function ( $language ) {
  */
 $app->post( '/entries/:language', function ( $language ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     checkForAdmin();
 
     $entry = json_decode( $request->getBody() );
@@ -139,7 +139,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
  */
 $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     checkForAdmin();
 
 
@@ -166,7 +166,7 @@ $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
  */
 $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
 
     if(!isSiteAdmin( $site_id, $language ) && !isAdmin()){
             http_response_code( 401 );
@@ -207,7 +207,7 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
  */
 function changeFeature( $language, $site_id, $feature ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     $request_body = json_decode( $request->getBody() );
 
     $query = "UPDATE sites SET " . $feature . "=:value WHERE id=:id AND language = :language;";
@@ -237,7 +237,7 @@ $app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id
  */
 $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     checkForAdmin();
 
     $request_body = json_decode( $request->getBody() );
@@ -275,7 +275,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
  */
 $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $language, $site_id, $user_id ) {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     checkForAdmin();
 
     $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";

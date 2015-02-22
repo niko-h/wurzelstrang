@@ -129,7 +129,7 @@ $app->put( '/siteinfo', function () {
 
 $app->post( '/siteinfo', function () {
     $request = Slim::getInstance()->request();
-    checkAuthorization( $request );
+    checkApiToken( $request );
     $request_body = json_decode( $request->getBody() );
 
     try {
@@ -166,7 +166,7 @@ $app->get(
     '/availableTemplates',
     function () {
         $request = Slim::getInstance()->request();
-        checkAuthorization( $request );
+        checkApiToken( $request );
 
         // Templatedir
         $templatedir = "../login/templates";
@@ -213,7 +213,7 @@ function isAuthorrized( $request ) {
     return FALSE;
 }
 
-function checkAuthorization( $request ) {
+function checkApiToken( $request ) {
     if( !isAuthorrized( $request ) ) {
         header( "HTTP/1.0 401 Unauthorized" );
         exit;
