@@ -130,16 +130,16 @@ header( "Content-Type: text/html; charset=utf-8" );
                     <legend id="editlegend"></legend>
                     <ul>
                         <li>
-                            <ul class="multicolumn">
-                                <li>
+                            <ul class="row">
+                                <li class="twothird">
                                     <label for="title" class="bold">Titel</label>
-                                    <input id="title" type="text" name="title" required placeholder="Titel" value="">
+                                    <input id="title" type="text" class="width-100" name="title" required placeholder="Titel" value="">
                                 </li>
-                                <li class="push site-pref-container">
+                                <li class="push-right site-pref-container">
                                     <?php
                                         if( $isadmin ) {
                                             echo '<label>&nbsp;</label>
-                                                    <button id="siteprefsbtn" class="btn">
+                                                    <button class="btn editsitebutton">
                                                         <i class="icon-cog"></i> Eigenschaften
                                                     </button>';
                                             require_once( 'templates/ws-site-prefs/site-prefs.php' );
@@ -154,7 +154,7 @@ header( "Content-Type: text/html; charset=utf-8" );
                         <li>
                             <ul class="multicolumn">
                                 <li class="third">
-                                    <button type="submit" id="submitbutton" class="btn greenbtn"><i
+                                    <button type="submit" class="btn greenbtn submitsitebutton"><i
                                             class="icon-pencil"></i> Speichern
                                     </button>
                                 </li>
@@ -165,6 +165,10 @@ header( "Content-Type: text/html; charset=utf-8" );
                 </fieldset>
             </form>
         </div>
+
+        <?php if( $isadmin ) {
+            require_once( 'templates/ws-site-prefs/site-admins-popup.php' );
+        } ?>
 
         <div id="preferences" class="rightpanel">
             <?php if( $isadmin ) {

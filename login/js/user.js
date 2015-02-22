@@ -66,7 +66,7 @@ function putAdmin() {
     });
 }
 
-function getUsers() {
+function getUsers(callback) {
     $.ajax({
         type: 'GET',
         url: rootURL + '/users?apikey=' + apikey,
@@ -74,7 +74,7 @@ function getUsers() {
         success: function (data) {
             $('#deletebutton').show();
             console.log('getUsers success');
-            renderUserList(data);
+            callback(data);
         }
     });
 }
@@ -89,7 +89,7 @@ function postUser() {
         success: function () {
             console.log('postUser success');
             fade('#savedfade');
-            getUsers();
+            getUsers(renderUserList);
             $('#newuseremail').val("");
         },
         error: function (jqXHR) {
@@ -97,7 +97,7 @@ function postUser() {
                 alert('Dieser Nutzer existiert bereits.');
             }
             console.log('postUser error: ' + jqXHR.responseText);
-            getUsers();
+            getUsers(renderUserList);
             $('#newuseremail').val("");
         }
     });
@@ -128,7 +128,7 @@ function deleteUser(user) {
         success: function () {
             console.log('deleteUsersuccess: ' + user);
             fade('#deletedfade');
-            getUsers();
+            getUsers(renderUserList);
         },
         error: function () {
             alert('deleteUser error: ' + $('#user').val());

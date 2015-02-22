@@ -20,9 +20,6 @@ function closepopup() {
 
 function linknew() {
     showRight('edit');
-    $('#deletebutton').hide();
-    $('#siteprefsbtn').hide();
-    $('#leveloption').hide();
     newEntry();
     return false;
 }

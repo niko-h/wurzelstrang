@@ -3,30 +3,22 @@
     <link rel="stylesheet" type="text/css" href="templates/ws-site-prefs/style.css"/>
 </head>
 <body>
-  <div id="editpopup" class="popupoverflow editpopup">
+  <div class="popupoverflow editsiteadminspopup">
     <div class="popup">
       <form id="prefsite" action="javascript:void(0);" class="forms">
         <fieldset>
-          <legend class="editpopuptitle"></legend>
+          <legend class="editsiteadminspopuptitle">Folgende Nutzer dürfen bearbeiten</legend>
           
             <a href="#" class="closepopup btn redbtn"><i class="icon-cancel"></i></a>
           
           <ul>
             <li>
-              <fieldset>
-                <legend>Folgende Nutzer dürfen bearbeiten</legend>
-                <ul class="sitepopup-userlist">
-                  <!-- Here comes the Userlist -->
-                </ul>
-              </fieldset>
+              <ul class="editsiteadminspopup-userlist">
+                <!-- Here comes the Userlist -->
+              </ul>
             </li>
             <li>
-              <ul class="row">
-                <li class="half">
-                    <button type="submit" id="submitsiteprefs" class="btn greenbtn"><i class="icon-pencil"></i> Speichern
-                    </button>
-                </li>
-              </ul>
+              <button type="submit" id="submitsiteadmins" class="btn greenbtn"><i class="icon-pencil"></i> Speichern</button>
             </li>
           </ul>
         </fieldset>

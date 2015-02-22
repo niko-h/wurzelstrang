@@ -6,19 +6,17 @@
   <ul class="forms columnar full-width site-prefs">
     <li>
         <label class="bold">Berechtigungen</label>
-        <button name="show-siteadmin-popup" id="showsiteaminpopup" class="btn"><i class="icon-user"></i> Anzeigen</button>
+        <button name="show-siteadmin-popup" class="showsiteaminpopup btn"><i class="icon-user"></i> Anzeigen</button>
     </li>
     <li>
       <label class="bold">Template</label>
       <select id="templateSelector" name="templateSelector"></select>
     </li>
-    <br>
     <li>
       <label for="visiblecheckbox" class="bold">Anzeigen</label>
       <input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" />
     </li>
-    <br>
-    <li class="third" id="leveloption">
+    <li id="leveloption">
       <label class="bold">Ebene</label>
       <span class="btn-group">
         <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
