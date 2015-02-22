@@ -55,8 +55,11 @@ $app->get( '/entries/:language', function ( $language ) {
         $result = array();
         $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
         foreach( $contentitems as $site ) {
-            $site[ 'editable' ] = isSiteAdmin( $site['id'], $language );
-            array_push( $result, $site );
+            $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
+            /* only return sites that can be edited */
+            if( isSiteAdmin( $site[ 'id' ], $language ) ) {
+                array_push( $result, $site );
+            }
         }
         echo '{"entries": ' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
