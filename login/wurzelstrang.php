@@ -29,6 +29,7 @@ if(!isset($_COOKIE['DEFAULT_LANGUAGE'])) {
 }
 
 require_once( 'internalauth.php' );  // database authorization
+$isadmin = isAdmin();
 
 // Themedir
 $themedir = "../themes/";
@@ -64,7 +65,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 </head>
 
 <body>
-<?php
+<?php 
 //print_r(session_save_path());
 ?>
 <div class="head row">
@@ -75,7 +76,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 
         <div class="push-right">
             <span class="head-separator"></span>
-            <?php if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+            <?php if( isAdmin() ) {
                 echo '<a id="prefbtn" class="btn greybtn" href="#"><i class="icon-cog"></i> Einstellungen</a>';
             } ?>
             <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn"><i class="icon-off"></i> Abmelden</a>
@@ -95,7 +96,7 @@ header( "Content-Type: text/html; charset=utf-8" );
         <fieldset>
             <legend>Seiten</legend>
             <?php
-                if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                if( $isadmin ) {
                     echo '<div class="menuhead row">
                             <a href="#" id="linknew" class="btn greenbtn bold"><i class="icon-pencil"></i> Neue Seite</a>
                           </div>';
@@ -108,7 +109,7 @@ header( "Content-Type: text/html; charset=utf-8" );
                 <span id="menu_list_help">
                     <i class="icon-angle-up"></i> Klicken zum bearbeiten
                     <?php
-                        if( isadmin( $_SESSION[ 'user' ]->email ) ) {
+                        if( $isadmin ) {
                             echo '<span class="head-separator"></span>Ziehen zum anordnen <i class="icon-angle-up"></i>';
                         }
                     ?>
@@ -134,36 +135,28 @@ header( "Content-Type: text/html; charset=utf-8" );
                                     <label for="title" class="bold">Titel</label>
                                     <input id="title" type="text" name="title" required placeholder="Titel" value="">
                                 </li>
-                                <li>
+                                <li class="push site-pref-container">
                                     <?php
-                                        if( isadmin( $_SESSION[ 'user' ]->email ) ) {
-                                            echo '<li class="push">
-                                                    <label>&nbsp;</label>
+                                        if( $isadmin ) {
+                                            echo '<label>&nbsp;</label>
                                                     <button id="siteprefsbtn" class="btn">
                                                         <i class="icon-cog"></i> Eigenschaften
-                                                    </button>
-                                                  </li>';
+                                                    </button>';
+                                            require_once( 'templates/ws-site-prefs/site-prefs.php' );
                                         }
                                     ?>
                                 </li>
-                            </ul>
+                            </ul>                                 
                         </li>
                         <li id="edit_main" class="main-editor-li">
                             <!-- Template here -->
                         </li>
                         <li>
-                            <ul class="row">
+                            <ul class="multicolumn">
                                 <li class="third">
                                     <button type="submit" id="submitbutton" class="btn greenbtn"><i
                                             class="icon-pencil"></i> Speichern
                                     </button>
-                                </li>
-                                <li class="third" id="leveloption">
-                                    <span class="btn-group">
-                                      <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
-                                      <span class="btn disabled" id="level">Ebene <span id="levelcount"></span></span>
-                                      <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
-                                    </span>
                                 </li>
                                 <input type="hidden" id="entryId" value="">
                             </ul>
@@ -173,14 +166,10 @@ header( "Content-Type: text/html; charset=utf-8" );
             </form>
         </div>
 
-        <?php
-            if( isadmin( $_SESSION[ 'user' ]->email ) ) {
-                require_once( 'templates/ws-edit-popup/index.php' );
-            }
-        ?>
-
         <div id="preferences" class="rightpanel">
-            <?php require_once( 'templates/ws-settings/index.php' ); ?>
+            <?php if( $isadmin ) {
+                require_once( 'templates/ws-settings/index.php' );
+            } ?>
         </div>
 
         <div id="savedfade" class="fade greenfde">Gespeichert</div>
@@ -222,7 +211,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 
 <script type="text/javascript"> 
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
-    var isadmin = <?php if(isadmin( $_SESSION[ 'user' ]->email )) echo "true"; ?>;
+    var isadmin = <?php if( $isadmin ) { echo "true"; } else { echo "false"; } ?>;
     onLoad(); 
 </script>
 
