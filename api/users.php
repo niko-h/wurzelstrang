@@ -12,7 +12,7 @@ require_once( 'siteadmins.php' );
 // getUser
 $app->get( '/users', function () {
     checkApiToken( Slim::getInstance()->request() );
-    checkForAdmin();
+    exitIfNotAdmin();
 
 
     if( isset( $_GET[ 'admin' ] ) && $_GET[ 'admin' ] == 1 ) {
@@ -32,7 +32,7 @@ $app->get( '/users', function () {
 // get user info
 $app->get( '/users/:id', function ( $user_id ) {
     checkApiToken( Slim::getInstance()->request() );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $query = 'SELECT user_email FROM users WHERE id = :user_id;';
 
@@ -57,7 +57,7 @@ $app->get( '/users/:id', function ( $user_id ) {
 $app->delete( '/users/:id', function ( $user_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
 
     $query = 'DELETE FROM users WHERE id = :user_id AND admin != 1;';
@@ -82,7 +82,7 @@ $app->delete( '/users/:id', function ( $user_id ) {
 $app->post( '/users/:id/sites', function ( $user_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $request_body = json_decode( $request->getBody() );
 
@@ -120,7 +120,7 @@ $app->post( '/users/:id/sites', function ( $user_id ) {
 $app->delete( '/users/:user_id/sites/:language/:site_id', function ( $user_id, $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
 
     $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
@@ -138,7 +138,7 @@ $app->delete( '/users/:user_id/sites/:language/:site_id', function ( $user_id, $
 $app->put( '/users', function () {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $user = json_decode( $request->getBody() );
 
@@ -155,7 +155,7 @@ $app->put( '/users', function () {
 $app->post( '/users', function () {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $user = json_decode( $request->getBody() );
 

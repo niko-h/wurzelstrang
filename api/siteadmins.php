@@ -21,7 +21,7 @@ function isAdmin() {
     }
 }
 
-function checkForAdmin() {
+function exitIfNotAdmin() {
     if( !isAdmin() ) {
         http_response_code( 401 );
         echo json_encode( array( "error" => "Unauthorized" ) );
@@ -62,7 +62,7 @@ function isSiteAdmin( $site_id, $language ) {
 function getSiteAdmins( $site_id, $language ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $db = getConnection();
     $stmt = $db->prepare( "SELECT user_id FROM site_admins WHERE site_id = :site_id AND language = :language" );

@@ -18,7 +18,7 @@ $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
 
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $neworder = json_decode( $request->getBody() );
     foreach( $neworder->neworder as $pos => $site_id ) {       // jedes item aus dem array wird zu einem key:value umgeformt
@@ -77,7 +77,7 @@ $app->get( '/entries/:language', function ( $language ) {
 $app->post( '/entries/:language', function ( $language ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $entry = json_decode( $request->getBody() );
 
@@ -148,7 +148,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
 $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
 
     $query = 'DELETE FROM sites WHERE id = :id AND language = :language;';
@@ -246,7 +246,7 @@ $app->put( '/entries/:language/:site_id/visible', function ( $language, $site_id
 $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $request_body = json_decode( $request->getBody() );
 
@@ -284,7 +284,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
 $app->delete( '/entries/:language/:site_id/siteadmins/:user_id', function ( $language, $site_id, $user_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    checkForAdmin();
+    exitIfNotAdmin();
 
     $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
     try {
