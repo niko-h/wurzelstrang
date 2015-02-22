@@ -130,7 +130,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
     }
     try {
         $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
-        if( isAuthorrized( Slim::getInstance()->request() ) ) {
+        if( isAuthorrized( $request ) ) {
             $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $language );
         }
         echo '{"entry":' . json_encode( $result ) . '}';

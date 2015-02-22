@@ -62,7 +62,7 @@ function isSiteAdmin( $site_id, $language ) {
 function getSiteAdmins( $site_id, $language ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    exitIfNotAdmin();
+//    exitIfNotAdmin();
 
     $db = getConnection();
     $stmt = $db->prepare( "SELECT user_id FROM site_admins WHERE site_id = :site_id AND language = :language" );
