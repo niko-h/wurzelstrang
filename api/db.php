@@ -30,6 +30,8 @@ function fetchFromDB( $query, $parameter = [ ], $db_file = '../db/content.db' ) 
     $stmt->execute( $parameter );
     $stmt->setFetchMode( PDO::FETCH_ASSOC );
     $result = array();
+//    error_log('query:     '.$stmt->queryString);
+//    error_log('parameter: '.print_r($parameter, TRUE));
     while( $row = $stmt->fetch() ) {
         array_push( $result, $row );
     }

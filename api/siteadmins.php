@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 
@@ -21,8 +21,8 @@ function isAdmin() {
     }
 }
 
-function checkForAdmin(){
-    if(!isAdmin()){
+function checkForAdmin() {
+    if( !isAdmin() ) {
         http_response_code( 401 );
         echo json_encode( array( "error" => "Unauthorized" ) );
         exit;
@@ -33,6 +33,9 @@ function isSiteAdmin( $site_id, $language ) {
     if( !isset( $_SESSION[ 'user' ] ) ) {
         return FALSE;
     }
+    if( isAdmin() ) {
+        return TRUE;
+    }
     try {
         $query = 'SELECT count(*) AS count
                   FROM site_admins s
@@ -41,7 +44,6 @@ function isSiteAdmin( $site_id, $language ) {
                     u.user_email = :user_email AND
                     s.site_id = :site_id AND
                     s.language = :language;';
-
         $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email,
                                          'site_id'    => $site_id,
                                          'language'   => $language ] );

@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 
@@ -52,8 +52,13 @@ $app->get( '/entries/:language', function ( $language ) {
         $query = 'SELECT title, content, language, id, pos, level FROM sites WHERE visible!="" AND language = :language ORDER BY pos ASC;';
     }
     try {
+        $result = array();
         $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
-        echo '{"entries": ' . json_encode( $contentitems ) . '}';
+        foreach( $contentitems as $site ) {
+            $site[ 'editable' ] = isSiteAdmin( $site['id'], $language );
+            array_push( $result, $site );
+        }
+        echo '{"entries": ' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
@@ -168,10 +173,10 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
 
-    if(!isSiteAdmin( $site_id, $language ) && !isAdmin()){
-            http_response_code( 401 );
-            echo json_encode( array( "error" => "Unauthorized" ) );
-            exit;
+    if( !isSiteAdmin( $site_id, $language ) && !isAdmin() ) {
+        http_response_code( 401 );
+        echo json_encode( array( "error" => "Unauthorized" ) );
+        exit;
     }
 
     $request_body = json_decode( $request->getBody() );
