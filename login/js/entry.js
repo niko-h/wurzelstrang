@@ -11,7 +11,7 @@ var newLevel = 0;
  * Action Listeners
  ******************/
 
-function submitbutton() {
+function submitsitebutton() {
     if ($('#title').val() !== '') {
         if ($('#entryId').val() ==='') {
             addEntry();
@@ -47,13 +47,18 @@ function leveldown() {
     return false;
 }
 
-function editsitebtn() {
-    getSitePrefs($(this).data('id'));
+function editsitebutton() {
+	$('.site-prefs').toggle();
     return false;
 }
 
-function submitsiteprefs() {
-	updateEntry();
+function showsiteaminpopup() {
+	getUsers(renderSiteadminsPopup);
+	return false;
+}
+
+function submitsiteadmins() {
+	updateSiteadmins();
 	return false;
 }
 
@@ -73,22 +78,6 @@ function submitsiteprefs() {
     });
 }
 
-function getSitePrefs(site) {
-    console.log('getSitePrefs');
-    $.ajax({
-        type: 'GET',
-        url: rootURL + '/entries/' + getLanguage() + '/' + site + '?apikey=' + apikey,
-        dataType: "json", // data type of response
-        success: function (data) {
-            getAllSiteNames();
-            renderSitePopup(data.entry);
-        },
-        error: function (jqXHR, textStatus) {
-            alert('getSite error: ' + textStatus);
-        }
-    });
-}
-
 function getEntry(id) {
     console.log('getEntry');
     $.ajax({
@@ -97,7 +86,6 @@ function getEntry(id) {
         dataType: "json",
         success: function (data) {
             $('#deletebutton').show();
-            $('#leveloption').show();
             currentEntry = data;
             renderEntry(currentEntry);
         },
@@ -184,6 +172,7 @@ function updateLevel(dir) {
     });
 }
 
+
 /*******************
  * Render functions
  ******************/
@@ -198,17 +187,19 @@ function renderEntry(item) {
 
     $('#edit_main').load('templates/' + template, function () {
 
-        if (template == 'ws-edit-default') {
-            $('textarea#ckeditor').ckeditor();
-        }
-
-        $('#submitbutton').unbind().click(submitbutton);
+        $('.submitsitebutton').unbind().click(submitsitebutton);
+        $('.editsitebutton').unbind().click(editsitebutton);
         $('#leveldown').unbind().click(leveldown);
         $('#levelup').unbind().click(levelup);
+        $('.showsiteaminpopup').click(showsiteaminpopup);
+
+        $('.site-prefs').hide();
+        renderTemplateList('#templateSelector');
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
             date = new Date(entry.mtime * 1000).toUTCString();
+		    $('.editsitebutton').show();
             $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
             $('#title').val(entry.title);
@@ -220,7 +211,14 @@ function renderEntry(item) {
             } else {
                 $('#leveloption').hide();
             }
+				if ('1' === entry.visible) {
+					$('#visiblecheckbox').attr('checked', 'checked');
+				} else {
+					$('#visiblecheckbox').removeAttr('checked');
+				}
         } else {
+        	console.log('newSite');
+		    $('.editsitebutton').hide();
             $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
             $('#entryId').val("");
             $('#title').val("").focus();
@@ -232,44 +230,37 @@ function renderEntry(item) {
                 $('#leveloption').hide();
             }
         }
+
+        $('#deleteentrybutton').attr('data-id', entry.id);
+	    $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
     });
 
 }
 
-function renderSitePopup(site) {
-    console.log("renderSitePopup");
-    console.log(site);
-    $('.editpopup').show();
+function renderSiteadminsPopup(siteadmins) {
+    console.log("renderSiteadminsPopup");
+    $('.editsiteadminspopup').show();
 
-    renderTemplateList('#templateSelector');
-
-    $('.editpopuptitle').text(site.title + ' - Eigenschaften');
-    var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
-    $('.editpopup-userlist li').remove();
-    $.each(list, function (index, site) {
-        $('.editpopup-userlist').append(
+    var list = siteadmins.users === null ? [] : (siteadmins.users instanceof Array ? siteadmins.users : [siteadmins.users]);
+    $('.editsiteadminspopup-userlist li').remove();
+    $.each(list, function (index, siteadmin) {
+        $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<label>').addClass('bold').text(site.title)
+                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id) 
             ).append(
-                $('<input>').addClass('editpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id) 
+                $('<label>').addClass('bold').text(siteadmin.user_email)
             )
         );
     });
 
-    var accesslist = site.siteadmins === null ? [] : (site.siteadmins instanceof Array ? site.siteadmins : [site.siteadmins]);
+    var accesslist = currentEntry.entry.siteadmins === null ? [] : (currentEntry.entry.siteadmins instanceof Array ? currentEntry.entry.siteadmins : [currentEntry.entry.siteadmins]);
     $.each(accesslist, function (index, access) {
-        $('.editpopup-userlist input.editpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+    	console.log('access: ' + access);
+    	console.log($('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']'));
+        $('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
     });
 
-    if ('1' === site.visible) {
-        $('#visiblecheckbox').attr('checked', 'checked');
-    } else {
-        $('#visiblecheckbox').removeAttr('checked');
-    }
-
-    $('#submitsiteprefs').unbind().click(submitsiteprefs); // submit site prefs
-    $('#deleteentrybutton').attr('data-id', site.id);
-    $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
+    $('#submitsiteadmins').unbind().click(submitsiteadmins); // submit site prefs
 }
 
 
@@ -282,7 +273,7 @@ function renderTemplateList(list) {
             templateName = 'default';
         }
         if (templateName.substring(0, 3) !== 'ws-') {
-            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.template) : ''));
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.entry.template) : ''));
         }
     });
 }

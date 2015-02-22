@@ -42,12 +42,15 @@
           </li>
           <li>
             <ul class="row">
-              <li class="half">
+<!--               <li class="half">
                   <button type="submit" id="submitsiteprefs" class="btn greenbtn"><i class="icon-pencil"></i> Speichern
                   </button>
               </li>
               <li class="half">
                   <button name="deleteusrbutton" id="deleteusrbutton" class="btn redbtn push-right"><i class="icon-cancel"></i> Löschen</button>
+              </li> -->
+              <li>
+                  <button name="deleteusrbutton" id="deleteusrbutton" class="btn redbtn push-right"><i class="icon-cancel"></i> Benutzer Löschen</button>
               </li>
             </ul>
           </li>

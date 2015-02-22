@@ -19,6 +19,10 @@ body {
 
 /* =Buttons
 -----------------------------------------------------------------------------*/
+.btn {
+    padding: 6px;
+}
+
 .greenbtn {
     border-color: #88DA88;
     background-color: #ccffcc;
@@ -390,10 +394,6 @@ a.smallMenulink {
 
 /* =content
 -----------------------------------------------------------------------------*/
-
-#edit #title {
-    width: 400px;
-}
 
 span#level {
     height: 13px;

@@ -6,18 +6,20 @@
 
 init = function () {                 // Called at the bottom. Initialize listeners.
     console.log('init');
+    $('html').click(function() {
+        $('.site-prefs').hide();
+    })
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
     $('#lang-sel').change(langsel);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
-    $('.popup').click(function (e) {
+    $('.popup, .site-prefs').click(function (e) {
         e.stopPropagation();
     });
     $('#submitlangbtn').click(submitnewlang);
     $('#updatesiteinfobtn').click(updatesiteinfobtn);
-    $('#siteprefsbtn').click(editsitebtn);
     // $('#updateadminbtn').click(updateadminbtn);
     // $('#submituserbtn').click(submitnewusrbtn);
 };
@@ -27,7 +29,7 @@ onLoad = function () {                     // Load once everything is ready
     $("#loader").hide();
     linkhello();                           // load hello screen
     getAdmin();                            // get admin info
-    getUsers();                            // get users info 
+    getUsers(renderUserList);              // get users info 
     getSiteInfo();                         // get site info
     getAllSiteNames();                     // get itemes for menu
     dragMenu();                            // build menu
