@@ -81,38 +81,49 @@ $app->post( '/entries/:language', function ( $language ) {
 
     $entry = json_decode( $request->getBody() );
 
-    $id = fetchFromDB( "SELECT MAX(id) + 1 AS id FROM sites WHERE language = :language;", [ 'language' => $language ] )[ 0 ][ 'id' ];
+    $id = NULL;
 
-    $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
-              VALUES ( :id, :title, :content, :language, :template, :time, :visible, :level, :pos );';
-    $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos AND language = :language;';
-    try {
+    $query = 'SELECT site_language FROM siteinfo;';
+    $rows = fetchFromDB( $query );
+    foreach( $rows as $row ) {
+        $lang = $row[ 'site_language' ];
 
-        if( $entry->parentpos !== NULL ) {
-            updateDB( $move_query, [ 'parentpos' => $entry->parentpos, 'language' => $language ] );
+        $lang_id = fetchFromDB( "SELECT ifnull(MAX(id),0) + 1 AS id FROM sites WHERE language = :language;", [ 'language' => $lang ] )[ 0 ][ 'id' ];
+
+        $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
+                  VALUES ( :id, :title, :content, :language, :template, :time, :visible, :level, :pos );';
+        $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos AND language = :language;';
+        try {
+
+            if( $entry->parentpos !== NULL ) {
+                updateDB( $move_query, [ 'parentpos' => $entry->parentpos, 'language' => $lang ] );
+            }
+
+            updateDB( $query, [ 'id'       => $lang_id,
+                                'title'    => $entry->title,
+                                'content'  => $entry->content,
+                                'language' => $lang,//isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
+                                'time'     => time(),
+                                'visible'  => $entry->visible,
+                                'level'    => $entry->level,
+                                'template' => isset( $entry->template ) ? $entry->template : 'ws-edit-default',
+                                'pos'      => $entry->pos ] );
+
+            $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
+            if( !file_exists( '../uploads/images/' . $foldername ) ) {
+                mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
+            }
+
+            if( $lang == $language ) {
+                echo '{"inserted":{"id":' . $lang_id . '}}';
+            }
+
+            $time = NULL;
+        } catch( PDOException $e ) {
+            echo '{"error":{"text":' . $e->getMessage() . '}}';
         }
-
-        updateDB( $query, [ 'id'       => $id,
-                            'title'    => $entry->title,
-                            'content'  => $entry->content,
-                            'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
-                            'time'     => time(),
-                            'visible'  => $entry->visible,
-                            'level'    => $entry->level,
-                            'template' => isset( $entry->template ) ? $entry->template : 'ws-edit-default',
-                            'pos'      => $entry->pos ] );
-
-        echo '{"inserted":{"id":' . $id . '}}';
-
-        $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
-        if( !file_exists( '../uploads/images/' . $foldername ) ) {
-            mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
-        }
-
-        $time = NULL;
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
+
 } );
 
 
