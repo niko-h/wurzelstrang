@@ -81,8 +81,10 @@ $app->post( '/entries/:language', function ( $language ) {
 
     $entry = json_decode( $request->getBody() );
 
+    $id = fetchFromDB( "SELECT MAX(id) + 1 AS id FROM sites WHERE language = :language;", [ 'language' => $language ] )[ 0 ][ 'id' ];
+
     $query = 'INSERT INTO sites ( id, title, content, language, template, mtime, visible, level, pos)
-              VALUES ( (SELECT MAX(id) + 1 FROM sites WHERE language = :language), :title, :content, :language, :template, :time, :visible, :level, :pos );';
+              VALUES ( :id, :title, :content, :language, :template, :time, :visible, :level, :pos );';
     $move_query = 'UPDATE sites SET pos = pos + 1 WHERE pos > :parentpos AND language = :language;';
     try {
 
@@ -90,14 +92,15 @@ $app->post( '/entries/:language', function ( $language ) {
             updateDB( $move_query, [ 'parentpos' => $entry->parentpos, 'language' => $language ] );
         }
 
-        $id = updateDB( $query, [ 'title'    => $entry->title,
-                                  'content'  => $entry->content,
-                                  'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
-                                  'time'     => time(),
-                                  'visible'  => $entry->visible,
-                                  'level'    => $entry->level,
-                                  'template' => isset( $entry->template ) ? $entry->template : 'ws-edit-default',
-                                  'pos'      => $entry->pos ] );
+        updateDB( $query, [ 'id'       => $id,
+                            'title'    => $entry->title,
+                            'content'  => $entry->content,
+                            'language' => isset( $entry->language ) ? $entry->language : DEFAULT_LANGUAGE,
+                            'time'     => time(),
+                            'visible'  => $entry->visible,
+                            'level'    => $entry->level,
+                            'template' => isset( $entry->template ) ? $entry->template : 'ws-edit-default',
+                            'pos'      => $entry->pos ] );
 
         echo '{"inserted":{"id":' . $id . '}}';
 
@@ -256,7 +259,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
         exit;
     }
 
-    if( !isset($request_body->siteadmins) ) {
+    if( !isset( $request_body->siteadmins ) ) {
         http_response_code( 400 );
         echo json_encode( array( "error" => "siteadmins missing" ) );
         exit;
