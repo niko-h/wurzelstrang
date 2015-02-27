@@ -831,16 +831,17 @@ function addEntry() {
 
 function updateEntry() {
     console.log('updateEntry');
+    var id = $('#entryId').val();
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/entries/' + getLanguage() + '/' + $('#entryId').val(),
+        url: rootURL + '/entries/' + getLanguage() + '/' + id,
         dataType: "json",
         data: updateEntryToJSON(),
         success: function (data) {
             fade('#savedfade');
-            updateSiteadmins(data.inserted.id);
-            getEntry(data.updated.id);
+            updateSiteadmins(id);
+            getEntry(id);
             getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {

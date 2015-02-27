@@ -142,8 +142,8 @@ header( "Content-Type: text/html; charset=utf-8" );
                                                     <button class="btn editsitebutton">
                                                         <i class="icon-cog"></i> Eigenschaften
                                                     </button>';
-                                            require_once( 'templates/ws-site-prefs/site-prefs.php' );
                                         }
+                                        require_once( 'templates/ws-site-prefs/site-prefs.php' );
                                     ?>
                                 </li>
                             </ul>                                 
