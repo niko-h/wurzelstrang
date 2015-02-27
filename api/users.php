@@ -36,6 +36,7 @@ $app->get( '/users/:id', function ( $user_id ) {
 
         $siteadmin_query = 'SELECT site_id FROM site_admins WHERE user_id = :user_id';
         $sites = fetchFromDB( $siteadmin_query, [ 'user_id' => $user_id ] );
+        $result['id'] = $user_id;
         $result[ 'sites' ] = array();
         foreach( $sites as &$row ) {
             array_push( $result[ 'sites' ], intval( $row[ 'site_id' ] ) );
@@ -111,42 +112,23 @@ $app->post( '/users/:id/sites/:language', function ( $user_id, $language ) {
 
 } );
 
-/**
- * Delete one Site from list of Administrated sites of this user
- *
- * request:
- * response:
- */
-
-$app->delete( '/users/:user_id/sites/:language/:site_id', function ( $user_id, $language, $site_id ) {
-    $request = Slim::getInstance()->request();
-    checkApiToken( $request );
-    exitIfNotAdmin();
-
-
-    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
-    try {
-        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-//    echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
-
-} );
 
 
 // updateAdmin
-$app->put( '/users', function () {
+$app->put( '/users/:user_id', function ( $user_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
     exitIfNotAdmin();
 
     $user = json_decode( $request->getBody() );
 
-    $query = "UPDATE users SET user_email=:email";
+    $query = "UPDATE users SET user_email = :email, admin = :admin WHERE id = :user_id";
     try {
-        updateDB( $query, [ 'email' => $user->email ] );
-        echo '{"user":{"user_email":"' . $user->email . '"}}';
+        updateDB( $query, [ 'email'   => $user->email,
+                            'admin'   => $user->admin,
+                            'user_id' => $user->id ] );
+
+        echo json_encode( $user );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
@@ -162,8 +144,10 @@ $app->post( '/users', function () {
 
     $query = 'INSERT INTO users ( user_email, admin) VALUES ( :user_email, :admin );';
     try {
-        updateDB( $query, [ 'user_email' => $user->email, 'admin' => 0 ] );
-        echo '{"inserted":{"id":' . $user->email . '}}';
+        updateDB( $query, [ 'user_email' => $user->email,
+                            'admin'      => $user->admin ] );
+
+        echo json_encode( $user );
     } catch( PDOException $e ) {
         echo '{"insertusererror":{"text": ' . $e->getMessage() . '}}';
     }
