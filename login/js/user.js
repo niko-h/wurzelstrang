@@ -194,7 +194,7 @@ function renderUser(user, userid) {
     if(typeof user === 'undefined' && typeof userid === 'undefined') {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
-
+        $('#useremail').val('');
     } else {
         console.log("renderUser");
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
