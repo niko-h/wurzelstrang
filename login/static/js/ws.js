@@ -457,7 +457,7 @@ var ac = 0;
  ******************/
 
 function adduserbtn() {
-    renderUser({});
+    renderUser();
     return false;
 }
 
@@ -597,12 +597,18 @@ function renderUserList(data) {
     $.each(list, function (index, user) {
         if(user.admin === '1') {
             ac += 1;
-            $('.admin-list').append(
-                $('<li>').addClass('push').append(user.user_email)
-                    .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                        .attr('data-identity', user.id).text('Bearbeiten')
-                )
-            );
+            if(user.user_email === current_admin) {
+                $('.admin-list').append(
+                    $('<li>').addClass('push').append(user.user_email)
+                );
+            } else {
+                $('.admin-list').append(
+                    $('<li>').addClass('push').append(user.user_email)
+                        .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                            .attr('data-identity', user.id).text('Bearbeiten')
+                        )
+                );                
+            }
         } else {
             $('.user-list').append(
                 $('<li>').addClass('push').append(user.user_email)
@@ -616,33 +622,43 @@ function renderUserList(data) {
 }
 
 function renderUser(user, userid) {
-    console.log("renderUser");
     $('.userpopup').show();
-
+    console.log(user);
     renderTemplateList('#usertemplate');
-
-    $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
     var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
     $.each(list, function (index, site) {
         $('.userpopup-sitelist').append(
             $('<li>').append(
                 $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id)
-	            .after(
-	                $('<label>').addClass('bold popuplistlabel').text(site.title)
-	            )
-	        )
+                .after(
+                    $('<label>').addClass('bold popuplistlabel').text(site.title)
+                )
+            )
         );
     });
 
-    var accesslist = user.sites === null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
-    $.each(accesslist, function (index, access) {
-        $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
-    });
+    if(typeof user === 'undefined' && typeof userid === 'undefined') {
+        console.log("renderNewUser");
+        $('.userpopuptitle').text('Neuen Benutzer anlegen');
 
-    $('#deleteusrbutton').attr('data-identity', userid);
+    } else {
+        console.log("renderUser");
+        $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
 
-    $('#deleteusrbutton').unbind().click(deleteusrbtn); // delete user
+        $('#useremail').val(user.user_email);
+        if(user.admin === '1') {
+            $('.isadmincheckbox').click();
+        }
+
+        var accesslist = user.sites === null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
+        $.each(accesslist, function (index, access) {
+            $('.userpopup-sitelist input.userpopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+        });
+
+        $('#deleteusrbutton').attr('data-identity', userid);
+        $('#deleteusrbutton').unbind().click(deleteusrbtn); // delete user
+    }
 }
 
 /************

@@ -29,7 +29,7 @@ $app->get( '/users/:id', function ( $user_id ) {
     checkApiToken( Slim::getInstance()->request() );
     exitIfNotAdmin();
 
-    $query = 'SELECT user_email FROM users WHERE id = :user_id;';
+    $query = 'SELECT user_email, admin FROM users WHERE id = :user_id;';
 
     try {
         $result = fetchFromDB( $query, [ 'user_id' => $user_id ] )[ 0 ];
