@@ -2,11 +2,27 @@
  * Variables
  ***********/
 
-var user;
+var user = {};
+var ac = 0;
 
 /*******************
  * Action Listeners
  ******************/
+
+function adduserbtn() {
+    renderUser({});
+    return false;
+}
+
+function isadmincheckbox() {
+    var admincheckstate = $('.isadmincheckbox').prop('checked');
+    if(admincheckstate) {
+        $('.userpopup-sitelist-container').hide();
+    } else {
+        $('.userpopup-sitelist-container').show();
+    }
+    return false;
+}
 
 function editusrbtn() {
     getUserPrefs($(this).data('identity'));
@@ -35,19 +51,6 @@ function deleteusrbtn() {
  * Call functions
  ****************/
 
- function getAdmin() {
-    $.ajax({
-        type: 'GET',
-        url: rootURL + '/users?admin=1&apikey=' + apikey,
-        dataType: "json", // data type of response
-        success: function (data) {
-            console.log('getAdmin success');
-            $('#deletebutton').show();
-            renderAdmin(data);
-        }
-    });
-}
-
 function putAdmin() {
     $.ajax({
         type: 'PUT',
@@ -72,7 +75,6 @@ function getUsers(callback) {
         url: rootURL + '/users?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            $('#deletebutton').show();
             console.log('getUsers success');
             callback(data);
         }
@@ -140,26 +142,28 @@ function deleteUser(user) {
  * Render functions
  ******************/
 
-function renderAdmin(data) {
-    console.log("renderAdmin");
-    var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
-    $.each(list, function (index, user) {
-        $('#adminemail').val(user.user_email);
-    });
-}
-
 function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     console.log("renderUserList");
     var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
-        $('#user-list').append(
-            $('<li>').addClass('push').append(user.user_email)
-                .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                    .attr('data-identity', user.id).text('Bearbeiten')
-            )
-        );
+        if(user.admin === '1') {
+            ac += 1;
+            $('.admin-list').append(
+                $('<li>').addClass('push').append(user.user_email)
+                    .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                        .attr('data-identity', user.id).text('Bearbeiten')
+                )
+            );
+        } else {
+            $('.user-list').append(
+                $('<li>').addClass('push').append(user.user_email)
+                    .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                        .attr('data-identity', user.id).text('Bearbeiten')
+                )
+            );
+        }
     });
     $('.editusrbutton').unbind().click(editusrbtn); // delete user
 }
@@ -205,16 +209,6 @@ usermailvalidate = function (str) {
     } else {
         $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
         console.log('Email nicht gueltig bei useremail');
-    }
-};
-
-adminmailvalidate = function (str) {
-    if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
-        updateadminbtn();
-        return true;
-    } else {
-        $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-        console.log('Email nicht gueltig bei adminemail');
     }
 };
 

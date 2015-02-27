@@ -14,12 +14,7 @@ $app->get( '/users', function () {
     checkApiToken( Slim::getInstance()->request() );
     exitIfNotAdmin();
 
-
-    if( isset( $_GET[ 'admin' ] ) && $_GET[ 'admin' ] == 1 ) {
-        $query = 'SELECT id, user_email FROM users WHERE admin == 1;';
-    } else {
-        $query = 'SELECT id, user_email FROM users WHERE admin == 0;';
-    }
+    $query = 'SELECT id, user_email, admin FROM users;';
     try {
         $contentitems = fetchFromDB( $query );
         echo '{"users": ' . json_encode( $contentitems ) . '}';

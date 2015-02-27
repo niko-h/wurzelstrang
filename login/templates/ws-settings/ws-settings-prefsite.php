@@ -20,13 +20,11 @@
             </li>
             <li>
                 <label for="levels" class="bold">Pseudohierarchien</label>
-  <span class="btn-group" id="levels" data-toggle="buttons" data-target="#levelstarget">
-    <button class="btn" value="1">On</button>
-    <button class="btn" value="0">Off</button>
-  </span>
-                <?php if( isadmin( $_SESSION[ 'user' ]->email ) ) {
-                    echo '<input type="text" style="display:none;" id="levelstarget"/>';
-                } ?>
+                <span class="btn-group" id="levels" data-toggle="buttons" data-target="#levelstarget">
+                    <button class="btn" value="1">On</button>
+                    <button class="btn" value="0">Off</button>
+                </span>
+                <input type="text" style="display:none;" id="levelstarget"/>
 
                 <div class="descr">Kann zur Einrückung der Menüeinträge verwendet werden um diese
                     optisch zu sortieren.

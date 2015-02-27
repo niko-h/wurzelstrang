@@ -4,27 +4,35 @@
 </head>
 <body>
 
-	<fieldset>
+	<fieldset class="forms">
         <legend><i class="icon-cog"></i> Einstellungen</legend>
 
         <?php 
-            if( isadmin( $_SESSION[ 'user' ]->email ) ) {
-    			require_once( 'ws-settings-languages.php' );
+            if( isAdmin() ) {
 
+                echo '<fieldset>
+                        <legend>Sprachen</legend>
+                        <ul>
+                            <li>
+                                <input name="openlanguagesbtn" 
+                                    class="openlanguagesbtn btn greenbtn" 
+                                    value="Sprachen verwalten" 
+                                    type="submit">
+                            </li>
+                        </ul>
+                      </fieldset>';
+    			
                 echo "<br>";
 
                 require_once( 'ws-settings-prefsite.php' );
-
-                echo "<br>";
-
-            	require_once( 'ws-settings-prefadmin.php' );
-
-				echo "<br>";
 
 				require_once( 'ws-settings-prefuser.php' );
 			}
         ?>
     </fieldset>
 
-    <? require_once( 'ws-settings-userpopup.php' ); ?>
+    <?php 
+        require_once( 'ws-settings-userpopup.php' ); 
+        require_once( 'ws-settings-languages.php' );
+    ?>
 </body>

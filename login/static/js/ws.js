@@ -8,30 +8,30 @@ init = function () {                 // Called at the bottom. Initialize listene
     console.log('init');
     $('html').click(function() {
         $('.site-prefs').hide();
-    })
+    });
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
-    $('#lang-sel').change(langsel);
+    $('.adduserbtn').click(adduserbtn);
+    $('.isadmincheckbox').change(isadmincheckbox);
+    $('.openlanguagesbtn').click(openlanguagesbtn);
+    $('.lang-sel').change(langsel);
+    $('#submitlangbtn').click(submitnewlang);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
     $('.popup, .site-prefs').click(function (e) {
         e.stopPropagation();
     });
-    $('#submitlangbtn').click(submitnewlang);
     $('#updatesiteinfobtn').click(updatesiteinfobtn);
-    // $('#updateadminbtn').click(updateadminbtn);
-    // $('#submituserbtn').click(submitnewusrbtn);
 };
 
 onLoad = function () {                     // Load once everything is ready
     console.log('onLoad');
     $("#loader").hide();
     linkhello();                           // load hello screen
-    getAdmin();                            // get admin info
-    getUsers(renderUserList);              // get users info 
     getSiteInfo();                         // get site info
     getAllSiteNames();                     // get itemes for menu
+    getUsers(renderUserList);              // get users info 
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
     getTemplates();                        // get list of available templates
@@ -146,8 +146,13 @@ var languages;
  * Action Listeners
  ******************/
 
+function openlanguagesbtn() {
+    $('.editlanguagespopup').show();
+    return false;
+}
+
 function langsel() {
-    var newLang = $('#lang-sel').val();
+    var newLang = $('.lang-sel').val();
     if ($.cookie("LANGUAGE") !== null) {
         $.removeCookie('LANGUAGE');
     }
@@ -194,7 +199,7 @@ function getLanguages() {
         dataType: "json", // data type of response
         success: function (data) {
             languages = data.siteinfo.languages;
-            renderLanguages('#lang-sel');
+            renderLanguages('.lang-sel');
         }
     });
 }
@@ -253,10 +258,10 @@ function deleteLanguage(lang) {
 
 function renderLanguages(list) {
     $(list).html($('<option disabled>').html('Sprache/Language'));
-    $('#language-list').html('');
+    $('.language-list').html('');
     $.each(languages, function (index, value) {
         $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
-        $('#language-list').append(
+        $('.language-list').append(
             $('<li>').addClass('push').append(value)
                 .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
             )
@@ -444,11 +449,27 @@ function renderList(data) {
  * Variables
  ***********/
 
-var user;
+var user = {};
+var ac = 0;
 
 /*******************
  * Action Listeners
  ******************/
+
+function adduserbtn() {
+    renderUser({});
+    return false;
+}
+
+function isadmincheckbox() {
+    var admincheckstate = $('.isadmincheckbox').prop('checked');
+    if(admincheckstate) {
+        $('.userpopup-sitelist-container').hide();
+    } else {
+        $('.userpopup-sitelist-container').show();
+    }
+    return false;
+}
 
 function editusrbtn() {
     getUserPrefs($(this).data('identity'));
@@ -477,19 +498,6 @@ function deleteusrbtn() {
  * Call functions
  ****************/
 
- function getAdmin() {
-    $.ajax({
-        type: 'GET',
-        url: rootURL + '/users?admin=1&apikey=' + apikey,
-        dataType: "json", // data type of response
-        success: function (data) {
-            console.log('getAdmin success');
-            $('#deletebutton').show();
-            renderAdmin(data);
-        }
-    });
-}
-
 function putAdmin() {
     $.ajax({
         type: 'PUT',
@@ -514,7 +522,6 @@ function getUsers(callback) {
         url: rootURL + '/users?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
-            $('#deletebutton').show();
             console.log('getUsers success');
             callback(data);
         }
@@ -582,26 +589,28 @@ function deleteUser(user) {
  * Render functions
  ******************/
 
-function renderAdmin(data) {
-    console.log("renderAdmin");
-    var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
-    $.each(list, function (index, user) {
-        $('#adminemail').val(user.user_email);
-    });
-}
-
 function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     console.log("renderUserList");
     var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#user-list li').remove();
     $.each(list, function (index, user) {
-        $('#user-list').append(
-            $('<li>').addClass('push').append(user.user_email)
-                .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                    .attr('data-identity', user.id).text('Bearbeiten')
-            )
-        );
+        if(user.admin === '1') {
+            ac += 1;
+            $('.admin-list').append(
+                $('<li>').addClass('push').append(user.user_email)
+                    .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                        .attr('data-identity', user.id).text('Bearbeiten')
+                )
+            );
+        } else {
+            $('.user-list').append(
+                $('<li>').addClass('push').append(user.user_email)
+                    .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                        .attr('data-identity', user.id).text('Bearbeiten')
+                )
+            );
+        }
     });
     $('.editusrbutton').unbind().click(editusrbtn); // delete user
 }
@@ -647,16 +656,6 @@ usermailvalidate = function (str) {
     } else {
         $('#submituserbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
         console.log('Email nicht gueltig bei useremail');
-    }
-};
-
-adminmailvalidate = function (str) {
-    if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
-        updateadminbtn();
-        return true;
-    } else {
-        $('#updateadminbtn').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
-        console.log('Email nicht gueltig bei adminemail');
     }
 };
 
@@ -788,6 +787,9 @@ function addEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.inserted.id);
+
+            addEntrySiteadmins(data.inserted.id);
+
             getAllSiteNames();
             newPos = null;
             newLevel = 0;
@@ -811,6 +813,9 @@ function updateEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.updated.id);
+
+            updateEntrySiteadmins(data.inserted.id);
+
             getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
@@ -854,6 +859,41 @@ function updateLevel(dir) {
     });
 }
 
+function addEntrySiteadmins(id) {
+    console.log('addSiteadmins');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        //url: rootURL + '/',
+        dataType: "json",
+        data: entrySiteadminsToJSON(),
+        success: function (data) {
+            console.log('addSiteadmins success');
+        },
+        error: function (jqXHR, textStatus) {
+            console.log('addSiteadmins error: ' + textStatus);
+        }
+    });
+}
+
+function updateEntrySiteadmins(id) {
+    console.log('updateSiteadmins');
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        //url: rootURL + '/',
+        dataType: "json",
+        data: entrySiteadminsToJSON(),
+        success: function (data) {
+            fade('#savedfade');
+            console.log('updateSiteadmins success');
+        },
+        error: function (jqXHR, textStatus) {
+            console.log('updateSiteadmins error: ' + textStatus);
+        }
+    });
+}
+
 
 /*******************
  * Render functions
@@ -877,12 +917,12 @@ function renderEntry(item) {
 
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
+        $('.editsitebutton').show();
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
             date = new Date(entry.mtime * 1000).toUTCString();
-		    $('.editsitebutton').show();
-            $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
+		    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
             $('#title').val(entry.title);
             $('#siteprefsbtn').attr('data-id', entry.id);
@@ -890,31 +930,35 @@ function renderEntry(item) {
             $('#levelcount').text(entry.level);
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
+                $('#leveloption .btn-group').show();
             } else {
                 $('#leveloption').hide();
             }
-				if ('1' === entry.visible) {
-					$('#visiblecheckbox').attr('checked', 'checked');
-				} else {
-					$('#visiblecheckbox').removeAttr('checked');
-				}
+	
+    		if ('1' === entry.visible) {
+				$('#visiblecheckbox').attr('checked', 'checked');
+			} else {
+				$('#visiblecheckbox').removeAttr('checked');
+			}
+
+            $('#deleteentrybutton').attr('data-id', entry.id);
+            $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
         } else {
         	console.log('newSite');
-		    $('.editsitebutton').hide();
+            $('.deleteoption').hide();
             $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
             $('#entryId').val("");
             $('#title').val("").focus();
-            // $('#visiblecheckbox').attr('checked', 'checked');
+            $('#visiblecheckbox').attr('checked', 'checked');
             $('textarea#ckeditor').val("");
-            if ($('#levelstarget').val() === true) {
+            if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
+                $('#leveloption .btn-group').hide();
             } else {
                 $('#leveloption').hide();
             }
         }
 
-        $('#deleteentrybutton').attr('data-id', entry.id);
-	    $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
     });
 
 }
@@ -928,19 +972,21 @@ function renderSiteadminsPopup(siteadmins) {
     $.each(list, function (index, siteadmin) {
         $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id) 
+                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id).attr('data-mail', siteadmin.user_email) 
             ).append(
                 $('<label>').addClass('bold').text(siteadmin.user_email)
             )
         );
     });
 
-    var accesslist = currentEntry.entry.siteadmins === null ? [] : (currentEntry.entry.siteadmins instanceof Array ? currentEntry.entry.siteadmins : [currentEntry.entry.siteadmins]);
-    $.each(accesslist, function (index, access) {
-    	console.log('access: ' + access);
-    	console.log($('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']'));
-        $('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
-    });
+    if(typeof currentEntry.entry === 'undefined') {     // check current admin when creating a new site
+        $('.editsiteadminspopupcheckbox[data-mail="'+current_admin+'"]').attr('checked', 'checked');
+    } else {
+        var accesslist = currentEntry.entry.siteadmins === null ? [] : (currentEntry.entry.siteadmins instanceof Array ? currentEntry.entry.siteadmins : [currentEntry.entry.siteadmins]);
+        $.each(accesslist, function (index, access) {
+        	$('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+        });
+    }    
 
     $('#submitsiteadmins').unbind().click(submitsiteadmins); // submit site prefs
 }
@@ -955,7 +1001,17 @@ function renderTemplateList(list) {
             templateName = 'default';
         }
         if (templateName.substring(0, 3) !== 'ws-') {
-            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.entry.template) : ''));
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', function() {
+                if(typeof currentEntry != 'undefined' && 
+                    typeof currentEntry.entry != 'undefined' && 
+                    typeof currentEntry.entry.template != 'undefined') {
+                    if( template === currentEntry.entry.template ) {
+                        return 'selected';
+                    }
+                } else if( templateName === 'default' ) {
+                    return 'selected';
+                }
+            }));
         }
     });
 }
@@ -974,7 +1030,8 @@ function newEntryToJSON() {
         "pos": newPos,
         "level": newLevel,
         "parentpos": (newPos === null) ? null : newPos - 1,
-        "language": getLanguage()
+        "language": getLanguage(),
+        "template": $('#templateSelector').val()
     });
     return data;
 }
@@ -986,7 +1043,8 @@ function updateEntryToJSON() {
         "title": $('#title').val(),
         "content": $('#ckeditor').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
-        "language": getLanguage()
+        "language": getLanguage(),
+        "template": $('#templateSelector').val()
     });
     return data;
 }
@@ -999,7 +1057,15 @@ function updateLevelToJSON(dir) {
     return data;
 }
 
-
+//TODO
+function entrySiteadminsToJSON() {
+    data = JSON.stringify({
+        "user_id": "",
+        "site_id": "",
+        "language": getLanguage()
+    });
+    return data;
+}
 
 /************
  * Helpers

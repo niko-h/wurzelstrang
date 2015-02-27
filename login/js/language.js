@@ -9,8 +9,13 @@ var languages;
  * Action Listeners
  ******************/
 
+function openlanguagesbtn() {
+    $('.editlanguagespopup').show();
+    return false;
+}
+
 function langsel() {
-    var newLang = $('#lang-sel').val();
+    var newLang = $('.lang-sel').val();
     if ($.cookie("LANGUAGE") !== null) {
         $.removeCookie('LANGUAGE');
     }
@@ -57,7 +62,7 @@ function getLanguages() {
         dataType: "json", // data type of response
         success: function (data) {
             languages = data.siteinfo.languages;
-            renderLanguages('#lang-sel');
+            renderLanguages('.lang-sel');
         }
     });
 }
@@ -116,10 +121,10 @@ function deleteLanguage(lang) {
 
 function renderLanguages(list) {
     $(list).html($('<option disabled>').html('Sprache/Language'));
-    $('#language-list').html('');
+    $('.language-list').html('');
     $.each(languages, function (index, value) {
         $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
-        $('#language-list').append(
+        $('.language-list').append(
             $('<li>').addClass('push').append(value)
                 .append((siteinfo.default_language !== value) ? $('<a href="#">').addClass('deletelangbutton btn redbtn push-right').attr('data-lang', value).text('Löschen') : ''
             )

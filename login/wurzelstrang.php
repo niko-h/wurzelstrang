@@ -83,7 +83,7 @@ header( "Content-Type: text/html; charset=utf-8" );
         </div>
         <div class="push-right">
             <i class="icon-flag"></i>
-            <select id="lang-sel">
+            <select class="lang-sel">
                 <option disabled>Sprache/Language</option>
             </select>             
         </div>
@@ -215,6 +215,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 
 <script type="text/javascript"> 
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
+    var current_admin = "<?php echo $_SESSION[ 'user' ]->email ?>";
     var isadmin = <?php if( $isadmin ) { echo "true"; } else { echo "false"; } ?>;
     onLoad(); 
 </script>

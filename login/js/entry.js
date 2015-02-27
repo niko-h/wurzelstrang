@@ -106,6 +106,9 @@ function addEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.inserted.id);
+
+            addEntrySiteadmins(data.inserted.id);
+
             getAllSiteNames();
             newPos = null;
             newLevel = 0;
@@ -129,6 +132,9 @@ function updateEntry() {
         success: function (data) {
             fade('#savedfade');
             getEntry(data.updated.id);
+
+            updateEntrySiteadmins(data.inserted.id);
+
             getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
@@ -172,6 +178,41 @@ function updateLevel(dir) {
     });
 }
 
+function addEntrySiteadmins(id) {
+    console.log('addSiteadmins');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        //url: rootURL + '/',
+        dataType: "json",
+        data: entrySiteadminsToJSON(),
+        success: function (data) {
+            console.log('addSiteadmins success');
+        },
+        error: function (jqXHR, textStatus) {
+            console.log('addSiteadmins error: ' + textStatus);
+        }
+    });
+}
+
+function updateEntrySiteadmins(id) {
+    console.log('updateSiteadmins');
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        //url: rootURL + '/',
+        dataType: "json",
+        data: entrySiteadminsToJSON(),
+        success: function (data) {
+            fade('#savedfade');
+            console.log('updateSiteadmins success');
+        },
+        error: function (jqXHR, textStatus) {
+            console.log('updateSiteadmins error: ' + textStatus);
+        }
+    });
+}
+
 
 /*******************
  * Render functions
@@ -195,12 +236,12 @@ function renderEntry(item) {
 
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
+        $('.editsitebutton').show();
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
             date = new Date(entry.mtime * 1000).toUTCString();
-		    $('.editsitebutton').show();
-            $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
+		    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
             $('#title').val(entry.title);
             $('#siteprefsbtn').attr('data-id', entry.id);
@@ -208,31 +249,35 @@ function renderEntry(item) {
             $('#levelcount').text(entry.level);
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
+                $('#leveloption .btn-group').show();
             } else {
                 $('#leveloption').hide();
             }
-				if ('1' === entry.visible) {
-					$('#visiblecheckbox').attr('checked', 'checked');
-				} else {
-					$('#visiblecheckbox').removeAttr('checked');
-				}
+	
+    		if ('1' === entry.visible) {
+				$('#visiblecheckbox').attr('checked', 'checked');
+			} else {
+				$('#visiblecheckbox').removeAttr('checked');
+			}
+
+            $('#deleteentrybutton').attr('data-id', entry.id);
+            $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
         } else {
         	console.log('newSite');
-		    $('.editsitebutton').hide();
+            $('.deleteoption').hide();
             $('#editlegend').html('<i class="icon-pencil"></i> Neue Seite');
             $('#entryId').val("");
             $('#title').val("").focus();
-            // $('#visiblecheckbox').attr('checked', 'checked');
+            $('#visiblecheckbox').attr('checked', 'checked');
             $('textarea#ckeditor').val("");
-            if ($('#levelstarget').val() === true) {
+            if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
+                $('#leveloption .btn-group').hide();
             } else {
                 $('#leveloption').hide();
             }
         }
 
-        $('#deleteentrybutton').attr('data-id', entry.id);
-	    $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
     });
 
 }
@@ -246,19 +291,21 @@ function renderSiteadminsPopup(siteadmins) {
     $.each(list, function (index, siteadmin) {
         $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id) 
+                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id).attr('data-mail', siteadmin.user_email) 
             ).append(
                 $('<label>').addClass('bold').text(siteadmin.user_email)
             )
         );
     });
 
-    var accesslist = currentEntry.entry.siteadmins === null ? [] : (currentEntry.entry.siteadmins instanceof Array ? currentEntry.entry.siteadmins : [currentEntry.entry.siteadmins]);
-    $.each(accesslist, function (index, access) {
-    	console.log('access: ' + access);
-    	console.log($('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']'));
-        $('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
-    });
+    if(typeof currentEntry.entry === 'undefined') {     // check current admin when creating a new site
+        $('.editsiteadminspopupcheckbox[data-mail="'+current_admin+'"]').attr('checked', 'checked');
+    } else {
+        var accesslist = currentEntry.entry.siteadmins === null ? [] : (currentEntry.entry.siteadmins instanceof Array ? currentEntry.entry.siteadmins : [currentEntry.entry.siteadmins]);
+        $.each(accesslist, function (index, access) {
+        	$('.editsiteadminspopup-userlist input.editsiteadminspopupcheckbox[data-id=' + access + ']').attr('checked', 'checked');
+        });
+    }    
 
     $('#submitsiteadmins').unbind().click(submitsiteadmins); // submit site prefs
 }
@@ -273,7 +320,17 @@ function renderTemplateList(list) {
             templateName = 'default';
         }
         if (templateName.substring(0, 3) !== 'ws-') {
-            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', (typeof currentEntry != 'undefined') ? (template == currentEntry.entry.template) : ''));
+            $(list).append($('<option></option>').val(template).html(templateName).attr('selected', function() {
+                if(typeof currentEntry != 'undefined' && 
+                    typeof currentEntry.entry != 'undefined' && 
+                    typeof currentEntry.entry.template != 'undefined') {
+                    if( template === currentEntry.entry.template ) {
+                        return 'selected';
+                    }
+                } else if( templateName === 'default' ) {
+                    return 'selected';
+                }
+            }));
         }
     });
 }
@@ -292,7 +349,8 @@ function newEntryToJSON() {
         "pos": newPos,
         "level": newLevel,
         "parentpos": (newPos === null) ? null : newPos - 1,
-        "language": getLanguage()
+        "language": getLanguage(),
+        "template": $('#templateSelector').val()
     });
     return data;
 }
@@ -304,7 +362,8 @@ function updateEntryToJSON() {
         "title": $('#title').val(),
         "content": $('#ckeditor').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
-        "language": getLanguage()
+        "language": getLanguage(),
+        "template": $('#templateSelector').val()
     });
     return data;
 }
@@ -317,4 +376,12 @@ function updateLevelToJSON(dir) {
     return data;
 }
 
-
+//TODO
+function entrySiteadminsToJSON() {
+    data = JSON.stringify({
+        "user_id": "",
+        "site_id": "",
+        "language": getLanguage()
+    });
+    return data;
+}

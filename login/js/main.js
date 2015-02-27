@@ -8,30 +8,30 @@ init = function () {                 // Called at the bottom. Initialize listene
     console.log('init');
     $('html').click(function() {
         $('.site-prefs').hide();
-    })
+    });
     $('#logo').click(linkhello);
     $('#linknew').click(linknew);
     $('#prefbtn').click(prefbtn);
-    $('#lang-sel').change(langsel);
+    $('.adduserbtn').click(adduserbtn);
+    $('.isadmincheckbox').change(isadmincheckbox);
+    $('.openlanguagesbtn').click(openlanguagesbtn);
+    $('.lang-sel').change(langsel);
+    $('#submitlangbtn').click(submitnewlang);
     $('.closepopup').click(closepopup);
     $('.popupoverflow').click(closepopup);
     $('.popup, .site-prefs').click(function (e) {
         e.stopPropagation();
     });
-    $('#submitlangbtn').click(submitnewlang);
     $('#updatesiteinfobtn').click(updatesiteinfobtn);
-    // $('#updateadminbtn').click(updateadminbtn);
-    // $('#submituserbtn').click(submitnewusrbtn);
 };
 
 onLoad = function () {                     // Load once everything is ready
     console.log('onLoad');
     $("#loader").hide();
     linkhello();                           // load hello screen
-    getAdmin();                            // get admin info
-    getUsers(renderUserList);              // get users info 
     getSiteInfo();                         // get site info
     getAllSiteNames();                     // get itemes for menu
+    getUsers(renderUserList);              // get users info 
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
     getTemplates();                        // get list of available templates

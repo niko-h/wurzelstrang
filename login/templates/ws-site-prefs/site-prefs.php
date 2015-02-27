@@ -19,12 +19,12 @@
     <li id="leveloption">
       <label class="bold">Ebene</label>
       <span class="btn-group">
-        <button id="leveldown" class="btn .btn-prepend"><i class="icon-angle-left"></i></button>
+        <button id="leveldown" class="btn btn-prepend"><i class="icon-angle-left"></i></button>
         <span class="btn disabled" id="level"><span id="levelcount"></span></span>
-        <button id="levelup" class="btn .btn-append"><i class="icon-angle-right"></i></button>            
+        <button id="levelup" class="btn btn-append"><i class="icon-angle-right"></i></button>            
       </span>
     </li>
-    <li>
+    <li class="deleteoption">
         <label class="bold red">Vorsicht!</label>
         <button name="deleteentrybutton" id="deleteentrybutton" class="btn redbtn"><i class="icon-cancel"></i> Seite löschen</button>
     </li>
