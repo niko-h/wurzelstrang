@@ -57,10 +57,12 @@ function showsiteaminpopup() {
 	return false;
 }
 
-function submitsiteadmins(id) {
-    if (typeof id != 'undefined') {
+function submitsiteadmins() {
+    if ($('#entryId').val() !== '') {
         console.log('call updateSiteadmins()');
-        updateSiteadmins(id);
+        updateSiteadmins($('#entryId').val());
+        closepopup();
+        fade('#savedfade');
     } else {
         console.log('just close the popup');
         closepopup();
@@ -103,6 +105,7 @@ function getEntry(id) {
 
 function addEntry() {
     console.log('addEntry');
+    var siteadmins = siteadminsToJSON();
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -111,9 +114,10 @@ function addEntry() {
         data: newEntryToJSON(),
         success: function (data) {
             fade('#savedfade');
+            console.log('INSERTED: '+data.inserted.id);
             getEntry(data.inserted.id);
 
-            updateSiteadmins(data.inserted.id);
+            updateSiteadmins(data.inserted.id, siteadmins);
 
             getAllSiteNames();
             newPos = null;
@@ -137,10 +141,8 @@ function updateEntry() {
         data: updateEntryToJSON(),
         success: function (data) {
             fade('#savedfade');
-            getEntry(data.updated.id);
-
             updateSiteadmins(data.inserted.id);
-
+            getEntry(data.updated.id);
             getAllSiteNames();
         },
         error: function (jqXHR, textStatus) {
@@ -184,14 +186,15 @@ function updateLevel(dir) {
     });
 }
 
-function updateSiteadmins(id) {
+function updateSiteadmins(id, siteadmins) {
+    if (typeof siteadmins === 'undefined') { siteadmins = siteadminsToJSON(); }
     console.log('addSiteadmins');
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: rootURL + '/entries/' + getLanguage() + '/' + id + '/siteadmins',
         dataType: "json",
-        data: siteadminsToJSON(),
+        data: siteadmins,
         success: function (data) {
             console.log('addSiteadmins success');
         },
@@ -295,7 +298,7 @@ function renderSiteadminsPopup(siteadmins) {
         });
     }    
 
-    $('#submitsiteadmins').unbind().click(submitsiteadmins($('#entryId').val())); // submit site prefs
+    $('#submitsiteadmins').unbind().click(submitsiteadmins); // submit site prefs
 }
 
 
