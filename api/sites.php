@@ -256,7 +256,7 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
         exit;
     }
 
-    if( !$request_body->siteadmins ) {
+    if( !isset($request_body->siteadmins) ) {
         http_response_code( 400 );
         echo json_encode( array( "error" => "siteadmins missing" ) );
         exit;
