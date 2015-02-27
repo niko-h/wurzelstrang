@@ -262,6 +262,11 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
         exit;
     }
 
+    updateDB( "DELETE FROM site_admins WHERE site_id = :site_id AND language = :language;",
+              [ 'site_id'  => $site_id,
+                'language' => $language ]
+    );
+
     foreach( $request_body->siteadmins as $user_id ) {
         $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
         try {
