@@ -36,7 +36,7 @@
           <li>
             <ul class="row">
               <li class="half">
-                  <button type="submit" id="submitsiteprefs" class="btn greenbtn" onclick="usermailvalidate(newuseremail.value);"><i class="icon-pencil"></i> Speichern
+                  <button type="submit" id="submitsiteprefs" class="btn greenbtn" onclick="usermailvalidate($('#usermail').val());"><i class="icon-pencil"></i> Speichern
                   </button>
               </li>
               <li class="half">
