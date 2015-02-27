@@ -648,7 +648,8 @@ function renderUser(user, userid) {
 
         $('#useremail').val(user.user_email);
         if(user.admin === '1') {
-            $('.isadmincheckbox').click();
+            $('.isadmincheckbox').prop('checked', 'checked');
+            isadmincheckbox();
         }
 
         var accesslist = user.sites === null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
@@ -754,8 +755,14 @@ function showsiteaminpopup() {
 	return false;
 }
 
-function submitsiteadmins() {
-	updateSiteadmins();
+function submitsiteadmins(id) {
+    if (typeof id != 'undefined') {
+        console.log('call updateSiteadmins()');
+        updateSiteadmins(id);
+    } else {
+        console.log('just close the popup');
+        closepopup();
+    }
 	return false;
 }
 
@@ -804,7 +811,7 @@ function addEntry() {
             fade('#savedfade');
             getEntry(data.inserted.id);
 
-            addEntrySiteadmins(data.inserted.id);
+            updateSiteadmins(data.inserted.id);
 
             getAllSiteNames();
             newPos = null;
@@ -830,7 +837,7 @@ function updateEntry() {
             fade('#savedfade');
             getEntry(data.updated.id);
 
-            updateEntrySiteadmins(data.inserted.id);
+            updateSiteadmins(data.inserted.id);
 
             getAllSiteNames();
         },
@@ -875,37 +882,19 @@ function updateLevel(dir) {
     });
 }
 
-function addEntrySiteadmins(id) {
+function updateSiteadmins(id) {
     console.log('addSiteadmins');
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        //url: rootURL + '/',
+        url: rootURL + '/entries/' + getLanguage() + '/' + id + '/siteadmins',
         dataType: "json",
-        data: entrySiteadminsToJSON(),
+        data: siteadminsToJSON(),
         success: function (data) {
             console.log('addSiteadmins success');
         },
         error: function (jqXHR, textStatus) {
             console.log('addSiteadmins error: ' + textStatus);
-        }
-    });
-}
-
-function updateEntrySiteadmins(id) {
-    console.log('updateSiteadmins');
-    $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
-        //url: rootURL + '/',
-        dataType: "json",
-        data: entrySiteadminsToJSON(),
-        success: function (data) {
-            fade('#savedfade');
-            console.log('updateSiteadmins success');
-        },
-        error: function (jqXHR, textStatus) {
-            console.log('updateSiteadmins error: ' + textStatus);
         }
     });
 }
@@ -1004,7 +993,7 @@ function renderSiteadminsPopup(siteadmins) {
         });
     }    
 
-    $('#submitsiteadmins').unbind().click(submitsiteadmins); // submit site prefs
+    $('#submitsiteadmins').unbind().click(submitsiteadmins($('#entryId').val())); // submit site prefs
 }
 
 
@@ -1073,12 +1062,15 @@ function updateLevelToJSON(dir) {
     return data;
 }
 
-//TODO
-function entrySiteadminsToJSON() {
+function siteadminsToJSON() {
+    var selected = [];
+    $('.editsiteadminspopupcheckbox:checked').each(function() {
+        selected.push($(this).attr('data-id'));
+    });
+
     data = JSON.stringify({
-        "user_id": "",
-        "site_id": "",
-        "language": getLanguage()
+        "apikey": apikey,
+        "siteadmins": selected
     });
     return data;
 }

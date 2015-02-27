@@ -201,7 +201,8 @@ function renderUser(user, userid) {
 
         $('#useremail').val(user.user_email);
         if(user.admin === '1') {
-            $('.isadmincheckbox').click();
+            $('.isadmincheckbox').prop('checked', 'checked');
+            isadmincheckbox();
         }
 
         var accesslist = user.sites === null ? [] : (user.sites instanceof Array ? user.sites : [user.sites]);
