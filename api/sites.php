@@ -83,6 +83,7 @@ $app->post( '/entries/:language', function ( $language ) {
 
     $id = NULL;
 
+    /* Hack for synchronizing different language Versions */
     $query = 'SELECT site_language FROM siteinfo;';
     $rows = fetchFromDB( $query );
     foreach( $rows as $row ) {
@@ -165,7 +166,7 @@ $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     exitIfNotAdmin();
 
 
-    $query = 'DELETE FROM sites WHERE id = :id AND language = :language;';
+    $query = 'DELETE FROM sites WHERE id = :id AND (language = :language or 1=1);';
     try {
         updateDB( $query, [ 'id' => $site_id, 'language' => $language ] );
         echo '{"deleted":' . $site_id . '}';
@@ -281,13 +282,20 @@ $app->post( '/entries/:language/:site_id/siteadmins', function ( $language, $sit
                 'language' => $language ]
     );
 
-    foreach( $request_body->siteadmins as $user_id ) {
-        $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
-        try {
-            updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
-        } catch( PDOException $e ) {
+    /* Hack for synchronizing different language Versions */
+    $query = 'SELECT site_language FROM siteinfo;';
+    $rows = fetchFromDB( $query );
+    foreach( $rows as $row ) {
+        $lang = $row[ 'site_language' ];
+
+        foreach( $request_body->siteadmins as $user_id ) {
+            $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
+            try {
+                updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $lang ] );
+            } catch( PDOException $e ) {
 //            echo '{"error":{"text":' . $e->getMessage() . '}}';
-            /* TODO implement error handling*/
+                /* TODO implement error handling*/
+            }
         }
     }
 

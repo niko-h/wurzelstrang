@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 
@@ -71,34 +71,40 @@ $app->delete( '/users/:id', function ( $user_id ) {
  * Add new Sites this user adminstrates
  * POST /api/index.php/users/2/sites
  *
- * request:  {"apikey":"apikey", "language":"en", "sites":[4,5,6]}
- * response: {"language":"en", "sites":[4,5,6]}
+ * request:  {"apikey":"apikey", "sites":[4,5,6]}
+ * response:
  */
-$app->post( '/users/:id/sites', function ( $user_id ) {
+$app->post( '/users/:id/sites/:language', function ( $user_id, $language ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
     exitIfNotAdmin();
 
     $request_body = json_decode( $request->getBody() );
 
-    if( !$request_body->sites ) {
+    if( !isset( $request_body->sites ) ) {
         http_response_code( 400 );
         echo json_encode( array( "error" => "sites missing" ) );
         exit;
     }
 
-    if( !$request_body->language ) {
-        http_response_code( 400 );
-        echo json_encode( array( "error" => "language missing" ) );
-        exit;
-    }
+    updateDB( "DELETE FROM site_admins WHERE user_id = :user_id AND language = :language;",
+              [ 'user_id'  => $user_id,
+                'language' => $language ]
+    );
 
-    foreach( $request_body->sites as $site_id ) {
-        $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
-        try {
-            updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $request_body->language ] );
-        } catch( PDOException $e ) {
-            /* TODO implement error handling */
+    /* Hack for synchronizing different language Versions */
+    $query = 'SELECT site_language FROM siteinfo;';
+    $rows = fetchFromDB( $query );
+    foreach( $rows as $row ) {
+        $lang = $row[ 'site_language' ];
+
+        foreach( $request_body->sites as $site_id ) {
+            $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
+            try {
+                updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $lang ] );
+            } catch( PDOException $e ) {
+                /* TODO implement error handling */
+            }
         }
     }
 
