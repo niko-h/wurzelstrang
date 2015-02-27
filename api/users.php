@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 
@@ -36,6 +36,7 @@ $app->get( '/users/:id', function ( $user_id ) {
 
         $siteadmin_query = 'SELECT site_id FROM site_admins WHERE user_id = :user_id';
         $sites = fetchFromDB( $siteadmin_query, [ 'user_id' => $user_id ] );
+        $result['id'] = $user_id;
         $result[ 'sites' ] = array();
         foreach( $sites as &$row ) {
             array_push( $result[ 'sites' ], intval( $row[ 'site_id' ] ) );
@@ -71,76 +72,63 @@ $app->delete( '/users/:id', function ( $user_id ) {
  * Add new Sites this user adminstrates
  * POST /api/index.php/users/2/sites
  *
- * request:  {"apikey":"apikey", "language":"en", "sites":[4,5,6]}
- * response: {"language":"en", "sites":[4,5,6]}
+ * request:  {"apikey":"apikey", "sites":[4,5,6]}
+ * response:
  */
-$app->post( '/users/:id/sites', function ( $user_id ) {
+$app->post( '/users/:id/sites/:language', function ( $user_id, $language ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
     exitIfNotAdmin();
 
     $request_body = json_decode( $request->getBody() );
 
-    if( !$request_body->sites ) {
+    if( !isset( $request_body->sites ) ) {
         http_response_code( 400 );
         echo json_encode( array( "error" => "sites missing" ) );
         exit;
     }
 
-    if( !$request_body->language ) {
-        http_response_code( 400 );
-        echo json_encode( array( "error" => "language missing" ) );
-        exit;
-    }
+    updateDB( "DELETE FROM site_admins WHERE user_id = :user_id AND language = :language;",
+              [ 'user_id'  => $user_id,
+                'language' => $language ]
+    );
 
-    foreach( $request_body->sites as $site_id ) {
-        $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
-        try {
-            updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $request_body->language ] );
-        } catch( PDOException $e ) {
-            /* TODO implement error handling */
+    /* Hack for synchronizing different language Versions */
+    $query = 'SELECT site_language FROM siteinfo;';
+    $rows = fetchFromDB( $query );
+    foreach( $rows as $row ) {
+        $lang = $row[ 'site_language' ];
+
+        foreach( $request_body->sites as $site_id ) {
+            $query = "INSERT INTO site_admins (user_id, site_id, language) VALUES (:user_id, :site_id, :language);";
+            try {
+                updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $lang ] );
+            } catch( PDOException $e ) {
+                /* TODO implement error handling */
+            }
         }
     }
 
 
 } );
 
-/**
- * Delete one Site from list of Administrated sites of this user
- *
- * request:
- * response:
- */
-
-$app->delete( '/users/:user_id/sites/:language/:site_id', function ( $user_id, $language, $site_id ) {
-    $request = Slim::getInstance()->request();
-    checkApiToken( $request );
-    exitIfNotAdmin();
-
-
-    $query = "DELETE FROM site_admins WHERE user_id = :user_id AND site_id = :site_id AND language = :language;";
-    try {
-        updateDB( $query, [ 'user_id' => $user_id, 'site_id' => $site_id, 'language' => $language ] );
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-//    echo json_encode( [ 'siteadmins' => getSiteAdmins( $site_id, $language ) ] );
-
-} );
 
 
 // updateAdmin
-$app->put( '/users', function () {
+$app->put( '/users/:user_id', function ( $user_id ) {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
     exitIfNotAdmin();
 
     $user = json_decode( $request->getBody() );
 
-    $query = "UPDATE users SET user_email=:email";
+    $query = "UPDATE users SET user_email = :email, admin = :admin WHERE id = :user_id";
     try {
-        updateDB( $query, [ 'email' => $user->email ] );
-        echo '{"user":{"user_email":"' . $user->email . '"}}';
+        updateDB( $query, [ 'email'   => $user->email,
+                            'admin'   => $user->admin,
+                            'user_id' => $user->id ] );
+
+        echo json_encode( $user );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
@@ -156,8 +144,10 @@ $app->post( '/users', function () {
 
     $query = 'INSERT INTO users ( user_email, admin) VALUES ( :user_email, :admin );';
     try {
-        updateDB( $query, [ 'user_email' => $user->email, 'admin' => 0 ] );
-        echo '{"inserted":{"id":' . $user->email . '}}';
+        updateDB( $query, [ 'user_email' => $user->email,
+                            'admin'      => $user->admin ] );
+
+        echo json_encode( $user );
     } catch( PDOException $e ) {
         echo '{"insertusererror":{"text": ' . $e->getMessage() . '}}';
     }
