@@ -11,7 +11,7 @@
               <ul>
                 <li>
                   <label for="email" class="bold">Email</label>
-                  <input name="email" id="useremail" type="email" value="" onclick="usermailvalidate(useremail.value);">        
+                  <input name="email" id="useremail" type="email" value="">        
                   <div class="error descr">
                     Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen.
                   </div>
@@ -36,7 +36,7 @@
           <li>
             <ul class="row">
               <li class="half">
-                  <button type="submit" id="submitsiteprefs" class="btn greenbtn" onclick="usermailvalidate($('#usermail').val());"><i class="icon-pencil"></i> Speichern
+                  <button type="submit" id="submitsiteprefs" class="btn greenbtn" onclick="usermailvalidate(email.value);"><i class="icon-pencil"></i> Speichern
                   </button>
               </li>
               <li class="half">

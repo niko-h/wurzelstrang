@@ -649,7 +649,7 @@ function renderUser(user) {
         );
     });
 
-    if(typeof user === 'undefined' && typeof user.id === 'undefined') {
+    if(typeof user === 'undefined') {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
         $('#useremail').val('');
@@ -693,7 +693,7 @@ usermailvalidate = function (str) {
 
         return true;
     } else {
-        $('#useremail').before('<div class="descr error">Keine gültige Emailadresse</div><br>');
+        $('#useremail').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
         console.log('Email nicht gueltig bei useremail');
     }
 };
