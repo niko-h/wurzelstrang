@@ -11,6 +11,7 @@ var languages;
 
 function openlanguagesbtn() {
     $('.editlanguagespopup').show();
+    $('#newlanguage').focus();
     return false;
 }
 

@@ -10,15 +10,15 @@
               <legend>Email und Rolle</legend>
               <ul>
                 <li>
-                  <label for="email" class="bold">Email</label>
+                  <label for="email" class="bold" tabindex="0">Email</label>
                   <input name="email" id="useremail" type="email" value="">        
                   <div class="error descr">
-                    Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/">Persona</a>-Account entsprechen.
+                    Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/" tabindex="-1">Persona</a>-Account entsprechen.
                   </div>
                 </li>
                 <li>
-                  <label class="bold">Administrator</label>
-                  <input class="isadmincheckbox" type="checkbox">
+                  <label class="bold" for="isadmincheckbox" tabindex="1">Administrator</label>
+                  <input class="isadmincheckbox" id="isadmincheckbox" type="checkbox">
                   <div class="descr">Administratoren dürfen ALLES bearbeiten.
                   </div>
                 </li>

@@ -190,7 +190,6 @@ function renderUserList(data) {
 
 function renderUser(user) {
     $('.userpopup').show();
-    console.log(user);
     renderTemplateList('#usertemplate');
     var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
@@ -208,14 +207,13 @@ function renderUser(user) {
     if(typeof user === 'undefined') {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
-        $('#useremail').val('');
+        $('#useremail').val('').focus();
         $('#submitsiteprefs').removeAttr('data-id');
     } else {
         console.log("renderUser");
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
-        console.log(user.id);
         $('#submitsiteprefs').attr('data-id', user.id);
-        $('#useremail').val(user.user_email);
+        $('#useremail').val(user.user_email).focus();
         if(user.admin === '1') {
             $('.isadmincheckbox').prop('checked', 'checked');
             isadmincheckbox();

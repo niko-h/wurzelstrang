@@ -18,7 +18,7 @@
               </ul>
             </li>
             <li>
-              <button type="submit" id="submitsiteadmins" class="btn greenbtn"><i class="icon-pencil"></i> Speichern</button>
+              <a href="#" id="submitsiteadmins" class="btn greenbtn"><i class="icon-pencil"></i> Speichern</a>
             </li>
           </ul>
         </fieldset>

@@ -70,20 +70,20 @@ header( "Content-Type: text/html; charset=utf-8" );
 ?>
 <div class="head row">
     <div class="wrapper">
-        <a id="logo" href="#" target="_self"><span class="tooltip"><span>Wurzelstrang Start</span></span></a>
+        <a id="logo" href="#" target="_self" tabindex="0" autofocus><span class="tooltip"><span>Wurzelstrang Start</span></span></a>
         <span class="head-separator"></span>
-        <a href="../index.php" target="_blank" id="head-sitelink"></a>
+        <a href="../index.php" target="_blank" id="head-sitelink" tabindex="1"></a>
 
         <div class="push-right">
             <span class="head-separator"></span>
             <?php if( isAdmin() ) {
-                echo '<a id="prefbtn" class="btn greybtn" href="#"><i class="icon-cog"></i> Einstellungen</a>';
+                echo '<a href="#" id="prefbtn" class="btn greybtn" href="#" tabindex="3"><i class="icon-cog"></i> Einstellungen</a>';
             } ?>
-            <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn"><i class="icon-off"></i> Abmelden</a>
+            <a href="?logout" name="logoutbtn" id="logoutbtn" class="btn redbtn" tabindex="4"><i class="icon-off"></i> Abmelden</a>
         </div>
         <div class="push-right">
             <i class="icon-flag"></i>
-            <select class="lang-sel">
+            <select class="lang-sel" tabindex="2">
                 <option disabled>Sprache/Language</option>
             </select>             
         </div>
@@ -98,7 +98,7 @@ header( "Content-Type: text/html; charset=utf-8" );
             <?php
                 if( $isadmin ) {
                     echo '<div class="menuhead row">
-                            <a href="#" id="linknew" class="btn greenbtn bold"><i class="icon-pencil"></i> Neue Seite</a>
+                            <a href="#" id="linknew" class="btn greenbtn bold" tabindex="5"><i class="icon-pencil"></i> Neue Seite</a>
                           </div>';
                 }
             ?>
@@ -133,15 +133,15 @@ header( "Content-Type: text/html; charset=utf-8" );
                             <ul class="row">
                                 <li class="twothird">
                                     <label for="title" class="bold">Titel</label>
-                                    <input id="title" type="text" class="width-100" name="title" required placeholder="Titel" value="">
+                                    <input id="title" type="text" class="width-100" name="title" required placeholder="Titel" value="" tabindex="0">
                                 </li>
                                 <li class="push-right site-pref-container">
                                     <?php
                                         if( $isadmin ) {
                                             echo '<label>&nbsp;</label>
-                                                    <button class="btn editsitebutton">
+                                                    <a href="#" class="btn editsitebutton" tabindex="0">
                                                         <i class="icon-cog"></i> Eigenschaften
-                                                    </button>';
+                                                    </a>';
                                         }
                                         require_once( 'templates/ws-site-prefs/site-prefs.php' );
                                     ?>

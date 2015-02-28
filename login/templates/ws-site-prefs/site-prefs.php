@@ -6,27 +6,27 @@
   <ul class="forms columnar full-width site-prefs">
     <li>
         <label class="bold">Berechtigungen</label>
-        <button name="show-siteadmin-popup" class="showsiteaminpopup btn"><i class="icon-user"></i> Anzeigen</button>
+        <a href="#" name="show-siteadmin-popup" class="showsiteaminpopup btn" tabindex="0"><i class="icon-user"></i> Anzeigen</a>
     </li>
     <li>
       <label class="bold">Template</label>
-      <select id="templateSelector" name="templateSelector"></select>
+      <select id="templateSelector" name="templateSelector" tabindex="0"></select>
     </li>
     <li>
-      <label for="visiblecheckbox" class="bold">Anzeigen</label>
+      <label for="visiblecheckbox" class="bold" tabindex="0">Anzeigen</label>
       <input id="visiblecheckbox" class="visiblecheckbox" type="checkbox" name="visible" />
     </li>
     <li id="leveloption">
       <label class="bold">Ebene</label>
       <span class="btn-group">
-        <button id="leveldown" class="btn btn-prepend"><i class="icon-angle-left"></i></button>
+        <a href="#" id="leveldown" class="btn btn-prepend" tabindex="0"><i class="icon-angle-left"></i></a>
         <span class="btn disabled" id="level"><span id="levelcount"></span></span>
-        <button id="levelup" class="btn btn-append"><i class="icon-angle-right"></i></button>            
+        <a href="#" id="levelup" class="btn btn-append" tabindex="0"><i class="icon-angle-right"></i></a>            
       </span>
     </li>
     <li class="deleteoption">
         <label class="bold red">Vorsicht!</label>
-        <button name="deleteentrybutton" id="deleteentrybutton" class="btn redbtn"><i class="icon-cancel"></i> Seite löschen</button>
+        <a href="#" name="deleteentrybutton" id="deleteentrybutton" class="btn redbtn" tabindex="0"><i class="icon-cancel"></i> Seite löschen</a>
     </li>
   </ul>
 </body>
