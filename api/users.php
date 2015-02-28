@@ -36,7 +36,7 @@ $app->get( '/users/:id', function ( $user_id ) {
 
         $siteadmin_query = 'SELECT site_id FROM site_admins WHERE user_id = :user_id';
         $sites = fetchFromDB( $siteadmin_query, [ 'user_id' => $user_id ] );
-        $result['id'] = $user_id;
+        $result[ 'id' ] = $user_id;
         $result[ 'sites' ] = array();
         foreach( $sites as &$row ) {
             array_push( $result[ 'sites' ], intval( $row[ 'site_id' ] ) );
@@ -113,7 +113,6 @@ $app->post( '/users/:id/sites/:language', function ( $user_id, $language ) {
 } );
 
 
-
 // updateAdmin
 $app->put( '/users/:user_id', function ( $user_id ) {
     $request = Slim::getInstance()->request();
@@ -128,7 +127,9 @@ $app->put( '/users/:user_id', function ( $user_id ) {
                             'admin'   => $user->admin,
                             'user_id' => $user->id ] );
 
-        echo json_encode( $user );
+        echo json_encode( [ 'email' => $user->email,
+                            'admin' => $user->admin,
+                            'id'    => $user->id ] );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
@@ -138,16 +139,18 @@ $app->put( '/users/:user_id', function ( $user_id ) {
 $app->post( '/users', function () {
     $request = Slim::getInstance()->request();
     checkApiToken( $request );
-    exitIfNotAdmin();
+//    exitIfNotAdmin();
 
     $user = json_decode( $request->getBody() );
 
     $query = 'INSERT INTO users ( user_email, admin) VALUES ( :user_email, :admin );';
     try {
-        updateDB( $query, [ 'user_email' => $user->email,
+        $id = updateDB( $query, [ 'user_email' => $user->email,
                             'admin'      => $user->admin ] );
 
-        echo json_encode( $user );
+        echo json_encode( [ 'email' => $user->email,
+                            'admin' => $user->admin,
+                            'id'    => $id ] );
     } catch( PDOException $e ) {
         echo '{"insertusererror":{"text": ' . $e->getMessage() . '}}';
     }
