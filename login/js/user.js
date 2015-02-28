@@ -53,19 +53,20 @@ function getUsers(callback) {
     });
 }
 
-function putUser(siteadmins) {
+function putUser(id, adminsites) {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: rootURL + '/users',
+        url: rootURL + '/users/' + id,
         dataType: "json",
-        data: updateUserToJSON(),
-        success: function () {
+        data: userToJSON(),
+        success: function (data) {
             console.log('putUser success');
             fade('#savedfade');
-            updateAdminSites(data.inserted.id, siteadmins);
+            updateAdminSites(data.id, adminsites);
             getUsers(renderUserList);
             $('#newuseremail').val("");
+            $('.userpopup').hide();
         },
         error: function (jqXHR, textStatus) {
             alert('putAdmin error: ' + textStatus);
@@ -73,19 +74,20 @@ function putUser(siteadmins) {
     });
 }
 
-function postUser() {
+function postUser(adminsites) {
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: rootURL + '/users',
         dataType: "json",
-        data: postUserToJSON(),
-        success: function () {
+        data: userToJSON(),
+        success: function (data) {
             console.log('postUser success');
             fade('#savedfade');
-            updateAdminSites(data.inserted.id);
+            updateAdminSites(data.id, adminsites);
             getUsers(renderUserList);
             $('#newuseremail').val("");
+            $('.userpopup').hide();
         },
         error: function (jqXHR) {
             if (jqXHR.responseText.indexOf("UNIQUE") > -1) {
@@ -132,14 +134,14 @@ function deleteUser(user) {
 }
 
 function updateAdminSites(id, adminsites) {
-    if (typeof adminsites === 'undefined') { adminsites = adminsitesToJSON(id); }
+    if (typeof adminsites === 'undefined') { adminsites = adminsitesToJSON(); }
     console.log('addAdminsites');
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: rootURL + '/user/' + getLanguage() + '/' + id + '/siteadmins',
+        url: rootURL + '/users/' + id + '/sites/' + getLanguage(),
         dataType: "json",
-        data: siteadmins,
+        data: adminsites,
         success: function (data) {
             console.log('addAdminsites success');
         },
@@ -157,9 +159,10 @@ function renderUserList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     console.log("renderUserList");
     var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
-    $('#user-list li').remove();
+    $('.admin-list li').remove();
+    $('.user-list li').remove();
     $.each(list, function (index, user) {
-        if(user.admin === '1') {
+        if(user.admin === '1' || user.admin === 'on') {
             ac += 1;
             if(user.user_email === current_admin) {
                 $('.admin-list').append(
@@ -206,10 +209,12 @@ function renderUser(user) {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
         $('#useremail').val('');
+        $('#submitsiteprefs').removeAttr('data-id');
     } else {
         console.log("renderUser");
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
-        $('#submitsiteprefs').prop('data-id', user.id);
+        console.log(user.id);
+        $('#submitsiteprefs').attr('data-id', user.id);
         $('#useremail').val(user.user_email);
         if(user.admin === '1') {
             $('.isadmincheckbox').prop('checked', 'checked');
@@ -237,13 +242,11 @@ function renderUser(user) {
 
 usermailvalidate = function (str) {
     if ((str.indexOf(".") > 2) && (str.indexOf("@") > 0)) {
-        var id;
         if (typeof $('#submitsiteprefs').data('id') !== 'undefined') {
-            putUser(id, adminsitesToJSON());
+            putUser($('#submitsiteprefs').data('id'), adminsitesToJSON());
         } else {
-            postUser();
+            postUser(adminsitesToJSON());
         }
-
         return true;
     } else {
         $('#useremail').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
@@ -255,20 +258,10 @@ usermailvalidate = function (str) {
  * toJSON functions
  ******************/
 
-function updateUserToJSON(id) {
+function userToJSON() {
     data = JSON.stringify({
         "apikey": apikey,
-        "admin": $('.isadmincheckbox').val(),
-        "email": $('#useremail').val(),
-        "id": id
-    });
-    return data;
-}
-
-function postUserToJSON() {
-    data = JSON.stringify({
-        "apikey": apikey,
-        "admin": $('.isadmincheckbox').val(),
+        "admin": $('.isadmincheckbox').is(':checked'),
         "email": $('#useremail').val()
     });
     return data;
@@ -282,7 +275,7 @@ function adminsitesToJSON() {
 
     data = JSON.stringify({
         "apikey": apikey,
-        "siteadmins": selected
+        "sites": selected
     });
     return data;
 }
