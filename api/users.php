@@ -125,11 +125,11 @@ $app->put( '/users/:user_id', function ( $user_id ) {
     try {
         updateDB( $query, [ 'email'   => $user->email,
                             'admin'   => $user->admin,
-                            'user_id' => $user->id ] );
+                            'user_id' => $user_id ] );
 
         echo json_encode( [ 'email' => $user->email,
                             'admin' => $user->admin,
-                            'id'    => $user->id ] );
+                            'id'    => $user_id ] );
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
