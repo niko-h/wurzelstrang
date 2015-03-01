@@ -148,6 +148,7 @@ var languages;
 
 function openlanguagesbtn() {
     $('.editlanguagespopup').show();
+    $('#newlanguage').focus();
     return false;
 }
 
@@ -323,6 +324,9 @@ function prefbtn() {
     $('#hello').hide();
     $('#edit').hide();
     $('#preferences').toggle();
+    if ($('#preferences').is(':visible')) {
+        $('.openlanguagesbtn').focus();
+    }
     return false;
 }
 
@@ -637,7 +641,6 @@ function renderUserList(data) {
 
 function renderUser(user) {
     $('.userpopup').show();
-    console.log(user);
     renderTemplateList('#usertemplate');
     var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
@@ -655,14 +658,13 @@ function renderUser(user) {
     if(typeof user === 'undefined') {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
-        $('#useremail').val('');
+        $('#useremail').val('').focus();
         $('#submitsiteprefs').removeAttr('data-id');
     } else {
         console.log("renderUser");
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
-        console.log(user.id);
         $('#submitsiteprefs').attr('data-id', user.id);
-        $('#useremail').val(user.user_email);
+        $('#useremail').val(user.user_email).focus();
         if(user.admin === '1') {
             $('.isadmincheckbox').prop('checked', 'checked');
             isadmincheckbox();
@@ -778,6 +780,9 @@ function leveldown() {
 
 function editsitebutton() {
 	$('.site-prefs').toggle();
+    if ($('.site-prefs').is(':visible')) {
+        $('.showsiteaminpopup').focus();
+    }
     return false;
 }
 
@@ -791,10 +796,12 @@ function submitsiteadmins() {
         console.log('call updateSiteadmins()');
         updateSiteadmins($('#entryId').val());
         closepopup();
+        $('.showsiteaminpopup').focus();
         fade('#savedfade');
     } else {
         console.log('just close the popup');
         closepopup();
+        $('.showsiteaminpopup').focus();
     }
 	return false;
 }
@@ -964,7 +971,7 @@ function renderEntry(item) {
             date = new Date(entry.mtime * 1000).toUTCString();
 		    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
-            $('#title').val(entry.title);
+            $('#title').val(entry.title).focus();
             $('#siteprefsbtn').attr('data-id', entry.id);
             $('textarea#ckeditor').val(entry.content);
             $('#levelcount').text(entry.level);
@@ -1012,12 +1019,19 @@ function renderSiteadminsPopup(siteadmins) {
     $.each(list, function (index, siteadmin) {
         $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id).attr('data-mail', siteadmin.user_email) 
+                $('<input>').addClass('editsiteadminspopupcheckbox')
+                    .attr('type', 'checkbox')
+                    .attr('data-id', siteadmin.id)
+                    .attr('data-mail', siteadmin.user_email)
+                    .attr('id', siteadmin.user_email) 
             ).append(
                 $('<label>').addClass('bold').text(siteadmin.user_email)
+                    .attr('for', siteadmin.user_email)
             )
         );
     });
+
+    $('.editsiteadminspopupcheckbox:first').focus();
 
     if(typeof currentEntry.entry === 'undefined') {     // check current admin when creating a new site
         $('.editsiteadminspopupcheckbox[data-mail="'+current_admin+'"]').attr('checked', 'checked');
@@ -1137,5 +1151,39 @@ showRight = function(id) {
 $("img").error(function () {
     $(this).attr("src", "static/img/bgbig.png");
 });
+
+// bind escape to close all kinds of popup
+$(document).keyup(function(e) {
+    if ($('.userpopup').is(':visible')) {
+        if (27 === e.keyCode || 27 === e.which) {
+            $('.closepopup').click();
+            $('.adduserbtn').focus();
+        }
+    } else if ($('.editlanguagespopup').is(':visible')) {
+        if (27 === e.keyCode || 27 === e.which) {
+            $('.closepopup').click();
+            $('.openlanguagesbtn').focus();
+        }
+    } else if ($('#preferences').is(':visible')) {
+        if (27 === e.keyCode || 27 === e.which) {
+            $('#preferences').toggle();
+            $('#prefbtn').focus();
+        }
+    } else if ($('.editsiteadminspopup').is(':visible')) {
+        if (27 === e.keyCode || 27 === e.which) {
+            $('.closepopup').click();
+            $('.showsiteaminpopup').focus();
+        }
+    } else if ($('.site-prefs').is(':visible')) {
+        if (27 === e.keyCode || 27 === e.which) {
+            $('.site-prefs').hide();
+            $('.editsitebutton').focus();
+        }
+    } else {
+        if (27 === e.keyCode || e.which) {
+            return;
+        }
+    }
+});    
 
 $(document).ready(init());

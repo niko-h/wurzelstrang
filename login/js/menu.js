@@ -38,6 +38,9 @@ function prefbtn() {
     $('#hello').hide();
     $('#edit').hide();
     $('#preferences').toggle();
+    if ($('#preferences').is(':visible')) {
+        $('.openlanguagesbtn').focus();
+    }
     return false;
 }
 

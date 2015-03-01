@@ -49,6 +49,9 @@ function leveldown() {
 
 function editsitebutton() {
 	$('.site-prefs').toggle();
+    if ($('.site-prefs').is(':visible')) {
+        $('.showsiteaminpopup').focus();
+    }
     return false;
 }
 
@@ -62,10 +65,12 @@ function submitsiteadmins() {
         console.log('call updateSiteadmins()');
         updateSiteadmins($('#entryId').val());
         closepopup();
+        $('.showsiteaminpopup').focus();
         fade('#savedfade');
     } else {
         console.log('just close the popup');
         closepopup();
+        $('.showsiteaminpopup').focus();
     }
 	return false;
 }
@@ -235,7 +240,7 @@ function renderEntry(item) {
             date = new Date(entry.mtime * 1000).toUTCString();
 		    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
-            $('#title').val(entry.title);
+            $('#title').val(entry.title).focus();
             $('#siteprefsbtn').attr('data-id', entry.id);
             $('textarea#ckeditor').val(entry.content);
             $('#levelcount').text(entry.level);
@@ -283,12 +288,19 @@ function renderSiteadminsPopup(siteadmins) {
     $.each(list, function (index, siteadmin) {
         $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id).attr('data-mail', siteadmin.user_email) 
+                $('<input>').addClass('editsiteadminspopupcheckbox')
+                    .attr('type', 'checkbox')
+                    .attr('data-id', siteadmin.id)
+                    .attr('data-mail', siteadmin.user_email)
+                    .attr('id', siteadmin.user_email) 
             ).append(
                 $('<label>').addClass('bold').text(siteadmin.user_email)
+                    .attr('for', siteadmin.user_email)
             )
         );
     });
+
+    $('.editsiteadminspopupcheckbox:first').focus();
 
     if(typeof currentEntry.entry === 'undefined') {     // check current admin when creating a new site
         $('.editsiteadminspopupcheckbox[data-mail="'+current_admin+'"]').attr('checked', 'checked');

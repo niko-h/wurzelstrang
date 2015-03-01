@@ -22,6 +22,9 @@ body {
 .btn {
     padding: 6px;
 }
+.btn:focus {
+    box-shadow: 0 0 2px blue;
+}
 
 .greenbtn {
     border-color: #88DA88;
