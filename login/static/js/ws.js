@@ -1019,9 +1019,14 @@ function renderSiteadminsPopup(siteadmins) {
     $.each(list, function (index, siteadmin) {
         $('.editsiteadminspopup-userlist').append(
             $('<li>').append(
-                $('<input>').addClass('editsiteadminspopupcheckbox').attr('type', 'checkbox').attr('data-id', siteadmin.id).attr('data-mail', siteadmin.user_email) 
+                $('<input>').addClass('editsiteadminspopupcheckbox')
+                    .attr('type', 'checkbox')
+                    .attr('data-id', siteadmin.id)
+                    .attr('data-mail', siteadmin.user_email)
+                    .attr('id', siteadmin.user_email) 
             ).append(
                 $('<label>').addClass('bold').text(siteadmin.user_email)
+                    .attr('for', siteadmin.user_email)
             )
         );
     });
