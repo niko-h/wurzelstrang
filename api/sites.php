@@ -199,13 +199,14 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
 
     $request_body = json_decode( $request->getBody() );
 
-    $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible WHERE id=:id AND language=:language;";
+    $query = "UPDATE sites SET title=:title, content=:content, mtime=:time, visible=:visible, template=:template WHERE id=:id AND language=:language;";
     try {
         updateDB( $query, [ 'title'    => $request_body->title,
                             'content'  => $request_body->content,
                             'time'     => time(),
                             'visible'  => $request_body->visible,
                             'id'       => $site_id,
+                            'template' => $request_body->template,
                             'language' => $language ] );
 
         echo json_encode( [ 'updated' => [ 'id'       => $site_id,
