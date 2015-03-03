@@ -375,7 +375,7 @@ dragMenu = function () {
             $.ajax({
                 type: 'PUT',
                 contentType: 'application/json',
-                url: rootURL + '/entries/neworder',
+                url: rootURL + '/entries/' + getLanguage() + '/neworder',
                 dataType: "json",
                 data: newOrderToJSON(order),
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -641,6 +641,7 @@ function renderUserList(data) {
 
 function renderUser(user) {
     $('.userpopup').show();
+    $('.invalidmail').text('');
     renderTemplateList('#usertemplate');
     var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
@@ -696,9 +697,10 @@ usermailvalidate = function (str) {
         } else {
             postUser(adminsitesToJSON());
         }
+        $('.invalidmail').text('');
         return true;
     } else {
-        $('#useremail').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
+        $('.invalidmail').text('Keine gültige Emailadresse');
         console.log('Email nicht gueltig bei useremail');
     }
 };
@@ -948,10 +950,12 @@ function updateSiteadmins(id, siteadmins) {
 
 function renderEntry(item) {
     var template;
-    if (typeof item.template == 'undefined') {
-        template = 'ws-edit-default';
+    var entry = item.entry;
+    console.log(entry);
+    if (entry && typeof "undefined" !== entry.template) {
+        template = entry.template;
     } else {
-        template = item.template;
+        template = 'ws-edit-default';
     }
 
     $('#edit_main').load('templates/' + template, function () {
@@ -1076,6 +1080,10 @@ function renderTemplateList(list) {
 // Helper function to serialize all the form fields into a JSON string
 
 function newEntryToJSON() {
+    var template = $('#templateSelector').val();
+    if (template === 'default') {
+        template = 'ws-edit-default';
+    }
     data = JSON.stringify({
         "apikey": apikey,
         "title": $('#title').val(),
@@ -1085,12 +1093,16 @@ function newEntryToJSON() {
         "level": newLevel,
         "parentpos": (newPos === null) ? null : newPos - 1,
         "language": getLanguage(),
-        "template": $('#templateSelector').val()
+        "template": template
     });
     return data;
 }
 
 function updateEntryToJSON() {
+    var template = $('#templateSelector').val();
+    if (template === 'default') {
+        template = 'ws-edit-default';
+    }
     data = JSON.stringify({
         "apikey": apikey,
         "id": $('#entryId').val(),
@@ -1098,7 +1110,7 @@ function updateEntryToJSON() {
         "content": $('#ckeditor').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "language": getLanguage(),
-        "template": $('#templateSelector').val()
+        "template": template
     });
     return data;
 }

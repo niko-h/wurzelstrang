@@ -11,7 +11,8 @@
               <ul>
                 <li>
                   <label for="email" class="bold" tabindex="0">Email</label>
-                  <input name="email" id="useremail" type="email" value="">        
+                  <input name="email" id="useremail" type="email" value="">
+                  <div class="error descr invalidmail"></div>
                   <div class="error descr">
                     Die gew&auml;hlte Email-Adresse muss einem existierenden <a href="https://login.persona.org/" tabindex="-1">Persona</a>-Account entsprechen.
                   </div>

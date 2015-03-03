@@ -190,6 +190,7 @@ function renderUserList(data) {
 
 function renderUser(user) {
     $('.userpopup').show();
+    $('.invalidmail').text('');
     renderTemplateList('#usertemplate');
     var list = sitelist.entries === null ? [] : (sitelist.entries instanceof Array ? sitelist.entries : [sitelist.entries]);
     $('.userpopup-sitelist li').remove();
@@ -245,9 +246,10 @@ usermailvalidate = function (str) {
         } else {
             postUser(adminsitesToJSON());
         }
+        $('.invalidmail').text('');
         return true;
     } else {
-        $('#useremail').after('<br><div class="descr error">Keine gültige Emailadresse</div>');
+        $('.invalidmail').text('Keine gültige Emailadresse');
         console.log('Email nicht gueltig bei useremail');
     }
 };

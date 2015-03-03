@@ -848,7 +848,8 @@ input.input-search {
 }
 
 .btn-active,
-.btn-active:hover {
+.btn-active:hover,
+.btn-active:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) inset;
     color: #555;
     background: none;
