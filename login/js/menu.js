@@ -111,7 +111,7 @@ function renderList(data) {
     var list = data.entries === null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
     $('#menu_list li').remove();
     var dragger = '';
-    var levelstarget = $('#levelstarget').val() && isadmin;
+    var levelstarget = $('#levelstarget').val() === '1'  && isadmin;
     if (isadmin) {
     	dragger = '<span class="dragger push-right"><i class="icon-drag"></i></span></li>';
 	}

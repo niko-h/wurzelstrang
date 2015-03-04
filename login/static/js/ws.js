@@ -40,7 +40,7 @@ onLoad = function () {                     // Load once everything is ready
     $('#deletebutton').hide();             // hide deletebutton
     $('#leveloption').hide();
     $("#menu_list").sortable("refresh");   // check menu reorder state
-    $('textarea#ckeditor').ckeditor();     // Load CKEditor
+    // $('#ckeditor').ckeditor();     // Load CKEditor
 };
 
 /************
@@ -79,6 +79,7 @@ function getSiteInfo() {
             console.log('getSiteInfo success: ' + data.siteinfo.site_title);
             siteinfo = data.siteinfo;
             renderSiteInfo(siteinfo);
+            renderList();
         }
     });
 }
@@ -397,7 +398,7 @@ function renderList(data) {
     var list = data.entries === null ? [] : (data.entries instanceof Array ? data.entries : [data.entries]);
     $('#menu_list li').remove();
     var dragger = '';
-    var levelstarget = $('#levelstarget').val() && isadmin;
+    var levelstarget = $('#levelstarget').val() === '1'  && isadmin;
     if (isadmin) {
     	dragger = '<span class="dragger push-right"><i class="icon-drag"></i></span></li>';
 	}
@@ -969,6 +970,7 @@ function renderEntry(item) {
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
         $('.editsitebutton').show();
+        $('.ckeditor').ckeditor();
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
@@ -977,7 +979,7 @@ function renderEntry(item) {
             $('#entryId').val(entry.id);
             $('#title').val(entry.title).focus();
             $('#siteprefsbtn').attr('data-id', entry.id);
-            $('textarea#ckeditor').val(entry.content);
+            $('textarea.contentarea').val(entry.content);
             $('#levelcount').text(entry.level);
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
@@ -1001,7 +1003,7 @@ function renderEntry(item) {
             $('#entryId').val("");
             $('#title').val("").focus();
             $('#visiblecheckbox').attr('checked', 'checked');
-            $('textarea#ckeditor').val("");
+            $('textarea.contentarea').val("");
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
                 $('#leveloption .btn-group').hide();
@@ -1087,7 +1089,7 @@ function newEntryToJSON() {
     data = JSON.stringify({
         "apikey": apikey,
         "title": $('#title').val(),
-        "content": $('#ckeditor').val(),
+        "content": $('textarea.contentarea').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "pos": newPos,
         "level": newLevel,
@@ -1107,7 +1109,7 @@ function updateEntryToJSON() {
         "apikey": apikey,
         "id": $('#entryId').val(),
         "title": $('#title').val(),
-        "content": $('#ckeditor').val(),
+        "content": $('textarea.contentarea').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "language": getLanguage(),
         "template": template

@@ -26,6 +26,7 @@ function getSiteInfo() {
             console.log('getSiteInfo success: ' + data.siteinfo.site_title);
             siteinfo = data.siteinfo;
             renderSiteInfo(siteinfo);
+            renderList();
         }
     });
 }

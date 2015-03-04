@@ -236,6 +236,7 @@ function renderEntry(item) {
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
         $('.editsitebutton').show();
+        $('.ckeditor').ckeditor();
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
@@ -244,7 +245,7 @@ function renderEntry(item) {
             $('#entryId').val(entry.id);
             $('#title').val(entry.title).focus();
             $('#siteprefsbtn').attr('data-id', entry.id);
-            $('textarea#ckeditor').val(entry.content);
+            $('textarea.contentarea').val(entry.content);
             $('#levelcount').text(entry.level);
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
@@ -268,7 +269,7 @@ function renderEntry(item) {
             $('#entryId').val("");
             $('#title').val("").focus();
             $('#visiblecheckbox').attr('checked', 'checked');
-            $('textarea#ckeditor').val("");
+            $('textarea.contentarea').val("");
             if ('1' === $('#levelstarget').val()) {
                 $('#leveloption').show();
                 $('#leveloption .btn-group').hide();
@@ -354,7 +355,7 @@ function newEntryToJSON() {
     data = JSON.stringify({
         "apikey": apikey,
         "title": $('#title').val(),
-        "content": $('#ckeditor').val(),
+        "content": $('textarea.contentarea').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "pos": newPos,
         "level": newLevel,
@@ -374,7 +375,7 @@ function updateEntryToJSON() {
         "apikey": apikey,
         "id": $('#entryId').val(),
         "title": $('#title').val(),
-        "content": $('#ckeditor').val(),
+        "content": $('textarea.contentarea').val(),
         "visible": $('#visiblecheckbox').is(':checked'),
         "language": getLanguage(),
         "template": template
