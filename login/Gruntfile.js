@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 	    		dest: 'static/js/ws.js',
 	    	},
 	    	css: {
-	    		src: ['css/kube.css', 'css/main.css', 'css/popup.css'],
+	    		src: ['css/kube.css', 'css/main.css', 'css/popup.css', 'templates/*/*.css'],
 	    		dest: 'static/css/ws.min.css',
 	    	},
 		},

@@ -649,9 +649,9 @@ function renderUser(user) {
     $.each(list, function (index, site) {
         $('.userpopup-sitelist').append(
             $('<li>').append(
-                $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id)
+                $('<input>').addClass('userpopupcheckbox').attr('type', 'checkbox').attr('data-id', site.id).attr('id', site.id+'check')
                 .after(
-                    $('<label>').addClass('bold popuplistlabel').text(site.title)
+                    $('<label>').addClass('bold popuplistlabel').text(site.title).attr('for', site.id+'check')
                 )
             )
         );
