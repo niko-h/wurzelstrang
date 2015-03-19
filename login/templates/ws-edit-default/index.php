@@ -1,2 +1,2 @@
-<textarea name="content" id="ckeditor"></textarea>
-<script type="text/javascript">$('textarea.ckeditor').ckeditor();</script>
+<textarea name="content" class="contentarea"></textarea>
+<script type="text/javascript">$('textarea.contentarea').ckeditor();</script>

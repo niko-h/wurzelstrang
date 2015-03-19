@@ -1,1 +1,1 @@
-<textarea name="content" id="ckeditor"></textarea>
+<textarea name="content" class="contentarea"></textarea>

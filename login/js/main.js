@@ -40,7 +40,7 @@ onLoad = function () {                     // Load once everything is ready
     $('#deletebutton').hide();             // hide deletebutton
     $('#leveloption').hide();
     $("#menu_list").sortable("refresh");   // check menu reorder state
-    // $('#ckeditor').ckeditor();     // Load CKEditor
+    // $('.contentarea').ckeditor();     // Load CKEditor
 };
 
 /************

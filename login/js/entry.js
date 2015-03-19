@@ -236,7 +236,7 @@ function renderEntry(item) {
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
         $('.editsitebutton').show();
-        $('.ckeditor').ckeditor();
+        $('.contentarea').ckeditor();
 
         var entry = item.entry;
         if (entry && typeof "undefined" !== entry.id) {
