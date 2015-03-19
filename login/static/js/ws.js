@@ -619,6 +619,10 @@ function renderUserList(data) {
             if(user.user_email === current_admin) {
                 $('.admin-list').append(
                     $('<li>').addClass('push').append(user.user_email)
+                        .append( $('<span>').text('angemeldet').addClass('push-right').css({
+                            'font-weight': 'bold',
+                            'color': 'green'
+                        }) )
                 );
             } else {
                 $('.admin-list').append(
@@ -629,6 +633,7 @@ function renderUserList(data) {
                 );                
             }
         } else {
+            $('.user-list').html('');
             $('.user-list').append(
                 $('<li>').addClass('push').append(user.user_email)
                     .append($('<a href="#">').addClass('editusrbutton btn push-right')
@@ -637,6 +642,7 @@ function renderUserList(data) {
             );
         }
     });
+    if ( !$('.user-list li').is('li') ) { $('.user-list').append($('<li>').append('Keine')); }
     $('.editusrbutton').unbind().click(editusrbtn); // delete user
 }
 
@@ -662,6 +668,7 @@ function renderUser(user) {
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
         $('#useremail').val('').focus();
         $('#submitsiteprefs').removeAttr('data-id');
+        $('#deleteusrbutton').hide();
     } else {
         console.log("renderUser");
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
