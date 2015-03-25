@@ -6,6 +6,18 @@ if( session_status() == PHP_SESSION_NONE ) {
 require_once( '../config.php' );
 include_once( 'siteadmins.php' );
 
+
+function getParent( $site_id, $language ) {
+    $query = "SELECT id FROM sites
+              WHERE
+                language=:language AND
+                pos   < (SELECT pos   FROM sites WHERE id = :site_id) AND
+                level < (SELECT level FROM sites WHERE id = :site_id)
+              ORDER BY pos DESC LIMIT 1";
+
+    return fetchFromDB( $query, [ 'language' => $language, 'site_id' => $site_id ] )[ 0 ][ "id" ];
+}
+
 /* TODO: add request and response examples */
 
 /**
@@ -56,6 +68,7 @@ $app->get( '/entries/:language', function ( $language ) {
         $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
         foreach( $contentitems as $site ) {
             $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
+            $site[ 'parrent' ] = getParent( $site[ 'id' ], $language );
             /* only return sites that can be edited */
             if( isSiteAdmin( $site[ 'id' ], $language ) ) {
                 array_push( $result, $site );
@@ -147,6 +160,7 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
         $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
         if( isAuthorrized( $request ) ) {
             $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $language );
+            $result[ 'parrent' ] = getParent( $site_id, $language );
         }
         echo '{"entry":' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
@@ -166,7 +180,7 @@ $app->delete( '/entries/:language/:site_id', function ( $language, $site_id ) {
     exitIfNotAdmin();
 
 
-    $query = 'DELETE FROM sites WHERE id = :id AND (language = :language or 1=1);';
+    $query = 'DELETE FROM sites WHERE id = :id AND (language = :language OR 1=1);';
     try {
         updateDB( $query, [ 'id' => $site_id, 'language' => $language ] );
         echo '{"deleted":' . $site_id . '}';
