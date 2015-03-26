@@ -59,7 +59,7 @@ function getLanguages() {
     console.log('getLanguages');
     $.ajax({
         type: 'GET',
-        url: rootURL + 'siteinfo?apikey=' + apikey,
+        url: rootURL + '/siteinfo?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             languages = data.siteinfo.languages;

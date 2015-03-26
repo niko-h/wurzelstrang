@@ -57,7 +57,9 @@ $app->get( '/entries/:language', function ( $language ) {
         foreach( $contentitems as $site ) {
             $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
             /* only return sites that can be edited */
-            if( isSiteAdmin( $site[ 'id' ], $language ) ) {
+            if( isAuthorrized( $request ) && isSiteAdmin( $site[ 'id' ], $language ) ) {
+                array_push( $result, $site );
+            } else {
                 array_push( $result, $site );
             }
         }
