@@ -22,23 +22,11 @@ Based on [Wurzelstrang CMS](https://github.com/niko-h/wurzelstrang).
 * [Read the Documentation here](http://docs.wurzelstrang.apiary.io/)
 
 
-## Bug tracker
-
-Have a bug or a feature request? [Open a new issue](https://github.com/niko-h/wurzelstrang/issues).
-
-
-## Twitter
-
-* Follow [@Wurzelstrang on Twitter](http://twitter.com/Wurzelstrang).
-
-
 ## Author
 
 **Nikolaus Höfer**
 
 + [http://nikolaushoefer.de](http://nikolaushoefer.de)
-+ [http://twitter.com/Edvayne](http://twitter.com/Edvayne)
-+ [https://github.com/niko-h](https://github.com/niko-h)
 
 
 ## Copyright and license
