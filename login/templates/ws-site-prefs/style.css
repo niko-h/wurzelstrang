@@ -1,0 +1,46 @@
+/* WS-SITE-PREFS-CSS */
+
+.site-pref-container {
+	position: relative;
+}
+.site-pref-container .site-prefs {
+	display: none;
+	border-radius: 5px;
+	padding: 5px;
+	background: #eee;
+	margin: 10px 0;
+	position: absolute;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 10px -2px #888;
+	z-index: 9999;
+	right: 0;
+	min-width: 270px;
+}
+
+.site-pref-container .site-prefs:before {
+	content: '';
+	height: 0;
+	width: 0;
+	border-width: 0 10px 10px 10px;
+	border-style: solid;
+	border-color: transparent transparent #ccc transparent;
+	top: -10px;
+	position: absolute;
+	right: 30px;
+}
+
+.site-pref-container ul.site-prefs li label {
+	width: 110px;
+}
+.site-pref-container ul.site-prefs li.push {
+	margin-left: 130px;
+}
+
+.editsiteadminspopuptitle {
+	margin-right: 35px;
+}
+
+.editsiteadminspopup-userlist label {
+	display: inline;
+	margin-left: 5px;
+}

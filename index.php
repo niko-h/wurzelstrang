@@ -7,17 +7,7 @@
 
 header( "Content-Type: text/html; charset=utf-8" );
 
-/**
- * Declare variables
- */
-
-$sitetitle;
-$sitetheme;
-$siteheadline;
-$menuitems;
-$contentitems;
-$menu;
-$content;
+include( 'config.php' );
 
 include( 'func.php' );
 
@@ -26,7 +16,6 @@ include( 'func.php' );
 <!DOCTYPE HTML>
 <html>
 
-<?php include( 'themes/' . $sitetheme . '/head.php' ) ?>
+<?php include( 'themes/' . getTheme() . '/main.php' ) ?>
 
-<?php include( 'themes/' . $sitetheme . '/body.php' ) ?>
 </html>

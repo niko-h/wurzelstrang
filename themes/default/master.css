@@ -25,16 +25,32 @@ body {
     font-family: Helvetica, sans-serif;
     padding: 0;
     margin: 0;
-    min-width: 890px;
     background: #666;
     font-size: 1.4em;
 }
 
 #mother {
-    position: relative; /* needed for footer positioning*/
-    margin: 0px auto 0px auto;
-    width: 890px;
+    margin: 0px auto;
+    max-width: 920px;
     clear: both;
+}
+
+/* =Header
+-----------------------------------------------------------------------------*/
+.languages {
+    line-height: 30px;
+}
+.lang-link {
+    color: #ccc;
+    text-decoration: none;
+}
+.lang-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.lang-link.selected {
+    font-weight: bold;
+    color: #ddd;
 }
 
 /* =Header
@@ -47,15 +63,18 @@ body {
     width: 100%;
     background: #fff;
     z-index: 3;
+    box-sizing: border-box;
 }
 
 /* =Nav
 -----------------------------------------------------------------------------*/
 #menu {
-    width: 160px;
+    width: 30%;
+    display: inline-block;
     float: left;
     padding: 20px;
     background: #ddd;
+    box-sizing: border-box;
 }
 
 ul#menu_list li {
@@ -68,11 +87,14 @@ ul#menu_list li {
 -----------------------------------------------------------------------------*/
 #content {
     z-index: 1;
+    display: inline-block;
     background: #eee;
-    width: 500px;
-    margin: 0px 0px 0px 200px;
+    width: 70%;
+    float: right;
+    margin: 0;
     overflow: hidden;
     padding: 10px 30px 10px 20px;
+    box-sizing: border-box;
 }
 
 #content h1.contentitem {
@@ -90,3 +112,8 @@ ul#menu_list li {
 
 /* =Footer
 -----------------------------------------------------------------------------*/
+#footer {
+    clear: both;
+    text-align: center; 
+    padding:10px;
+}

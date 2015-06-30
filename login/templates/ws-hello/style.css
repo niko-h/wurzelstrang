@@ -1,0 +1,22 @@
+/* HELLO-CSS */
+
+#hello fieldset {
+    background: url(../../static/img/bgbig.png) no-repeat center #eee !important;
+}
+
+#gap {
+    height: 50px;
+    display: block;
+    width: 100%;
+}
+
+#footer {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: #e2e2e2;
+    border-top: 1px solid #bbb;
+    padding: 3px 0px;
+    margin: 10px -1em 0px -1em;
+    display: block;
+    text-align: center;
+}

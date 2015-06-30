@@ -5,100 +5,44 @@
  *
  **************************/
 
-/**
- * Database action
- */
-function getConnection() {
-    $db_file = "db/content.db";    //SQLite Datenbank Dateiname
-    $db = FALSE;
-    if( file_exists( $db_file ) ) {
-        $db = new PDO( "sqlite:$db_file" );
-    }
-    if( !$db ) {
-        header( "Status: 301 Moved Permanently" );
-        header( "Location:install.php" );
-        die( 'Es existiert keine Datenbank. <a href="install.php" target="_self">install.php</a> aufrufen.' );
-    }
-
-    return $db;
+if(!isset($_COOKIE['DEFAULT_LANGUAGE']) || !isset($_COOKIE['LANGUAGE'])) {
+    // setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/");
+    setcookie('LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
 }
 
+function CallAPI($method, $url, $data = false) {
+    $curl = curl_init();
 
-/**
- * call functions
- */
+    switch ($method)
+    {
+        case "POST":
+            curl_setopt($curl, CURLOPT_POST, 1);
 
-getSiteInfo();
-getMenu();
-getEntries();
-
-
-/**
- * getsiteinfo - siteinfo holen
- */
-
-function getSiteInfo() {
-    $query = 'SELECT site_title, site_theme, site_headline FROM siteinfo;';
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        $siteinfo = $stmt->fetch();
-        $db = NULL;
-
-        global $sitetitle, $sitetheme, $siteheadline;
-        $sitetitle = $siteinfo[ 'site_title' ];
-        $sitetheme = $siteinfo[ 'site_theme' ];
-        $siteheadline = $siteinfo[ 'site_headline' ];
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
+            if ($data)
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            break;
+        case "PUT":
+            curl_setopt($curl, CURLOPT_PUT, 1);
+            break;
+        default:
+            if ($data)
+                $url = sprintf("%s?%s", $url, http_build_query($data));
     }
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    $result = curl_exec($curl);
+
+    curl_close($curl);
+
+    return $result;
 }
 
-
-/**
- * genmenu - menu-inhalte bereitstellen
- */
-
-function getMenu() {
-    $query = 'SELECT title, id, levels FROM sites WHERE visible <> ""  ORDER BY pos ASC;';
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        global $menuitems;
-        $menuitems = array();
-        while( $row = $stmt->fetch() ) {
-            array_push( $menuitems, $row );
-        }
-        $db = NULL;
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-}
-
-/**
- * gencontent - inhalte bereitstellen
- */
-
-function getEntries() {
-    $query = 'SELECT title, content, id, levels FROM sites WHERE visible <> "" ORDER BY pos ASC;';
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        global $contentitems;
-        $contentitems = array();
-        while( $row = $stmt->fetch() ) {
-            array_push( $contentitems, $row );
-        }
-        $db = NULL;
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
+function getTheme() {
+    $result = json_decode(CallAPI('GET', AUDIENCE.'/api/siteinfo/'.$_COOKIE['LANGUAGE']));
+    return $result->siteinfo->site_theme;
 }
 
 ?>

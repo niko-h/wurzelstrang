@@ -21,40 +21,45 @@ CKEDITOR.stylesSet.add( 'default', [
 	// placing the "Format" combo in the toolbar, maintaining the same features.
 	
 	{ name: 'Paragraph',		element: 'p' },
-	{ name: 'Heading 2',		element: 'h2' },
-	{ name: 'Heading 3',		element: 'h3' },
-	{ name: 'Heading 4',		element: 'h4' },
-	{ name: 'Heading 5',		element: 'h5' },
-	{ name: 'Heading 6',		element: 'h6' },
-	{ name: 'Preformatted Text',element: 'pre' },
-	{ name: 'Address',			element: 'address' },
+	{ name: 'Clarendon 36px',	element: 'h1',
+			styles: {
+				'font-size': '36px',
+				'line-height': '40px',
+				'font-family': 'ClarendonBT-Light'
+			} },
+	{ name: 'Clarendon 24',	element: 'h2',
+			styles: {
+				'font-size': '24px',
+				'line-height': '27px',
+				'font-family': 'ClarendonBT-Light'
+			} },
+	{ name: 'Clarendon 18',	element: 'h3',
+			styles: {
+				'font-size': '18px',
+				'line-height': '20px',
+				'font-family': 'ClarendonBT-Light'
+			} },
+	{ name: 'Vorformatiert',	element: 'pre' },
+	// { name: 'Address',			element: 'address' },
+	{ name: 'Normal',			element: 'div' },
 	
 
-	{ name: 'Italic Title',		element: 'h2', styles: { 'font-style': 'italic' } },
-	{ name: 'Subtitle',			element: 'h3', styles: { 'color': '#aaa', 'font-style': 'italic' } },
+	// { name: 'Italic Title',		element: 'h2', styles: { 'font-style': 'italic' } },
+	// { name: 'Subtitle',			element: 'h3', styles: { 'color': '#aaa', 'font-style': 'italic' } },
+	// {
+	// 	name: 'Special Container',
+	// 	element: 'div',
+	// 	styles: {
+	// 		padding: '5px 10px',
+	// 		background: '#eee',
+	// 		border: '1px solid #ccc'
+	// 	}
+	// },
 	{
-		name: 'Special Container',
-		element: 'div',
-		styles: {
-			padding: '5px 10px',
-			background: '#eee',
-			border: '1px solid #ccc'
-		}
-	},
-	{
-		name: 'Galerie',
+		name: 'Bildunterschrift',
 		element: 'div',
 		attributes: {
-			'class': 'fotorama',
-			'data-ratio': '16/10',
-			'data-width': '100%',
-			'data-nav': 'thumbs',
-			'data-thumbheight': '64px',
-			'data-allowfullscreen': 'native',
-			'data-fit': 'cover',
-			'data-loop': 'true',
-			'data-autoplay': '7000',
-			'data-keyboard': 'true'
+			'class': 'bildunterschrift'
 		},
 		styles: {
 			background: '#eee',
@@ -76,56 +81,56 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Superscript',		element: 'sup' },
 	*/
 
-	{ name: 'Marker: Yellow',	element: 'span', styles: { 'background-color': 'Yellow' } },
-	{ name: 'Marker: Green',	element: 'span', styles: { 'background-color': 'Lime' } },
+	// { name: 'Marker: Yellow',	element: 'span', styles: { 'background-color': 'Yellow' } },
+	// { name: 'Marker: Green',	element: 'span', styles: { 'background-color': 'Lime' } },
 
-	{ name: 'Big',				element: 'big' },
-	{ name: 'Small',			element: 'small' },
-	{ name: 'Typewriter',		element: 'tt' },
+	// { name: 'Big',				element: 'big' },
+	// { name: 'Small',			element: 'small' },
+	// { name: 'Typewriter',		element: 'tt' },
 
-	{ name: 'Computer Code',	element: 'code' },
-	{ name: 'Keyboard Phrase',	element: 'kbd' },
-	{ name: 'Sample Text',		element: 'samp' },
-	{ name: 'Variable',			element: 'var' },
+	// { name: 'Computer Code',	element: 'code' },
+	// { name: 'Keyboard Phrase',	element: 'kbd' },
+	// { name: 'Sample Text',		element: 'samp' },
+	// { name: 'Variable',			element: 'var' },
 
-	{ name: 'Deleted Text',		element: 'del' },
-	{ name: 'Inserted Text',	element: 'ins' },
+	// { name: 'Deleted Text',		element: 'del' },
+	// { name: 'Inserted Text',	element: 'ins' },
 
-	{ name: 'Cited Work',		element: 'cite' },
-	{ name: 'Inline Quotation',	element: 'q' },
+	// { name: 'Cited Work',		element: 'cite' },
+	// { name: 'Inline Quotation',	element: 'q' },
 
-	{ name: 'Language: RTL',	element: 'span', attributes: { 'dir': 'rtl' } },
-	{ name: 'Language: LTR',	element: 'span', attributes: { 'dir': 'ltr' } },
+	// { name: 'Language: RTL',	element: 'span', attributes: { 'dir': 'rtl' } },
+	// { name: 'Language: LTR',	element: 'span', attributes: { 'dir': 'ltr' } },
 
 	/* Object Styles */
 
-	{
-		name: 'Styled image (left)',
-		element: 'img',
-		attributes: { 'class': 'left' }
-	},
+	// {
+	// 	name: 'Styled image (left)',
+	// 	element: 'img',
+	// 	attributes: { 'class': 'left' }
+	// },
 
-	{
-		name: 'Styled image (right)',
-		element: 'img',
-		attributes: { 'class': 'right' }
-	},
+	// {
+	// 	name: 'Styled image (right)',
+	// 	element: 'img',
+	// 	attributes: { 'class': 'right' }
+	// },
 
-	{
-		name: 'Compact table',
-		element: 'table',
-		attributes: {
-			cellpadding: '5',
-			cellspacing: '0',
-			border: '1',
-			bordercolor: '#ccc'
-		},
-		styles: {
-			'border-collapse': 'collapse'
-		}
-	},
+	// {
+	// 	name: 'Compact table',
+	// 	element: 'table',
+	// 	attributes: {
+	// 		cellpadding: '5',
+	// 		cellspacing: '0',
+	// 		border: '1',
+	// 		bordercolor: '#ccc'
+	// 	},
+	// 	styles: {
+	// 		'border-collapse': 'collapse'
+	// 	}
+	// },
 
-	{ name: 'Borderless Table',		element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
-	{ name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } }
+	// { name: 'Borderless Table',		element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
+	// { name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } }
 ]);
 
