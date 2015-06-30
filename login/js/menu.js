@@ -143,7 +143,8 @@ function renderList(data) {
 		$('a.menulink').css('width', '246px');
 	}
     if (levelstarget) {
-        $('a.menulink').addClass('smallMenulink');
+        // $('a.menulink').addClass('smallMenulink');
+        $('.addChild-Button').closest('li').find('.menulink').addClass('smallMenulink');
     }
     $('#menu_list li a.menulink').unbind().click(menulink); // select entry in menu
     $('.addChild-Button').unbind().click(addChild);

@@ -6,27 +6,63 @@ var currentEntry;
 var templates;
 var newPos = null;
 var newLevel = 0;
+var currentTemplate = "";
+var templateChanged = "";
 
 /*******************
  * Action Listeners
  ******************/
 
+$('#templateSelector').change(function() {  // set templateChanged for later deletion of content onSave
+    if($('#templateSelector').val() != currentTemplate) {
+        templateChanged = "1";
+    } else {
+        templateChanged = "";
+    }
+});
+
 function submitsitebutton() {
-    if ($('#title').val() !== '') {
-        if ($('#entryId').val() ==='') {
-            addEntry();
+    if (templateChanged === "1") {
+        if (confirm('[OK] drücken um das Template zu ändern. ACHTUNG: Alle eingetragenen Werte werden dabei gelöscht!')) {
+            console.log('empty content due to template changed');
+            $('textarea.contentarea').val("");
+            
+            if ($('#title').val() !== '') {
+                templateChanged = "";
+                if ($('#entryId').val() ==='') {
+                    addEntry();
+                } else {
+                    updateEntry();
+                }
+                return false;
+            } else {
+                alert('Der "Titel" darf nicht leer sein.');
+                return false;
+            }
+
+            return false;
         } else {
-            updateEntry();
+            $('#templateSelector').val(currentTemplate);
         }
-        return false;
+    } else {
+        if ($('#title').val() !== '') {
+            templateChanged = "";
+            if ($('#entryId').val() ==='') {
+                addEntry();
+            } else {
+                updateEntry();
+            }
+            return false;
+        }
     }
 }
 
-function deleteentrybtn() {
+function deleteentrybtn(id) {
     if (confirm('[OK] drücken um den Eintrag zu löschen.')) {
     	$('.editpopup').hide();
         $('#edit').hide();
-        deleteEntry($(this).data('id'));
+        // deleteEntry($(this).data('id'));
+        deleteEntry(id);
         return false;
     }
 }
@@ -98,12 +134,13 @@ function getEntry(id) {
         url: rootURL + '/entries/' + getLanguage() + '/' + id + '?apikey=' + apikey,
         dataType: "json",
         success: function (data) {
-            $('#deletebutton').show();
+            $('#deleteentrybutton').show();
             currentEntry = data;
             renderEntry(currentEntry);
         },
         error: function (jqXHR, textStatus) {
             alert('getEntry error: ' + textStatus);
+            $('#deleteentrybutton').hide();
         }
     });
 }
@@ -218,15 +255,17 @@ function updateSiteadmins(id, siteadmins) {
 function renderEntry(item) {
     var template;
     var entry = item.entry;
-    console.log(entry);
+    // console.log(entry);
     if (entry && typeof "undefined" !== entry.template) {
-        template = entry.template;
+        // if( entry.template === "Mieter" && isadmin ) {
+        //     template = "Mieter/admin";
+        // } else {
+            template = entry.template;
+        // }
     } else {
         template = 'ws-edit-default';
     }
-
     $('#edit_main').load('templates/' + template, function () {
-
         $('.submitsitebutton').unbind().click(submitsitebutton);
         $('.editsitebutton').unbind().click(editsitebutton);
         $('#leveldown').unbind().click(leveldown);
@@ -236,10 +275,10 @@ function renderEntry(item) {
         $('.site-prefs').hide();
         renderTemplateList('#templateSelector');
         $('.editsitebutton').show();
-        $('.contentarea').ckeditor();
+        $('.ckeditor').ckeditor();
 
         var entry = item.entry;
-        if (entry && typeof "undefined" !== entry.id) {
+        if (entry && typeof "undefined" != entry.id) {
             date = new Date(entry.mtime * 1000).toUTCString();
 		    $('#editlegend').html('<i class="icon-edit"></i> Seite bearbeiten <span id="time">(letzte &Auml;nderung: ' + date + '</span>');
             $('#entryId').val(entry.id);
@@ -260,8 +299,10 @@ function renderEntry(item) {
 				$('#visiblecheckbox').removeAttr('checked');
 			}
 
+            $('.deleteoption').show();
+            $('#deleteentrybutton').show();
             $('#deleteentrybutton').attr('data-id', entry.id);
-            $('#deleteentrybutton').unbind().click(deleteentrybtn); // delete user
+            $('#deleteentrybutton').unbind().on('click', function() { deleteentrybtn(entry.id); }); // delete user
         } else {
         	console.log('newSite');
             $('.deleteoption').hide();
@@ -276,8 +317,15 @@ function renderEntry(item) {
             } else {
                 $('#leveloption').hide();
             }
+            $('#deleteentrybutton').hide();
         }
-
+        // if(template === 'Mieter/admin') {
+        //     Mieter();
+        // } else {
+            if (template.substr(0,3) != 'ws-') {
+                window[template]();
+            }
+        // }
     });
 
 }
@@ -332,6 +380,7 @@ function renderTemplateList(list) {
                     typeof currentEntry.entry != 'undefined' && 
                     typeof currentEntry.entry.template != 'undefined') {
                     if( template === currentEntry.entry.template ) {
+                        currentTemplate = template; // set current template for comparison on change of template
                         return 'selected';
                     }
                 } else if( templateName === 'default' ) {

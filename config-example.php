@@ -17,7 +17,7 @@
  * DEUTSCH  BASIS-URL die fuer das Adminunterface verwendet wird (/login)
  *          Ersetze audience_url_here mit der Adresse
  */
-define( 'AUDIENCE', 'audience_url_here' );  // eg.: "https://foobar.com" or "https://localhost:443"
+define( 'AUDIENCE', 'audience_url_here' );  // eg.: "https://foobar.com" or "http://localhost:8888/project-x"
 
 /***
  * ENGLISH  SECURE APIKEY - Change apikey into some random string.

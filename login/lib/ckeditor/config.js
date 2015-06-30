@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// For the complete reference:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins = 'codemirror';
+	config.extraPlugins = 'codemirror,justify';
 	// # Set this to the theme you wish to use (codemirror themes)
   config.codemirror_theme = 'monokai';
   // # Whether or not you want to show line numbers
@@ -65,10 +65,12 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'links', items : [ 'Link','Unlink' ] },
 		{ name: 'insert', items : [ 'Image','Table','HorizontalRule','SpecialChar' ] },
 		'/',
-		{ name: 'styles', items : [ 'Styles','Format' ] },
+		{ name: 'styles', items : [ 'Styles' ] }, //,'Format' ] },
+    { name: 'alignment', items : [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
 		{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
-		{ name: 'document', items : [ 'Source' ] },
-		{ name: 'tools', items : [ 'Maximize' ] }
+		{ name: 'document', items : [ 'Source' ] }
+  //   ,
+		// { name: 'tools', items : [ 'Maximize' ] }
 	];
 
 	  // Load the German interface.
@@ -76,7 +78,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons, provided by the standard plugins, which we don't
 	// need to have in the Standard(s) toolbar.
-	config.removeButtons = 'Subscript,Superscript';
+	config.removeButtons = 'Subscript,Superscript,Maximize';
 
 };
 

@@ -27,7 +27,7 @@ function langsel() {
     if ($('#preferences').css('display') !== 'block') {
         showRight('');
     }
-    getAllSiteNames();
+    // getAllSiteNames();
     getSiteInfo();
     currentEntry = '';
 }
@@ -55,15 +55,21 @@ function getLanguage() {
     return $.cookie('LANGUAGE');
 }
 
-function getLanguages() {
+function getLanguages(render) {
+    if (typeof render === "undefined") {render = true;}
     console.log('getLanguages');
     $.ajax({
         type: 'GET',
-        url: rootURL + '/siteinfo?apikey=' + apikey,
+        url: rootURL + 'siteinfo?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             languages = data.siteinfo.languages;
             renderLanguages('.lang-sel');
+            if ( languages.indexOf($.cookie('LANGUAGE')) === -1 ) {
+                $.removeCookie('LANGUAGE');
+                $.cookie('LANGUAGE', languages[0]);
+                location.reload();
+            }
         }
     });
 }
@@ -124,6 +130,7 @@ function renderLanguages(list) {
     $(list).html($('<option disabled>').html('Sprache/Language'));
     $('.language-list').html('');
     $.each(languages, function (index, value) {
+        if(typeof siteinfo.site_language === "undefined") { siteinfo.site_language = "de"; }
         $(list).append($('<option></option>').val(value).html(value).attr('selected', value == siteinfo.site_language));
         $('.language-list').append(
             $('<li>').addClass('push').append(value)

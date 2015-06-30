@@ -59,6 +59,7 @@ header( "Content-Type: text/html; charset=utf-8" );
     <link rel="shortcut icon" type="image/x-icon" href="css/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="css/iconsetwurzelstrang/css/iconsetwurzelstrang.css"/>
     <link rel="stylesheet" type="text/css" href="static/css/ws.min.css"/>
+    <link rel="stylesheet" href="css/dropzone.css"/>
     <!--[if IE 7]>
     <link rel="stylesheet" href="css/fontawesome/fontawesome-ie7.css">
     <![endif]-->
@@ -121,7 +122,12 @@ header( "Content-Type: text/html; charset=utf-8" );
     <div id="right">
 
         <div id="hello" class="rightpanel">
-            <?php require_once( 'templates/ws-hello/index.php' ); ?>
+            <?php 
+                if( $isadmin ) {
+                    require_once( 'templates/ws-hello/index-admin.php' );
+                } else {
+                    require_once( 'templates/ws-hello/index.php' );
+                } ?>
         </div>
 
         <div id="edit" class="rightpanel">
@@ -205,9 +211,11 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
 
+<script type="text/javascript" src="lib/dropzone.js"></script>
+
 <script type="text/javascript" src="lib/kube.buttons.js"></script>
 
-<script type="text/javascript" src="static/js/ws.js"></script>
+<script type="text/javascript" src="static/js/ws.min.js"></script>
 
 <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

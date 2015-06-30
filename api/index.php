@@ -183,6 +183,7 @@ $app->get(
                 closedir( $dh );
             }
         }
+        sort($templates);
         echo json_encode( $templates );
     } );
 

@@ -31,7 +31,7 @@ function isuser() {
         return FALSE;
     }
     try {
-        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = 0;';
+        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND admin = "";';
         $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
 
         return $result[ 0 ][ 'count' ] > 0;

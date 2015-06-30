@@ -1,6 +1,8 @@
 <fieldset class="forms">
     <legend><i class="icon-cog"></i> Einstellungen</legend>
 
+    <a href="#" class="closepopup btn redbtn" onclick="$('#preferences').toggle();"><i class="icon-cancel"></i></a>
+
     <?php 
         if( isAdmin() ) {
 

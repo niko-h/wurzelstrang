@@ -5,107 +5,44 @@
  *
  **************************/
 
-require_once('api/db.php');
-
-/**
- * call functions
- */
-
-getSiteInfo();
-getMenu();
-getEntries();
-
-/**
- * getsiteinfo - siteinfo holen
- */
-function tinyfetch( $query ) {
-    $db = getConnection('db/content.db');
-    $stmt = $db->prepare( $query );
-    $stmt->execute();
-    $stmt->setFetchMode( PDO::FETCH_ASSOC );
-    return $stmt->fetch();
+if(!isset($_COOKIE['DEFAULT_LANGUAGE']) || !isset($_COOKIE['LANGUAGE'])) {
+    // setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/");
+    setcookie('LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
 }
-/**
- * getsiteinfo - siteinfo holen
- */
-function mediumfetch( $query, $parameter = [ ], $db_file = 'db/content.db' ) {
-    $db = getConnection( $db_file );
-    $stmt = $db->prepare( $query );
-    $stmt->execute( $parameter );
-    $stmt->setFetchMode( PDO::FETCH_ASSOC );
-    $result = array();
-//    error_log('query:     '.$stmt->queryString);
-//    error_log('parameter: '.print_r($parameter, TRUE));
-    while( $row = $stmt->fetch() ) {
-        array_push( $result, $row );
+
+function CallAPI($method, $url, $data = false) {
+    $curl = curl_init();
+
+    switch ($method)
+    {
+        case "POST":
+            curl_setopt($curl, CURLOPT_POST, 1);
+
+            if ($data)
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            break;
+        case "PUT":
+            curl_setopt($curl, CURLOPT_PUT, 1);
+            break;
+        default:
+            if ($data)
+                $url = sprintf("%s?%s", $url, http_build_query($data));
     }
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    $result = curl_exec($curl);
+
+    curl_close($curl);
 
     return $result;
 }
 
-function getSiteInfo() {
-    $query = 'SELECT site_title, site_theme, site_headline, site_language FROM siteinfo WHERE site_language = "'. $_COOKIE['LANGUAGE'].'";';
-    try {
-        global $sitetitle, $sitetheme, $siteheadline, $languages;
-
-        $siteinfo = tinyfetch($query);
-
-        $language_query = 'SELECT DISTINCT site_language FROM siteinfo;';
-        $languages = array();
-        foreach( mediumfetch( $language_query ) as &$row ) {
-            array_push( $languages, $row[ 'site_language' ] );
-        }
-        
-        $sitetitle = $siteinfo[ 'site_title' ];
-        $sitetheme = $siteinfo[ 'site_theme' ];
-        $siteheadline = $siteinfo[ 'site_headline' ];
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-}
-
-
-/**
- * genmenu - menu-inhalte bereitstellen
- */
-
-function getMenu() {
-    $query = 'SELECT title, id, level FROM sites WHERE visible <> "" AND language = "'. $_COOKIE['LANGUAGE'].'" ORDER BY pos ASC;';
-    try {
-        $db = getConnection('db/content.db');
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        global $menuitems;
-        $menuitems = array();
-        while( $row = $stmt->fetch() ) {
-            array_push( $menuitems, $row );
-        }
-        $db = NULL;
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-}
-
-/**
- * gencontent - inhalte bereitstellen
- */
-
-function getEntries() {
-    $query = 'SELECT title, content, id, level FROM sites WHERE visible <> "" AND language = "'. $_COOKIE['LANGUAGE'].'" ORDER BY pos ASC;';
-    try {
-        $db = getConnection('db/content.db');
-        $stmt = $db->prepare( $query );
-        $stmt->execute();
-        $stmt->setFetchMode( PDO::FETCH_ASSOC );
-        global $contentitems;
-        $contentitems = array();
-        while( $row = $stmt->fetch() ) {
-            array_push( $contentitems, $row );
-        }
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
+function getTheme() {
+    $result = json_decode(CallAPI('GET', AUDIENCE.'/api/siteinfo/'.$_COOKIE['LANGUAGE']));
+    return $result->siteinfo->site_theme;
 }
 
 ?>

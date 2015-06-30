@@ -27,17 +27,17 @@ init = function () {                 // Called at the bottom. Initialize listene
 
 onLoad = function () {                     // Load once everything is ready
     console.log('onLoad');
-    $("#loader").hide();
     linkhello();                           // load hello screen
-    getSiteInfo();                         // get site info
-    getAllSiteNames();                     // get itemes for menu
+    getSiteInfo(false);                         // get site info
+    // getAllSiteNames();                     // get itemes for menu
     getUsers(renderUserList);              // get users info 
     dragMenu();                            // build menu
     getLanguages();                        // get Languages
+    $("#loader").hide();
     getTemplates();                        // get list of available templates
     $('#page').fadeToggle(800);
     $('.head').fadeToggle(800);
-    $('#deletebutton').hide();             // hide deletebutton
+    $('#deleteentrybutton').hide();             // hide deletebutton
     $('#leveloption').hide();
     $("#menu_list").sortable("refresh");   // check menu reorder state
     // $('.contentarea').ckeditor();     // Load CKEditor

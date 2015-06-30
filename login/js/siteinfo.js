@@ -17,7 +17,8 @@ function updatesiteinfobtn() {
  * Call functions
  ****************/
 
-function getSiteInfo() {
+function getSiteInfo(render) {
+    if (typeof render === "undefined") { render = true; }
     $.ajax({
         type: 'GET',
         url: rootURL + '/siteinfo/' + getLanguage(),
@@ -26,7 +27,7 @@ function getSiteInfo() {
             console.log('getSiteInfo success: ' + data.siteinfo.site_title);
             siteinfo = data.siteinfo;
             renderSiteInfo(siteinfo);
-            renderList();
+            // if (render) { renderList(); }
         }
     });
 }
@@ -65,6 +66,7 @@ function renderSiteInfo(siteinfo) {
 
     $('#levels .btn').removeClass('btn-active');
     button();
+    getAllSiteNames();
 }
 
 /*******************

@@ -3,11 +3,16 @@ module.exports = function(grunt) {
 	// Project configuration. 
 	grunt.initConfig({
 		concat: {
-	    	js: {
+			js: {
 	    		src: ['js/main.js', 'js/siteinfo.js', 'js/language.js', 'js/menu.js', 'js/user.js', 'js/entry.js', 'js/helpers.js'],
 	    		dest: 'static/js/ws.js',
 	    	},
 	    	css: {
+	    		options: {
+					banner: '/*! This File was created by Nikolaus Höfer - ' +
+	        				'<%= grunt.template.today("yyyy-mm-dd") %> - '+
+	        				'It is part of the Wurzelstrang CMS and falls under its licence. */\n\n',
+	        	},
 	    		src: ['css/kube.css', 'css/main.css', 'css/popup.css', 'templates/*/*.css'],
 	    		dest: 'static/css/ws.min.css',
 	    	},
@@ -18,9 +23,12 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
+				banner: '/*! This File was created by Nikolaus Höfer - ' +
+						'<%= grunt.template.today("yyyy-mm-dd") %> - '+
+						'It is part of the Wurzelstrang CMS and falls under its licence. */\n',
 				mangle: true,
 				compress: {
-					drop_console: false // <- ENABLE for production
+					drop_console: true // <- ENABLE for production
 				},
 				report: 'gzip',
 				sourceMap: 'static/js/ws.map.js'

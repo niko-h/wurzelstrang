@@ -7,15 +7,24 @@ require_once( '../config.php' );
 include_once( 'siteadmins.php' );
 
 
-function getParent( $site_id, $language ) {
-    $query = "SELECT id FROM sites
-              WHERE
-                language=:language AND
-                pos   < (SELECT pos   FROM sites WHERE id = :site_id) AND
-                level < (SELECT level FROM sites WHERE id = :site_id)
-              ORDER BY pos DESC LIMIT 1";
+function get_folder_name( $site_id ) {
+    $root_folder = '../uploads/images';
+    $result = $root_folder . '/' . $site_id . '_';
+    if( $handle = opendir( $root_folder ) ) {
+        while( FALSE !== ( $entry = readdir( $handle ) ) ) {
+            $folder_id = explode( '_', $entry )[ 0 ];
+            $filepath = $root_folder . '/' . $entry;
+            if( $folder_id == $site_id && is_dir( $filepath ) && $entry != "." && $entry != ".." ) {
+                $result = $filepath;
+            }
+        }
+        closedir( $handle );
+    }
+    if( !file_exists( $result ) ) {
+        mkdir( $result, 0777, TRUE );
+    }
 
-    return fetchFromDB( $query, [ 'language' => $language, 'site_id' => $site_id ] )[ 0 ][ "id" ];
+    return $result;
 }
 
 /* TODO: add request and response examples */
@@ -50,6 +59,32 @@ $app->put( '/entries/:language/neworder', function ( $language ) { //TODO rename
  */
 
 /**
+ * Gets all Entry-Names for a given language
+ *
+ * request:
+ * response:
+ */
+$app->get( '/entries/:language/titles', function ( $language ) {
+    $request = Slim::getInstance()->request();
+
+    $query = 'SELECT title, id, level, pos FROM sites WHERE visible!="" AND language = :language ORDER BY pos ASC;';
+    try {
+        $result = array();
+        $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
+        foreach( $contentitems as $site ) {
+            $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
+            /* only return sites that can be edited */
+//            if( isSiteAdmin( $site[ 'id' ], $language ) ) {
+            array_push( $result, $site );
+//            }
+        }
+        echo '{"entrynames": ' . json_encode( $result ) . '}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+} );
+
+/**
  * Gets all Entries for a given language
  *
  * request:
@@ -68,47 +103,10 @@ $app->get( '/entries/:language', function ( $language ) {
         $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
         foreach( $contentitems as $site ) {
             $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
-            $site[ 'parrent' ] = getParent( $site[ 'id' ], $language );
             /* only return sites that can be edited */
-            if( isAuthorrized( $request ) && isSiteAdmin( $site[ 'id' ], $language ) ) {
-                array_push( $result, $site );
-            } else {
-                array_push( $result, $site );
-            }
-        }
-        echo '{"entries": ' . json_encode( $result ) . '}';
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-    }
-} );
-
-
-/**
- * Gets all Entries Metadata for a given language
- *
- * request:
- * response:
- */
-$app->get( '/meta/:language', function ( $language ) {
-    $request = Slim::getInstance()->request();
-
-    if( isAuthorrized( $request ) ) {
-        $query = 'SELECT title, visible, language, template, id, pos, level FROM sites WHERE language = :language ORDER BY pos ASC;';
-    } else {
-        $query = 'SELECT title, language, id, pos, level FROM sites WHERE visible!="" AND language = :language ORDER BY pos ASC;';
-    }
-    try {
-        $result = array();
-        $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
-        foreach( $contentitems as $site ) {
-            $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
-            $site[ 'parrent' ] = getParent( $site[ 'id' ], $language );
-            /* only return sites that can be edited */
-            if( isAuthorrized( $request ) && isSiteAdmin( $site[ 'id' ], $language ) ) {
-                array_push( $result, $site );
-            } else {
-                array_push( $result, $site );
-            }
+//            if( isSiteAdmin( $site[ 'id' ], $language ) ) {
+            array_push( $result, $site );
+//            }
         }
         echo '{"entries": ' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
@@ -149,6 +147,11 @@ $app->post( '/entries/:language', function ( $language ) {
                 updateDB( $move_query, [ 'parentpos' => $entry->parentpos, 'language' => $lang ] );
             }
 
+            if( $entry->pos == NULL ) {
+                $max_pos_plus_one = fetchFromDB( 'SELECT ifnull(MAX(pos),0)+1 AS pos FROM sites WHERE language=:lang', [ 'lang' => $language ] )[ 0 ][ 'pos' ];
+                $entry->pos = $max_pos_plus_one;
+            }
+
             updateDB( $query, [ 'id'       => $lang_id,
                                 'title'    => $entry->title,
                                 'content'  => $entry->content,
@@ -160,8 +163,8 @@ $app->post( '/entries/:language', function ( $language ) {
                                 'pos'      => $entry->pos ] );
 
             $foldername = str_replace( ' ', '_', strtolower( $entry->title ) );
-            if( !file_exists( '../uploads/images/' . $foldername ) ) {
-                mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
+            if( !file_exists( '../uploads/images/' . $lang_id . '_' . $foldername ) ) {
+                mkdir( '../uploads/images/' . $lang_id . '_' . $foldername, 0777, TRUE );
             }
 
             if( $lang == $language ) {
@@ -183,6 +186,15 @@ $app->post( '/entries/:language', function ( $language ) {
  * request:
  * response:
  */
+
+/*
+-- get first child
+select id, pos, level from sites where pos = (select pos from sites where id = 11) + 1 AND level = (select level from sites where id = 11) + 1 order by pos;
+
+-- iterate over content entries
+select id from sites where pos > (select pos from sites where id = 13) and level = 1 order by pos limit 1
+;
+*/
 $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
     $request = Slim::getInstance()->request();
 //    $language = $request->get( 'language' ) ? $request->get( 'language' ) : DEFAULT_LANGUAGE;
@@ -196,13 +208,94 @@ $app->get( '/entries/:language/:site_id', function ( $language, $site_id ) {
         $result = fetchFromDB( $query, [ 'site_id' => $site_id, 'language' => $language ] )[ 0 ];
         if( isAuthorrized( $request ) ) {
             $result[ 'siteadmins' ] = getSiteAdmins( $site_id, $language );
-            $result[ 'parrent' ] = getParent( $site_id, $language );
         }
+        $result[ 'folder' ] = get_folder_name( $site_id );
+
+        $first_child = fetchFromDB( 'SELECT id
+                                     FROM sites
+                                     WHERE
+                                       pos = (SELECT pos FROM sites WHERE id = :site_id) + 1 AND
+                                       level = (SELECT level FROM sites WHERE id = :site_id) + 1
+                                     ORDER BY pos;',
+                                    [ 'site_id' => $site_id ] );
+        if( sizeof( $first_child ) > 0 ) {
+            $result[ 'first_child' ] = $first_child[ 0 ][ 'id' ];
+        }
+
+        $next_site = fetchFromDB( ' SELECT * FROM (
+                                      SELECT * FROM (
+                                        SELECT id
+                                        FROM sites
+                                        WHERE
+                                          pos > (SELECT pos FROM sites WHERE id = :site_id) AND
+                                          level = (SELECT level FROM sites WHERE id = :site_id)
+                                        ORDER BY pos LIMIT 1
+                                      )
+                                      UNION ALL
+                                      SELECT * FROM (
+                                        SELECT id
+                                        FROM sites
+                                        WHERE
+                                          level = (SELECT level FROM sites WHERE id = :site_id)
+                                        ORDER BY pos LIMIT 1
+                                      ))
+                                    LIMIT 1',
+                                  [ 'site_id' => $site_id ] );
+        if( sizeof( $next_site ) > 0 ) {
+            $result[ 'next_site_on_same_level' ] = $next_site[ 0 ][ 'id' ];
+        }
+
         echo '{"entry":' . json_encode( $result ) . '}';
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 } );
+
+
+/**
+ * File
+ *
+ */
+$app->post(
+    '/entries/:language/:site_id/uploads',
+    function ( $language, $site_id ) {
+        $request = Slim::getInstance()->request();
+//        checkApiToken( $request ); // TODO: add apikey to request
+        exitIfNotAdmin();
+
+        if( is_array( $_FILES[ 'file' ][ 'name' ] ) ) {
+            $result = [ ];
+            for( $i = 0; $i < sizeof( $_FILES[ 'file' ][ 'name' ] ); $i++ ) {
+                $from = $_FILES[ 'file' ][ 'tmp_name' ][ $i ];
+                $to = get_folder_name( $site_id ) . '/' . preg_replace( '/[^a-zA-Z0-9_.]/', '_', basename( $_FILES[ 'file' ][ 'name' ][ $i ] ) );
+                $to  = preg_replace("/[^a-zA-Z0-9_./]/", "", $to);
+                if( move_uploaded_file( $from, $to ) ) {
+                    array_push( $result, $to );
+                }
+            }
+            echo json_encode( [ 'paths' => $result ] );
+        } else {
+            $from = $_FILES[ 'file' ][ 'tmp_name' ];
+            $to = get_folder_name( $site_id ) . '/' . preg_replace( '/[^a-zA-Z0-9_.]/', '_', basename( $_FILES[ 'file' ][ 'name' ] ) );
+            if( move_uploaded_file( $from, $to ) ) {
+                echo json_encode( [ 'path' => $to ] );
+            } else {
+                echo json_encode( "ZONK!" );
+            }
+        }
+
+    }
+);
+
+$app->delete(
+    '/entries/:language/:site_id/uploads/:filename',
+    function ( $language, $site_id, $filename ) {
+        exitIfNotAdmin();
+        echo json_encode('delete: '.get_folder_name( $site_id ) . '/' . $filename);
+        unlink( get_folder_name( $site_id ) . '/' . $filename );
+    }
+);
+
 
 /**
  * Delete one Site
@@ -262,10 +355,11 @@ $app->put( '/entries/:language/:site_id', function ( $language, $site_id ) {
         echo json_encode( [ 'updated' => [ 'id'       => $site_id,
                                            'language' => $request_body->language ] ] );
 
-        $foldername = str_replace( ' ', '_', strtolower( $request_body->title ) );
-        if( !file_exists( '../uploads/images/' . $foldername ) ) {
-            mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
-        }
+        $folder = get_folder_name( $site_id );
+//        $foldername = str_replace( ' ', '_', strtolower( $request_body->title ) );
+//        if( !file_exists( '../uploads/images/' . $foldername ) ) {
+//            mkdir( '../uploads/images/' . $foldername, 0777, TRUE );
+//        }
 
     } catch( PDOException $e ) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
