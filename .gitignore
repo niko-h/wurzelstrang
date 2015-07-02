@@ -7,8 +7,10 @@ db/*
 wurzeldev.sublime-workspace
 wurzeldev.sublime-project
 config.php
-uploads/*
-!uploads/.htaccess
+uploads/images/*
+uploads/thumbs/*
+!uploads/images/.htaccess
+!uploads/thumbs/.htaccess
 themes/*
 !themes/README.md
 !themes/default
