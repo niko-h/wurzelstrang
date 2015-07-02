@@ -1,0 +1,14 @@
+/* Welcome to Compass. Use this file to define print styles. */
+
+@media print {
+
+    a {
+        display: none; }
+
+    tr:nth-child(5) {
+        page-break-after: always;
+    }
+
+    tr, td, div { page-break-inside: avoid; }
+
+}

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   NOTICE
+   ========================================================================== */
+
+.notice {
+    border: 1px solid;
+    margin: 5px;
+    padding: 5px;
+}
+
+/**
+ * WARNING 
+ */
+
+.warning {
+    @extend .notice;
+    border-color: red;
+}
+
+.success {
+	@extend .notice;
+	border-color: green;
+}
