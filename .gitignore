@@ -14,5 +14,7 @@ uploads/thumbs/*
 themes/*
 !themes/README.md
 !themes/default
+!themes/default-grunt-sass-compass
+themes/default-grunt-sass-compass/node_modules/*
 config.codekit
 login/node_modules

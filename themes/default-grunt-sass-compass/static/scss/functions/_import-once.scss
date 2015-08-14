@@ -1,0 +1,50 @@
+// allows us to only include css once, even if we have @import multiple times in a bundle.  See example below
+$imported-once-files: () !default;
+
+@function import-once($name) {
+    @if index($imported-once-files, $name) {
+        @return false;
+    }
+    $imported-once-files: append($imported-once-files, $name);
+    @return true;
+}
+
+/*
+example:
+
+(_fonts.scss)
+@import 'import-once'
+@if import-once( 'fonts' ) {
+    %helvetica {
+        font-family: 'Helvetica';
+    }
+}
+
+(_buttons.scss) uses fonts
+@import 'fonts';
+button {
+    @extend %helvetica;
+}
+
+(_cart.scss) also uses fonts
+@import 'fonts';
+.cart {
+    @extend %helvetica;
+}
+
+(screen.scss) brings them all together
+@import 'buttons';
+@import 'cart';
+
+***Output without @import-once:***
+button, cart { font-family: 'Helvetica'; }
+button, cart { font-family: 'Helvetica'; }
+
+***Output WITH @import-once:***
+button, cart { font-family: 'Helvetica'; }
+
+------------------------------------------
+
+CSS will be generated wherever they are @import'd, so if you import 'fonts' twice in a bundle, they would normally be generated n-times they are imported
+
+*/
