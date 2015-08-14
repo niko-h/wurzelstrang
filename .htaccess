@@ -333,13 +333,14 @@ FileETag None
 # performance impact: http://goo.gl/Mluzd
 
 <IfModule mod_rewrite.c>
-  Options +FollowSymlinks
+#  Options +FollowSymlinks
 # Options +SymLinksIfOwnerMatch
   RewriteEngine On
 # RewriteBase /
 
-  RewriteRule ^([a-zA-Z0-9_]*)$ index.php?page=$1
-  RewriteRule ^([a-zA-Z0-9_]*)/$ index.php?page=$1
+  RewriteRule ^([a-zA-Z0-9_äöüÄÖÜ]*)$ index.php?page=$1
+  RewriteRule ^([a-zA-Z0-9_äöüÄÖÜ]*)/$ index.php?page=$1
+
 
 </IfModule>
 

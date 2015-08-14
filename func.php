@@ -9,6 +9,7 @@ if(!isset($_COOKIE['DEFAULT_LANGUAGE']) || !isset($_COOKIE['LANGUAGE'])) {
     // setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
     setcookie('DEFAULT_LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/");
     setcookie('LANGUAGE', DEFAULT_LANGUAGE, time() + (86400 * 30), "/"); // 86400 = 1 day
+    $_COOKIE['LANGUAGE'] = DEFAULT_LANGUAGE;
 }
 
 function CallAPI($method, $url, $data = false) {
