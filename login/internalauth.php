@@ -65,7 +65,9 @@ if( !isset( $_SESSION[ 'user' ]->email ) ) {
 
 function logout() {
     session_destroy();
-    header( "Location:index.php" );
+    if(basename($_SERVER['SCRIPT_FILENAME']) != 'index.php') {
+        header( "Location:index.php" );
+    }
 }
 
 ?>

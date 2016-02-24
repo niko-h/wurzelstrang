@@ -14,16 +14,13 @@ if( HTTPS === TRUE ) {
         }
     }
 }
+include("auth.php");
 header( "Content-Type: text/html; charset=utf-8" );
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <title>Login</title>
-    <script src="https://login.persona.org/include.js"></script>
-    <!-- Load jQuery -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="persona.js"></script>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="static/css/ws.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="css/login.css" media="all"/>
@@ -44,8 +41,14 @@ header( "Content-Type: text/html; charset=utf-8" );
                 <br><br><div class="success">Sie sind angemeldet als: ' . $_SESSION[ 'user' ]->email . '</div>';
 
     } else {
-        echo '<button href="#" name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden mit Persona</button>
-                <br><br><div class="error">Sie sind abgemeldet</div>';
+        echo '<form method="post" action="index.php">
+            <input type="text" placeholder="Email-Adresse" name="user_email" required></input><br>
+            <input type="password" placeholder="Passwort" name="user_pass" autocomplete="off" required></input><br>
+            <button type="submit" name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden</button>
+            </form>';
+        if( isset( $_POST['logout'] ) ) {
+            echo '<div class="error">Sie sind nicht angemeldet</div>';
+        }
     }
     ?>
     <span id="footer"><img id="logo" src="static/img/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
