@@ -4,6 +4,7 @@ if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 require_once( '../api/db.php' );
+require_once( 'password-lib.php' );
 
 // If SSL is not configured, deny usage
 if( HTTPS === TRUE ) {
@@ -19,27 +20,33 @@ if( HTTPS === TRUE ) {
 
 if( isset( $_POST[ 'user_email' ] ) && isset ( $_POST[ 'user_pass' ] ) ) {
 
-    $user_email = $_POST[ 'user_email' ];
-    $user_pass = $_POST[ 'user_pass' ];
-    
-    try {
-        $query = 'SELECT count(id) AS count FROM users WHERE user_email = :user_email AND pass = :user_pass;';
-        $result = fetchFromDB( $query, [ 
-            'user_email' => $user_email,
-            'user_pass' => $user_pass
-        ] );
+    if (!empty($_POST['user_email']) && !empty($_POST['user_pass'])) {
+        $user_email = htmlentities($_POST['user_email'], ENT_QUOTES);
+        $user_pass = $_POST[ 'user_pass' ];
+        try {
+            $query = 'SELECT pass FROM users WHERE user_email = :user_email;';
+            $result = fetchFromDB( $query, [ 
+                'user_email' => $user_email
+            ] );
 
-        // set session
-        if($result[ 0 ][ 'count' ] > 0) {
-            $_SESSION[ 'user' ]->email = $user_email;
-        } else {
-            echo '<div class="box box-notice"><div class="error">Bitte überprüfen Sie Ihre Eingabe.</div></div>';
+            password_verify($user_pass, $result[ 0 ][ 'pass' ]);
+
+            // set session
+            if(password_verify($user_pass, $result[ 0 ][ 'pass' ])) {
+                $_SESSION[ 'user' ]->email = $user_email;
+            } else {
+                echo '<div class="box box-notice"><div class="error">Bitte überprüfen Sie Ihre Eingabe.</div></div>';
+            }
+
+        } catch( PDOException $e ) {
+            echo 'error:' . $e->getMessage();
+
+            return FALSE;
         }
-
-    } catch( PDOException $e ) {
-        echo 'error:' . $e->getMessage();
-
-        return FALSE;
+    } elseif (empty($_POST['user_email'])) {
+        echo '<div class="box box-notice"><div class="error">Email-Feld ist leer.</div></div>';
+    } elseif (empty($_POST['user_pass'])) {
+        echo '<div class="box box-notice"><div class="error">Passwort-Feld ist leer.</div></div>';
     }
 
 } else {
@@ -55,6 +62,15 @@ if( isset( $_POST[ 'logout' ] ) ) {
     }
 }
 
+// TODO: 
+// private function createNewUser()
+//     {
+//         // remove html code etc. from username and email
+//         $user_email = htmlentities($_POST['user_email'], ENT_QUOTES);
+//         $user_password = $_POST['user_password_new'];
+//         // crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 char hash string.
+//         // the constant PASSWORD_DEFAULT comes from PHP 5.5 or the password_compatibility_library
+//         $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
 
 /**
  * redirect
@@ -65,7 +81,7 @@ if( isAdmin() || isuser() ) {
     header( "Location:wurzelstrang.php" );
 
 } else {
-    session_destroy();
+    if(session_status() != PHP_SESSION_NONE) session_destroy();
 
     if(basename($_SERVER['SCRIPT_FILENAME']) != 'index.php') {
         header( "Location:index.php" );
