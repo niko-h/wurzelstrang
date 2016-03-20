@@ -249,6 +249,9 @@ header( "Content-Type: text/html; charset=utf-8" );
                 <li>
                     <label for="email" class="bold">Email</label>
                     <input name="email" id="email" type="email" onblur="javascript:mailvalidate();">
+                </li>
+                <li>
+                    <label for="userpass" class="bold">Passwort</label>
                     <input name="userpass" id="userpass" type="password" required="required">
                 </li>
                 <li>
