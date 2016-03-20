@@ -66,9 +66,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 </head>
 
 <body>
-<?php 
-//print_r(session_save_path());
-?>
+
 <div class="head row">
     <div class="wrapper">
         <a id="logo" href="#" target="_self" tabindex="0" autofocus><span class="tooltip"><span>Wurzelstrang Start</span></span></a>
@@ -224,6 +222,7 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script type="text/javascript"> 
     var apikey = <?php echo '"'.APIKEY.'"' ?>;
     var current_admin = "<?php echo $_SESSION[ 'user' ]->email ?>";
+    var current_user_id = "<?php echo userId() ?>";
     var isadmin = <?php if( $isadmin ) { echo "true"; } else { echo "false"; } ?>;
     onLoad(); 
 </script>

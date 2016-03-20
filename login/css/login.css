@@ -6,12 +6,27 @@
     padding-top: 15px;
     background: #eee;
     color: #111;
-    box-shadow: 0 0 8px #000, 0px 0px 550px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 8px #000, 0px 0px 150px rgba(255, 255, 255, 0.5);
     text-align: center;
 }
 
 .box span img {
     margin-bottom: -3px;
+}
+
+.box form input {
+    height: 35px;
+    width: 200px;
+    margin: 0 0 10px 0;
+    border-width: 1px 0;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border-radius: 0px;
+    text-align: center;
+}
+.box-notice {
+    margin: 150px auto -190px;
+    padding: 10px;
 }
 
 #logo {

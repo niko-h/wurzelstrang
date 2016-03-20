@@ -1,4 +1,4 @@
-/*! This File was created by Nikolaus Höfer - 2015-06-12 - It is part of the Wurzelstrang CMS and falls under its licence. */
+/*! This File was created by Nikolaus Höfer - 2016-03-20 - It is part of the Wurzelstrang CMS and falls under its licence. */
 
 /*
   Kube Professional CSS-framework
@@ -2141,48 +2141,7 @@ span.tooltip span {
   font-size: 10px;
 }
 
-#jtContainer #jtTable {
-  border-collapse: collapse;
-  border: 1px solid #ccc;
-  width: 100%;
-  margin: 5px 0px;
-}
-#jtContainer #jtTable thead th,
-#jtContainer #jtTable tbody td {
-  padding: 3px;
-  text-align: left;
-  border-right: 1px solid #ccc;
-}
-#jtContainer #jtTable thead th {
-  font-size: 10px;
-}
-#jtContainer #jtTable tbody td {
-  font-size: 8px;
-}
-#jtContainer .jtForm {
-  border: 1px solid #ccc;
-  margin-top: 5px;
-  padding: 10px;
-}
-#jtContainer .jtButton {
-  color: #000;
-  padding: 3px 8px;
-  margin: 0px 2px;
-}
-
-#jtContainer .jtForm .standort {
-  display: inline-block;
-  padding: 2px 3px;
-  background-color: #ffffff;
-  border-radius: 2px;
-  margin-right: 3px;
-  width: 88px;
-  font-size: 10px;
-}
-
-
-
-
+/* EDIT-EMPTY-CSS */
 
 /* EDIT-DEFAULT-CSS */
 /* HELLO-CSS */
