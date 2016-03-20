@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require( '../config.php' );  // config file
 
 // handle ssl
@@ -14,7 +16,7 @@ if( HTTPS === TRUE ) {
         }
     }
 }
-include("auth.php");
+require("auth.php");
 header( "Content-Type: text/html; charset=utf-8" );
 ?>
 <!DOCTYPE html>

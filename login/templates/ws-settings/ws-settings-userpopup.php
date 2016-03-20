@@ -13,12 +13,11 @@
                   <label for="email" class="bold" tabindex="0">Email</label>
                   <input name="email" id="useremail" type="email" value="">
                   <div class="error descr invalidmail"></div>
-                  <div class="error descr">
-                    Die gew&auml;hlte Email-Adresse muss einem <br>existierenden <a href="https://login.persona.org/" tabindex="-1">Persona</a>-Account entsprechen.
-                  </div>
+                  <label for="newpass" class="bold" tabindex="1">Neues Passwort</label>
+                  <input name="newpass" id="userpass" type="password" value="">
                 </li>
                 <li>
-                  <label class="bold" for="isadmincheckbox" tabindex="1">Administrator</label>
+                  <label class="bold" for="isadmincheckbox" tabindex="2">Administrator</label>
                   <input class="isadmincheckbox" id="isadmincheckbox" type="checkbox">
                   <div class="descr">Administratoren dürfen ALLES bearbeiten.
                   </div>

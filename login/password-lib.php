@@ -200,7 +200,6 @@ if (!defined('PASSWORD_DEFAULT')) {
      * @return boolean If the password matches the hash
      */
     function password_verify($password, $hash) {
-        error_log('password_verify');
         if (!function_exists('crypt')) {
             trigger_error("Crypt must be loaded for password_verify to function", E_USER_WARNING);
             error_log("Crypt must be loaded for password_verify to function");
@@ -216,7 +215,6 @@ if (!defined('PASSWORD_DEFAULT')) {
         for ($i = 0; $i < strlen($ret); $i++) {
             $status |= (ord($ret[$i]) ^ ord($hash[$i]));
         }
-        error_log('true');
 
         return $status === 0;
     }

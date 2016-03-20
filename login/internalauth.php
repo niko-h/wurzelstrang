@@ -2,6 +2,10 @@
 //ini_set( 'display_errors', 1 );
 //error_reporting( -1 );
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once( '../api/db.php' );
 
 /**
@@ -43,6 +47,22 @@ function isuser() {
 }
 
 /**
+ * userid - userid of current user
+ */
+function userId() {
+    try {
+        $query = 'SELECT id FROM users WHERE user_email = :user_email;';
+        $result = fetchFromDB( $query, [ 'user_email' => $_SESSION[ 'user' ]->email ] );
+
+        return $result[ 0 ][ 'id' ];
+    } catch( PDOException $e ) {
+        echo 'error:' . $e->getMessage();
+
+        return FALSE;
+    }
+}
+
+/**
  * check auth and ifnot redirect
  */
 
@@ -64,7 +84,9 @@ if( !isset( $_SESSION[ 'user' ]->email ) ) {
  */
 
 function logout() {
-    session_destroy();
+    if( isset( $_SESSION[ 'user' ]->email ) ) {
+        session_destroy();
+    }
     if(basename($_SERVER['SCRIPT_FILENAME']) != 'index.php') {
         header( "Location:index.php" );
     }

@@ -3,6 +3,9 @@
 if( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
+if(!defined('HTTPS')) {
+    require( '../config.php' );
+}
 require_once( '../api/db.php' );
 require_once( 'password-lib.php' );
 
@@ -28,11 +31,10 @@ if( isset( $_POST[ 'user_email' ] ) && isset ( $_POST[ 'user_pass' ] ) ) {
             $result = fetchFromDB( $query, [ 
                 'user_email' => $user_email
             ] );
-
-            password_verify($user_pass, $result[ 0 ][ 'pass' ]);
+            $db_hash = $result[ 0 ][ 'pass' ];
 
             // set session
-            if(password_verify($user_pass, $result[ 0 ][ 'pass' ])) {
+            if(password_verify($user_pass, $db_hash)) {
                 $_SESSION[ 'user' ]->email = $user_email;
             } else {
                 echo '<div class="box box-notice"><div class="error">Bitte überprüfen Sie Ihre Eingabe.</div></div>';
@@ -61,16 +63,6 @@ if( isset( $_POST[ 'logout' ] ) ) {
         header( "Location:index.php" );
     }
 }
-
-// TODO: 
-// private function createNewUser()
-//     {
-//         // remove html code etc. from username and email
-//         $user_email = htmlentities($_POST['user_email'], ENT_QUOTES);
-//         $user_password = $_POST['user_password_new'];
-//         // crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 char hash string.
-//         // the constant PASSWORD_DEFAULT comes from PHP 5.5 or the password_compatibility_library
-//         $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
 
 /**
  * redirect
