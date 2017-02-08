@@ -27,6 +27,17 @@ function get_folder_name( $site_id ) {
     return $result;
 }
 
+function getParent( $site_id, $language ) {
+    $query = "SELECT id FROM sites
+              WHERE
+                language=:language AND
+                pos   < (SELECT pos   FROM sites WHERE id = :site_id) AND
+                level < (SELECT level FROM sites WHERE id = :site_id)
+              ORDER BY pos DESC LIMIT 1";
+
+    return fetchFromDB( $query, [ 'language' => $language, 'site_id' => $site_id ] )[ 0 ][ "id" ];
+}
+
 /* TODO: add request and response examples */
 
 /**
@@ -177,6 +188,40 @@ $app->post( '/entries/:language', function ( $language ) {
         }
     }
 
+} );
+
+
+/**
+ * Gets all Entries Metadata for a given language
+ *
+ * request:
+ * response:
+ */
+$app->get( '/meta/:language', function ( $language ) {
+    $request = Slim::getInstance()->request();
+
+    if( isAuthorrized( $request ) ) {
+        $query = 'SELECT title, visible, language, template, id, pos, level FROM sites WHERE language = :language ORDER BY pos ASC;';
+    } else {
+        $query = 'SELECT title, language, id, pos, level FROM sites WHERE visible!="" AND language = :language ORDER BY pos ASC;';
+    }
+    try {
+        $result = array();
+        $contentitems = fetchFromDB( $query, [ 'language' => $language ] );
+        foreach( $contentitems as $site ) {
+            $site[ 'editable' ] = isSiteAdmin( $site[ 'id' ], $language );
+            $site[ 'parrent' ] = getParent( $site[ 'id' ], $language );
+            /* only return sites that can be edited */
+            if( isAuthorrized( $request ) && isSiteAdmin( $site[ 'id' ], $language ) ) {
+                array_push( $result, $site );
+            } else {
+                array_push( $result, $site );
+            }
+        }
+        echo '{"entries": ' . json_encode( $result ) . '}';
+    } catch( PDOException $e ) {
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
 } );
 
 

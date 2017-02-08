@@ -18,3 +18,4 @@ themes/*
 themes/default-grunt-sass-compass/node_modules/*
 config.codekit
 login/node_modules
+*.scssc
