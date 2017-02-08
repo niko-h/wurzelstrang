@@ -202,9 +202,6 @@ header( "Content-Type: text/html; charset=utf-8" );
 <script src="lib/jquery-ui.min.js"></script>
 <script src="lib/jquery.cookie.js"></script>
 
-<script type="text/javascript" src="https://login.persona.org/include.js"></script>
-
-<script type="text/javascript" src="persona.js"></script>
 <!-- Load CKEditor -->
 <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
