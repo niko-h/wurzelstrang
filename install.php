@@ -11,6 +11,7 @@
 
 if( file_exists( "config.php" ) ) {
     require( 'config.php' );
+    require( 'login/password-lib.php' );
 } else {
     echo '
       <style type="text/css">#page {display:none !important;}</style>
@@ -122,6 +123,7 @@ if( file_exists( $db_file ) ) {
                   CREATE TABLE IF NOT EXISTS users(
                     id            INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_email    TEXT NOT NULL,
+                    pass          TEXT NOT NULL,
                     admin         BOOLEAN,
                     CONSTRAINT users_unique UNIQUE (user_email)
                   );
@@ -170,12 +172,13 @@ if( file_exists( $db_file ) ) {
 
             // Userinfo
             $query = 'INSERT INTO
-                    users(  user_email, admin )
-                   VALUES( :email,     :admin )
+                    users(  user_email, pass, admin )
+                   VALUES( :email, :pass, :admin )
                   ;';
             try {
                 $stmt = $db->prepare( $query );
                 $stmt->bindValue( "email", $_POST[ 'email' ] );
+                $stmt->bindValue( "pass", password_hash($_POST[ 'userpass' ], PASSWORD_DEFAULT) );
                 $stmt->bindValue( "admin", 1 );
                 $stmt->execute();
             } catch( Exception $e ) {
@@ -244,17 +247,16 @@ header( "Content-Type: text/html; charset=utf-8" );
             <legend>Benutzer Informationen</legend>
             <ul>
                 <li>
-                    <label for="email" class="bold">Persona Email</label>
+                    <label for="email" class="bold">Email</label>
                     <input name="email" id="email" type="email" onblur="javascript:mailvalidate();">
                 </li>
                 <li>
+                    <label for="userpass" class="bold">Passwort</label>
+                    <input name="userpass" id="userpass" type="password" required="required">
+                </li>
+                <li>
                     <label class="bold">Hinweis</label>
-
-                    <div class="error descr">Die gew&auml;hlte Email-Adresse muss einem existierenden <a
-                            href="https://login.persona.org/">Persona</a>-Account entsprechen
-                        und wird zum Anmelden verwendet. Trage keine Emailadresse ein, zu der du keinen Persona-Account
-                        nebst Passwort eingerichtet hast!
-                    </div>
+                    <div class="error descr">Seien Sie sicher, dass sie das Passwort richtig geschrieben haben!</div>
                 </li>
             </ul>
         </fieldset>

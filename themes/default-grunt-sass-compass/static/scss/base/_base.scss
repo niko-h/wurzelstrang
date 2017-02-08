@@ -53,6 +53,8 @@ blockquote p {
 
 /* base files only alter actual HTML elements.  NO CLASSES HERE (See ../modules) */
 
+@import "../variables";
+
 html, body {
     font-size: 62.5%;
     height: 100%;
@@ -67,8 +69,6 @@ body {
     background: $darkgrey;
     font-size: 1.4em;
 }
-
-@import "../variables";
 
 input[type="text"] { border: 1px solid $black50; }
 

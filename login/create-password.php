@@ -16,42 +16,37 @@ if( HTTPS === TRUE ) {
         }
     }
 }
-require("auth.php");
+
+////////////////
+
+require_once( 'password-lib.php' );
+
+echo password_hash($_POST[ 'user_pass' ], 1);
+
+/////////////////
+
 header( "Content-Type: text/html; charset=utf-8" );
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>Login</title>
+    <title>create pass</title>
     <link rel="stylesheet" type="text/css" href="css/kube.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="static/css/ws.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="css/login.css" media="all"/>
 </head>
 <body>
 <div class="box">
-    <b><?php
-        require_once( '../api/db.php' );
-        $query = 'SELECT site_title FROM siteinfo;';
-        $siteinfo = fetchFromDB( $query )[ 0 ];
-        echo $siteinfo[ 'site_title' ];
-        ?>
-    </b>
+    <b>Create Password</b>
     <br><br>
     <?php
-    if( isset( $_SESSION[ 'user' ] ) ) {
-        echo '<a href="wurzelstrang.php" class="btn greenbtn" target="_self">Weiter...</a>
-                <br><br><div class="success">Sie sind angemeldet als: ' . $_SESSION[ 'user' ]->email . '</div>';
-
-    } else {
-        echo '<form method="post" action="index.php">
-            <input type="text" placeholder="Email-Adresse" name="user_email" required></input><br>
-            <input type="password" placeholder="Passwort" name="user_pass" autocomplete="off" required></input><br>
-            <button type="submit" name="loginbtn" id="loginbtn" class="btn greenbtn">Anmelden</button>
+    
+        echo '<form method="post" action="create-password.php">
+            <input type="text" placeholder="Passwort" name="user_pass" autocomplete="off" required></input><br>
+            <button type="submit" name="loginbtn" id="loginbtn" class="btn greenbtn">Create</button>
             </form>';
-        if( isset( $_POST['logout'] ) ) {
-            echo '<div class="error">Sie sind nicht angemeldet</div>';
-        }
-    }
+
+
     ?>
     <span id="footer"><img id="logo" src="static/img/logo.png" alt="Wurzelstrang"> Wurzelstrang CMS</span>
 </div>

@@ -134,10 +134,12 @@ function renderList(data) {
             'data-pos="' + entry.pos + '"><span class="tooltip"><span>Unterseite erstellen</span></span>+</a>';
         }
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
-        $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
-        '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
-        levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
-        '</a>' + addChildBtn + dragger);
+        if(isadmin || siteids.indexOf(parseInt(entry.id)) > -1) {
+            $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
+            '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
+            levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
+            '</a>' + addChildBtn + dragger);
+        }
     });
 	if (!isadmin) {
 		$('a.menulink').css('width', '246px');

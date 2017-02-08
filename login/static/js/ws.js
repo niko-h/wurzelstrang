@@ -430,10 +430,12 @@ function renderList(data) {
             'data-pos="' + entry.pos + '"><span class="tooltip"><span>Unterseite erstellen</span></span>+</a>';
         }
         // $('#menu_list').append('<li id="'+entry.id+'" class="row-split'+visible_class+'"><span id="flag_'+entry.id+'" class="menu-id tooltip-left">ID: '+entry.id+'</span><a href="#" class="menulink row-split" data-identity="' + entry.id + '">'+levels+'<b>'+entry.title+'</b><i class="icon-edit edit"></i> '+visible_icon+visible_popup+'</a><span class="dragger push-right"><i class="icon-menu"></i></span></li>');
-        $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
-        '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
-        levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
-        '</a>' + addChildBtn + dragger);
+        if(isadmin || siteids.indexOf(parseInt(entry.id)) > -1) {
+            $('#menu_list').append('<li id="' + entry.id + '" class="row-split' + visible_class + '">' +
+            '<a href="#" class="menulink row-split" data-identity="' + entry.id + '">' +
+            levels + '<b>' + entry.title + '</b><i class="icon-edit edit"></i> ' + visible_icon + visible_popup +
+            '</a>' + addChildBtn + dragger);
+        }
     });
 	if (!isadmin) {
 		$('a.menulink').css('width', '246px');
@@ -464,8 +466,9 @@ function renderList(data) {
  * Variables
  ***********/
 
-var user = {};
-var ac = 0;
+var user = {},
+    ac = 0,
+    siteids = [];
 
 /*******************
  * Action Listeners
@@ -504,15 +507,27 @@ function deleteusrbtn() {
  ****************/
 
 function getUsers(callback) {
-    $.ajax({
-        type: 'GET',
-        url: rootURL + '/users?apikey=' + apikey,
-        dataType: "json", // data type of response
-        success: function (data) {
-            console.log('getUsers success');
-            callback(data);
-        }
-    });
+    if (isadmin) {
+        $.ajax({
+            type: 'GET',
+            url: rootURL + '/users?apikey=' + apikey,
+            dataType: "json", // data type of response
+            success: function (data) {
+                console.log('getUsers success');
+                callback(data);
+            }
+        });
+    } else {
+        $.ajax({
+            type: 'GET',
+            url: rootURL + '/users/' + current_user_id + '?apikey=' + apikey,
+            dataType: "json", // data type of response
+            success: function (data) {
+                console.log('getUser success');
+                siteids = data.sites;
+            }
+        });
+    }
 }
 
 function putUser(id, adminsites) {
@@ -537,6 +552,10 @@ function putUser(id, adminsites) {
 }
 
 function postUser(adminsites) {
+    if($('#userpass').val().length<6) {
+        alert('Das Passwort muss mindestens sechs Zeichen lang sein.');
+        return false;
+    }
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -623,10 +642,27 @@ function renderUserList(data) {
     var list = data.users === null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('.admin-list li').remove();
     $('.user-list li').remove();
+    $('.user-list').html('');
     $.each(list, function (index, user) {
         if(user.admin === '1' || user.admin === 'on') {
             ac += 1;
-            if(user.user_email === current_admin) {
+        }
+    });
+    $.each(list, function (index, user) {
+        if(user.admin === '1' || user.admin === 'on') {
+            if(user.user_email === current_admin && ac > 1) {
+                $('.admin-list').append(
+                    $('<li>').addClass('push').append(user.user_email)
+                        .append($('<a href="#">').addClass('editusrbutton btn push-right')
+                            .attr('data-identity', user.id).text('Bearbeiten').css({'margin-top': '-3px'})
+                        )
+                        .append( $('<span>').text('angemeldet').addClass('push-right').css({
+                            'font-weight': 'bold',
+                            'color': 'green',
+                            'margin-right': '10px'
+                        }) )
+                );
+            } else if(user.user_email === current_admin) {
                 $('.admin-list').append(
                     $('<li>').addClass('push').append(user.user_email)
                         .append( $('<span>').text('angemeldet').addClass('push-right').css({
@@ -638,16 +674,15 @@ function renderUserList(data) {
                 $('.admin-list').append(
                     $('<li>').addClass('push').append(user.user_email)
                         .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                            .attr('data-identity', user.id).text('Bearbeiten')
+                            .attr('data-identity', user.id).text('Bearbeiten').css({'margin-top': '-3px'})
                         )
                 );                
             }
         } else {
-            $('.user-list').html('');
             $('.user-list').append(
                 $('<li>').addClass('push').append(user.user_email)
                     .append($('<a href="#">').addClass('editusrbutton btn push-right')
-                        .attr('data-identity', user.id).text('Bearbeiten')
+                        .attr('data-identity', user.id).text('Bearbeiten').css({'margin-top': '-3px'})
                 )
             );
         }
@@ -677,6 +712,7 @@ function renderUser(user) {
         console.log("renderNewUser");
         $('.userpopuptitle').text('Neuen Benutzer anlegen');
         $('#useremail').val('').focus();
+        $('#userpass').val('').attr('required', 'required');
         $('#submitsiteprefs').removeAttr('data-id');
         $('#deleteusrbutton').hide();
     } else {
@@ -684,6 +720,7 @@ function renderUser(user) {
         $('.userpopuptitle').text(user.user_email + ' - Eigenschaften');
         $('#submitsiteprefs').attr('data-id', user.id);
         $('#useremail').val(user.user_email).focus();
+        $('#userpass').val('');
         if(user.admin === '1') {
             $('.isadmincheckbox').prop('checked', 'checked');
             isadmincheckbox();
@@ -731,7 +768,8 @@ function userToJSON() {
     data = JSON.stringify({
         "apikey": apikey,
         "admin": $('.isadmincheckbox').is(':checked'),
-        "email": $('#useremail').val()
+        "email": $('#useremail').val(),
+        "pass": $('#userpass').val()
     });
     return data;
 }

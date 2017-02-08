@@ -4,6 +4,7 @@ if( session_status() == PHP_SESSION_NONE ) {
 }
 
 require_once( 'siteadmins.php' );
+require_once( '../login/password-lib.php' );
 
 /*
  * Users
@@ -27,7 +28,7 @@ $app->get( '/users', function () {
 // get user info
 $app->get( '/users/:id', function ( $user_id ) {
     checkApiToken( Slim::getInstance()->request() );
-    exitIfNotAdmin();
+    // exitIfNotAdmin();
 
     $query = 'SELECT user_email, admin FROM users WHERE id = :user_id;';
 
@@ -121,17 +122,33 @@ $app->put( '/users/:user_id', function ( $user_id ) {
 
     $user = json_decode( $request->getBody() );
 
-    $query = "UPDATE users SET user_email = :email, admin = :admin WHERE id = :user_id";
-    try {
-        updateDB( $query, [ 'email'   => $user->email,
-                            'admin'   => $user->admin,
-                            'user_id' => $user_id ] );
+    if($user->pass === '') {
+        $query = "UPDATE users SET user_email = :email, admin = :admin WHERE id = :user_id";
+        try {
+            updateDB( $query, [ 'email'   => $user->email,
+                                'admin'   => $user->admin,
+                                'user_id' => $user_id ] );
 
-        echo json_encode( [ 'email' => $user->email,
-                            'admin' => $user->admin,
-                            'id'    => $user_id ] );
-    } catch( PDOException $e ) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
+            echo json_encode( [ 'email' => $user->email,
+                                'admin' => $user->admin,
+                                'id'    => $user_id ] );
+        } catch( PDOException $e ) {
+            echo '{"error":{"text":' . $e->getMessage() . '}}';
+        }
+    } else {
+        $query = "UPDATE users SET user_email = :email, pass = :pass, admin = :admin WHERE id = :user_id";
+        try {
+            updateDB( $query, [ 'email'   => $user->email,
+                                'admin'   => $user->admin,
+                                'user_id' => $user_id,
+                                'pass'    => password_hash($user->pass, PASSWORD_DEFAULT) ] );
+
+            echo json_encode( [ 'email' => $user->email,
+                                'admin' => $user->admin,
+                                'id'    => $user_id ] );
+        } catch( PDOException $e ) {
+            echo '{"error":{"text":' . $e->getMessage() . '}}';
+        }
     }
 } );
 
@@ -143,10 +160,11 @@ $app->post( '/users', function () {
 
     $user = json_decode( $request->getBody() );
 
-    $query = 'INSERT INTO users ( user_email, admin) VALUES ( :user_email, :admin );';
+    $query = 'INSERT INTO users ( user_email, pass, admin) VALUES ( :user_email, :pass, :admin );';
     try {
         $id = updateDB( $query, [ 'user_email' => $user->email,
-                            'admin'      => $user->admin ] );
+                                  'pass'       => password_hash($user->pass, PASSWORD_DEFAULT),
+                                  'admin'      => $user->admin ] );
 
         echo json_encode( [ 'email' => $user->email,
                             'admin' => $user->admin,
