@@ -119,7 +119,7 @@ function submitsiteadmins() {
     console.log('getTemplates');
     $.ajax({
         type: 'GET',
-        url: rootURL + 'availableTemplates?apikey=' + apikey,
+        url: rootURL + '/availableTemplates?apikey=' + apikey,
         dataType: "json", // data type of response
         success: function (data) {
             templates = data;

@@ -42,7 +42,7 @@ function CallAPI($method, $url, $data = false) {
 }
 
 function getTheme() {
-    $result = json_decode(CallAPI('GET', AUDIENCE.'/api/siteinfo/'.$_COOKIE['LANGUAGE']));
+    $result = json_decode(CallAPI('GET', AUDIENCE.'/api/index.php/siteinfo/'.$_COOKIE['LANGUAGE']));
     return $result->siteinfo->site_theme;
 }
 
