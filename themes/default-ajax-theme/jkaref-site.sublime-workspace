@@ -1,0 +1,705 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"border",
+				"border-bottom-right-radius"
+			],
+			[
+				"border-",
+				"border-bottom-left-radius"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"bac",
+				"background-size"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"backgru",
+				"background-image"
+			],
+			[
+				"a",
+				"absolute"
+			],
+			[
+				"main",
+				"main-content"
+			],
+			[
+				"new",
+				"newStartDate"
+			],
+			[
+				"sta",
+				"stats_list	(statement)"
+			],
+			[
+				"margin-",
+				"margin-left"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"fo",
+				"font-size"
+			],
+			[
+				"z",
+				"z-index"
+			],
+			[
+				"margi",
+				"margin-right"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"sort",
+				"sortTmp"
+			],
+			[
+				"get",
+				"getQueryVar"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"date",
+				"datetimepicker"
+			],
+			[
+				"tar",
+				"tariffservice"
+			],
+			[
+				"tr",
+				"transparent"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"post",
+				"POST"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"re",
+				"request"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"i",
+				"italic"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 8004,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Applications/MAMP/htdocs/perspektive-foo/index.html",
+			"settings":
+			{
+				"buffer_size": 488,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "static/main.sass",
+			"settings":
+			{
+				"buffer_size": 4698,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 287.0,
+		"selected_items":
+		[
+			[
+				"html",
+				"Snippet: html"
+			],
+			[
+				"pack inst",
+				"Package Control: Install Package"
+			],
+			[
+				"snip ht",
+				"Snippet: html"
+			],
+			[
+				"pep",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"pep8",
+				"User: Python PEP8 Autoformat"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Remove Package"
+			],
+			[
+				"pac",
+				"Package Control: Disable Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Applications/MAMP/htdocs/jkaref-site",
+		"/Applications/MAMP/htdocs/jkaref-site/static"
+	],
+	"file_history":
+	[
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config-example.php",
+		"/Applications/MAMP/htdocs/jkaref-site/static/curve2-l.svg",
+		"/Applications/MAMP/htdocs/jkaref-site/static/curve2-r.svg",
+		"/Users/niko/owidi/liferay-portal-6.1.1-dev/portal-ext.properties",
+		"/Applications/MAMP/htdocs/jkaref-site/projects.html",
+		"/Applications/MAMP/htdocs/jkaref-site/impress.html",
+		"/Applications/MAMP/htdocs/jkaref-site/static/blur.svg",
+		"/Applications/MAMP/htdocs/jkaref-site/static/logo1.svg",
+		"/Applications/MAMP/htdocs/jkaref-site/static/curve/curve2-left.svg",
+		"/Applications/MAMP/htdocs/jkaref-site/static/curve2-right.svg",
+		"/Applications/MAMP/htdocs/jkaref-site/static/curve2-left.svg",
+		"/Users/niko/owidi/repos/Relevancer2/main/app/views/journal/index.html.erb",
+		"/Applications/MAMP/htdocs/jkaref-site/static/flip.js",
+		"/Users/niko/Desktop/jkaref-site/static/main.css",
+		"/Users/niko/Desktop/jkaref-site/index.html",
+		"/Users/niko/Desktop/jKaref Logo/jkaref-logo.svg",
+		"/Users/niko/Desktop/jkaref-site/static/right-curve.svg",
+		"/Users/niko/Desktop/jkaref-site/static/left-curve.svg",
+		"/Users/niko/Desktop/jKaref Logo/jkaref-logo-doc.svg",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/stats_list.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/temp/static/js/func_booking.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/js/func_booking.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/locale/de/LC_MESSAGES/django.po",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/locale/en/LC_MESSAGES/django.po",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/booking_list.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/urls.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/stats-view.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/__init__.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/widgets/widgets.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/booking.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/user.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/bookingview.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css/forms.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/css/style.min.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/css/hacks.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/widgets.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/widgets/__init__.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/__init__.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/js/func_list.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/admin/DateTimeShortcuts.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/forms/widgets.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/locale/de/LC_MESSAGES/django.po",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/templatetags/custom_filter.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/index.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/booking_terminate.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/booking_confirm.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/login.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/base.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/booking.py",
+		"/usr/libexec/java_home",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/kundentool/settings.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/js/func_login.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/css/init.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/twitterbootstrap/css/bootstrap.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/twitterbootstrap/css/bootstrap-theme.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/403.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/404.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/500.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/trafficmanager/booking_detail.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/forms/booking.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/kundentool/settings.sample.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/twitterbootstrap/js/bootstrap.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/js/func_confirm.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/models/tariff.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/bootstrap/field_booking_select.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/uni_form/layout/div_booking.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/bootstrap/field_booking_text.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/models/user.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/admin/base_site.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/router.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/models/accounting.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/accounting.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/models/booking.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/forms/__init__.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/models/__init__.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site/models/extendeduser.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/trafficmanager.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/list.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/forms/login.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/login.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/logout.py",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views/forms/__init__.py",
+		"/Users/niko/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/niko/Library/Application Support/Sublime Text 3/Packages/User/SublimePython.sublime-settings",
+		"/Users/niko/Library/Application Support/Sublime Text 3/Packages/SublimePythonIDE/SublimePython.sublime-settings",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/ediscom-database",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css/changelists.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css/base.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/scss/forms.scss",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/js/custom.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/admin/base-ext-files.html",
+		"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/core.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/temp/static/admin/js/jquery.js",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css/widgets.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css/rtl.css",
+		"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/admin/submit_line.html",
+		"/Users/niko/ediscom/ediscom.sublime-workspace",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/templates/admin/base_site.html",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/base.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/kundentool/settings.py",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/templates/admin/base--css.html",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/installer.failurerequests",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/temp/static/installer.failurerequests",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/templates/admin/base.html",
+		"/Users/niko/ediscom/repos/Ediscom Main/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/templates/admin/base_site.html",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/templates/admin/fonts",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/fonts",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/scss/forms.scss",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/widgets.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/rtl.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/login.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/ie.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/changelists.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/dashboard.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/forms.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/index.css",
+		"/Users/niko/ediscom/repos/Ediscom Main/src/kundentool/contrib/static/admin/css/index2.css"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css",
+			"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib",
+			"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin",
+			"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/templates/admin",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/admin_site",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/bandwidthmanagement/views",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/templates/admin",
+			"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css",
+			"/Users/niko/ediscom/repos/EdiscomMain/runtime/dev/lib/python2.7/site-packages/django/contrib/admin/templates/admin",
+			"/Users/niko/ediscom/repos/EdiscomMain/src/kundentool/contrib/static/admin/css"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			";",
+			"555",
+			";",
+			"#fefefe",
+			"$c3,",
+			"#fefefe",
+			"BBBBBB",
+			": <",
+			"bottom",
+			"top",
+			"card",
+			".flip",
+			"flip'",
+			"flip",
+			"eee",
+			"$c",
+			"$c1",
+			"bbb",
+			"      bac",
+			"t(,",
+			"#fefefe",
+			"; /",
+			"stats",
+			"table",
+			"m-table",
+			"Verlauf",
+			"br",
+			"datetimeshortcuts",
+			"\"datetimeshortcuts\"",
+			"datetimeshortcuts",
+			"date",
+			"<br>",
+			"Geschichte",
+			"chevron",
+			"\n-",
+			"-330",
+			"100%",
+			"0%  ",
+			"0%   { ",
+			"NAME-YOUR-ANIMATION",
+			"ease",
+			" translate(50px)",
+			"scale(2) ",
+			"attributes",
+			"left",
+			"343px",
+			"343",
+			"start",
+			".table-container table ",
+			"403",
+			"<<<<<<< mine",
+			"500",
+			"blue",
+			"404",
+			"False",
+			"404",
+			"500",
+			"27B627",
+			"terminate",
+			"submit",
+			"submit\"",
+			"submit",
+			"Weiter",
+			"Datepicker.prototype",
+			"$(window).on('resize', $.proxy(this.place, this));",
+			"Weiter",
+			"template.manager.booking.button.create",
+			"top",
+			"red",
+			"rgba",
+			"rgb",
+			"rgb(166, 166, 166)",
+			"rgba(237, 80, 44, 0.3)",
+			"rgba(0, 128, 0, 0.3)",
+			"rgba(0, 128, 0, 0.7)",
+			"rgba(66, 130, 195, 0.7)",
+			"#333333",
+			"rgba(207, 208, 210, 0.7);",
+			"rgba(50, 50, 50, 0.1);",
+			"rgba(51, 51, 51, 0.5)",
+			"input-group-addon",
+			"offset.top + this.height",
+			"offset.top = offset.top + this.height",
+			"offset.top = offset.top + this.height;",
+			"bw",
+			"red",
+			"</b>",
+			"<b>",
+			"b>",
+			"%}",
+			"}}",
+			"{{ ",
+			"Neue Buchung",
+			"no_bookings",
+			"\n-",
+			"-",
+			"tag",
+			"th>",
+			"value",
+			"bandwidthmanagement.views.",
+			"TemplateView",
+			"View",
+			"TemplateView",
+			"import * ",
+			"trafficmanager",
+			"radius",
+			".actions",
+			"after",
+			" box-shadow:",
+			"site-name",
+			"url",
+			"site-name",
+			"input",
+			"submit-row",
+			"submit-",
+			"border",
+			"cfd0d2",
+			"white url(../img/nav-bg.gif) bottom left repeat-x",
+			"content-related",
+			".module",
+			"a:link",
+			"#content",
+			"header",
+			"h1",
+			"header",
+			"herder",
+			"body"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "/Applications/MAMP/htdocs/jkaref-site"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8004,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								727,
+								727
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Applications/MAMP/htdocs/perspektive-foo/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 488,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								199,
+								199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "static/main.sass",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4698,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								619,
+								619
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 206.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

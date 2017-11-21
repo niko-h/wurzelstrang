@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Main
+   ========================================================================== */
+
+/* =Content
+-----------------------------------------------------------------------------*/
+#main_content {
+    z-index: 1;
+    display: inline-block;
+    background: #eee;
+    width: 70%;
+    float: right;
+    margin: 0;
+    overflow: hidden;
+    padding: 10px 30px 10px 20px;
+    box-sizing: border-box;
+}
+
+#main_content h1.contentitem {
+    text-decoration: underline;
+}
+
+#main_content p {
+    margin-bottom: 20px;
+    line-height: 1.5em;
+}
+
+#main_content img {
+    max-width: 450px;
+}

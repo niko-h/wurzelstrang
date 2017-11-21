@@ -1,0 +1,1048 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"sc",
+				"script"
+			],
+			[
+				"time",
+				"timestamp"
+			],
+			[
+				"v",
+				"visible"
+			],
+			[
+				"site",
+				"site_levels"
+			],
+			[
+				"levels",
+				"levelstarget"
+			],
+			[
+				"wurzels",
+				"wurzelstrang-dev"
+			],
+			[
+				"admin",
+				"adminemail"
+			],
+			[
+				"php",
+				"phpinfo"
+			],
+			[
+				"ma",
+				"mailin"
+			],
+			[
+				"f",
+				"form	Tag"
+			],
+			[
+				"h",
+				"h3	Tag"
+			],
+			[
+				"d",
+				"div	Tag"
+			],
+			[
+				"el",
+				"else"
+			],
+			[
+				"echo",
+				"echo	echo \"…\""
+			],
+			[
+				"deleteus",
+				"deleteusrbutton"
+			],
+			[
+				"delete",
+				"deleteUser"
+			],
+			[
+				"de",
+				"deleteusrbutton"
+			],
+			[
+				"da",
+				"data-identity"
+			],
+			[
+				"del",
+				"deletebutton"
+			],
+			[
+				"l",
+				"log"
+			],
+			[
+				"user",
+				"user_email"
+			],
+			[
+				"lef",
+				"left"
+			],
+			[
+				"border",
+				"border-width"
+			],
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"margin-",
+				"margin-left"
+			],
+			[
+				"bot",
+				"bottom"
+			],
+			[
+				"b",
+				"bottom"
+			],
+			[
+				"abs",
+				"absolute"
+			],
+			[
+				"back",
+				"background-position"
+			],
+			[
+				"ho",
+				"hover"
+			],
+			[
+				"pa",
+				"padding-bottom"
+			],
+			[
+				"m",
+				"middle"
+			],
+			[
+				"ri",
+				"right"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"i",
+				"i	Tag"
+			],
+			[
+				"entr",
+				"entry"
+			],
+			[
+				"vis",
+				"visible"
+			],
+			[
+				"se",
+				"session_start"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"no",
+				"no-repeat"
+			],
+			[
+				"drag",
+				"dragMenu"
+			],
+			[
+				"trans",
+				"transparent"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"border-r",
+				"border-radius"
+			],
+			[
+				"box",
+				"box-shadow"
+			],
+			[
+				"c",
+				"color"
+			],
+			[
+				"blo",
+				"block"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"re",
+				"relative"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"log",
+				"logKey"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"lo",
+				"lorem	HTML - Lorem Ipsum"
+			],
+			[
+				"menu",
+				"menuItem"
+			],
+			[
+				"ke",
+				"keydown"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"tex",
+				"text-decoration"
+			],
+			[
+				"in",
+				"input	Tag"
+			],
+			[
+				"fo",
+				"font-size"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"border-t",
+				"border-top-left-radius"
+			],
+			[
+				"t",
+				"top"
+			],
+			[
+				"n",
+				"none"
+			],
+			[
+				"bo",
+				"box-shadow"
+			],
+			[
+				"li",
+				"line-height"
+			],
+			[
+				"rgb",
+				"rgba()"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"us",
+				"user"
+			],
+			[
+				"session",
+				"session_destroy"
+			],
+			[
+				"sess",
+				"session_start"
+			],
+			[
+				"if",
+				"if	if …"
+			],
+			[
+				"s",
+				"sessionmail"
+			],
+			[
+				"check",
+				"checkdb"
+			],
+			[
+				"MM_",
+				"MM_RETURN"
+			],
+			[
+				"list",
+				"list-style-type"
+			],
+			[
+				"TVKe",
+				"TVKeyValue"
+			],
+			[
+				"Key",
+				"KeyEvent"
+			],
+			[
+				"it",
+				"item"
+			],
+			[
+				"MM",
+				"MM_RETURN"
+			],
+			[
+				"TVK",
+				"TVKeyValue"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"_",
+				"_keySet"
+			],
+			[
+				"set",
+				"setKeySet"
+			],
+			[
+				"ac",
+				"activeFrame"
+			],
+			[
+				"html",
+				"htmlWritten"
+			],
+			[
+				"bac",
+				"background"
+			],
+			[
+				"Co",
+				"Content"
+			],
+			[
+				"Con",
+				"Contentshow"
+			],
+			[
+				"C",
+				"Content"
+			],
+			[
+				"on",
+				"onReturn"
+			],
+			[
+				"paddin",
+				"padding"
+			],
+			[
+				"string",
+				"recode_string"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"current",
+				"current-frame"
+			],
+			[
+				"a",
+				"ajaxurl"
+			],
+			[
+				"aja",
+				"ajaxurl"
+			],
+			[
+				"act",
+				"activeFrame"
+			],
+			[
+				"next",
+				"nextFrame"
+			],
+			[
+				"ne",
+				"nextFrame"
+			],
+			[
+				"acti",
+				"activeFrame"
+			],
+			[
+				"sta",
+				"stayInFrameY"
+			],
+			[
+				"sty",
+				"stayInScopeY"
+			],
+			[
+				"has",
+				"hasNext"
+			],
+			[
+				"ite",
+				"itemsSet"
+			],
+			[
+				"active",
+				"activeScope"
+			],
+			[
+				"activ",
+				"activeScope"
+			],
+			[
+				"json",
+				"json2decode"
+			],
+			[
+				"ajax",
+				"ajaxRequest"
+			],
+			[
+				"VK",
+				"VK_UP"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"site_",
+				"site_theme"
+			],
+			[
+				"T",
+				"TEXT"
+			],
+			[
+				"strip",
+				"stripslashes"
+			],
+			[
+				"tinym",
+				"tinymce"
+			],
+			[
+				"cat_",
+				"cat_visible"
+			],
+			[
+				"arr",
+				"array	$… = array (…)"
+			],
+			[
+				"padding",
+				"padding"
+			],
+			[
+				"cat",
+				"cat_title"
+			],
+			[
+				"form",
+				"formcontent"
+			],
+			[
+				"db",
+				"db_file"
+			],
+			[
+				"sqlite",
+				"sqlite_open"
+			],
+			[
+				"ignor",
+				"ignored_packages"
+			],
+			[
+				"background",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 107.0,
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"syn ht",
+				"Set Syntax: HTML"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pac	",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"HTMLPrettify: Prettify"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				":W",
+				":w - Save"
+			],
+			[
+				"pack ins ",
+				"Package Control: Install Package"
+			],
+			[
+				"snippet",
+				"Snippet: html"
+			],
+			[
+				"comm",
+				"Toggle Block Comment"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"Snippet: ",
+				"Snippet: html"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"bom",
+				"SFTP: Browse Remote…"
+			],
+			[
+				"htm",
+				"Snippet: html"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/E39BF2D4-9D00-495D-86E8-7E8FDCEF674F/hello.html",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/CCCF52E0-8753-42BF-81CA-CC1189508572/.htaccess",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/C7D812C6-7300-4340-9AE9-153DA57ADD11/.htaccess",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/wurzelstrang.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/func.js",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/api/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/gaensewein/ferienhaus.sublime-workspace",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/.gitignore",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/install.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/persona.js",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config-example.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/index.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/BC291231-97FC-466C-8640-5DA8AB5008FD/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/INSTALL.md",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/README.md",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/func.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Custom_Scroll/head.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/auth.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config_de.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/config_en.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/api/nossl.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/4D151826-8F69-4364-8CCD-DA56473547D4/config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/E3F16939-6D93-4EEE-934F-B2F410D72BF4/index.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/0C4D82B0-860E-407C-B723-BE68514CD27A/config.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/internalauth.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Standart/head.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Single_Content/head.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/login/func.js",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/.gitignore",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/apiary.apib",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/lib/kube.buttons.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/A83B80B5-4486-4E43-9111-DA46730503AC/persona.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/994CA4D8-BA1F-4A06-BB48-27B556B8C5ED/index.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/6C5060F9-3EE2-48E6-9E02-11D541C30EC4/nossl.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/login/auth.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/D34A8F53-16F6-46F7-A6CC-9BFEB4273907/auth.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/876726DA-5DD5-4F89-95A1-14B90A6AD078/internalauth.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/EBF8C89B-BBF1-4479-B015-B83213D97F74/persona.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/3EF87315-3F8B-4477-A662-F0A204CCDB17/config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/77420C59-51D7-400B-A669-18BDCA2CE089/config.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/login/wurzelstrang.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/62C2777D-4D7B-4ABD-9FDA-ECF653A0A9EF/wurzelstrang.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/EC8DD313-306D-45A8-8ED2-83370323FDFF/func.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/6D732E9D-6250-4400-B393-4ADD9E2C31C7/wurzelstrang.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/76D02CE6-86A2-44E6-8F35-4F6120CDEE49/func.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/B464E583-8C07-4660-82E3-A281BE028695/config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/DE88817D-EB87-4BF4-B450-9E9511431D48/internalauth.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/535096A8-6C42-46E9-8716-3B602671BBB0/wurzelstrang.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/login/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/install.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap",
+		"/Applications/MAMP/htdocs/BA/ba01/attachments/layout.css",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Custom_Scroll/body.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Single_Content/body.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/themes/Standart/body.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/INSTALL.md",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/README.md",
+		"/Applications/MAMP/logs/php_error.log",
+		"/Applications/MAMP/Library/logs/accept.lock.94006",
+		"/Applications/MAMP/Library/logs/httpd.pid",
+		"/Applications/MAMP/tmp/php/sess_6f19ed5ccdfd395d4a534a787708fc9b",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/db/scheme.sql",
+		"/Applications/MAMP/htdocs/wurzelstrang-dev/login/css/master.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/0A66FD0E-6D7A-4BB6-85AD-AEDA3AD06260/head.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/D4B47970-619A-4219-A70E-F8F03CFBD87F/body.php",
+		"/Volumes/SecondDrive/Users/falken/Desktop/master.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/0C2B8FAC-4536-4373-9253-AD74DEB0B54B/master.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/BC5C5F53-20D5-44BB-BDC6-3F350580FE6F/master.css",
+		"/Volumes/SecondDrive/Users/falken/Documents/workspace-juno/www/default.html",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/6C7D6191-DCCA-472D-9560-10A0F90DBA21/functions.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/C6D779D7-0286-4698-8170-EC3A2531F127/wp-config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/BE83FC99-9D05-4855-96D9-9FA8E72A6A51/wp-config.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/32038386-EA4A-4E79-8866-45E0F6B03346/wp-settings.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/472CEBA7-8540-43D0-BDA6-F29F0ED90D81/options-general.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/4571ACA9-1ACA-470C-97F2-271D58B5E924/wp-config.php",
+		"/Volumes/SecondDrive/Users/falken/Desktop/jonas/body.php",
+		"/Volumes/SecondDrive/Users/falken/Desktop/jonas/style/master.css",
+		"/Volumes/SecondDrive/Users/falken/Desktop/content.db",
+		"/Volumes/SecondDrive/Users/falken/Documents/workspace-juno/distributed-systems/bin/de/htw/ds/sort/Goethe - Faust Ix50.txt",
+		"/Volumes/SecondDrive/Users/falken/Desktop/TcpMonitor.java",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/9533D453-9B25-43C7-B674-9F8421B77199/TcpMonitor.java",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/15B86DF5-40B5-4844-B239-78BCDD325F21/netz.txt",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/DF6A1830-DB16-4CB4-9807-B8A9A2D49608/nutzungausfluege.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/051FFDE1-50BB-4D2C-B4AA-05F37376F0D2/raeumeaussen.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/F050D1A5-B17D-43EA-A411-5FB657C92134/vermieterkontakt.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/E6E44256-BCDC-4D9F-8EF2-C28B57B910B7/vermieterkontakt.txt",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/C041F3A0-60E5-468D-A82B-1A00D2CFC497/netz.txt",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/1984059E-89B2-44CB-8392-88C3EFA1AC67/netz.txt",
+		"/Volumes/SecondDrive/Users/falken/Dropbox/IMI SS 2010 (1)/Fächer/Semester 6/Verteilte Systeme/code/de/htw/ds/tcp/FtpClient.java",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/D766D242-C083-4329-A7F2-84CBC5613742/test.txt",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/93A9682D-EFCA-46B6-9F73-DEBF7140EE08/head.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/D4CCE19E-309A-4E89-985D-297CBF77EDD4/index.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/18254CE8-197C-4673-B02A-0958C95F65D5/wp-config.php",
+		"/Volumes/SecondDrive/Users/falken/Desktop/bookmarks_4_24_13.html",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/72DB5B23-A9FC-4D14-9A77-F116A2099146/rw_geb.txt",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/CFC6EB84-B8ED-4021-9EC4-1CB04C50429D/index.php",
+		"/Volumes/SecondDrive/Users/falken/Desktop/BA/expose_latex_template/expose.tex",
+		"/Volumes/SecondDrive/Users/falken/Desktop/BA/expose_latex_template/references.bib",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/5E365153-016E-42B6-8BF4-9C5EF0DED287/standart.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/9171D90D-3D30-481C-9872-7CBADE640D4F/dropdownmenu.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/7D578FDB-D276-4AAF-B301-C92BF02A2921/dropdownmenu.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/20D724B4-C1EE-4665-B09F-2127C2E791F2/head.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/2E4ADD4A-C462-4B30-A93C-658AFA8262AD/index.php",
+		"/Applications/MAMP/htdocs/meta-morph/cehtml/tv-app-dummy/js/TVKeyValue.js",
+		"/Applications/MAMP/htdocs/meta-morph/cehtml/tv-app-dummy/js/KeyHandler.js",
+		"/var/folders/Ng/NgKTU5IUGg0udjms-uUc2++++TI/-Tmp-/tmpaXnNSn.html",
+		"/Applications/MAMP/htdocs/meta-morph/cehtml/tv-app-dummy/js/util.js",
+		"/Applications/MAMP/htdocs/meta-morph/cehtml/tv-app-dummy/js/Main.js",
+		"/Applications/MAMP/htdocs/meta-morph/cehtml/tv-app-dummy/js/navigation.js",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/91E3CFE9-EB7E-4B54-BEEF-EE9E2232CC8F/body.php",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/18CBF204-582C-4F78-B350-8B46A6623C90/master.css",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/api/index.php",
+		"/Applications/MAMP/htdocs/wurzelstrang-github-page/wurzelstrang/css/style.css",
+		"/Applications/MAMP/htdocs/wurzelstrang-github-page/wurzelstrang/index.html",
+		"/Applications/MAMP/htdocs/wurzelstrang-github-page/wurzelstrang/stylesheets/style.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/5537A9B3-3761-4CE5-819C-DA17DD3DE4CB/wurzelstrang.github.css",
+		"/Volumes/SecondDrive/Users/falken/Library/Caches/Cleanup At Startup/Transmit/E26AEF6E-1263-453E-9D13-0AE924D02129/wurzelstrang.github.css",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/login/func.min.js",
+		"/Applications/MAMP/htdocs/wurzelstrang-prod/themes/Standart/head.php",
+		"/Applications/MAMP/htdocs/wurzelstrang/login/wurzelstrang.php",
+		"/Applications/MAMP/htdocs/wurzelstrang/login/func.min.js",
+		"/Applications/MAMP/htdocs/wurzelstrang/login/func.js",
+		"/Applications/MAMP/htdocs/wurzelstrang/README.md"
+	],
+	"find":
+	{
+		"height": 33.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"login/",
+			"login\\",
+			"login",
+			"/login",
+			".",
+			"../",
+			"./index.php",
+			"",
+			"../",
+			"./",
+			"./frameworkbasic.js",
+			"frameworkbasic.js",
+			"",
+			"./content.txt",
+			"content.txt",
+			"",
+			"/Applications/MAMP/htdocs/bbc/disco1.html",
+			"/Applications/MAMP/htdocs/bbc",
+			"/Applications/MAMP/htdocs/ombraeluce/website",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"images/8",
+			"images/7",
+			"mages/5/",
+			"$entry->title",
+			"lastInsertId",
+			"PATH",
+			"inactive",
+			"p",
+			"<? ",
+			"<?",
+			"eins",
+			"addUserToJSON",
+			"user",
+			"data",
+			"renderUser",
+			"id",
+			"entries",
+			"putUser",
+			"getUser",
+			"mother",
+			"style=\"margin-bottom: 5px;\"",
+			"help_a",
+			"stylesheets",
+			"p",
+			"visiblecheckbox",
+			"Date",
+			"var",
+			"year",
+			"lo",
+			"p>",
+			"h3",
+			"auto",
+			"pointer",
+			"visiblecheckbox",
+			"before",
+			"+ label",
+			".visiblecheckbox",
+			"input-checkbox-alt",
+			"eeeeee",
+			"dddddd",
+			"sort-up",
+			"visible",
+			"li li",
+			"Param",
+			"email",
+			"?>",
+			"div",
+			"updateuserbtn",
+			"categories",
+			"cat_",
+			"preferences",
+			"hello",
+			"edit",
+			".menu",
+			"menu",
+			"preferences",
+			"hello",
+			"edit",
+			"editframe",
+			"entryToJSON",
+			"entries",
+			"entry",
+			"renderDetails",
+			"wine",
+			"ines",
+			"wine",
+			"Wine",
+			"cat_",
+			"isadmin",
+			"false",
+			"Wine",
+			"Wines",
+			"Wine",
+			"wines",
+			"section",
+			",\n",
+			",",
+			": ",
+			"/lib/",
+			"/lib",
+			"kcfinder",
+			"/kcfinder/",
+			"ckeditor",
+			"cke_chrome",
+			"this",
+			"description",
+			"type",
+			"http://78.46.163.115/meta-morph/Samsung",
+			"false",
+			"Frame",
+			"Main",
+			"li",
+			"input",
+			"+ a",
+			" b",
+			"b",
+			"h4",
+			"row",
+			"#menu ",
+			"#menu",
+			"Logger.log",
+			"alert",
+			"logger",
+			"alert",
+			"logo",
+			"getFile",
+			"target",
+			"getFile",
+			"target",
+			"evt.target",
+			"getFile",
+			"addEventListener",
+			"Settings",
+			"15:30",
+			"edit.php",
+			"mp4 2",
+			"alert",
+			"input",
+			"2pxpad",
+			"brighter",
+			"script",
+			"link",
+			"<code>",
+			"</code>",
+			" bordered",
+			"codeblock",
+			"code ",
+			" class=\"code\""
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"sites",
+			"",
+			"wurzelstrang.php",
+			"Frame",
+			" alt=\"image preloading\"",
+			"<!--e--></p>",
+			"<p><!--a-->",
+			"content",
+			"<li><a href=\"ensemble.php\">ENSEMBLE</a></li>\n<li><a href=\"kallweit.php\">GEORG KALLWEIT</a></li>",
+			"<a target=\"_blank\" href=\"audio/",
+			"<td><div align=\"center\" class=\"Stil1\"><a target=\"_blank\" href=\"audio/",
+			"BJÖRN COLELL",
+			"colell",
+			"<li><a href=\"kritiken-schlag.php\">SCHLAGLICHTER</a></li>\n					<h4>sortieren:</h4>",
+			"<img alt=\"\" ",
+			"",
+			"class=\"headmenu_placeholder\"",
+			"rem;",
+			"rem",
+			">",
+			"<",
+			"label",
+			"</legend>",
+			"<legend>",
+			"entry_title",
+			"h2",
+			"</h1></legend>",
+			"<legend><h1>",
+			"<legend><h1>*</h1></legend>",
+			"<legend><h1></h1></legend>",
+			"<legend><h1>*</h1></legend>",
+			"<legend><h1>^</h1></legend>",
+			"<font size=\"2em\">",
+			"<font size=\"1.5em\">",
+			"<font size=\"1.2em\">",
+			"font",
+			"<div id=\"pageframe\" style=\"visibility: visible; \"> \n		<!--<div id=\"pageframe_left\" style=\"width: 150px; \">   \n			<div id=\"keyvisual\">  <img src=\"template_files/bachelor_links.jpg\" alt=\"\" title=\"\" class=\"quimby_search_image\"> </div>\n		</div>!-->",
+			".php",
+			"suche.html",
+			" - Bitte Auswählen - ",
+			".html\"",
+			".php",
+			"img/",
+			"template_files"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 112.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 112.0
+	},
+	"replace":
+	{
+		"height": 158.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"untitled"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 209.0,
+	"status_bar_visible": true
+}

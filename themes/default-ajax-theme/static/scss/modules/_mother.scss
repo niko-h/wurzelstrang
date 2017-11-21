@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Mother
+   ========================================================================== */
+
+#mother {
+    height: 100%;
+    min-height: 100%;
+    margin: 0px auto;
+    max-width: 920px;
+    clear: both;
+}
+
+/* =language-menu
+-----------------------------------------------------------------------------*/
+.languages {
+    line-height: 30px;
+}
+.lang-link {
+    color: #ccc;
+    text-decoration: none;
+}
+.lang-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.lang-link.selected {
+    font-weight: bold;
+    color: #ddd;
+}

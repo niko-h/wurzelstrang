@@ -1,0 +1,4 @@
+@function percent( $size, $context ) {
+    @return ( $size / $context * 100 ) + 0%;
+}
+

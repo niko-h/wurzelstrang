@@ -1,0 +1,512 @@
+/***************************
+*
+* CSS File für die Website
+*
+*
+* 1050, 
+*
+*
+*
+**************************/
+
+@import 'compass';
+	
+$background: rgba(white, 1.0);
+$orange: rgb(253, 140, 38);
+$linkcolor: rgb(130,130,130);
+$linkhover: rgb(110,110,110);
+$font: rgb(150,150,150);
+$darkgray: #333;
+$lightgray: rgb(229, 227, 223);
+$menu_width: 200px;
+$box-padding: 15px;
+
+@mixin breakpoint($point) {
+  @if $point == papa {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == mama {
+    @media (max-width: 1020px) { @content; }
+  }
+  @else if $point == baby {
+    @media (max-width: 650px)  { @content; }
+  }
+}
+
+@mixin a-menu {
+  display: inline-block;
+  padding: 3px 20px;
+  margin-left: -20px;
+  width: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.current-link {
+    font-weight: bold;
+  }
+  @include breakpoint(baby) {
+    width: auto;
+  }
+}
+
+.clear { clear: both; }
+
+/* =image-popup
+    .mfp-figure - container that holds image and caption
+    .mfp-bg     - black overlay
+    .mfp-preloader - "Loading..." incdicator
+-----------------------------------------------------------------------------*/
+
+// .mfp-ready .mfp-figure {
+//   opacity: 0;
+// }
+
+// .mfp-zoom-in { 
+//   /* start state */
+//   .mfp-figure {
+//     opacity: 0;
+//     transition: all 0.3s ease-out; 
+//     transform: scale(0.9); 
+//   }
+//   &.mfp-bg,
+//   .mfp-preloader {
+//     opacity: 0;
+//     transition: all 0.3s ease-out;
+//   }
+//   /* animate in */
+//   &.mfp-image-loaded {
+//     .mfp-figure {
+//       opacity: 1;
+//       transform: scale(1); 
+//     }
+//   }
+//   &.mfp-ready {
+//     &.mfp-bg,
+//     .mfp-preloader{
+//       opacity: 0.8;
+//     }
+//   }
+//   /* animate out */
+//   &.mfp-removing {  
+//     .mfp-figure {
+//       transform: scale(0.9); 
+//       opacity: 0;
+//     }
+//     &.mfp-bg,
+//     .mfp-preloader{
+//       opacity: 0;
+//     }
+//   }
+// }
+
+// /* CSS-based preloader */
+// .mfp-preloader {
+//   width: 30px;
+//   height: 30px;
+//   background-color: #FFF;
+//   opacity: 0.65;
+//   margin: 0 auto;
+//   animation: rotateplane 1.2s infinite ease-in-out;
+// }
+// @keyframes rotateplane {
+//   0% { transform: perspective(120px) rotateX(0deg) rotateY(0deg) }
+//   50% { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) }
+//   100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg) }
+// }
+
+
+/* =Layout
+-----------------------------------------------------------------------------*/
+* { padding: 0; margin: 0; }
+html { font-size: 62.5%; }
+body {
+  color: $font;
+  z-index: 1;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  padding: 0;
+  margin: 0;
+  background: $background;
+  font-size: 1.6em;
+}
+
+html, body { 
+  width:100%; 
+  height:100%; 
+  @include breakpoint(baby) { 
+    margin:0;
+    overflow-x:hidden;
+    background: url(../../../uploads/images/baby_background.jpg) fixed center 0px no-repeat ;
+  }
+}
+
+/* =Nav
+-----------------------------------------------------------------------------*/
+
+/* Advanced Checkbox Hack */
+body { -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+input#menu-checkbox {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+
+  @include breakpoint(baby) {
+
+    &:checked ~ #menu #menu_list {
+      display: block;
+      opacity:1;
+    }
+
+    // &:checked ~ #content {
+    //   margin-top: $menu_width + $content_offset;
+    //   margin-right:-($menu_width + $content_offset);
+    // }
+  }
+}
+
+#menu {
+  padding: $box-padding+5 $box-padding;
+  @include box-sizing(border-box);
+  
+  @include box-shadow(rgba(0,0,0,0.3) 4px 4px 5px);
+  background: $orange;
+  position: absolute;
+  text-transform: uppercase;
+  @include border-radius(25px 0px 25px 0px);
+  transition: top .5s ease-in-out;
+  transition: left .5s ease-in-out;
+  z-index: 3;
+  top: 30px;
+  left: 30px;
+  width: $menu_width;
+  float: left;
+  @include breakpoint(mama) {
+    top: 10px;
+    left: 10px;
+  }
+  @include breakpoint(baby) {
+    padding-top: 5px;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    clear: both;
+    display: block;
+    position: relative;
+    margin-bottom: 1px;
+    @include border-radius(0px);
+  }
+
+  h1, h2 {
+    font-family: Arial, sans-serif;
+    font-weight: 300;
+
+  }
+  h1 {
+    font-size: 1em;
+    line-height: 1.3em;
+    @include breakpoint(baby) {
+      display: inline-block;
+      float: left;
+    }
+  }
+
+  label {
+    display:none;
+    
+    @include breakpoint(baby) {
+      @include a-menu;
+      display:inline-block;
+      font-size: 1.2em;
+      position: relative;
+      float: right;
+      margin-right: -20px;
+      &:before {
+        font-size: 2.5em;
+        vertical-align: sub;
+        content:"\2261 ";
+        margin-right: 10px;
+      }
+    }
+  }
+
+  hr {
+    display: block;
+    margin: 10px 0px;
+    border: 0;
+    height: 1px;
+    background: #fff;
+    @include breakpoint(baby) {
+      display: none;
+    }
+  }
+
+  #menu_list {
+    @include breakpoint(baby) { 
+      display: none;
+      opacity: 0;   
+      margin-top: 10px;
+    }
+  }  
+
+  ul#menu_list li {
+    list-style-type: none;
+    list-style-image: none;
+    margin-bottom: 6px;
+  }
+
+  a, a:visited{
+    @include a-menu;
+
+    @include breakpoint(baby) {
+      padding: 10px 20px;
+    }
+  }
+
+  
+}
+
+
+/* =Content
+-----------------------------------------------------------------------------*/
+
+.content {
+  float:left;
+  display: none;
+  font-size: 1em;
+  z-index: 2;
+  transition: margin .5s ease-in-out;
+  padding: 0px;
+  @include box-sizing(border-box);
+  
+  background: $background;
+  position:absolute;
+  margin: 30px 0px 20px ($menu_width+80px);
+  width: 620px;
+
+  @include breakpoint(mama) {
+    margin: 10px 10px 0px ($menu_width+20px);
+    max-width: 620px;
+    width: auto;
+  }
+  @include breakpoint(baby) {
+    padding-top: 5px;
+    padding-bottom: 500px;
+    position: relative;
+    float: none;
+    clear: both;
+    margin: 0;
+    width: 100%;
+    display: none;
+  }
+
+  h1 {
+    margin: 3px 0 .2em 0;
+    font-family: 'Advent Pro', sans-serif;
+    font-weight: 300;
+    font-size: 4rem;
+    text-shadow: 0 0 3px rgba(255,255,255,.7);
+  }
+  h2, h3, h4, h5, h6 {
+    font-weight: 100;
+    line-height: 1.5em;
+  }
+  h2 {font-size: 1.3em;}
+  h3 {font-size: 1.2em;}
+  h4 {font-size: 1.1em;}
+  h5 {font-size: 1.1em;}
+  h6 {font-size: 1.1em;}
+
+  hr {
+    display: block;
+    margin: 10px 0px;
+    border: 0;
+    height: 1px;
+    background: $font;
+    @include breakpoint(baby) {
+      display: none;
+    }
+  }
+
+  p {
+    margin: 0px 0px 20px 0px;
+    line-height: 1.5em;
+    text-align: justify;
+  }
+
+  a {
+    color: $linkcolor;
+    &:hover {
+      color: $linkhover;
+      @include single-text-shadow(0px, 0px, 5px, 5px, $linkhover);
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    border: 1px solid #f7f7f7;
+    width: 100%;
+    margin: 5px 0px;
+    th, td {
+      padding: 3px;
+    }
+  }
+
+  img {
+    width: 100%;
+    @include box-shadow(rgba(0,0,0,0.5) 0 0 5px);
+    // cursor: -webkit-zoom-in;
+    // cursor: -moz-zoom-in;
+    // cursor: zoom-in;
+  }
+
+  // .fotorama {
+  //   background: transparent !important;
+  //   border: 0px !important;
+  // }
+
+  .fold {
+    display: block;
+    margin: -20px;
+    font-size: 20px;
+    padding: 3px;
+    text-align: center;
+    color: $darkgray;
+    cursor: pointer;
+    &:hover {
+      color: #000;
+    }
+    @include breakpoint(baby) {
+      height: 0px;
+      clear: both;
+      margin: 0;
+      display: none;
+    }
+  }
+}
+
+.content_active {
+  display: block;
+}
+
+@media screen {
+  div#preloader {
+    position: absolute;
+    left: -9999px;
+    top:  -9999px;
+    }
+  div#preloader img {
+    display: block;
+    }
+  }
+@media print {
+  div#preloader, 
+  div#preloader img {
+    visibility: hidden;
+    display: none;
+    }
+  }
+
+#Die_Orte .ort {
+  width: 286px;
+  height: 300px;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px 15px 0;
+
+  .ortimg {
+    background-position: center center !important;
+    width: 286px;
+    height: 220px;
+    background-size: cover !important;
+    position: relative;
+    display: block;
+  }
+
+  hr {
+    margin: 10px 0;
+    border: 0;
+    height: 1px;
+    background: $darkgray;
+  }
+}
+
+/* =contactForm
+-------------------------------------------------------------------------*/
+
+#user-check {
+  display: none;
+}
+
+.contactFormBtn {
+  width: 100%;
+  border: 0px solid #ccc;
+  background: #f7f7f7;
+  padding: 3px 0;
+  cursor: pointer;
+  color: $linkcolor;
+  text-decoration: underline;
+}
+
+.contactFormHideBtn {
+  border: 0px solid #ccc;
+  background: #f7f7f7;
+  color: red;
+  font-weight: 100;
+  padding: 0px 2px;
+  margin: -10px -15px 15px 15px;
+  cursor: pointer;
+  float: right;
+  font-family: sans-serif;
+  font-size: 15px;
+  line-height: 15px;
+}
+.contactFormHideBtn:hover {
+  background: red;
+  color: #f7f7f7;
+}
+
+
+/* =iconfont
+-------------------------------------------------------------------------*/
+
+@font-face {
+  font-family: 'arrow';
+  src:url('fonts/arrow.eot');
+  src:url('fonts/arrow.eot?#iefix') format('embedded-opentype'),
+    url('fonts/arrow.ttf') format('truetype'),
+    url('fonts/arrow.woff') format('woff'),
+    url('fonts/arrow.svg#arrow') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'arrow';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-up:before {
+  content: "\e600";
+}
+.icon-arrow-down:before {
+  content: "\e601";
+  text-shadow: 0px 0px 1px rgba(255,255,255,.7);
+}
+.fold:hover .icon-arrow-down:before {
+  text-shadow: 0px 0px 1px rgba(255,255,255,.1);
+}
+

@@ -1,0 +1,18 @@
+/**
+ * Breakpoint
+ */
+
+@mixin breakpoint($point) {
+  @if $point == papa {
+    @media (max-width: $breakpoint-papa) { @content; }
+  }
+  @else if $point == mama {
+    @media (max-width: $breakpoint-mama) { @content; }
+  }
+  @else if $point == baby {
+    @media (max-width: $breakpoint-baby)  { @content; }
+  }
+  @else if $point == flunder {
+    @media (max-height: $breakpoint-flunder)  { @content; }
+  }
+}
