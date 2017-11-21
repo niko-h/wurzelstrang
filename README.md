@@ -5,7 +5,7 @@ Wurzelstrang is a simple cms, created and maintained by [Nikolaus Höfer](https:
 * Use Wurzelstrang for small website-projects - or hack it open for your next enterprise-platform...
 * It offers various ways to customize, but you'll want to read the DEVELOPMENT.md for a start.
 * It is written in HTML, CSS, PHP and JavaScript
-* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST-like API, [Mozilla's Persona](https://login.persona.org) for accounting
+* Using [sqlite](https://sqlite.org/) to store data, [Slim Framework](http://slimframework.com/) for the REST-like API
 * Server-requirements: >=php5.5, sqlite, php-curl(recommended)
 
 
